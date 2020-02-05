@@ -55,7 +55,7 @@ class ProcessedViewController: NSViewController, SCNSceneRendererDelegate
         
         let Camera = SCNCamera()
         Camera.fieldOfView = 95.0
-         CameraNode = SCNNode()
+        CameraNode = SCNNode()
         CameraNode?.name = "Camera Node"
         CameraNode?.camera = Camera
         CameraNode?.position = SCNVector3(0.0, 0.0, 15.0)
@@ -130,10 +130,10 @@ class ProcessedViewController: NSViewController, SCNSceneRendererDelegate
             {
                 autoreleasepool
                     {
-                let PixelX = X * Int(BlockSize) + Int(BlockSize / 2.0)
-                let PixelY = Y * Int(BlockSize) + Int(BlockSize / 2.0)
-                let Color = ImageRep?.colorAt(x: PixelX, y: PixelY)
-                Colors[VBlocks - 1 - Y][X] = Color!
+                        let PixelX = X * Int(BlockSize) + Int(BlockSize / 2.0)
+                        let PixelY = Y * Int(BlockSize) + Int(BlockSize / 2.0)
+                        let Color = ImageRep?.colorAt(x: PixelX, y: PixelY)
+                        Colors[VBlocks - 1 - Y][X] = Color!
                 }
             }
         }
@@ -205,7 +205,7 @@ class ProcessedViewController: NSViewController, SCNSceneRendererDelegate
     /// Holds the master node of the scene. All shapes are added to this node rather than to the
     /// scene's root node.
     var MasterNode: SCNNode? = nil
-
+    
     /// Udpate existing nodes with new colors.
     /// - Note: This function uses nodes already in the scene rather than recreate nodes, which is
     ///         very expensive in terms of performance. Any time a base shape changes, `CreateNode`
@@ -221,55 +221,56 @@ class ProcessedViewController: NSViewController, SCNSceneRendererDelegate
         {
             autoreleasepool
                 {
-            let Node = SomeNode as! PSCNNode
-            let Color = Colors[Node.Y][Node.X]
-            let Prominence = ColorProminence(Color)
-            switch CurrentNodeShape
-            {
-                case 0:
-                    //box
-                    if let Geo = Node.geometry as? SCNBox
+                                        let Node = SomeNode as! PSCNNode
+                    let Color = Colors[Node.Y][Node.X]
+                    let Prominence = ColorProminence(Color)
+                    Node.SetProminence(Double(Prominence))
+                    switch CurrentNodeShape
                     {
-                        Geo.length = Prominence * PMul
-                }
-                
-                case 1:
-                    //sphere
-                    if let Geo = Node.geometry as? SCNSphere
-                    {
-                        Geo.radius = Prominence * PMul
-                }
-                
-                case 2:
-                    //ring
-                    if let Geo = Node.geometry as? SCNTorus
-                    {
-                        Geo.ringRadius = Prominence * PMul
-                        Geo.pipeRadius = Prominence * PMul * 0.3
-                }
-                
-                case 3:
-                    //cone
-                    if let Geo = Node.geometry as? SCNCone
-                    {
-                        Geo.bottomRadius = Prominence * PMul
-                        Geo.height = Prominence * PMul
-                }
-                
-                case 4:
-                    //Floating squares
-                    if let Geo = Node.geometry as? SCNBox
-                    {
-                        Geo.width = Side + (Prominence * 0.2)
-                        Geo.height = Side + (Prominence * 0.2)
-                        let OldPos = Node.position
-                        Node.position = SCNVector3(OldPos.x, OldPos.y, Prominence * 2.0 * PMul)
-                }
-                
-                default:
-                    break
-            }
-            Node.geometry?.firstMaterial?.diffuse.contents = Color
+                        case 0:
+                            //box
+                            if let Geo = Node.geometry as? SCNBox
+                            {
+                                Geo.length = Prominence * PMul
+                        }
+                        
+                        case 1:
+                            //sphere
+                            if let Geo = Node.geometry as? SCNSphere
+                            {
+                                Geo.radius = Prominence * PMul
+                        }
+                        
+                        case 2:
+                            //ring
+                            if let Geo = Node.geometry as? SCNTorus
+                            {
+                                Geo.ringRadius = Prominence * PMul
+                                Geo.pipeRadius = Prominence * PMul * 0.3
+                        }
+                        
+                        case 3:
+                            //cone
+                            if let Geo = Node.geometry as? SCNCone
+                            {
+                                Geo.bottomRadius = Prominence * PMul
+                                Geo.height = Prominence * PMul
+                        }
+                        
+                        case 4:
+                            //Floating squares
+                            if let Geo = Node.geometry as? SCNBox
+                            {
+                                Geo.width = Side + (Prominence * 0.2)
+                                Geo.height = Side + (Prominence * 0.2)
+                                let OldPos = Node.position
+                                Node.position = SCNVector3(OldPos.x, OldPos.y, Prominence * 2.0 * PMul)
+                        }
+                        
+                        default:
+                            break
+                    }
+                    Node.geometry?.firstMaterial?.diffuse.contents = Color
             }
         }
         let PImage = ProcessedImage.snapshot()
@@ -317,6 +318,7 @@ class ProcessedViewController: NSViewController, SCNSceneRendererDelegate
                         var ZLocation = (Prominence * PMul) * PMul
                         let Node = CreateNode(Side: Side, Color: Color, Prominence: Prominence,
                                               AtX: X, AtY: Y, Z: &ZLocation)
+                        Node.SetProminence(Double(Prominence))
                         Node.position = SCNVector3(XLocation * Float(Side),
                                                    YLocation * Float(Side),
                                                    Float(ZLocation))
@@ -363,7 +365,7 @@ class ProcessedViewController: NSViewController, SCNSceneRendererDelegate
                                                  OriginalZ)
             }
         }
-
+        
         return Double(OriginalZ)
     }
     
@@ -439,7 +441,7 @@ class ProcessedViewController: NSViewController, SCNSceneRendererDelegate
         }
         OperationQueue.main.addOperation
             {
-        self.view.window?.title = "Processed View \(FrameIndex)"
+                self.view.window?.title = "Processed View \(FrameIndex)"
         }
         objc_sync_enter(CloseLock)
         defer{ objc_sync_exit(CloseLock) }
