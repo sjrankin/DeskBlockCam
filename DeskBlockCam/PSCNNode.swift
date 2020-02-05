@@ -76,4 +76,55 @@ class PSCNNode: SCNNode
             _Y = newValue
         }
     }
+    
+    /// Holds an array of prominence values.
+    var Prominences: [Double] = [Double]()
+    
+    /// Accumulate a new prominence value. If there are more than a certain number (currently hard-
+    /// coded to 100) prominences, the first is removed before the new value is added.
+    /// - Parameter PromVal: The prominence value to add.
+    public func SetProminence(_ PromVal: Double)
+    {
+        if Prominences.count > 100
+        {
+            Prominences.removeFirst()
+        }
+        Prominences.append(PromVal)
+    }
+    
+    /// Return the current prominence variance.
+    public func ProminenceVariance() -> Double
+    {
+        return Prominences.Variance()
+    }
+}
+
+/// Extension for Double arrays to return the variance of the contents.
+/// - Note: See [Sample variation for an Array in Swift](https://stackoverflow.com/questions/38228969/sample-variation-for-an-array-of-int-in-swift)
+extension Array where Element == Double
+{
+    /// Returns the sum of the values of the array.
+    func Sum() -> Element
+    {
+        return self.reduce(0, +)
+    }
+    
+    /// Returns the mean of the values of the array.
+    func Mean() -> Double
+    {
+        return Double(self.Sum()) / Double(self.count)
+    }
+    
+    /// Returns the squared deviations of the values of the array.
+    func SquaredDeviations() -> [Double]
+    {
+        let IMean = self.Mean()
+        return self.map{ pow(Double($0) - IMean, 2)}
+    }
+    
+    /// Returns the variance of the values of the array.
+    func Variance() -> Double
+    {
+        return self.SquaredDeviations().Mean()
+    }
 }
