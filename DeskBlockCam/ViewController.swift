@@ -343,12 +343,14 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
     }
     
     /// Handle the app closing event from the parent window. Make sure child windows are closed.
+    /// Clear the frames directory.
     func WillClose()
     {
         if let Processed = ProcessedWindow
         {
             Processed.CloseWindow()
         }
+        FileIO.ClearFramesDirectory()
     }
     
     var ProcessedWindow: ProcessedViewWindowController? = nil
