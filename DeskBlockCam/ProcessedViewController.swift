@@ -83,24 +83,6 @@ class ProcessedViewController: NSViewController, SCNSceneRendererDelegate
     /// its z position to better fit the result in the available space.
     var CameraNode: SCNNode? = nil
     
-    /// Returns the size of the passed image.
-    /// - Parameter Image: The image whose size will be returned.
-    /// - Returns: The size of the image. `NSSize.zero` returned on error.
-    func GetImageSize(_ Image: NSImage) -> NSSize
-    {
-        guard let ImgData = Image.tiffRepresentation else
-        {
-            return NSSize.zero
-        }
-        guard let Source = CGImageSourceCreateWithData(ImgData as CFData, nil) else
-        {
-            return NSSize.zero
-        }
-        let CGImg = CGImageSourceCreateImageAtIndex(Source, 0, nil)
-        let Rep = NSBitmapImageRep(cgImage: CGImg!)
-        return NSSize(width: Rep.size.width, height: Rep.size.height)
-    }
-    
     /// Semaphore for parsing the image to prevent things from getting confused.
     var ParseLock: NSObject = NSObject()
     
@@ -132,6 +114,8 @@ class ProcessedViewController: NSViewController, SCNSceneRendererDelegate
                     {
                         let PixelX = X * Int(BlockSize) + Int(BlockSize / 2.0)
                         let PixelY = Y * Int(BlockSize) + Int(BlockSize / 2.0)
+                        //Online commentators say this is very slow. However, for our purposes and
+                        //for how we use it, it is sufficient.
                         let Color = ImageRep?.colorAt(x: PixelX, y: PixelY)
                         Colors[VBlocks - 1 - Y][X] = Color!
                 }
@@ -189,10 +173,16 @@ class ProcessedViewController: NSViewController, SCNSceneRendererDelegate
             
             case 4:
                 //floating square
-                Node = PSCNNode(geometry: SCNBox(width: Side + (Prominence * 0.2),
-                                                 height: Side + (Prominence * 0.2),
-                                                 length: 0.01, chamferRadius: 0.0),
+                Node = PSCNNode(geometry: SCNPlane(width: Side + (Prominence * 0.2), height: (Prominence * 0.2)),
                                 X: AtX, Y: AtY)
+            
+            case 5:
+            //tube
+                Node = PSCNNode(geometry: SCNTube(innerRadius: Side * 0.5 + Prominence * 0.2,
+                                                  outerRadius: Side + Prominence * 0.2,
+                                                  height: Prominence * PMul * 2.0),
+                                X: AtX, Y: AtY)
+                Node.rotation = SCNVector4(1.0, 0.0, 0.0, 90.0 * CGFloat.pi / 180.0)
             
             default:
                 break
@@ -221,7 +211,7 @@ class ProcessedViewController: NSViewController, SCNSceneRendererDelegate
         {
             autoreleasepool
                 {
-                                        let Node = SomeNode as! PSCNNode
+                    let Node = SomeNode as! PSCNNode
                     let Color = Colors[Node.Y][Node.X]
                     let Prominence = ColorProminence(Color)
                     Node.SetProminence(Double(Prominence))
@@ -259,12 +249,21 @@ class ProcessedViewController: NSViewController, SCNSceneRendererDelegate
                         
                         case 4:
                             //Floating squares
-                            if let Geo = Node.geometry as? SCNBox
+                            if let Geo = Node.geometry as? SCNPlane
                             {
                                 Geo.width = Side + (Prominence * 0.2)
                                 Geo.height = Side + (Prominence * 0.2)
                                 let OldPos = Node.position
                                 Node.position = SCNVector3(OldPos.x, OldPos.y, Prominence * 2.0 * PMul)
+                        }
+                        
+                        case 5:
+                        //tube
+                            if let Geo = Node.geometry as? SCNTube
+                            {
+                                Geo.outerRadius = Side + Prominence * 0.2
+                                Geo.innerRadius = Side * 0.5 + Prominence * 0.2
+                                Geo.height = Prominence * PMul * 2.0
                         }
                         
                         default:
