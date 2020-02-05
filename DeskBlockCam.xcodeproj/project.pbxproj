@@ -7,13 +7,26 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		173842CA23E7AE0C00792C9E /* ProcessedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173842C923E7AE0C00792C9E /* ProcessedViewController.swift */; };
+		173842CE23E7B20500792C9E /* ProcessedViewWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173842CD23E7B20500792C9E /* ProcessedViewWindowController.swift */; };
+		178828A823E90E310041C2D1 /* PSCNNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178828A723E90E310041C2D1 /* PSCNNode.swift */; };
 		17897B8323E6A77300AFDA6A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17897B8223E6A77300AFDA6A /* AppDelegate.swift */; };
 		17897B8523E6A77300AFDA6A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17897B8423E6A77300AFDA6A /* ViewController.swift */; };
 		17897B8723E6A77500AFDA6A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 17897B8623E6A77500AFDA6A /* Assets.xcassets */; };
 		17897B8A23E6A77500AFDA6A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 17897B8823E6A77500AFDA6A /* Main.storyboard */; };
+		17897B9323E6C74000AFDA6A /* LiveViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17897B9223E6C74000AFDA6A /* LiveViewer.swift */; };
+		17897B9723E6EB1D00AFDA6A /* ViewControllerWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17897B9623E6EB1D00AFDA6A /* ViewControllerWindow.swift */; };
+		17A446F523E7F40100D3C571 /* ImageReduction.metal in Sources */ = {isa = PBXBuildFile; fileRef = 17A446F423E7F40100D3C571 /* ImageReduction.metal */; };
+		17EB8FFE23E961C600A4C09A /* ImageDelta.metal in Sources */ = {isa = PBXBuildFile; fileRef = 17EB8FFD23E961C600A4C09A /* ImageDelta.metal */; };
+		17EB900023E9639D00A4C09A /* ImageDelta.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EB8FFF23E9639D00A4C09A /* ImageDelta.swift */; };
+		17EB900223E9829E00A4C09A /* FileIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EB900123E9829E00A4C09A /* FileIO.swift */; };
+		17FBB20323EA924400333934 /* +StatTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17FBB20223EA924400333934 /* +StatTable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		173842C923E7AE0C00792C9E /* ProcessedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessedViewController.swift; sourceTree = "<group>"; };
+		173842CD23E7B20500792C9E /* ProcessedViewWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessedViewWindowController.swift; sourceTree = "<group>"; };
+		178828A723E90E310041C2D1 /* PSCNNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PSCNNode.swift; sourceTree = "<group>"; };
 		17897B7F23E6A77300AFDA6A /* DeskBlockCam.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DeskBlockCam.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		17897B8223E6A77300AFDA6A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		17897B8423E6A77300AFDA6A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -21,6 +34,13 @@
 		17897B8923E6A77500AFDA6A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		17897B8B23E6A77500AFDA6A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		17897B8C23E6A77500AFDA6A /* DeskBlockCam.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DeskBlockCam.entitlements; sourceTree = "<group>"; };
+		17897B9223E6C74000AFDA6A /* LiveViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveViewer.swift; sourceTree = "<group>"; };
+		17897B9623E6EB1D00AFDA6A /* ViewControllerWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerWindow.swift; sourceTree = "<group>"; };
+		17A446F423E7F40100D3C571 /* ImageReduction.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = ImageReduction.metal; sourceTree = "<group>"; };
+		17EB8FFD23E961C600A4C09A /* ImageDelta.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = ImageDelta.metal; sourceTree = "<group>"; };
+		17EB8FFF23E9639D00A4C09A /* ImageDelta.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDelta.swift; sourceTree = "<group>"; };
+		17EB900123E9829E00A4C09A /* FileIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileIO.swift; sourceTree = "<group>"; };
+		17FBB20223EA924400333934 /* +StatTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+StatTable.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,14 +73,32 @@
 		17897B8123E6A77300AFDA6A /* DeskBlockCam */ = {
 			isa = PBXGroup;
 			children = (
+				17A446F323E7F3E800D3C571 /* Metal */,
+				17897B8623E6A77500AFDA6A /* Assets.xcassets */,
 				17897B8223E6A77300AFDA6A /* AppDelegate.swift */,
 				17897B8423E6A77300AFDA6A /* ViewController.swift */,
-				17897B8623E6A77500AFDA6A /* Assets.xcassets */,
 				17897B8823E6A77500AFDA6A /* Main.storyboard */,
+				17FBB20223EA924400333934 /* +StatTable.swift */,
+				17897B9623E6EB1D00AFDA6A /* ViewControllerWindow.swift */,
+				173842C923E7AE0C00792C9E /* ProcessedViewController.swift */,
+				173842CD23E7B20500792C9E /* ProcessedViewWindowController.swift */,
+				178828A723E90E310041C2D1 /* PSCNNode.swift */,
+				17EB900123E9829E00A4C09A /* FileIO.swift */,
+				17897B9223E6C74000AFDA6A /* LiveViewer.swift */,
 				17897B8B23E6A77500AFDA6A /* Info.plist */,
 				17897B8C23E6A77500AFDA6A /* DeskBlockCam.entitlements */,
 			);
 			path = DeskBlockCam;
+			sourceTree = "<group>";
+		};
+		17A446F323E7F3E800D3C571 /* Metal */ = {
+			isa = PBXGroup;
+			children = (
+				17A446F423E7F40100D3C571 /* ImageReduction.metal */,
+				17EB8FFD23E961C600A4C09A /* ImageDelta.metal */,
+				17EB8FFF23E9639D00A4C09A /* ImageDelta.swift */,
+			);
+			path = Metal;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -133,8 +171,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				17FBB20323EA924400333934 /* +StatTable.swift in Sources */,
+				17EB900023E9639D00A4C09A /* ImageDelta.swift in Sources */,
 				17897B8523E6A77300AFDA6A /* ViewController.swift in Sources */,
+				17EB900223E9829E00A4C09A /* FileIO.swift in Sources */,
+				173842CA23E7AE0C00792C9E /* ProcessedViewController.swift in Sources */,
+				17897B9323E6C74000AFDA6A /* LiveViewer.swift in Sources */,
+				17897B9723E6EB1D00AFDA6A /* ViewControllerWindow.swift in Sources */,
+				173842CE23E7B20500792C9E /* ProcessedViewWindowController.swift in Sources */,
+				17A446F523E7F40100D3C571 /* ImageReduction.metal in Sources */,
 				17897B8323E6A77300AFDA6A /* AppDelegate.swift in Sources */,
+				17EB8FFE23E961C600A4C09A /* ImageDelta.metal in Sources */,
+				178828A823E90E310041C2D1 /* PSCNNode.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -257,7 +305,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -273,7 +321,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 4BB235M4GL;
-				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_HARDENED_RUNTIME = NO;
 				INFOPLIST_FILE = DeskBlockCam/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -293,7 +341,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 4BB235M4GL;
-				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_HARDENED_RUNTIME = NO;
 				INFOPLIST_FILE = DeskBlockCam/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
