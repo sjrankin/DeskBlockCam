@@ -80,16 +80,26 @@ class PSCNNode: SCNNode
     /// Holds an array of prominence values.
     var Prominences: [Double] = [Double]()
     
-    /// Accumulate a new prominence value. If there are more than a certain number (currently hard-
-    /// coded to 100) prominences, the first is removed before the new value is added.
+    /// Accumulate a new prominence value. If there are more than a certain number (see `MaxCount`)
+    /// prominences, the first is removed before the new value is added.
     /// - Parameter PromVal: The prominence value to add.
-    public func SetProminence(_ PromVal: Double)
+    /// - Parameter MaxCount: The maximum number of prominences to accumulate. Defaults to 5.
+    public func SetProminence(_ PromVal: Double, MaxCount: Int = 5)
     {
-        if Prominences.count > 100
+        if Prominences.count > MaxCount
         {
             Prominences.removeFirst()
         }
         Prominences.append(PromVal)
+    }
+    
+    /// Return the number of prominence values.
+    public var ProminenceCount: Int
+    {
+        get
+        {
+            return Prominences.count
+        }
     }
     
     /// Return the current prominence variance.
