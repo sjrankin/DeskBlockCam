@@ -50,18 +50,19 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
     
     var Started = false
     
+    /// Open the processed video window.
     func OpenProcessedWindow()
     {
         let Storyboard = NSStoryboard(name: "Main", bundle: nil)
-        let WindowController = Storyboard.instantiateController(withIdentifier: "ProcessedImageWindowUI") as? ProcessedViewWindowController
-        if let Ctlr = WindowController as? ProcessedViewWindowController
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "ProcessedImageWindowUI") as? ProcessedViewWindowController
         {
-            Ctlr.showWindow(nil)
-            ProcessSink = Ctlr.contentViewController as? ProcessedViewController
-            ProcessedWindow = Ctlr
+            WindowController.showWindow(nil)
+            ProcessSink = WindowController.contentViewController as? ProcessedViewController
+            ProcessedWindow = WindowController
         }
     }
     
+    /// Get camera access from the user.
     func GetCameraAccess()
     {
         switch AVCaptureDevice.authorizationStatus(for: .video)
@@ -97,6 +98,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
     var VideoDeviceDiscoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera],
                                                                        mediaType: .video, position: .unspecified)
     
+    /// Set up the capture session so we get the camera's stream.
     func SetupCaptureSession()
     {
         CaptureSession = AVCaptureSession()
@@ -137,6 +139,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         }
     }
     
+    /// Hook up the camera stream to the output view.
     func SetupLiveView()
     {
         LiveView.layerContentsPlacement = .scaleProportionallyToFill
@@ -157,6 +160,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         }
     }
     
+    /// Enable getting each frame of the live view session.
     func SetupLiveViewProcessing()
     {
         let VideoOut = AVCaptureVideoDataOutput()
@@ -175,6 +179,9 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
     var VOQueue = DispatchQueue(label: "VideoOutputQueue")
     var VideoConnection: AVCaptureConnection? = nil
     
+    /// Handle window resize events (passed to us from the window controller) to resize the live view
+    /// to fit in parent's view.
+    /// - Parameter To: New window size.
     func WindowResized(To: NSSize)
     {
         if !Started
@@ -194,17 +201,27 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         //OriginalImage.image = Sheet.outputImage()
     }
     
+    /// Capture a still image from the camera view.
+    /// - Parameter sender: Not used.
     @IBAction func HandleCameraButton(_ sender: Any)
     {
         let Settings = AVCapturePhotoSettings(format: [AVVideoCodecKey: AVVideoCodecType.jpeg])
         StillImageOutput.capturePhoto(with: Settings, delegate: self)
     }
     
+    /// Holds the last frame time. This is used with a throttle value to ensure we don't overwhelm
+    /// the API with too much data.
     var LastFrameTime = CACurrentMediaTime()
     
+    /// Capture the output of a frame of data from the live view. For now, the data is sent to the
+    /// processed view window for conversion to 3D and display.
+    /// - Parameter output: Not used.
+    /// - Parameter didOutput: The buffer from the live view.
+    /// - Parameter from: The conection that sent the data.
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer,
                        from connection: AVCaptureConnection)
     {
+        //Set up the throttle.
         let Throttle = 1.0
         AddStat(ForItem: .ThrottleValue, NewValue: "\(Throttle) s")
         FrameCount = FrameCount + 1
@@ -260,7 +277,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
                             }
                             RenderedFrames = RenderedFrames + 1
                             RenderedDuration = RenderedDuration + TotalEnd
-                            AddStat(ForItem: .RenderDuration, NewValue: RoundedString(RenderedDuration))
+                            AddStat(ForItem: .RenderDuration, NewValue: "\(Int(RenderedDuration)) s")
                             AddStat(ForItem: .RenderedFrames, NewValue: "\(RenderedFrames)")
                             let cFPS = RenderedDuration / Double(RenderedFrames)
                             AddStat(ForItem: .CalculatedFramesPerSecond, NewValue: RoundedString(cFPS))
@@ -274,6 +291,10 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         }
     }
     
+    /// Get the rolling mean for the processed view creation time per frame.
+    /// - Returns: Rolling mean (as determined by `RollingWindow`) for the most recent set of
+    ///            frame creation duration times. If the number of frames created is less than
+    ///            the value of `RollingWindow`, nil is returned.
     func RollingDurationMean() -> Double?
     {
         if Durations.count < RollingWindow
@@ -297,6 +318,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
     
     var ProcessSink: ProcessedViewController? = nil
     
+    /// A photo of the live stream is available.
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?)
     {
         if let error = error
@@ -320,6 +342,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         }
     }
     
+    /// Handle the app closing event from the parent window. Make sure child windows are closed.
     func WillClose()
     {
         if let Processed = ProcessedWindow
@@ -330,6 +353,8 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
     
     var ProcessedWindow: ProcessedViewWindowController? = nil
     
+    /// Handle changes to the shape selector.
+    /// - Sender: The NSSegmentedControl that changed.
     @IBAction func HandleShapeSelectorChanged(_ sender: Any)
     {
         if let Segment = sender as? NSSegmentedControl
@@ -341,6 +366,9 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
     
     var ShapeIndex: Int = 0
     
+    /// Handle the record button pressed. Update the UI. Save frames or combine saved frames into
+    /// a video, depending on the state of recording.
+    /// - Parameter sender: Not used.
     @IBAction func HandleRecordButtonPressed(_ sender: Any)
     {
         if Recording
@@ -367,6 +395,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
     
     var Recording = false
     
+    /// Table of statistics and labels to show in the stat table.
     var CurrentStats: [StatRowContainer] =
         [
             StatRowContainer(.CurrentFrame, "Frame", ""),
@@ -405,6 +434,7 @@ enum StatRows: Int, CaseIterable
     case ThrottleValue = 10
 }
 
+/// Contains information for one row of the stat table UI.
 class StatRowContainer
 {
     init(_ Type: StatRows, _ Label: String, _ Value: String)
