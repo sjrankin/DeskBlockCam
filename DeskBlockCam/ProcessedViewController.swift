@@ -19,6 +19,7 @@ class ProcessedViewController: NSViewController, SCNSceneRendererDelegate
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        ShapeSelector.selectedSegment = 0
         ProcessedImage.delegate = self
         ProcessedImage.preferredFramesPerSecond = 10
         ProcessedImage.wantsLayer = true
@@ -30,16 +31,18 @@ class ProcessedViewController: NSViewController, SCNSceneRendererDelegate
         SourceImage.layer?.borderWidth = 0.5
         SourceImage.layer?.cornerRadius = 2.0
         SourceImage.layer?.backgroundColor = NSColor.clear.cgColor
-        PixellatedImage.wantsLayer = true
-        PixellatedImage.layer?.borderColor = NSColor.black.cgColor
-        PixellatedImage.layer?.borderWidth = 0.5
-        PixellatedImage.layer?.cornerRadius = 2.0
-        PixellatedImage.layer?.backgroundColor = NSColor.clear.cgColor
+        HistogramViewer.wantsLayer = true
+        HistogramViewer.layer?.borderColor = NSColor.black.cgColor
+        HistogramViewer.layer?.borderWidth = 0.5
+        HistogramViewer.layer?.cornerRadius = 2.0
+        HistogramViewer.layer?.backgroundColor = NSColor.black.cgColor
         SnapshotView.wantsLayer = true
         SnapshotView.layer?.borderColor = NSColor.black.cgColor
         SnapshotView.layer?.borderWidth = 0.5
         SnapshotView.layer?.cornerRadius = 2.0
         SnapshotView.layer?.backgroundColor = NSColor.clear.cgColor
+        BottomBar.wantsLayer = true
+        BottomBar.layer?.backgroundColor = NSColor.systemTeal.cgColor
         
         InitializeScene()
     }
@@ -274,6 +277,7 @@ class ProcessedViewController: NSViewController, SCNSceneRendererDelegate
         }
         let PImage = ProcessedImage.snapshot()
         SnapshotView.image = PImage
+        HistogramViewer.DisplayHistogram(For: PImage, RemoveFirst: 5)
         if SaveFrames
         {
             SaveFrame(PImage)
@@ -356,7 +360,7 @@ class ProcessedViewController: NSViewController, SCNSceneRendererDelegate
                         CameraNode.position = SCNVector3(CameraNode.position.x,
                                                          CameraNode.position.y,
                                                          OriginalZ)
-                        return CameraHeight + 1.5
+                        return CameraHeight + 1.4
                     }
                 }
                 CameraNode.position = SCNVector3(CameraNode.position.x,
@@ -425,36 +429,29 @@ class ProcessedViewController: NSViewController, SCNSceneRendererDelegate
         return true
     }
     
-    /// Process a new image from the computer's camera.
-    /// - Parameter Source: The source image.
-    /// - Parameter Pixellated: The pixellated image.
-    /// - Parameter ShapeIndex: Indicates the shape to use to draw the processed view.
-    /// - Parameter FrameIndex: Value indicate the frame number.
-    public func NewImage(_ Source: NSImage, _ Pixellated: NSImage, _ ShapeIndex: Int,
-                         _ FrameIndex: Int)
+    /// Process a new image from the caller.
+    /// - Parameter Source: The source image to process/display.
+    /// - Parameter FrameIndex: The frame number of the image.
+    public func NewImage(_ Source: CIImage, _ FrameIndex: Int)
     {
-        if Busy
-        {
-            DroppedFrameCount = DroppedFrameCount + 1
-            return
-        }
-        OperationQueue.main.addOperation
-            {
-                self.view.window?.title = "Processed View \(FrameIndex)"
-        }
         objc_sync_enter(CloseLock)
         defer{ objc_sync_exit(CloseLock) }
-        var HBlocks: Int = 0
-        var VBlocks: Int = 0
-        var Colors: [[NSColor]]? = nil
-        Colors = self.ParseImage(Pixellated, BlockSize: 16, HBlocks: &HBlocks, VBlocks: &VBlocks)
-        DispatchQueue.main.sync
-            {
-                self.Busy = true
-                self.SourceImage.image = Source
-                self.PixellatedImage.image = Pixellated
-                self.DrawNodes(With: Colors!, HShapeCount: HBlocks, VShapeCount: VBlocks, ShapeIndex)
-                self.Busy = false
+        if let Reduced = Pixellator.Pixellate(Source)
+        {
+            let NSRep = NSCIImageRep(ciImage: Source)
+            let Original = NSImage(size: NSRep.size)
+            Original.addRepresentation(NSRep)
+            var HBlocks: Int = 0
+            var VBlocks: Int = 0
+            let Colors = self.ParseImage(Reduced, BlockSize: 16, HBlocks: &HBlocks, VBlocks: &VBlocks)
+            DispatchQueue.main.sync
+                {
+                    let ShapeIndex = self.ShapeSelector.selectedSegment
+                    self.Busy = true
+                    self.SourceImage.image = Original
+                    self.DrawNodes(With: Colors, HShapeCount: HBlocks, VShapeCount: VBlocks, ShapeIndex)
+                    self.Busy = false
+            }
         }
     }
     
@@ -492,8 +489,42 @@ class ProcessedViewController: NSViewController, SCNSceneRendererDelegate
     /// Frame count for number of processed frames.
     var FrameCount = 0
     
+    @IBAction func HandleChangedShape(_ sender: Any)
+    {
+    }
+    
+    /// Handle the record button pressed. Update the UI. Save frames or combine saved frames into
+    /// a video, depending on the state of recording.
+    /// - Parameter sender: Not used.
+    @IBAction func HandleRecordButtonPressed(_ sender: Any)
+    {
+        if Recording
+        {
+            Recording = false
+        }
+        else
+        {
+            Recording = true
+        }
+        if Recording
+        {
+            RecordButton.image = NSImage(named: "BigRedCircle")
+            SaveFrames = true
+        }
+        else
+        {
+            RecordButton.image = NSImage(named: "BigCircle")
+            SaveFrames = false
+        }
+    }
+    
+    var Recording: Bool = false
+    
+    @IBOutlet weak var RecordButton: NSButton!
+    @IBOutlet weak var ShapeSelector: NSSegmentedControl!
+    @IBOutlet weak var BottomBar: NSView!
     @IBOutlet weak var SnapshotView: NSImageView!
-    @IBOutlet weak var PixellatedImage: NSImageView!
+    @IBOutlet weak var HistogramViewer: HistogramDisplay!
     @IBOutlet weak var SourceImage: NSImageView!
     @IBOutlet weak var ProcessedImage: SCNView!
 }
