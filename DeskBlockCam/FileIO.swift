@@ -51,7 +51,7 @@ class FileIO
                 return
             }
         }
-        print("Created application directories.")
+        print("Verified or created application directories.")
     }
     
     /// Determines if the passed directory exists.
