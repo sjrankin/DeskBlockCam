@@ -7,8 +7,24 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1717201123EBD23100636F3C /* Pixellator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1717201023EBD23100636F3C /* Pixellator.swift */; };
+		1717201323EBDF1600636F3C /* BlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1717201223EBDF1600636F3C /* BlockView.swift */; };
+		1717201623EBE2D900636F3C /* Processor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1717201523EBE2D900636F3C /* Processor.swift */; };
 		173842CA23E7AE0C00792C9E /* ProcessedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173842C923E7AE0C00792C9E /* ProcessedViewController.swift */; };
 		173842CE23E7B20500792C9E /* ProcessedViewWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173842CD23E7B20500792C9E /* ProcessedViewWindowController.swift */; };
+		1740A3C723EBE5E500E29C75 /* ProcessingAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1740A3C623EBE5E500E29C75 /* ProcessingAttributes.swift */; };
+		1740A3C923EBEB6400E29C75 /* OptionalParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1740A3C823EBEB6400E29C75 /* OptionalParameters.swift */; };
+		1740A3CC23EBEBD400E29C75 /* BlockOptionalParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1740A3CB23EBEBD400E29C75 /* BlockOptionalParameters.swift */; };
+		1740A3CE23EBEC5300E29C75 /* CappedLineOptionalParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1740A3CD23EBEC5300E29C75 /* CappedLineOptionalParameters.swift */; };
+		1740A3D023EBED8500E29C75 /* CharactersOptionalParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1740A3CF23EBED8500E29C75 /* CharactersOptionalParameters.swift */; };
+		1740A3D223EBEE6800E29C75 /* EllipseOptionalParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1740A3D123EBEE6800E29C75 /* EllipseOptionalParameters.swift */; };
+		1740A3D423EBEF5C00E29C75 /* DiamondOptionalParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1740A3D323EBEF5C00E29C75 /* DiamondOptionalParameters.swift */; };
+		1740A3D623EBF73000E29C75 /* ConeOptionalParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1740A3D523EBF73000E29C75 /* ConeOptionalParameters.swift */; };
+		1740A3D823EBF8A900E29C75 /* StarOptionalParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1740A3D723EBF8A900E29C75 /* StarOptionalParameters.swift */; };
+		1740A3DA23EBF96600E29C75 /* StackedShapesOptionalParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1740A3D923EBF96600E29C75 /* StackedShapesOptionalParameters.swift */; };
+		1740A3DC23EBFA4000E29C75 /* RadiatingLinesOptionalParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1740A3DB23EBFA4000E29C75 /* RadiatingLinesOptionalParameters.swift */; };
+		1740A3DE23EBFB7500E29C75 /* HSBVaryingOptionalParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1740A3DD23EBFB7500E29C75 /* HSBVaryingOptionalParameters.swift */; };
+		176E565323EBB50E0001215A /* HistogramDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176E565223EBB50E0001215A /* HistogramDisplay.swift */; };
 		178828A823E90E310041C2D1 /* PSCNNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178828A723E90E310041C2D1 /* PSCNNode.swift */; };
 		17897B8323E6A77300AFDA6A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17897B8223E6A77300AFDA6A /* AppDelegate.swift */; };
 		17897B8523E6A77300AFDA6A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17897B8423E6A77300AFDA6A /* ViewController.swift */; };
@@ -24,8 +40,24 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1717201023EBD23100636F3C /* Pixellator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pixellator.swift; sourceTree = "<group>"; };
+		1717201223EBDF1600636F3C /* BlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockView.swift; sourceTree = "<group>"; };
+		1717201523EBE2D900636F3C /* Processor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Processor.swift; sourceTree = "<group>"; };
 		173842C923E7AE0C00792C9E /* ProcessedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessedViewController.swift; sourceTree = "<group>"; };
 		173842CD23E7B20500792C9E /* ProcessedViewWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessedViewWindowController.swift; sourceTree = "<group>"; };
+		1740A3C623EBE5E500E29C75 /* ProcessingAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessingAttributes.swift; sourceTree = "<group>"; };
+		1740A3C823EBEB6400E29C75 /* OptionalParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionalParameters.swift; sourceTree = "<group>"; };
+		1740A3CB23EBEBD400E29C75 /* BlockOptionalParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockOptionalParameters.swift; sourceTree = "<group>"; };
+		1740A3CD23EBEC5300E29C75 /* CappedLineOptionalParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CappedLineOptionalParameters.swift; sourceTree = "<group>"; };
+		1740A3CF23EBED8500E29C75 /* CharactersOptionalParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersOptionalParameters.swift; sourceTree = "<group>"; };
+		1740A3D123EBEE6800E29C75 /* EllipseOptionalParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EllipseOptionalParameters.swift; sourceTree = "<group>"; };
+		1740A3D323EBEF5C00E29C75 /* DiamondOptionalParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiamondOptionalParameters.swift; sourceTree = "<group>"; };
+		1740A3D523EBF73000E29C75 /* ConeOptionalParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConeOptionalParameters.swift; sourceTree = "<group>"; };
+		1740A3D723EBF8A900E29C75 /* StarOptionalParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarOptionalParameters.swift; sourceTree = "<group>"; };
+		1740A3D923EBF96600E29C75 /* StackedShapesOptionalParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackedShapesOptionalParameters.swift; sourceTree = "<group>"; };
+		1740A3DB23EBFA4000E29C75 /* RadiatingLinesOptionalParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadiatingLinesOptionalParameters.swift; sourceTree = "<group>"; };
+		1740A3DD23EBFB7500E29C75 /* HSBVaryingOptionalParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HSBVaryingOptionalParameters.swift; sourceTree = "<group>"; };
+		176E565223EBB50E0001215A /* HistogramDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistogramDisplay.swift; sourceTree = "<group>"; };
 		178828A723E90E310041C2D1 /* PSCNNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PSCNNode.swift; sourceTree = "<group>"; };
 		17897B7F23E6A77300AFDA6A /* DeskBlockCam.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DeskBlockCam.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		17897B8223E6A77300AFDA6A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -54,6 +86,35 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1717201423EBE2C600636F3C /* BlockView */ = {
+			isa = PBXGroup;
+			children = (
+				1740A3CA23EBEBB300E29C75 /* OptionalParameters */,
+				1717201223EBDF1600636F3C /* BlockView.swift */,
+				1717201523EBE2D900636F3C /* Processor.swift */,
+				1740A3C623EBE5E500E29C75 /* ProcessingAttributes.swift */,
+			);
+			path = BlockView;
+			sourceTree = "<group>";
+		};
+		1740A3CA23EBEBB300E29C75 /* OptionalParameters */ = {
+			isa = PBXGroup;
+			children = (
+				1740A3C823EBEB6400E29C75 /* OptionalParameters.swift */,
+				1740A3CB23EBEBD400E29C75 /* BlockOptionalParameters.swift */,
+				1740A3CD23EBEC5300E29C75 /* CappedLineOptionalParameters.swift */,
+				1740A3CF23EBED8500E29C75 /* CharactersOptionalParameters.swift */,
+				1740A3D123EBEE6800E29C75 /* EllipseOptionalParameters.swift */,
+				1740A3D323EBEF5C00E29C75 /* DiamondOptionalParameters.swift */,
+				1740A3D523EBF73000E29C75 /* ConeOptionalParameters.swift */,
+				1740A3D723EBF8A900E29C75 /* StarOptionalParameters.swift */,
+				1740A3D923EBF96600E29C75 /* StackedShapesOptionalParameters.swift */,
+				1740A3DB23EBFA4000E29C75 /* RadiatingLinesOptionalParameters.swift */,
+				1740A3DD23EBFB7500E29C75 /* HSBVaryingOptionalParameters.swift */,
+			);
+			path = OptionalParameters;
+			sourceTree = "<group>";
+		};
 		17897B7623E6A77300AFDA6A = {
 			isa = PBXGroup;
 			children = (
@@ -73,18 +134,21 @@
 		17897B8123E6A77300AFDA6A /* DeskBlockCam */ = {
 			isa = PBXGroup;
 			children = (
+				1717201423EBE2C600636F3C /* BlockView */,
 				17A446F323E7F3E800D3C571 /* Metal */,
 				17897B8623E6A77500AFDA6A /* Assets.xcassets */,
 				17897B8223E6A77300AFDA6A /* AppDelegate.swift */,
 				17897B8423E6A77300AFDA6A /* ViewController.swift */,
+				17897B9623E6EB1D00AFDA6A /* ViewControllerWindow.swift */,
 				17897B8823E6A77500AFDA6A /* Main.storyboard */,
 				17FBB20223EA924400333934 /* +StatTable.swift */,
-				17897B9623E6EB1D00AFDA6A /* ViewControllerWindow.swift */,
 				173842C923E7AE0C00792C9E /* ProcessedViewController.swift */,
 				173842CD23E7B20500792C9E /* ProcessedViewWindowController.swift */,
 				178828A723E90E310041C2D1 /* PSCNNode.swift */,
+				1717201023EBD23100636F3C /* Pixellator.swift */,
 				17EB900123E9829E00A4C09A /* FileIO.swift */,
 				17897B9223E6C74000AFDA6A /* LiveViewer.swift */,
+				176E565223EBB50E0001215A /* HistogramDisplay.swift */,
 				17897B8B23E6A77500AFDA6A /* Info.plist */,
 				17897B8C23E6A77500AFDA6A /* DeskBlockCam.entitlements */,
 			);
@@ -171,18 +235,34 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				176E565323EBB50E0001215A /* HistogramDisplay.swift in Sources */,
+				1717201323EBDF1600636F3C /* BlockView.swift in Sources */,
+				1740A3DC23EBFA4000E29C75 /* RadiatingLinesOptionalParameters.swift in Sources */,
 				17FBB20323EA924400333934 /* +StatTable.swift in Sources */,
+				1740A3DE23EBFB7500E29C75 /* HSBVaryingOptionalParameters.swift in Sources */,
 				17EB900023E9639D00A4C09A /* ImageDelta.swift in Sources */,
+				1717201123EBD23100636F3C /* Pixellator.swift in Sources */,
 				17897B8523E6A77300AFDA6A /* ViewController.swift in Sources */,
+				1740A3D623EBF73000E29C75 /* ConeOptionalParameters.swift in Sources */,
+				1740A3D023EBED8500E29C75 /* CharactersOptionalParameters.swift in Sources */,
 				17EB900223E9829E00A4C09A /* FileIO.swift in Sources */,
+				1740A3C723EBE5E500E29C75 /* ProcessingAttributes.swift in Sources */,
 				173842CA23E7AE0C00792C9E /* ProcessedViewController.swift in Sources */,
 				17897B9323E6C74000AFDA6A /* LiveViewer.swift in Sources */,
 				17897B9723E6EB1D00AFDA6A /* ViewControllerWindow.swift in Sources */,
+				1740A3D223EBEE6800E29C75 /* EllipseOptionalParameters.swift in Sources */,
+				1717201623EBE2D900636F3C /* Processor.swift in Sources */,
+				1740A3CE23EBEC5300E29C75 /* CappedLineOptionalParameters.swift in Sources */,
 				173842CE23E7B20500792C9E /* ProcessedViewWindowController.swift in Sources */,
 				17A446F523E7F40100D3C571 /* ImageReduction.metal in Sources */,
+				1740A3D423EBEF5C00E29C75 /* DiamondOptionalParameters.swift in Sources */,
 				17897B8323E6A77300AFDA6A /* AppDelegate.swift in Sources */,
 				17EB8FFE23E961C600A4C09A /* ImageDelta.metal in Sources */,
 				178828A823E90E310041C2D1 /* PSCNNode.swift in Sources */,
+				1740A3CC23EBEBD400E29C75 /* BlockOptionalParameters.swift in Sources */,
+				1740A3DA23EBF96600E29C75 /* StackedShapesOptionalParameters.swift in Sources */,
+				1740A3C923EBEB6400E29C75 /* OptionalParameters.swift in Sources */,
+				1740A3D823EBF8A900E29C75 /* StarOptionalParameters.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
