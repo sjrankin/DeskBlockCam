@@ -1,0 +1,305 @@
+//
+//  HistogramViewer.swift
+//  DeskBlockCam
+//
+//  Created by Stuart Rankin on 2/6/20.
+//  Copyright © 2020 Stuart Rankin. All rights reserved.
+//
+
+import Foundation
+import AppKit
+import Accelerate
+
+/// Simple UIView to draw histogram data.
+class HistogramDisplay: NSView
+{
+    /// Initializer.
+    /// - Parameter frame: Frame of the control.
+    override init(frame: CGRect)
+    {
+        super.init(frame: frame)
+        Initialize()
+    }
+    
+    /// Initializer.
+    /// - Parameter coder: See Apple documentation.
+    required init?(coder: NSCoder)
+    {
+        super.init(coder: coder)
+        Initialize()
+    }
+    
+    /// Initialize the control.
+    func Initialize()
+    {
+        wantsLayer = true
+        layer?.backgroundColor = NSColor.black.cgColor
+    }
+    
+    func DisplayHistogram(For Image: NSImage, RemoveFirst: Int = 0)
+    {
+        if let ImgData = Image.tiffRepresentation
+        {
+            if let CIImg = CIImage(data: ImgData)
+            {
+            DoDisplayHistogram(Image: CIImg)
+            }
+        }
+    }
+    
+    func DisplayHistogram(For Image: CIImage, RemoveFirst: Int = 0)
+    {
+        DoDisplayHistogram(Image: Image)
+    }
+    
+    private func DoDisplayHistogram(Image: CIImage, RemoveFirst: Int = 0)
+    {
+        let CImage: CGImage = Image.AsCGImage!
+        let ImageFormat = vImage_CGImageFormat(bitsPerComponent: 8,
+                                               bitsPerPixel: 32,
+                                               colorSpace: CGColorSpaceCreateDeviceRGB(),
+                                               bitmapInfo: CGBitmapInfo(rawValue: CGImageAlphaInfo.first.rawValue),
+                                               renderingIntent: .defaultIntent)!
+        guard var SourceBuffer = try? vImage_Buffer(cgImage: CImage,
+                                                    format: ImageFormat) else
+        {
+            print("Error creating vImage_Buffer")
+            return
+        }
+        defer {SourceBuffer.free()}
+        let Alpha = [UInt](repeating: 0, count: 256)
+        let Red = [UInt](repeating: 0, count: 256)
+                let Green = [UInt](repeating: 0, count: 256)
+                let Blue = [UInt](repeating: 0, count: 256)
+        let AlphaPtr = UnsafeMutablePointer<vImagePixelCount>(mutating: Alpha) as UnsafeMutablePointer<vImagePixelCount>?
+        let RedPtr = UnsafeMutablePointer<vImagePixelCount>(mutating: Red) as UnsafeMutablePointer<vImagePixelCount>?
+        let GreenPtr = UnsafeMutablePointer<vImagePixelCount>(mutating: Green) as UnsafeMutablePointer<vImagePixelCount>?
+        let BluePtr = UnsafeMutablePointer<vImagePixelCount>(mutating: Blue) as UnsafeMutablePointer<vImagePixelCount>?
+        let ARGB = [AlphaPtr, RedPtr, GreenPtr, BluePtr]
+        let Histogram = UnsafeMutablePointer<UnsafeMutablePointer<vImagePixelCount>?>(mutating: ARGB)
+        let error = vImageHistogramCalculation_ARGB8888(&SourceBuffer, Histogram, UInt32(kvImageNoFlags))
+        if error != kvImageNoError
+        {
+            print("Histogram error: \(error)")
+        }
+        else
+        {
+            let MaxValue = max(max(Int(Red.max()!), Int(Green.max()!)), Int(Blue.max()!))
+            ShowHistogram((Red, Green, Blue), UInt(MaxValue), RemoveFirst)
+        }
+    }
+    
+    /// Draw a channel in a shape layer.
+    /// - Parameter InColor: The color to use to draw the channel.
+    /// - Parameter WithData: The channel data to use to draw the curve.
+    /// - Parameter Bounds: The bounds of the host control.
+    /// - Parameter Frame: The frame of the host control.
+    /// - Parameter MaxValue: The maximum value of all channels. Used for vertical scaling.
+    /// - Returns: A shape layer with the channel drawn on it.
+    func DrawChannel(InColor: NSColor, WithData: [UInt], Bounds: CGRect, Frame: CGRect,
+                     MaxValue: UInt) -> CAShapeLayer
+    {
+        let Count = WithData.count
+        let UnitWidth: CGFloat = Bounds.size.width / CGFloat(Count)
+        let Channel = CAShapeLayer()
+        Channel.bounds = Frame
+        Channel.frame = Bounds
+        Channel.backgroundColor = NSColor.clear.cgColor
+        let Path = NSBezierPath()
+        Path.move(to: CGPoint(x: 0.0, y: 0.0))
+        for Index in 0 ..< Count
+        {
+            let Percent = CGFloat(WithData[Index]) / CGFloat(MaxValue)
+            let YValue = Percent * Bounds.size.height
+            Path.line(to: CGPoint(x: CGFloat(Index) * UnitWidth, y: YValue))
+        }
+        Path.line(to: CGPoint(x: CGFloat(Count) * UnitWidth, y: 0.0))
+        Path.close()
+        Channel.strokeColor = InColor.cgColor
+        let FillColor = InColor.withAlphaComponent(0.5)
+        Channel.fillColor = FillColor.cgColor
+        Channel.path = Path.cgPath
+        return Channel
+    }
+    
+    /// Plot histogram data.
+    /// - Note: The histogram data (generated by `vImageHistogramCalculation_ARGB8888`) seems to return a very
+    ///         large number in the last bucket (`[255]`). There seems to be no reason for such a large value
+    ///         so it is thrown out. The last item is removed before any optional first items are removed.
+    /// - Parameter RawData: Tuple of Red, Green, and Blue values to plot.
+    /// - Parameter MaxValue: The maximum value for all three passed channels. Used for vertical
+    ///                       scaling.
+    /// - Parameter RemoveFirst: The number of initial items to remove, if any.
+    func ShowHistogram(_ RawData: (Red: [UInt], Green: [UInt], Blue: [UInt]), _ MaxValue: UInt,
+                       _ RemoveFirst: Int)
+    {
+        OperationQueue.main.addOperation
+            {
+                self.layer!.sublayers?.forEach
+                    {
+                        if $0.name == "DisplayLayer"
+                        {
+                            $0.removeFromSuperlayer()
+                        }
+                }
+                
+                //Delete the last item as it is usually absurdly large for no known (eg, documented) reason.
+                var FinalRed: [UInt] = RawData.Red.dropLast()
+                var FinalGreen: [UInt] = RawData.Green.dropLast()
+                var FinalBlue: [UInt] = RawData.Blue.dropLast()
+                
+                if RemoveFirst > 0
+                {
+                    FinalRed = [UInt](RawData.Red.dropFirst(RemoveFirst))
+                    FinalGreen = [UInt](RawData.Green.dropFirst(RemoveFirst))
+                    FinalBlue = [UInt](RawData.Blue.dropFirst(RemoveFirst))
+                }
+                
+                let ChannelOrder = HistogramOrders.RGB
+                var RedChannel = CAShapeLayer()
+                var GreenChannel = CAShapeLayer()
+                var BlueChannel = CAShapeLayer()
+                var GrayChannel = CAShapeLayer()
+                
+                if ChannelOrder == .Gray
+                {
+                    var Gray = [UInt]()
+                    var MaxGray: UInt = 0
+                    for Bin in 0 ..< FinalRed.count
+                    {
+                        let MeanChannel: UInt = (FinalRed[Bin] + FinalGreen[Bin] + FinalBlue[Bin]) / 3
+                        if MeanChannel > MaxGray
+                        {
+                            MaxGray = MeanChannel
+                        }
+                        Gray.append(MeanChannel)
+                    }
+                    GrayChannel = self.DrawChannel(InColor: NSColor.gray, WithData: Gray, Bounds: self.bounds,
+                                                   Frame: self.frame, MaxValue: MaxGray)
+                }
+                else
+                {
+                    RedChannel = self.DrawChannel(InColor: NSColor.red, WithData: FinalRed, Bounds: self.bounds,
+                                                  Frame: self.frame, MaxValue: MaxValue)
+                    GreenChannel = self.DrawChannel(InColor: NSColor.green, WithData: FinalGreen, Bounds: self.bounds,
+                                                    Frame: self.frame, MaxValue: MaxValue)
+                    BlueChannel = self.DrawChannel(InColor: NSColor.blue, WithData: FinalBlue, Bounds: self.bounds,
+                                                   Frame: self.frame, MaxValue: MaxValue)
+                }
+                
+                switch ChannelOrder
+                {
+                    case .RGB:
+                        RedChannel.zPosition = 100
+                        GreenChannel.zPosition = 90
+                        BlueChannel.zPosition = 80
+                    
+                    case .RBG:
+                        RedChannel.zPosition = 100
+                        GreenChannel.zPosition = 80
+                        BlueChannel.zPosition = 90
+                    
+                    case .GRB:
+                        RedChannel.zPosition = 90
+                        GreenChannel.zPosition = 100
+                        BlueChannel.zPosition = 80
+                    
+                    case .GBR:
+                        RedChannel.zPosition = 80
+                        GreenChannel.zPosition = 100
+                        BlueChannel.zPosition = 90
+                    
+                    case .BRG:
+                        RedChannel.zPosition = 90
+                        GreenChannel.zPosition = 80
+                        BlueChannel.zPosition = 100
+                    
+                    case .BGR:
+                        RedChannel.zPosition = 80
+                        GreenChannel.zPosition = 90
+                        BlueChannel.zPosition = 100
+                    
+                    default:
+                        break
+                }
+                
+                let FinalLayer = CAShapeLayer()
+                FinalLayer.zPosition = 100
+                FinalLayer.name = "DisplayLayer"
+                FinalLayer.bounds = self.bounds
+                FinalLayer.frame = self.frame
+                if ChannelOrder == .Gray
+                {
+                    GrayChannel.zPosition = 100
+                    FinalLayer.addSublayer(GrayChannel)
+                }
+                else
+                {
+                    FinalLayer.addSublayer(RedChannel)
+                    FinalLayer.addSublayer(GreenChannel)
+                    FinalLayer.addSublayer(BlueChannel)
+                }
+                self.layer!.addSublayer(FinalLayer)
+        }
+    }
+}
+
+/// Orders in which the histogram display can be shown.
+enum HistogramOrders: String, CaseIterable
+{
+    /// Red, green, blue order.
+    case RGB = "RGB"
+    /// Red, blue, green order.
+    case RBG = "RBG"
+    /// Green, red, blue order.
+    case GRB = "GRB"
+    /// Green, blue, red order.
+    case GBR = "GBR"
+    /// Blue, red, green order.
+    case BRG = "BRG"
+    /// Blue, green, red order.
+    case BGR = "BGR"
+    /// Grayscale (showing synthetic brightness).
+    case Gray = "Gray"
+}
+
+//https://stackoverflow.com/questions/1815568/how-can-i-convert-nsbezierpath-to-cgpath
+extension NSBezierPath
+{
+    var cgPath: CGPath
+    {
+        let Path = CGMutablePath()
+        var Points = [CGPoint](repeating: .zero, count: 3)
+        for i in 0 ..< self.elementCount
+        {
+            let Type = self.element(at: i, associatedPoints: &Points)
+            switch Type
+            {
+                case .moveTo:
+                    Path.move(to: Points[0])
+                
+                case .lineTo:
+                    Path.addLine(to: Points[0])
+                
+                case .curveTo:
+                    Path.addCurve(to: Points[2], control1: Points[0], control2: Points[1])
+                
+                case .closePath:
+                    Path.closeSubpath()
+                
+                @unknown default:
+                break
+            }
+        }
+        return Path
+    }
+}
+
+extension CIImage
+{
+    var AsCGImage: CGImage?
+    {
+        let Context = CIContext(options: nil)
+            return Context.createCGImage(self, from: self.extent)
+    }
+}
