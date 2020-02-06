@@ -27,6 +27,10 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         LiveView.layer?.borderColor = NSColor.systemYellow.cgColor
         LiveView.layer?.cornerRadius = 5.0
         LiveView.layer?.backgroundColor = NSColor.black.cgColor
+        LiveView.isHidden = false
+        
+        ProcessedImage.wantsLayer = true
+        ProcessedImage.isHidden = true
         
         BottomBar.wantsLayer = true
         BottomBar.layer?.backgroundColor = NSColor.systemYellow.cgColor
@@ -42,8 +46,11 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         
         FileIO.Initialize()
         FileIO.ClearFramesDirectory()
+        
+        ModeSelector.removeAllItems()
+        ModeSelector.addItems(withTitles: ["Live View", "Still Image", "Videos"])
+        
         Started = true
-        ShapeSelector.selectedSegment = 0
         OpenProcessedWindow()
         StatTable.reloadData()
     }
@@ -191,6 +198,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         DispatchQueue.main.async
             {
                 self.VideoPreviewLayer.frame = self.LiveView.bounds
+                self.ProcessedImage.frame = self.LiveView.bounds
         }
     }
     
@@ -242,51 +250,34 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
                 if let Buffer: CVPixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer)
                 {
                     let CIImg: CIImage = CIImage(cvPixelBuffer: Buffer)
-                    if let Reduction = CIFilter(name: "CIPixellate")
+                    LiveHistogram.DisplayHistogram(For: CIImg)
+                    
+                    let Start = CACurrentMediaTime()
+                    AddStat(ForItem: .CurrentFrame, NewValue: "\(FrameCount)")
+                    ProcessSink?.NewImage(CIImg, FrameCount)
+                    let TotalEnd = CACurrentMediaTime() - Start
+                    Durations.append(TotalEnd)
+                    if let RollingMean = RollingDurationMean()
                     {
-                        let Start = CACurrentMediaTime()
-                        AddStat(ForItem: .CurrentFrame, NewValue: "\(FrameCount)")
-                        Reduction.setDefaults()
-                        Reduction.setValue(CIImg, forKey: kCIInputImageKey)
-                        Reduction.setValue(16, forKey: kCIInputScaleKey)
-                        if let Reduced: CIImage = (Reduction.value(forKey: kCIOutputImageKey) as? CIImage)
-                        {
-                            let Rep = NSCIImageRep(ciImage: Reduced)
-                            let Pixellated: NSImage = NSImage(size: Rep.size)
-                            Pixellated.addRepresentation(Rep)
-                            let NSRep = NSCIImageRep(ciImage: CIImg)
-                            let Source = NSImage(size: NSRep.size)
-                            Source.addRepresentation(NSRep)
-                            ProcessSink?.NewImage(Source, Pixellated, ShapeIndex, FrameCount)
-                            let TotalEnd = CACurrentMediaTime() - Start
-                            Durations.append(TotalEnd)
-                            if let RollingMean = RollingDurationMean()
-                            {
-                                AddStat(ForItem: .RollingMeanFrameDuration,
-                                        NewValue: RoundedString(RollingMean))
-                                let Delta = RollingMean - TotalEnd
-                                AddStat(ForItem: .FrameDurationDelta, NewValue: RoundedString(Delta))
-                            }
-                            AddStat(ForItem: .LastFrameDuration,
-                                    NewValue: RoundedString(TotalEnd))
-                            
-                            if DroppedFrames < ProcessSink!.DroppedFrameCount
-                            {
-                                DroppedFrames = ProcessSink!.DroppedFrameCount
-                                AddStat(ForItem: .DroppedFrames, NewValue: "\(DroppedFrames)")
-                            }
-                            RenderedFrames = RenderedFrames + 1
-                            RenderedDuration = RenderedDuration + TotalEnd
-                            AddStat(ForItem: .RenderDuration, NewValue: "\(Int(RenderedDuration)) s")
-                            AddStat(ForItem: .RenderedFrames, NewValue: "\(RenderedFrames)")
-                            let cFPS = RenderedDuration / Double(RenderedFrames)
-                            AddStat(ForItem: .CalculatedFramesPerSecond, NewValue: RoundedString(cFPS))
-                        }
-                        else
-                        {
-                            print("No image returned from CIPixellate")
-                        }
+                        AddStat(ForItem: .RollingMeanFrameDuration,
+                                NewValue: RoundedString(RollingMean))
+                        let Delta = RollingMean - TotalEnd
+                        AddStat(ForItem: .FrameDurationDelta, NewValue: RoundedString(Delta))
                     }
+                    AddStat(ForItem: .LastFrameDuration,
+                            NewValue: RoundedString(TotalEnd))
+                    
+                    if DroppedFrames < ProcessSink!.DroppedFrameCount
+                    {
+                        DroppedFrames = ProcessSink!.DroppedFrameCount
+                        AddStat(ForItem: .DroppedFrames, NewValue: "\(DroppedFrames)")
+                    }
+                    RenderedFrames = RenderedFrames + 1
+                    RenderedDuration = RenderedDuration + TotalEnd
+                    AddStat(ForItem: .RenderDuration, NewValue: "\(Int(RenderedDuration)) s")
+                    AddStat(ForItem: .RenderedFrames, NewValue: "\(RenderedFrames)")
+                    let cFPS = RenderedDuration / Double(RenderedFrames)
+                    AddStat(ForItem: .CalculatedFramesPerSecond, NewValue: RoundedString(cFPS))
                 }
         }
     }
@@ -355,47 +346,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
     
     var ProcessedWindow: ProcessedViewWindowController? = nil
     
-    /// Handle changes to the shape selector.
-    /// - Sender: The NSSegmentedControl that changed.
-    @IBAction func HandleShapeSelectorChanged(_ sender: Any)
-    {
-        if let Segment = sender as? NSSegmentedControl
-        {
-            let Index = Segment.selectedSegment
-            ShapeIndex = Index
-        }
-    }
-    
     var ShapeIndex: Int = 0
-    
-    /// Handle the record button pressed. Update the UI. Save frames or combine saved frames into
-    /// a video, depending on the state of recording.
-    /// - Parameter sender: Not used.
-    @IBAction func HandleRecordButtonPressed(_ sender: Any)
-    {
-        if Recording
-        {
-            Recording = false
-        }
-        else
-        {
-            Recording = true
-        }
-        if Recording
-        {
-            RecordButton.image = NSImage(named: "BigRedCircle")
-            ProcessSink?.SaveFrames = true
-            AddStat(ForItem: .Recording, NewValue: "Yes")
-        }
-        else
-        {
-            RecordButton.image = NSImage(named: "BigCircle")
-            ProcessSink?.SaveFrames = false
-            AddStat(ForItem: .Recording, NewValue: "No")
-        }
-    }
-    
-    var Recording = false
     
     /// Table of statistics and labels to show in the stat table.
     var CurrentStats: [StatRowContainer] =
@@ -410,15 +361,31 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
             StatRowContainer(.RollingMeanFrameDuration, "Rolling Mean", "not yet"),
             StatRowContainer(.FrameDurationDelta, "Delta Duration", "not yet"),
             StatRowContainer(.ThrottleValue, "Throttle", ""),
-            StatRowContainer(.Recording, "Recording", "No"),
     ]
+
+    @IBAction func HandleModeSelectorChanged(_ sender: Any)
+    {
+        if let Selector = sender as? NSPopUpButton
+        {
+            let Index = Selector.indexOfSelectedItem
+            print("Selected \((Selector.titleOfSelectedItem)!)")
+        }
+    }
     
+    @IBOutlet weak var ModeSelector: NSPopUpButton!
+    @IBOutlet weak var ProcessedImage: SCNView!
+    @IBOutlet weak var LiveHistogram: HistogramDisplay!
     @IBOutlet weak var StatTable: NSTableView!
-    @IBOutlet weak var RecordButton: NSButton!
-    @IBOutlet weak var ShapeSelector: NSSegmentedControl!
     @IBOutlet weak var CameraButton: NSButton!
     @IBOutlet weak var LiveView: LiveViewer!
     @IBOutlet weak var BottomBar: NSView!
+}
+
+enum ProgramModes: String, CaseIterable
+{
+    case Video = "Video"
+    case Snapshot = "Snapshot"
+    case StillImage = "StillImage"
 }
 
 enum StatRows: Int, CaseIterable
@@ -429,7 +396,6 @@ enum StatRows: Int, CaseIterable
     case LastFrameDuration = 3
     case RollingMeanFrameDuration = 4
     case FrameDurationDelta = 5
-    case Recording = 6
     case DroppedFrames = 7
     case RenderedFrames = 8
     case RenderDuration = 9
