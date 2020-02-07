@@ -10,8 +10,20 @@
 		1717201123EBD23100636F3C /* Pixellator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1717201023EBD23100636F3C /* Pixellator.swift */; };
 		1717201323EBDF1600636F3C /* BlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1717201223EBDF1600636F3C /* BlockView.swift */; };
 		1717201623EBE2D900636F3C /* Processor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1717201523EBE2D900636F3C /* Processor.swift */; };
+		172C06E223ED2F9000313C3E /* OvalOptionsCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172C06E123ED2F9000313C3E /* OvalOptionsCode.swift */; };
+		172C06E423ED2FE200313C3E /* DiamondOptionsCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172C06E323ED2FE200313C3E /* DiamondOptionsCode.swift */; };
+		172C06E623ED300D00313C3E /* StarOptionsCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172C06E523ED300D00313C3E /* StarOptionsCode.swift */; };
+		172C06E823ED303E00313C3E /* ConeOptionsCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172C06E723ED303E00313C3E /* ConeOptionsCode.swift */; };
+		172C06EA23ED307000313C3E /* RadiatingLinesOptionsCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172C06E923ED307000313C3E /* RadiatingLinesOptionsCode.swift */; };
+		172C06EC23ED309800313C3E /* CharacterSetOptionsCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172C06EB23ED309800313C3E /* CharacterSetOptionsCode.swift */; };
+		172C06EE23ED30ED00313C3E /* CappedLinesOptionsCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172C06ED23ED30ED00313C3E /* CappedLinesOptionsCode.swift */; };
+		172C06F023ED318000313C3E /* StackedShapesOptionsCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172C06EF23ED318000313C3E /* StackedShapesOptionsCode.swift */; };
+		172C06F223ED31DC00313C3E /* OptionsDialogs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172C06F123ED31DC00313C3E /* OptionsDialogs.swift */; };
 		173842CA23E7AE0C00792C9E /* ProcessedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173842C923E7AE0C00792C9E /* ProcessedViewController.swift */; };
 		173842CE23E7B20500792C9E /* ProcessedViewWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173842CD23E7B20500792C9E /* ProcessedViewWindowController.swift */; };
+		173C245423ED28CB00270760 /* NoOptionsCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173C245323ED28CB00270760 /* NoOptionsCode.swift */; };
+		173C245A23ED29DC00270760 /* OptionsProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173C245923ED29DC00270760 /* OptionsProtocol.swift */; };
+		173C245C23ED2CBC00270760 /* BlockOptionsCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173C245B23ED2CBC00270760 /* BlockOptionsCode.swift */; };
 		1740A3C723EBE5E500E29C75 /* ProcessingAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1740A3C623EBE5E500E29C75 /* ProcessingAttributes.swift */; };
 		1740A3C923EBEB6400E29C75 /* OptionalParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1740A3C823EBEB6400E29C75 /* OptionalParameters.swift */; };
 		1740A3CC23EBEBD400E29C75 /* BlockOptionalParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1740A3CB23EBEBD400E29C75 /* BlockOptionalParameters.swift */; };
@@ -24,6 +36,8 @@
 		1740A3DA23EBF96600E29C75 /* StackedShapesOptionalParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1740A3D923EBF96600E29C75 /* StackedShapesOptionalParameters.swift */; };
 		1740A3DC23EBFA4000E29C75 /* RadiatingLinesOptionalParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1740A3DB23EBFA4000E29C75 /* RadiatingLinesOptionalParameters.swift */; };
 		1740A3DE23EBFB7500E29C75 /* HSBVaryingOptionalParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1740A3DD23EBFB7500E29C75 /* HSBVaryingOptionalParameters.swift */; };
+		1740A3E123EC018100E29C75 /* ShapeOptionsCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1740A3E023EC018100E29C75 /* ShapeOptionsCode.swift */; };
+		1740A3E323EC01AA00E29C75 /* ShapeOptionsWindowCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1740A3E223EC01AA00E29C75 /* ShapeOptionsWindowCode.swift */; };
 		176E565323EBB50E0001215A /* HistogramDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176E565223EBB50E0001215A /* HistogramDisplay.swift */; };
 		178828A823E90E310041C2D1 /* PSCNNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178828A723E90E310041C2D1 /* PSCNNode.swift */; };
 		17897B8323E6A77300AFDA6A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17897B8223E6A77300AFDA6A /* AppDelegate.swift */; };
@@ -43,8 +57,20 @@
 		1717201023EBD23100636F3C /* Pixellator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pixellator.swift; sourceTree = "<group>"; };
 		1717201223EBDF1600636F3C /* BlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockView.swift; sourceTree = "<group>"; };
 		1717201523EBE2D900636F3C /* Processor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Processor.swift; sourceTree = "<group>"; };
+		172C06E123ED2F9000313C3E /* OvalOptionsCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OvalOptionsCode.swift; sourceTree = "<group>"; };
+		172C06E323ED2FE200313C3E /* DiamondOptionsCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiamondOptionsCode.swift; sourceTree = "<group>"; };
+		172C06E523ED300D00313C3E /* StarOptionsCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarOptionsCode.swift; sourceTree = "<group>"; };
+		172C06E723ED303E00313C3E /* ConeOptionsCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConeOptionsCode.swift; sourceTree = "<group>"; };
+		172C06E923ED307000313C3E /* RadiatingLinesOptionsCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadiatingLinesOptionsCode.swift; sourceTree = "<group>"; };
+		172C06EB23ED309800313C3E /* CharacterSetOptionsCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterSetOptionsCode.swift; sourceTree = "<group>"; };
+		172C06ED23ED30ED00313C3E /* CappedLinesOptionsCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CappedLinesOptionsCode.swift; sourceTree = "<group>"; };
+		172C06EF23ED318000313C3E /* StackedShapesOptionsCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackedShapesOptionsCode.swift; sourceTree = "<group>"; };
+		172C06F123ED31DC00313C3E /* OptionsDialogs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsDialogs.swift; sourceTree = "<group>"; };
 		173842C923E7AE0C00792C9E /* ProcessedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessedViewController.swift; sourceTree = "<group>"; };
 		173842CD23E7B20500792C9E /* ProcessedViewWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessedViewWindowController.swift; sourceTree = "<group>"; };
+		173C245323ED28CB00270760 /* NoOptionsCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoOptionsCode.swift; sourceTree = "<group>"; };
+		173C245923ED29DC00270760 /* OptionsProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsProtocol.swift; sourceTree = "<group>"; };
+		173C245B23ED2CBC00270760 /* BlockOptionsCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockOptionsCode.swift; sourceTree = "<group>"; };
 		1740A3C623EBE5E500E29C75 /* ProcessingAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessingAttributes.swift; sourceTree = "<group>"; };
 		1740A3C823EBEB6400E29C75 /* OptionalParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionalParameters.swift; sourceTree = "<group>"; };
 		1740A3CB23EBEBD400E29C75 /* BlockOptionalParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockOptionalParameters.swift; sourceTree = "<group>"; };
@@ -57,6 +83,8 @@
 		1740A3D923EBF96600E29C75 /* StackedShapesOptionalParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackedShapesOptionalParameters.swift; sourceTree = "<group>"; };
 		1740A3DB23EBFA4000E29C75 /* RadiatingLinesOptionalParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadiatingLinesOptionalParameters.swift; sourceTree = "<group>"; };
 		1740A3DD23EBFB7500E29C75 /* HSBVaryingOptionalParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HSBVaryingOptionalParameters.swift; sourceTree = "<group>"; };
+		1740A3E023EC018100E29C75 /* ShapeOptionsCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeOptionsCode.swift; sourceTree = "<group>"; };
+		1740A3E223EC01AA00E29C75 /* ShapeOptionsWindowCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeOptionsWindowCode.swift; sourceTree = "<group>"; };
 		176E565223EBB50E0001215A /* HistogramDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistogramDisplay.swift; sourceTree = "<group>"; };
 		178828A723E90E310041C2D1 /* PSCNNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PSCNNode.swift; sourceTree = "<group>"; };
 		17897B7F23E6A77300AFDA6A /* DeskBlockCam.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DeskBlockCam.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -97,6 +125,24 @@
 			path = BlockView;
 			sourceTree = "<group>";
 		};
+		173C245223ED28AD00270760 /* ShapeDialogs */ = {
+			isa = PBXGroup;
+			children = (
+				173C245923ED29DC00270760 /* OptionsProtocol.swift */,
+				173C245323ED28CB00270760 /* NoOptionsCode.swift */,
+				173C245B23ED2CBC00270760 /* BlockOptionsCode.swift */,
+				172C06E123ED2F9000313C3E /* OvalOptionsCode.swift */,
+				172C06E323ED2FE200313C3E /* DiamondOptionsCode.swift */,
+				172C06E523ED300D00313C3E /* StarOptionsCode.swift */,
+				172C06E723ED303E00313C3E /* ConeOptionsCode.swift */,
+				172C06E923ED307000313C3E /* RadiatingLinesOptionsCode.swift */,
+				172C06EB23ED309800313C3E /* CharacterSetOptionsCode.swift */,
+				172C06ED23ED30ED00313C3E /* CappedLinesOptionsCode.swift */,
+				172C06EF23ED318000313C3E /* StackedShapesOptionsCode.swift */,
+			);
+			path = ShapeDialogs;
+			sourceTree = "<group>";
+		};
 		1740A3CA23EBEBB300E29C75 /* OptionalParameters */ = {
 			isa = PBXGroup;
 			children = (
@@ -113,6 +159,17 @@
 				1740A3DD23EBFB7500E29C75 /* HSBVaryingOptionalParameters.swift */,
 			);
 			path = OptionalParameters;
+			sourceTree = "<group>";
+		};
+		1740A3DF23EC016C00E29C75 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				173C245223ED28AD00270760 /* ShapeDialogs */,
+				1740A3E023EC018100E29C75 /* ShapeOptionsCode.swift */,
+				172C06F123ED31DC00313C3E /* OptionsDialogs.swift */,
+				1740A3E223EC01AA00E29C75 /* ShapeOptionsWindowCode.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		17897B7623E6A77300AFDA6A = {
@@ -136,6 +193,7 @@
 			children = (
 				1717201423EBE2C600636F3C /* BlockView */,
 				17A446F323E7F3E800D3C571 /* Metal */,
+				1740A3DF23EC016C00E29C75 /* Settings */,
 				17897B8623E6A77500AFDA6A /* Assets.xcassets */,
 				17897B8223E6A77300AFDA6A /* AppDelegate.swift */,
 				17897B8423E6A77300AFDA6A /* ViewController.swift */,
@@ -236,16 +294,23 @@
 			buildActionMask = 2147483647;
 			files = (
 				176E565323EBB50E0001215A /* HistogramDisplay.swift in Sources */,
+				172C06E623ED300D00313C3E /* StarOptionsCode.swift in Sources */,
+				172C06F223ED31DC00313C3E /* OptionsDialogs.swift in Sources */,
 				1717201323EBDF1600636F3C /* BlockView.swift in Sources */,
+				172C06EC23ED309800313C3E /* CharacterSetOptionsCode.swift in Sources */,
 				1740A3DC23EBFA4000E29C75 /* RadiatingLinesOptionalParameters.swift in Sources */,
 				17FBB20323EA924400333934 /* +StatTable.swift in Sources */,
+				172C06EE23ED30ED00313C3E /* CappedLinesOptionsCode.swift in Sources */,
 				1740A3DE23EBFB7500E29C75 /* HSBVaryingOptionalParameters.swift in Sources */,
 				17EB900023E9639D00A4C09A /* ImageDelta.swift in Sources */,
+				172C06F023ED318000313C3E /* StackedShapesOptionsCode.swift in Sources */,
 				1717201123EBD23100636F3C /* Pixellator.swift in Sources */,
 				17897B8523E6A77300AFDA6A /* ViewController.swift in Sources */,
 				1740A3D623EBF73000E29C75 /* ConeOptionalParameters.swift in Sources */,
+				173C245A23ED29DC00270760 /* OptionsProtocol.swift in Sources */,
 				1740A3D023EBED8500E29C75 /* CharactersOptionalParameters.swift in Sources */,
 				17EB900223E9829E00A4C09A /* FileIO.swift in Sources */,
+				173C245C23ED2CBC00270760 /* BlockOptionsCode.swift in Sources */,
 				1740A3C723EBE5E500E29C75 /* ProcessingAttributes.swift in Sources */,
 				173842CA23E7AE0C00792C9E /* ProcessedViewController.swift in Sources */,
 				17897B9323E6C74000AFDA6A /* LiveViewer.swift in Sources */,
@@ -253,14 +318,21 @@
 				1740A3D223EBEE6800E29C75 /* EllipseOptionalParameters.swift in Sources */,
 				1717201623EBE2D900636F3C /* Processor.swift in Sources */,
 				1740A3CE23EBEC5300E29C75 /* CappedLineOptionalParameters.swift in Sources */,
+				172C06EA23ED307000313C3E /* RadiatingLinesOptionsCode.swift in Sources */,
+				173C245423ED28CB00270760 /* NoOptionsCode.swift in Sources */,
 				173842CE23E7B20500792C9E /* ProcessedViewWindowController.swift in Sources */,
+				172C06E423ED2FE200313C3E /* DiamondOptionsCode.swift in Sources */,
 				17A446F523E7F40100D3C571 /* ImageReduction.metal in Sources */,
 				1740A3D423EBEF5C00E29C75 /* DiamondOptionalParameters.swift in Sources */,
+				172C06E823ED303E00313C3E /* ConeOptionsCode.swift in Sources */,
+				1740A3E323EC01AA00E29C75 /* ShapeOptionsWindowCode.swift in Sources */,
 				17897B8323E6A77300AFDA6A /* AppDelegate.swift in Sources */,
 				17EB8FFE23E961C600A4C09A /* ImageDelta.metal in Sources */,
 				178828A823E90E310041C2D1 /* PSCNNode.swift in Sources */,
 				1740A3CC23EBEBD400E29C75 /* BlockOptionalParameters.swift in Sources */,
+				1740A3E123EC018100E29C75 /* ShapeOptionsCode.swift in Sources */,
 				1740A3DA23EBF96600E29C75 /* StackedShapesOptionalParameters.swift in Sources */,
+				172C06E223ED2F9000313C3E /* OvalOptionsCode.swift in Sources */,
 				1740A3C923EBEB6400E29C75 /* OptionalParameters.swift in Sources */,
 				1740A3D823EBF8A900E29C75 /* StarOptionalParameters.swift in Sources */,
 			);
