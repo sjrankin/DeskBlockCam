@@ -29,6 +29,7 @@ extension ShapeOptionsCode
             case .BrightnessVarying:
                 FinalShape = Shapes.StackedShapes
                 (OptionMap[Shapes.StackedShapes]!.Controller as? StackedShapesOptionCode)?.SetAttributes(CurrentAttributes)
+                (OptionMap[Shapes.StackedShapes]!.Controller as? StackedShapesOptionCode)?.SetCaption("Sets the shape based on the brightness of the location of the shape. Shapes are distributed equally in the brightness range.")
             
             case .CappedLines:
                 FinalShape = Shapes.CappedLines
@@ -64,6 +65,7 @@ extension ShapeOptionsCode
             case .HueVarying:
                 FinalShape = Shapes.StackedShapes
                 (OptionMap[Shapes.StackedShapes]!.Controller as? StackedShapesOptionCode)?.SetAttributes(CurrentAttributes)
+                (OptionMap[Shapes.StackedShapes]!.Controller as? StackedShapesOptionCode)?.SetCaption("Sets the shape based on the hue of the location of the shape. Shapes are distributed equally in the hue range.")
             
             case .Octagons:
                 (OptionMap[Shapes.NoShape]!.Controller as? NoOptionsCode)?.SetCaption("Extruded 3D octagons. No options available.")
@@ -100,6 +102,7 @@ extension ShapeOptionsCode
             case .SaturationVarying:
                 FinalShape = Shapes.StackedShapes
                 (OptionMap[Shapes.StackedShapes]!.Controller as? StackedShapesOptionCode)?.SetAttributes(CurrentAttributes)
+                (OptionMap[Shapes.StackedShapes]!.Controller as? StackedShapesOptionCode)?.SetCaption("Sets the shape based on the saturation of the location of the shape. Shapes are distributed equally in the saturation range.")
             
             case .Spheres:
                 (OptionMap[Shapes.NoShape]!.Controller as? NoOptionsCode)?.SetCaption("Spheres that vary size according to the pixellated color. No options available.")
@@ -110,6 +113,7 @@ extension ShapeOptionsCode
             case .StackedShapes:
                 FinalShape = Shapes.StackedShapes
                 (OptionMap[Shapes.StackedShapes]!.Controller as? StackedShapesOptionCode)?.SetAttributes(CurrentAttributes)
+                (OptionMap[Shapes.StackedShapes]!.Controller as? StackedShapesOptionCode)?.SetCaption("Creates a stack of shapes you specify. If not enough shapes, they are recycled in order.")
             
             case .Stars:
                 FinalShape = Shapes.Stars
