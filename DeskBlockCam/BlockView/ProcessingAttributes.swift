@@ -223,6 +223,9 @@ enum Shapes: String, CaseIterable
     case HueTriangles = "Hue Triangles"
     case Characters = "Characters"
     case RadiatingLines = "Radiating Lines"
+    
+    //Special case for no shape.
+    case NoShape = "NoShape"
 }
 
 enum HeightDeterminates: String, CaseIterable
