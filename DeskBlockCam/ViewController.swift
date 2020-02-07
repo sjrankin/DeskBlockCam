@@ -51,6 +51,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         ModeSelector.addItems(withTitles: ["Live View", "Still Image", "Videos"])
         
         Started = true
+        OpenOptionsWindow()
         OpenProcessedWindow()
         StatTable.reloadData()
     }
@@ -68,6 +69,20 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
             ProcessedWindow = WindowController
         }
     }
+    
+    func OpenOptionsWindow()
+    {
+        let Storyboard = NSStoryboard(name: "Main", bundle: nil)
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "ShapeOptionWindowUI") as? ShapeOptionsWindowCode
+        {
+            WindowController.showWindow(nil)
+            SettingsWindow = WindowController
+            SettingsControl = WindowController.contentViewController as? ShapeOptionsCode
+        }
+    }
+    
+    var SettingsControl: ShapeOptionsCode? = nil
+    var SettingsWindow: ShapeOptionsWindowCode? = nil
     
     /// Get camera access from the user.
     func GetCameraAccess()
@@ -267,10 +282,13 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
                     AddStat(ForItem: .LastFrameDuration,
                             NewValue: RoundedString(TotalEnd))
                     
+                    if ProcessSink != nil
+                    {
                     if DroppedFrames < ProcessSink!.DroppedFrameCount
                     {
                         DroppedFrames = ProcessSink!.DroppedFrameCount
                         AddStat(ForItem: .DroppedFrames, NewValue: "\(DroppedFrames)")
+                    }
                     }
                     RenderedFrames = RenderedFrames + 1
                     RenderedDuration = RenderedDuration + TotalEnd
@@ -340,6 +358,10 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         if let Processed = ProcessedWindow
         {
             Processed.CloseWindow()
+        }
+        if let Settings = SettingsWindow
+        {
+            Settings.CloseWindow()
         }
         FileIO.ClearFramesDirectory()
     }
