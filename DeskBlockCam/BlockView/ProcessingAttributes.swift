@@ -9,9 +9,12 @@
 import Foundation
 import AppKit
 
+/// Contains all data needed to create and display processed images.
 class ProcessingAttributes
 {
+    /// Holds the shape of each 3D node.
     private var _Shape: Shapes = .Blocks
+    /// Get or set the shape of each 3D node. Note the type of shape may be variable.
     public var Shape: Shapes
     {
         get
@@ -24,7 +27,9 @@ class ProcessingAttributes
         }
     }
     
+    /// Holds the vertical exaggeration of the extrusion/size.
     private var _VerticalExaggeration: CGFloat = 1.0
+    /// Get or set the vertical exaggeration of each shape.
     public var VerticalExaggeration: CGFloat
     {
         get
@@ -37,7 +42,9 @@ class ProcessingAttributes
         }
     }
     
+    /// Holds the invert height flag.
     private var _InvertHeight: Bool = false
+    /// Get or set the invert height of shape flag.
     public var InvertHeight: Bool
     {
         get
@@ -50,7 +57,10 @@ class ProcessingAttributes
         }
     }
     
+    /// Holds the length of one side of a 3D shape.
     private var _Side: CGFloat = 0.5
+    /// Get or set the length of a side of the shape. This is the physical size for the
+    /// shape when rendered.
     public var Side: CGFloat
     {
         get
@@ -63,7 +73,9 @@ class ProcessingAttributes
         }
     }
     
+    /// Holds the number of horizontal blocks for a given image.
     private var _HorizontalBlocks: Int = 0
+    /// Get or set the number of horizontal blocks for the current image.
     public var HorizontalBlocks: Int
     {
         get
@@ -76,7 +88,9 @@ class ProcessingAttributes
         }
     }
     
+    /// Holds the number of vertical blocks for a given image.
     private var _VerticalBlocks: Int = 0
+    /// Get or set the number of vertical blocks for the current image.
     public var VerticalBlocks: Int
     {
         get
@@ -89,7 +103,9 @@ class ProcessingAttributes
         }
     }
     
+    /// Holds the generated colors for a given image.
     private var _Colors: [[NSColor]] = [[NSColor]]()
+    /// Get or set the pixellated colors for the current image.
     public var Colors: [[NSColor]]
     {
         get
@@ -102,7 +118,9 @@ class ProcessingAttributes
         }
     }
     
+    /// Holds the method used to determine height of the shape.
     private var _HeightDeterminate: HeightDeterminates = .Brightness
+    /// Get or set the method used to determine the height of the shape.
     public var HeightDeterminate: HeightDeterminates
     {
         get
@@ -115,7 +133,10 @@ class ProcessingAttributes
         }
     }
     
+    /// Holds optional shape parameters.
     private var _ShapeOptions: OptionalParameters? = nil
+    /// Get or set the shape's optional parameters. If this is nil, there are not optional
+    /// parameters.
     public var ShapeOptions: OptionalParameters?
     {
         get
@@ -128,7 +149,9 @@ class ProcessingAttributes
         }
     }
     
+    /// Holds the conditional color determination method.
     private var _ConditionalColor: ConditionalColorTypes = .None
+    /// Get or set the conditional color determination.
     public var ConditionalColor: ConditionalColorTypes
     {
         get
@@ -141,7 +164,9 @@ class ProcessingAttributes
         }
     }
     
+    /// Holds the conditional color action.
     private var _ConditionalColorAction: ConditionalColorActions = .Grayscale
+    /// Get or set the conditional color action.
     public var ConditionalColorAction: ConditionalColorActions
     {
         get
@@ -154,7 +179,9 @@ class ProcessingAttributes
         }
     }
     
+    /// Holds the conditional color threshold.
     private var _ConditionalColorThreshold: ConditionalColorThresholds = .Less50
+    /// Get or set the conditional color threshold
     public var ConditionalColorThreshold: ConditionalColorThresholds
     {
         get
@@ -167,7 +194,9 @@ class ProcessingAttributes
         }
     }
     
+    /// Holds the invert conditional color threshold flag.
     private var _InvertConditionalColorThreshold: Bool = false
+    /// Get or set the invert conditional color threshold flag.
     public var InvertConditionalColorThreshold: Bool
     {
         get
@@ -179,8 +208,129 @@ class ProcessingAttributes
             _InvertConditionalColorThreshold = newValue
         }
     }
+    
+    /// Holds the background style.
+    private var _Background: Backgrounds = .Color
+    /// Get or set the type of background to use.
+    public var Background: Backgrounds
+    {
+        get
+        {
+            return _Background
+        }
+        set
+        {
+            _Background = newValue
+        }
+    }
+    
+    /// Holds the color of the background.
+    private var _BackgroundColor: NSColor = NSColor.black
+    /// Get or set the background color.
+    public var BackgroundColor: NSColor
+    {
+        get
+        {
+            return _BackgroundColor
+        }
+        set
+        {
+            _BackgroundColor = newValue
+        }
+    }
+    
+    /// Holds the array of color for the background gradient.
+    private var _BackgroundGradientColors: [NSColor] = [NSColor.white, NSColor.black]
+    /// Get or set the array of background gradient colors.
+    public var BackgroundGradientColors: [NSColor]
+    {
+        get
+        {
+            return _BackgroundGradientColors
+        }
+        set
+        {
+            _BackgroundGradientColors = newValue
+        }
+    }
+    
+    /// Holds the size of the pixellated region.
+    private var _PixelSize: Int = 16
+    /// Get or set the pixellated region size. Each pixellated region is square.
+    public var PixelSize: Int
+    {
+        get
+        {
+            return _PixelSize
+        }
+        set
+        {
+            _PixelSize = newValue
+        }
+    }
+    
+    /// Holds the color of the light.
+    private var _LightColor: NSColor = NSColor.white
+    /// Get or set the color of the light.
+    public var LightColor: NSColor
+    {
+        get
+        {
+            return _LightColor
+        }
+        set
+        {
+            _LightColor = newValue
+        }
+    }
+    
+    /// Holds the type of light for the scene.
+    private var _LightType: LightingTypes = .Omni
+    /// Get or set the light type for the scene.
+    public var LightType: LightingTypes
+    {
+        get
+        {
+            return _LightType
+        }
+        set
+        {
+            _LightType = newValue
+        }
+    }
+    
+    /// Holds the relative intensity of the light.
+    private var _LightIntensity: LightIntensities = .Normal
+    /// Get or set the relative intensity of the light.
+    public var LightIntensity: LightIntensities
+    {
+        get
+        {
+            return _LightIntensity
+        }
+        set
+        {
+            _LightIntensity = newValue
+        }
+    }
+    
+    /// Holds the lighting model.
+    private var _LightModel: LightModels = .Phong
+    /// Get or set the lighting model.
+    public var LightMode: LightModels
+    {
+        get
+        {
+            return _LightModel
+        }
+        set
+        {
+            _LightModel = newValue
+        }
+    }
 }
 
+/// Shapes the program supports.
 enum Shapes: String, CaseIterable
 {
     //Built-in 3D shapes.
@@ -228,6 +378,15 @@ enum Shapes: String, CaseIterable
     case NoShape = "NoShape"
 }
 
+/// Processed image background types.
+enum Backgrounds: String, CaseIterable
+{
+    case Color = "Color"
+    case Gradient = "Gradient"
+    case Image = "Image"
+}
+
+/// Determination of height extrusion or shape size.
 enum HeightDeterminates: String, CaseIterable
 {
     case Hue = "Hue"
@@ -245,6 +404,7 @@ enum HeightDeterminates: String, CaseIterable
     case YUV_V = "YUV V"
 }
 
+/// Types of conditional colors.
 enum ConditionalColorTypes: String, CaseIterable
 {
     case None = "None"
@@ -253,6 +413,7 @@ enum ConditionalColorTypes: String, CaseIterable
     case Brightness = "Brightness"
 }
 
+/// Actions for conditional colors.
 enum ConditionalColorActions: String, CaseIterable
 {
     case Grayscale = "Grayscale"
@@ -260,6 +421,7 @@ enum ConditionalColorActions: String, CaseIterable
     case DecreaseSaturation = "Decrease Saturation"
 }
 
+/// Action thresholds for conditional colors.
 enum ConditionalColorThresholds: String, CaseIterable
 {
     case Less10 = "10%"
@@ -267,4 +429,33 @@ enum ConditionalColorThresholds: String, CaseIterable
     case Less50 = "50%"
     case Less75 = "75%"
     case Less90 = "90%"
+}
+
+/// Types of lights.
+enum LightingTypes: String, CaseIterable
+{
+    case Omni = "Omni"
+    case Spot = "Spot"
+    case Directional = "Directional"
+    case Ambient = "Ambient"
+}
+
+/// Light intensities.
+enum LightIntensities: String, CaseIterable
+{
+    case Darkest = "Darkest"
+    case Dim = "Dim"
+    case Normal = "Normal"
+    case Bright = "Bright"
+    case Brightest = "Brightest"
+}
+
+/// Lighting material models.
+enum LightModels: String, CaseIterable
+{
+    case Blinn = "Blinn"
+    case Constant = "Constant"
+    case Lambert = "Lambert"
+    case Phong = "Phong"
+    case Physical = "Physical"
 }
