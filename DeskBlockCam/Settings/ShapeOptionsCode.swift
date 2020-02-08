@@ -8,9 +8,11 @@
 
 import Foundation
 import AppKit
+import SceneKit
 
 class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
     NSOutlineViewDataSource, NSOutlineViewDelegate,
+    NSCollectionViewDelegate, NSCollectionViewDataSource,
     ToOptionsParentProtocol
 {
     private let ShapeTableTag = 100
@@ -22,6 +24,9 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
         super.viewDidLoad()
         InitializeShapes()
         ShapeOutlineView.reloadData()
+        InitializeColorSwatches()
+        InitializeGradientSwatches()
+        InitializeLighting() 
     }
     
     func SetAttributes(_ Attributes: ProcessingAttributes)
@@ -47,7 +52,7 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
     }
     
     var AllShapes: [ShapeTreeNode]!
-
+    
     
     // MARK: - Outline view functions.
     
@@ -70,7 +75,7 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
                                                      Shapes.BrightnessVarying.rawValue]),
             ShapeCategory(Name: "Complex", Shapes: [Shapes.HueTriangles.rawValue, Shapes.Characters.rawValue, Shapes.RadiatingLines.rawValue])
     ]
-
+    
     func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: Any?) -> Any
     {
         switch outlineView.tag
@@ -83,12 +88,12 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
                 return AllShapes![index]
             
             case CurrentSettingsTag:
-            return 0
+                return 0
             
             default:
-            return 0
+                return 0
         }
-
+        
     }
     
     func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool
@@ -103,12 +108,12 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
                 return false
             
             case CurrentSettingsTag:
-            return false
+                return false
             
             default:
-            return false
+                return false
         }
-
+        
     }
     
     func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int
@@ -127,12 +132,12 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
                 return AllShapes!.count
             
             case CurrentSettingsTag:
-            return 0
+                return 0
             
             default:
-            return 0
+                return 0
         }
-
+        
     }
     
     func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: Any) -> NSView?
@@ -155,12 +160,12 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
                 return tableCell
             
             case CurrentSettingsTag:
-            return nil
+                return nil
             
             default:
-            return nil
+                return nil
         }
-
+        
     }
     
     func outlineViewSelectionDidChange(_ notification: Notification)
@@ -183,12 +188,12 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
             }
             
             case CurrentSettingsTag:
-            break
+                break
             
             default:
-            break
+                break
         }
-
+        
     }
     
     func UpdatedOptions(_ Updated: ProcessingAttributes)
@@ -197,6 +202,118 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
     }
     
     var CurrentAttributes: ProcessingAttributes = ProcessingAttributes()
+    
+    // MARK: - Colors functions
+    
+    func InitializeColorSwatches()
+    {
+        ColorSwatchView.enclosingScrollView?.borderType = .noBorder
+        ColorSwatchView.wantsLayer = true
+        ColorSwatchView.backgroundColors = [NSColor.clear]
+        ColorSwatchView.reloadData()
+    }
+    
+    func InitializeGradientSwatches()
+    {
+        GradientList.append((NSColor.white, NSColor.black))
+        GradientList.append((NSColor.black, NSColor.white))
+        GradientList.append((NSColor.gray, NSColor.black))
+        GradientList.append((NSColor.gray, NSColor.blue))
+        GradientList.append((NSColor.red, NSColor.black))
+        GradientList.append((NSColor.white, NSColor.red))
+        GradientList.append((NSColor.blue, NSColor.black))
+        GradientList.append((NSColor.yellow, NSColor.systemYellow))
+        GradientList.append((NSColor.systemYellow, NSColor.red))
+        GradientSwatchView.enclosingScrollView?.borderType = .noBorder
+        GradientSwatchView.wantsLayer = true
+        GradientSwatchView.backgroundColors = [NSColor.clear]
+        GradientSwatchView.reloadData()
+    }
+    
+    var ColorList: [(Name: String, Color: NSColor)] =
+        [
+            (Name: "Black", Color: NSColor.black),
+            (Name: "White", Color: NSColor.white),
+            (Name: "Red", Color: NSColor.red),
+            (Name: "Green", Color: NSColor.green),
+            (Name: "Blue", Color: NSColor.blue),
+            (Name: "Gray", Color: NSColor.gray),
+            (Name: "Indigo", Color: NSColor.systemIndigo),
+            (Name: "Purple", Color: NSColor.purple),
+            (Name: "Orange", Color: NSColor.orange),
+            (Name: "Teal", Color: NSColor.systemTeal),
+            (Name: "Yellow", Color: NSColor.yellow),
+            (Name: "System Yellow", Color: NSColor.systemYellow),
+            (Name: "Brown", Color: NSColor.brown)
+    ]
+    
+    var GradientList = [(NSColor, NSColor)]()
+    
+    func collectionView(_ collectionView: NSCollectionView, numberOfItemsInSection section: Int) -> Int
+    {
+        switch collectionView
+        {
+            case ColorSwatchView:
+                return ColorList.count
+            
+            case GradientSwatchView:
+                return GradientList.count
+            
+            default:
+                return 0
+        }
+    }
+    
+    func collectionView(_ itemForRepresentedObjectAtCollectionView: NSCollectionView,
+                        itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem
+    {
+        switch itemForRepresentedObjectAtCollectionView
+        {
+            case ColorSwatchView:
+                let Item = ColorSwatchView.makeItem(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "ColorSwatchItem"), for: indexPath)
+                guard let SomeItem = Item as? ColorSwatchItem else
+                {
+                    return Item
+                }
+                SomeItem.SetColor(ColorList[indexPath.item].Color, WithName: ColorList[indexPath.item].Name)
+                SomeItem.SetSelectionState(To: indexPath.item == SelectedColorIndex)
+                return SomeItem
+            
+            case GradientSwatchView:
+                let Item = GradientSwatchView.makeItem(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "GradientSwatchItem"), for: indexPath)
+                guard let SomeItem = Item as? GradientSwatchItem else
+                {
+                    return Item
+                }
+                SomeItem.SetGradient(GradientList[indexPath.item].0, GradientList[indexPath.item].1)
+                SomeItem.SetSelectionState(To: indexPath.item == SelectedGradientIndex)
+                return SomeItem
+            
+            default:
+                fatalError("Encountered unknown collection view.")
+        }
+    }
+    
+    func collectionView(_ collectionView: NSCollectionView, didSelectItemsAt indexPaths: Set<IndexPath>)
+    {
+        switch collectionView
+        {
+            case ColorSwatchView:
+                SelectedColorIndex = indexPaths.first!.item
+                ColorSwatchView.reloadData()
+            
+            case GradientSwatchView:
+                SelectedGradientIndex = indexPaths.first!.item
+                GradientSwatchView.reloadData()
+            
+            default:
+                break
+        }
+        
+    }
+    
+    var SelectedColorIndex: Int = 0
+    var SelectedGradientIndex = 0
     
     // MARK: - Option dialog variables.
     
@@ -232,6 +349,20 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
     // MARK: - General interface builder outlets.
     
     @IBOutlet weak var ApplyButton: NSButton!
+    
+    // MARK: - Colors interface builder outlets and variables.
+    
+    @IBOutlet weak var ColorSwatchView: NSCollectionView!
+    @IBOutlet weak var GradientSwatchView: NSCollectionView!
+    
+    //MARK: - Lighting interface builder outlines and variables.
+    
+    @IBOutlet weak var LightModelSegment: NSSegmentedControl!
+    @IBOutlet weak var LightIntensitySegment: NSSegmentedControl!
+    @IBOutlet weak var LightTypeSegment: NSSegmentedControl!
+    @IBOutlet weak var LightColorCombo: NSComboBox!
+    @IBOutlet weak var LightingSample: SCNView!
+    var LightingSampleInitialized = false
 }
 
 class ShapeTreeNode
