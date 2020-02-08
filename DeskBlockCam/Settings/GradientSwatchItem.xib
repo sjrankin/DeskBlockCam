@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="16085" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="16085"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="GradientSwatchItem" customModule="DeskBlockCam" customModuleProvider="target">
+            <connections>
+                <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="Hz6-mo-xeY">
+            <rect key="frame" x="0.0" y="0.0" width="100" height="65"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="BJo-kf-aZw">
+                    <rect key="frame" x="6" y="5" width="88" height="55"/>
+                </customView>
+            </subviews>
+            <constraints>
+                <constraint firstItem="BJo-kf-aZw" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" constant="5" id="4ij-nP-CZD"/>
+                <constraint firstItem="BJo-kf-aZw" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="HtU-vN-hyU"/>
+                <constraint firstItem="BJo-kf-aZw" firstAttribute="centerY" secondItem="Hz6-mo-xeY" secondAttribute="centerY" id="b5t-Ig-wKo"/>
+                <constraint firstItem="BJo-kf-aZw" firstAttribute="centerY" secondItem="Hz6-mo-xeY" secondAttribute="centerY" id="gf5-Ut-kLp"/>
+                <constraint firstItem="BJo-kf-aZw" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="hn6-wg-OK3"/>
+                <constraint firstItem="BJo-kf-aZw" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="6" id="wBk-i6-Iij"/>
+            </constraints>
+            <point key="canvasLocation" x="139" y="153.5"/>
+        </customView>
+        <collectionViewItem id="cCb-9b-Lvo" customClass="GradientSwatchItem" customModule="DeskBlockCam" customModuleProvider="target">
+            <connections>
+                <outlet property="GradientView" destination="BJo-kf-aZw" id="Q6b-za-lLu"/>
+                <outlet property="view" destination="Hz6-mo-xeY" id="i4V-uS-Mmi"/>
+            </connections>
+        </collectionViewItem>
+    </objects>
+</document>
