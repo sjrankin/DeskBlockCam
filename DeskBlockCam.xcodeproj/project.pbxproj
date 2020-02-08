@@ -39,6 +39,12 @@
 		1740A3E123EC018100E29C75 /* ShapeOptionsCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1740A3E023EC018100E29C75 /* ShapeOptionsCode.swift */; };
 		1740A3E323EC01AA00E29C75 /* ShapeOptionsWindowCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1740A3E223EC01AA00E29C75 /* ShapeOptionsWindowCode.swift */; };
 		176E565323EBB50E0001215A /* HistogramDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176E565223EBB50E0001215A /* HistogramDisplay.swift */; };
+		177BF06223EE52CD00670F40 /* ColorSwatchItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177BF06023EE52CD00670F40 /* ColorSwatchItem.swift */; };
+		177BF06323EE52CD00670F40 /* ColorSwatchItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = 177BF06123EE52CD00670F40 /* ColorSwatchItem.xib */; };
+		177BF06623EE735000670F40 /* GradientSwatchItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177BF06423EE735000670F40 /* GradientSwatchItem.swift */; };
+		177BF06723EE735000670F40 /* GradientSwatchItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = 177BF06523EE735000670F40 /* GradientSwatchItem.xib */; };
+		177BF06923EE765500670F40 /* GradientFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177BF06823EE765500670F40 /* GradientFactory.swift */; };
+		177BF06B23EE923E00670F40 /* +Lighting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177BF06A23EE923E00670F40 /* +Lighting.swift */; };
 		178828A823E90E310041C2D1 /* PSCNNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178828A723E90E310041C2D1 /* PSCNNode.swift */; };
 		17897B8323E6A77300AFDA6A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17897B8223E6A77300AFDA6A /* AppDelegate.swift */; };
 		17897B8523E6A77300AFDA6A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17897B8423E6A77300AFDA6A /* ViewController.swift */; };
@@ -86,6 +92,12 @@
 		1740A3E023EC018100E29C75 /* ShapeOptionsCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeOptionsCode.swift; sourceTree = "<group>"; };
 		1740A3E223EC01AA00E29C75 /* ShapeOptionsWindowCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeOptionsWindowCode.swift; sourceTree = "<group>"; };
 		176E565223EBB50E0001215A /* HistogramDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistogramDisplay.swift; sourceTree = "<group>"; };
+		177BF06023EE52CD00670F40 /* ColorSwatchItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSwatchItem.swift; sourceTree = "<group>"; };
+		177BF06123EE52CD00670F40 /* ColorSwatchItem.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ColorSwatchItem.xib; sourceTree = "<group>"; };
+		177BF06423EE735000670F40 /* GradientSwatchItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientSwatchItem.swift; sourceTree = "<group>"; };
+		177BF06523EE735000670F40 /* GradientSwatchItem.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GradientSwatchItem.xib; sourceTree = "<group>"; };
+		177BF06823EE765500670F40 /* GradientFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientFactory.swift; sourceTree = "<group>"; };
+		177BF06A23EE923E00670F40 /* +Lighting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Lighting.swift"; sourceTree = "<group>"; };
 		178828A723E90E310041C2D1 /* PSCNNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PSCNNode.swift; sourceTree = "<group>"; };
 		17897B7F23E6A77300AFDA6A /* DeskBlockCam.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DeskBlockCam.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		17897B8223E6A77300AFDA6A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -166,8 +178,14 @@
 			children = (
 				173C245223ED28AD00270760 /* ShapeDialogs */,
 				1740A3E023EC018100E29C75 /* ShapeOptionsCode.swift */,
+				177BF06A23EE923E00670F40 /* +Lighting.swift */,
+				177BF06823EE765500670F40 /* GradientFactory.swift */,
 				172C06F123ED31DC00313C3E /* OptionsDialogs.swift */,
 				1740A3E223EC01AA00E29C75 /* ShapeOptionsWindowCode.swift */,
+				177BF06023EE52CD00670F40 /* ColorSwatchItem.swift */,
+				177BF06123EE52CD00670F40 /* ColorSwatchItem.xib */,
+				177BF06423EE735000670F40 /* GradientSwatchItem.swift */,
+				177BF06523EE735000670F40 /* GradientSwatchItem.xib */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -281,7 +299,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				177BF06323EE52CD00670F40 /* ColorSwatchItem.xib in Resources */,
 				17897B8723E6A77500AFDA6A /* Assets.xcassets in Resources */,
+				177BF06723EE735000670F40 /* GradientSwatchItem.xib in Resources */,
 				17897B8A23E6A77500AFDA6A /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -307,12 +327,14 @@
 				1717201123EBD23100636F3C /* Pixellator.swift in Sources */,
 				17897B8523E6A77300AFDA6A /* ViewController.swift in Sources */,
 				1740A3D623EBF73000E29C75 /* ConeOptionalParameters.swift in Sources */,
+				177BF06623EE735000670F40 /* GradientSwatchItem.swift in Sources */,
 				173C245A23ED29DC00270760 /* OptionsProtocol.swift in Sources */,
 				1740A3D023EBED8500E29C75 /* CharactersOptionalParameters.swift in Sources */,
 				17EB900223E9829E00A4C09A /* FileIO.swift in Sources */,
 				173C245C23ED2CBC00270760 /* BlockOptionsCode.swift in Sources */,
 				1740A3C723EBE5E500E29C75 /* ProcessingAttributes.swift in Sources */,
 				173842CA23E7AE0C00792C9E /* ProcessedViewController.swift in Sources */,
+				177BF06223EE52CD00670F40 /* ColorSwatchItem.swift in Sources */,
 				17897B9323E6C74000AFDA6A /* LiveViewer.swift in Sources */,
 				17897B9723E6EB1D00AFDA6A /* ViewControllerWindow.swift in Sources */,
 				1740A3D223EBEE6800E29C75 /* EllipseOptionalParameters.swift in Sources */,
@@ -331,8 +353,10 @@
 				178828A823E90E310041C2D1 /* PSCNNode.swift in Sources */,
 				1740A3CC23EBEBD400E29C75 /* BlockOptionalParameters.swift in Sources */,
 				1740A3E123EC018100E29C75 /* ShapeOptionsCode.swift in Sources */,
+				177BF06923EE765500670F40 /* GradientFactory.swift in Sources */,
 				1740A3DA23EBF96600E29C75 /* StackedShapesOptionalParameters.swift in Sources */,
 				172C06E223ED2F9000313C3E /* OvalOptionsCode.swift in Sources */,
+				177BF06B23EE923E00670F40 /* +Lighting.swift in Sources */,
 				1740A3C923EBEB6400E29C75 /* OptionalParameters.swift in Sources */,
 				1740A3D823EBF8A900E29C75 /* StarOptionalParameters.swift in Sources */,
 			);
