@@ -1142,7 +1142,7 @@
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <clipView key="contentView" id="Dtb-Dp-0KI">
                                                         <rect key="frame" x="1" y="1" width="170" height="314"/>
-                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                        <autoresizingMask key="autoresizingMask"/>
                                                         <subviews>
                                                             <outlineView verticalHuggingPriority="750" tag="100" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" indentationPerLevel="16" outlineTableColumn="6ne-QB-WiL" id="2CU-gr-s9a">
                                                                 <rect key="frame" x="0.0" y="0.0" width="170" height="314"/>
@@ -1426,7 +1426,7 @@
                                                                 <rect key="frame" x="8" y="6" width="334" height="210"/>
                                                                 <clipView key="contentView" id="gZW-bM-pBY">
                                                                     <rect key="frame" x="1" y="1" width="332" height="208"/>
-                                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                                    <autoresizingMask key="autoresizingMask"/>
                                                                     <subviews>
                                                                         <collectionView selectable="YES" allowsEmptySelection="NO" id="Lh3-63-b48">
                                                                             <rect key="frame" x="0.0" y="0.0" width="332" height="208"/>
@@ -1473,7 +1473,7 @@
                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                 <clipView key="contentView" id="m3w-wo-4zT">
                                                                     <rect key="frame" x="1" y="1" width="336" height="207"/>
-                                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                                    <autoresizingMask key="autoresizingMask"/>
                                                                     <subviews>
                                                                         <collectionView selectable="YES" allowsEmptySelection="NO" id="kGI-4L-ThD">
                                                                             <rect key="frame" x="0.0" y="0.0" width="336" height="158"/>
@@ -1543,6 +1543,9 @@
                                                             <segment label="Ambient"/>
                                                         </segments>
                                                     </segmentedCell>
+                                                    <connections>
+                                                        <action selector="HandleLightTypeChanged:" target="zVd-5F-eaa" id="kWU-jI-ImZ"/>
+                                                    </connections>
                                                 </segmentedControl>
                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="W0j-z6-MOr">
                                                     <rect key="frame" x="10" y="227" width="69" height="16"/>
@@ -1567,6 +1570,9 @@
                                                             <string>Item 3</string>
                                                         </objectValues>
                                                     </comboBoxCell>
+                                                    <connections>
+                                                        <action selector="HandleLightColorChanged:" target="zVd-5F-eaa" id="LBu-qB-hsv"/>
+                                                    </connections>
                                                 </comboBox>
                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="abe-ZO-YRO">
                                                     <rect key="frame" x="12" y="170" width="90" height="16"/>
@@ -1588,6 +1594,9 @@
                                                             <segment label="Brightest"/>
                                                         </segments>
                                                     </segmentedCell>
+                                                    <connections>
+                                                        <action selector="HandleLightIntensityChanged:" target="zVd-5F-eaa" id="EfP-OL-ZG3"/>
+                                                    </connections>
                                                 </segmentedControl>
                                                 <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rdY-bF-ovO">
                                                     <rect key="frame" x="116" y="96" width="410" height="24"/>
@@ -1601,6 +1610,9 @@
                                                             <segment label="Physical" width="80"/>
                                                         </segments>
                                                     </segmentedCell>
+                                                    <connections>
+                                                        <action selector="HandleLightModelChanged:" target="zVd-5F-eaa" id="Zda-Kr-iwH"/>
+                                                    </connections>
                                                 </segmentedControl>
                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rzU-TH-3b7">
                                                     <rect key="frame" x="12" y="101" width="76" height="16"/>
@@ -1610,10 +1622,10 @@
                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
                                                 </textField>
-                                                <sceneView translatesAutoresizingMaskIntoConstraints="NO" id="EJz-oN-pND">
-                                                    <rect key="frame" x="543" y="158" width="192" height="146"/>
+                                                <sceneView preferredRenderingAPI="1" translatesAutoresizingMaskIntoConstraints="NO" id="EJz-oN-pND">
+                                                    <rect key="frame" x="543" y="130" width="192" height="174"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="146" id="3BE-6y-5gu"/>
+                                                        <constraint firstAttribute="height" constant="174" id="3BE-6y-5gu"/>
                                                     </constraints>
                                                 </sceneView>
                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qyh-My-ZUf">
