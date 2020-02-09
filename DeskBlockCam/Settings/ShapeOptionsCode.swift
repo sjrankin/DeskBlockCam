@@ -363,6 +363,120 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
     @IBOutlet weak var LightColorCombo: NSComboBox!
     @IBOutlet weak var LightingSample: SCNView!
     var LightingSampleInitialized = false
+    
+    func DoUpdateLightSample()
+    {
+        var Model = SCNMaterial.LightingModel.blinn
+        switch LightModelSegment.selectedSegment
+        {
+            case 0:
+                Model = .blinn
+            
+            case 1:
+                Model = .constant
+            
+            case 2:
+                Model = .lambert
+            
+            case 3:
+                Model = .phong
+            
+            case 4:
+                Model = .physicallyBased
+            
+            default:
+                Model = .lambert
+        }
+        
+        var Color = NSColor.white
+        let RawColor = LightColorCombo.objectValueOfSelectedItem as? String
+        switch RawColor
+        {
+            case "White":
+                Color = NSColor.white
+            
+            case "Yellow":
+                Color = NSColor.yellow
+            
+            case "Orange":
+                Color = NSColor.orange
+            
+            case "Teal":
+                Color = NSColor.systemTeal
+            
+            case "Blue":
+                Color = NSColor.blue
+            
+            case "Black":
+                Color = NSColor.black
+            
+            default:
+                Color = NSColor.white
+        }
+        
+        var Intensity: CGFloat = 1000.0
+        switch LightIntensitySegment.selectedSegment
+        {
+            case 0:
+                Intensity = 500.0
+            
+            case 1:
+                Intensity = 800.0
+            
+            case 2:
+                Intensity = 1000.0
+            
+            case 3:
+                Intensity = 1500.0
+            
+            case 4:
+                Intensity = 2000.0
+            
+            default:
+                Intensity = 1000.0
+        }
+        
+        var Type = SCNLight.LightType.omni
+        switch LightTypeSegment.selectedSegment
+        {
+            case 0:
+                Type = .omni
+            
+            case 1:
+                Type = .spot
+            
+            case 2:
+                Type = .directional
+            
+            case 3:
+                Type = .ambient
+            
+            default:
+                Type = .omni
+        }
+        
+        DrawLightingSample(Model: Model, Type: Type, Color: Color, Intensity: Intensity)
+    }
+    
+    @IBAction func HandleLightTypeChanged(_ sender: Any)
+    {
+        DoUpdateLightSample()
+    }
+    
+    @IBAction func HandleLightColorChanged(_ sender: Any)
+    {
+        DoUpdateLightSample()
+    }
+    
+    @IBAction func HandleLightIntensityChanged(_ sender: Any)
+    {
+        DoUpdateLightSample()
+    }
+    
+    @IBAction func HandleLightModelChanged(_ sender: Any)
+    {
+        DoUpdateLightSample()
+    }
 }
 
 class ShapeTreeNode
