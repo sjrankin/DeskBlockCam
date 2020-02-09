@@ -13,6 +13,7 @@ import Cocoa
     func applicationDidFinishLaunching(_ aNotification: Notification)
     {
         // Insert code here to initialize your application
+        Settings.Initialize()
     }
 
     func applicationWillTerminate(_ aNotification: Notification)
