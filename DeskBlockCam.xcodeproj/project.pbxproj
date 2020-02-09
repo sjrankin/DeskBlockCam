@@ -53,6 +53,11 @@
 		17897B9323E6C74000AFDA6A /* LiveViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17897B9223E6C74000AFDA6A /* LiveViewer.swift */; };
 		17897B9723E6EB1D00AFDA6A /* ViewControllerWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17897B9623E6EB1D00AFDA6A /* ViewControllerWindow.swift */; };
 		17A446F523E7F40100D3C571 /* ImageReduction.metal in Sources */ = {isa = PBXBuildFile; fileRef = 17A446F423E7F40100D3C571 /* ImageReduction.metal */; };
+		17B31D4D23EFF18D00C69257 /* Generator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B31D4C23EFF18D00C69257 /* Generator.swift */; };
+		17B31D5023EFF5C800C69257 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B31D4F23EFF5C800C69257 /* Settings.swift */; };
+		17B31D5223EFF74600C69257 /* SettingChangedProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B31D5123EFF74600C69257 /* SettingChangedProtocol.swift */; };
+		17B31D5423EFF9AE00C69257 /* AttributeFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B31D5323EFF9AE00C69257 /* AttributeFactory.swift */; };
+		17B31D5623EFFAAF00C69257 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B31D5523EFFAAF00C69257 /* Enums.swift */; };
 		17EB8FFE23E961C600A4C09A /* ImageDelta.metal in Sources */ = {isa = PBXBuildFile; fileRef = 17EB8FFD23E961C600A4C09A /* ImageDelta.metal */; };
 		17EB900023E9639D00A4C09A /* ImageDelta.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EB8FFF23E9639D00A4C09A /* ImageDelta.swift */; };
 		17EB900223E9829E00A4C09A /* FileIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EB900123E9829E00A4C09A /* FileIO.swift */; };
@@ -109,6 +114,11 @@
 		17897B9223E6C74000AFDA6A /* LiveViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveViewer.swift; sourceTree = "<group>"; };
 		17897B9623E6EB1D00AFDA6A /* ViewControllerWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerWindow.swift; sourceTree = "<group>"; };
 		17A446F423E7F40100D3C571 /* ImageReduction.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = ImageReduction.metal; sourceTree = "<group>"; };
+		17B31D4C23EFF18D00C69257 /* Generator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Generator.swift; sourceTree = "<group>"; };
+		17B31D4F23EFF5C800C69257 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		17B31D5123EFF74600C69257 /* SettingChangedProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingChangedProtocol.swift; sourceTree = "<group>"; };
+		17B31D5323EFF9AE00C69257 /* AttributeFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributeFactory.swift; sourceTree = "<group>"; };
+		17B31D5523EFFAAF00C69257 /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
 		17EB8FFD23E961C600A4C09A /* ImageDelta.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = ImageDelta.metal; sourceTree = "<group>"; };
 		17EB8FFF23E9639D00A4C09A /* ImageDelta.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDelta.swift; sourceTree = "<group>"; };
 		17EB900123E9829E00A4C09A /* FileIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileIO.swift; sourceTree = "<group>"; };
@@ -133,6 +143,7 @@
 				1717201223EBDF1600636F3C /* BlockView.swift */,
 				1717201523EBE2D900636F3C /* Processor.swift */,
 				1740A3C623EBE5E500E29C75 /* ProcessingAttributes.swift */,
+				17B31D5323EFF9AE00C69257 /* AttributeFactory.swift */,
 			);
 			path = BlockView;
 			sourceTree = "<group>";
@@ -209,6 +220,8 @@
 		17897B8123E6A77300AFDA6A /* DeskBlockCam */ = {
 			isa = PBXGroup;
 			children = (
+				17B31D4E23EFF5AF00C69257 /* SettingsManagement */,
+				17B31D4B23EFF17C00C69257 /* Generator */,
 				1717201423EBE2C600636F3C /* BlockView */,
 				17A446F323E7F3E800D3C571 /* Metal */,
 				1740A3DF23EC016C00E29C75 /* Settings */,
@@ -217,6 +230,7 @@
 				17897B8423E6A77300AFDA6A /* ViewController.swift */,
 				17897B9623E6EB1D00AFDA6A /* ViewControllerWindow.swift */,
 				17897B8823E6A77500AFDA6A /* Main.storyboard */,
+				17B31D5523EFFAAF00C69257 /* Enums.swift */,
 				17FBB20223EA924400333934 /* +StatTable.swift */,
 				173842C923E7AE0C00792C9E /* ProcessedViewController.swift */,
 				173842CD23E7B20500792C9E /* ProcessedViewWindowController.swift */,
@@ -239,6 +253,23 @@
 				17EB8FFF23E9639D00A4C09A /* ImageDelta.swift */,
 			);
 			path = Metal;
+			sourceTree = "<group>";
+		};
+		17B31D4B23EFF17C00C69257 /* Generator */ = {
+			isa = PBXGroup;
+			children = (
+				17B31D4C23EFF18D00C69257 /* Generator.swift */,
+			);
+			path = Generator;
+			sourceTree = "<group>";
+		};
+		17B31D4E23EFF5AF00C69257 /* SettingsManagement */ = {
+			isa = PBXGroup;
+			children = (
+				17B31D4F23EFF5C800C69257 /* Settings.swift */,
+				17B31D5123EFF74600C69257 /* SettingChangedProtocol.swift */,
+			);
+			path = SettingsManagement;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -322,6 +353,7 @@
 				17FBB20323EA924400333934 /* +StatTable.swift in Sources */,
 				172C06EE23ED30ED00313C3E /* CappedLinesOptionsCode.swift in Sources */,
 				1740A3DE23EBFB7500E29C75 /* HSBVaryingOptionalParameters.swift in Sources */,
+				17B31D5423EFF9AE00C69257 /* AttributeFactory.swift in Sources */,
 				17EB900023E9639D00A4C09A /* ImageDelta.swift in Sources */,
 				172C06F023ED318000313C3E /* StackedShapesOptionsCode.swift in Sources */,
 				1717201123EBD23100636F3C /* Pixellator.swift in Sources */,
@@ -334,6 +366,7 @@
 				173C245C23ED2CBC00270760 /* BlockOptionsCode.swift in Sources */,
 				1740A3C723EBE5E500E29C75 /* ProcessingAttributes.swift in Sources */,
 				173842CA23E7AE0C00792C9E /* ProcessedViewController.swift in Sources */,
+				17B31D5623EFFAAF00C69257 /* Enums.swift in Sources */,
 				177BF06223EE52CD00670F40 /* ColorSwatchItem.swift in Sources */,
 				17897B9323E6C74000AFDA6A /* LiveViewer.swift in Sources */,
 				17897B9723E6EB1D00AFDA6A /* ViewControllerWindow.swift in Sources */,
@@ -353,11 +386,14 @@
 				178828A823E90E310041C2D1 /* PSCNNode.swift in Sources */,
 				1740A3CC23EBEBD400E29C75 /* BlockOptionalParameters.swift in Sources */,
 				1740A3E123EC018100E29C75 /* ShapeOptionsCode.swift in Sources */,
+				17B31D5223EFF74600C69257 /* SettingChangedProtocol.swift in Sources */,
 				177BF06923EE765500670F40 /* GradientFactory.swift in Sources */,
 				1740A3DA23EBF96600E29C75 /* StackedShapesOptionalParameters.swift in Sources */,
+				17B31D5023EFF5C800C69257 /* Settings.swift in Sources */,
 				172C06E223ED2F9000313C3E /* OvalOptionsCode.swift in Sources */,
 				177BF06B23EE923E00670F40 /* +Lighting.swift in Sources */,
 				1740A3C923EBEB6400E29C75 /* OptionalParameters.swift in Sources */,
+				17B31D4D23EFF18D00C69257 /* Generator.swift in Sources */,
 				1740A3D823EBF8A900E29C75 /* StarOptionalParameters.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
