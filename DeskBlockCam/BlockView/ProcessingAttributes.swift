@@ -28,9 +28,9 @@ class ProcessingAttributes
     }
     
     /// Holds the vertical exaggeration of the extrusion/size.
-    private var _VerticalExaggeration: CGFloat = 1.0
+    private var _VerticalExaggeration: VerticalExaggerations = .None
     /// Get or set the vertical exaggeration of each shape.
-    public var VerticalExaggeration: CGFloat
+    public var VerticalExaggeration: VerticalExaggerations
     {
         get
         {
@@ -119,9 +119,9 @@ class ProcessingAttributes
     }
     
     /// Holds the method used to determine height of the shape.
-    private var _HeightDeterminate: HeightDeterminates = .Brightness
+    private var _HeightDeterminate: HeightDeterminations = .Brightness
     /// Get or set the method used to determine the height of the shape.
-    public var HeightDeterminate: HeightDeterminates
+    public var HeightDeterminate: HeightDeterminations
     {
         get
         {
@@ -133,11 +133,13 @@ class ProcessingAttributes
         }
     }
     
-    /// Holds optional shape parameters.
-    private var _ShapeOptions: OptionalParameters? = nil
-    /// Get or set the shape's optional parameters. If this is nil, there are not optional
-    /// parameters.
-    public var ShapeOptions: OptionalParameters?
+    /// Holds an array of optional parameters.
+    private var _ShapeOptions: [OptionalParameters]? = nil
+    /// Get or set the set of optional parameters. Each shape that may be used within
+    /// this set of attributes may have an optional parameter here. For example, a stacked
+    /// shape consisting of several different shapes may have necessary optional parameters
+    /// here, one for each shape that has optional parameters.
+    public var ShapeOptions: [OptionalParameters]?
     {
         get
         {
@@ -147,6 +149,33 @@ class ProcessingAttributes
         {
             _ShapeOptions = newValue
         }
+    }
+    
+    /// Return any optional parameters for the main shape.
+    /// - Returns: Optional parameters. Nil if none exists.
+    func GetPrimaryOptions() -> OptionalParameters?
+    {
+        return GetOptionsFor(Shape)
+    }
+    
+    /// Get optional parameters for the specified shape.
+    /// - Note: Some shapes have sub-shapes. This function provides a method to return
+    ///         optional parameters (if they exist) for the given sub-shapes.
+    /// - Parameter Shape: The shape whose optional parameters (if any) are returned.
+    /// - Returns: The optional parameters for the specified shape. Nil if none exists.
+    func GetOptionsFor(_ Shape: Shapes) -> OptionalParameters?
+    {
+        if let Optionals = ShapeOptions
+        {
+            for Optional in Optionals
+            {
+                if Optional.ForShape == Shape
+                {
+                    return Optional
+                }
+            }
+        }
+        return nil
     }
     
     /// Holds the conditional color determination method.
@@ -317,7 +346,7 @@ class ProcessingAttributes
     /// Holds the lighting model.
     private var _LightModel: LightModels = .Phong
     /// Get or set the lighting model.
-    public var LightMode: LightModels
+    public var LightModel: LightModels
     {
         get
         {
@@ -384,24 +413,6 @@ enum Backgrounds: String, CaseIterable
     case Color = "Color"
     case Gradient = "Gradient"
     case Image = "Image"
-}
-
-/// Determination of height extrusion or shape size.
-enum HeightDeterminates: String, CaseIterable
-{
-    case Hue = "Hue"
-    case Saturation = "Saturation"
-    case Brightness = "Brightness"
-    case Red = "Red"
-    case Green = "Green"
-    case Blue = "Blue"
-    case Cyan = "Cyan"
-    case Magenta = "Magenta"
-    case Yellow = "Yellow"
-    case Black = "Black"
-    case YUV_Y = "YUV Y"
-    case YUV_U = "YUV U"
-    case YUV_V = "YUV V"
 }
 
 /// Types of conditional colors.
