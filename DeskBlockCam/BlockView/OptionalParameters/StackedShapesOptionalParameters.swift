@@ -14,6 +14,7 @@ class StackedShapesOptionalParameters: OptionalParameters
     init()
     {
         super.init(WithShape: .StackedShapes)
+        self.Read()
     }
     
     init(WithStack: [Shapes])
@@ -43,5 +44,17 @@ class StackedShapesOptionalParameters: OptionalParameters
         {
             _ShapeList = newValue
         }
+    }
+    
+    override public func Read()
+    {
+        let RawString = Settings.GetString(ForKey: .StackedShapeList, Shapes.Blocks.rawValue)
+        _ShapeList = ProcessingAttributes.MakeShapeList(From: RawString)
+    }
+    
+    override public func Write()
+    {
+        let AsString = ProcessingAttributes.MakeShapeString(From: ShapeList)
+        Settings.SetString(AsString, ForKey: .StackedShapeList)
     }
 }

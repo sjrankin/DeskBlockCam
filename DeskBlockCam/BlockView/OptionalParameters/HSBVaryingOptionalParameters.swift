@@ -13,7 +13,7 @@ class HSBVaryingOptionalParameters: OptionalParameters
 {
     init(WithChannel: HSBChannels)
     {
-        var ActualShape = Shapes.HueVarying
+         ActualShape = Shapes.HueVarying
         switch WithChannel
         {
             case .HSB_Hue:
@@ -26,11 +26,12 @@ class HSBVaryingOptionalParameters: OptionalParameters
                 ActualShape = .BrightnessVarying
         }
         super.init(WithShape: ActualShape)
+        self.Read()
     }
     
     init(WithChannel: HSBChannels, ShapeList: [Shapes])
     {
-        var ActualShape = Shapes.HueVarying
+         ActualShape = Shapes.HueVarying
         switch WithChannel
         {
             case .HSB_Hue:
@@ -45,6 +46,8 @@ class HSBVaryingOptionalParameters: OptionalParameters
         super.init(WithShape: ActualShape)
         _ShapeList = ShapeList
     }
+    
+    public var ActualShape: Shapes = .HueVarying
     
     private let InvalidShapes: [Shapes] = [.HueVarying, .SaturationVarying, .BrightnessVarying, .StackedShapes]
     
@@ -65,6 +68,48 @@ class HSBVaryingOptionalParameters: OptionalParameters
         {
             _ShapeList = newValue
         }
+    }
+    
+    override public func Read()
+    {
+        var KeyName = SettingKeys.HueShapes
+        switch ActualShape
+        {
+            case .HueVarying:
+                KeyName = SettingKeys.HueShapes
+            
+            case .SaturationVarying:
+                KeyName = SettingKeys.SaturationShapes
+            
+            case .BrightnessVarying:
+                KeyName = SettingKeys.BrightnessShapes
+            
+            default:
+            return
+        }
+        let RawString = Settings.GetString(ForKey: KeyName, Shapes.Blocks.rawValue)
+        _ShapeList = ProcessingAttributes.MakeShapeList(From: RawString)
+    }
+    
+    override public func Write()
+    {
+        var KeyName = SettingKeys.HueShapes
+        switch ActualShape
+        {
+            case .HueVarying:
+                KeyName = SettingKeys.HueShapes
+            
+            case .SaturationVarying:
+                KeyName = SettingKeys.SaturationShapes
+            
+            case .BrightnessVarying:
+                KeyName = SettingKeys.BrightnessShapes
+            
+            default:
+                return
+        }
+        let AsString = ProcessingAttributes.MakeShapeString(From: ShapeList)
+        Settings.SetString(AsString, ForKey: KeyName)
     }
 }
 

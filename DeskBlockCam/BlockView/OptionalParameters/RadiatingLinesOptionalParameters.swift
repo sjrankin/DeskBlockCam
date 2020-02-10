@@ -14,6 +14,7 @@ class RadiatingLinesOptionalParameters: OptionalParameters
     init()
     {
         super.init(WithShape: .RadiatingLines)
+        self.Read()
     }
     
     init(LineCount: Int, Thickness: LineThickenesses)
@@ -47,5 +48,17 @@ class RadiatingLinesOptionalParameters: OptionalParameters
         {
             _Thickness = newValue
         }
+    }
+    
+    override public func Read()
+    {
+        _LineCount = Settings.GetInteger(ForKey: .LineCount)
+        _Thickness = Settings.GetEnum(ForKey: .LineThickness, EnumType: LineThickenesses.self, Default: LineThickenesses.Thin)
+    }
+    
+    override public func Write()
+    {
+        Settings.SetInteger(LineCount, ForKey: .LineCount)
+        Settings.SetEnum(Thickness, EnumType: LineThickenesses.self, ForKey: .LineThickness)
     }
 }

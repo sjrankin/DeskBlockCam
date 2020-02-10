@@ -14,6 +14,7 @@ class EllipseOptionalParameters: OptionalParameters
     init()
     {
         super.init(WithShape: .Ovals)
+        self.Read()
     }
     
     init(WithOrientation: Orientations, Size: Distances)
@@ -47,6 +48,18 @@ class EllipseOptionalParameters: OptionalParameters
         {
             _Size = newValue
         }
+    }
+    
+    override public func Read()
+    {
+        _Orientation = Settings.GetEnum(ForKey: .OvalOrientation, EnumType: Orientations.self, Default: Orientations.Horizontal)
+        _Size = Settings.GetEnum(ForKey: .OvalLength, EnumType: Distances.self, Default: Distances.Medium)
+    }
+    
+    override public func Write()
+    {
+        Settings.SetEnum(Orientation, EnumType: Orientations.self, ForKey: .OvalOrientation)
+        Settings.SetEnum(Size, EnumType: Distances.self, ForKey: .OvalLength)
     }
 }
 

@@ -14,6 +14,7 @@ class CharactersOptionalParameters: OptionalParameters
     init()
     {
         super.init(WithShape: .Characters)
+        self.Read()
     }
     
     init(WithCharacters: String, FontName: String)
@@ -66,5 +67,15 @@ class CharactersOptionalParameters: OptionalParameters
         {
             _FontName = newValue
         }
+    }
+    
+    override public func Read()
+    {
+        _CharSet = Settings.GetEnum(ForKey: .CharacterSet, EnumType: CharacterSets.self, Default: CharacterSets.Latin)
+    }
+    
+    override public func Write()
+    {
+        Settings.SetEnum(CharSet, EnumType: CharacterSets.self, ForKey: .CharacterSet)
     }
 }

@@ -14,6 +14,7 @@ class CappedLineOptionalParameters: OptionalParameters
     init()
     {
         super.init(WithShape: .CappedLines)
+        self.Read()
     }
     
     init(WithCapShape: Shapes, AtLocation: CapLocations)
@@ -61,5 +62,17 @@ class CappedLineOptionalParameters: OptionalParameters
                 _CapShape = newValue
             }
         }
+    }
+    
+    override public func Read()
+    {
+        _CapShape = Settings.GetEnum(ForKey: .CapShape, EnumType: Shapes.self, Default: Shapes.Spheres)
+        _CapLocation = Settings.GetEnum(ForKey: .CapLocation, EnumType: CapLocations.self, Default: CapLocations.Top)
+    }
+    
+    override public func Write()
+    {
+        Settings.SetEnum(CapShape, EnumType: Shapes.self, ForKey: .CapShape)
+        Settings.SetEnum(CapLocation, EnumType: CapLocations.self, ForKey: .CapLocation)
     }
 }

@@ -14,6 +14,7 @@ class ConeOptionalParameters: OptionalParameters
     init()
     {
         super.init(WithShape: .Cones)
+        self.Read()
     }
     
     init(WithTopSize: ConeTopSizes, BottomSize: ConeBottomSizes, Swap: Bool)
@@ -61,6 +62,20 @@ class ConeOptionalParameters: OptionalParameters
         {
             _ConeBottomSize = newValue
         }
+    }
+    
+    override public func Read()
+    {
+        _SwapTopAndBottom = Settings.GetBoolean(ForKey: .ConeSwapTopBottom)
+        _ConeTopSize = Settings.GetEnum(ForKey: .ConeTopSize, EnumType: ConeTopSizes.self, Default: ConeTopSizes.Zero)
+        _ConeBottomSize = Settings.GetEnum(ForKey: .ConeBottomSize, EnumType: ConeBottomSizes.self, Default: ConeBottomSizes.Side)
+    }
+    
+    override public func Write()
+    {
+        Settings.SetBoolean(SwapTopAndBottom, ForKey: .ConeSwapTopBottom)
+        Settings.SetEnum(ConeTopSize, EnumType: ConeTopSizes.self, ForKey: .ConeTopSize)
+        Settings.SetEnum(ConeBottomSize, EnumType: ConeBottomSizes.self, ForKey: .ConeBottomSize)
     }
 }
 

@@ -24,4 +24,12 @@ class OptionalParameters
             return _ForShape
         }
     }
+    
+    public func Write()
+    {
+    }
+    
+    public func Read()
+    {
+    }
 }

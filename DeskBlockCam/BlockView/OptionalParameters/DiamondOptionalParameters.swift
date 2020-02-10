@@ -14,6 +14,7 @@ class DiamondOptionalParameters: OptionalParameters
     init()
     {
         super.init(WithShape: .Diamonds)
+        self.Read()
     }
     
     init(WithOrientation: Orientations, Size: Distances)
@@ -47,6 +48,18 @@ class DiamondOptionalParameters: OptionalParameters
         {
             _Size = newValue
         }
+    }
+    
+    override public func Read()
+    {
+        _Orientation = Settings.GetEnum(ForKey: .DiamondOrientation, EnumType: Orientations.self, Default: Orientations.Horizontal)
+        _Size = Settings.GetEnum(ForKey: .DiamondLength, EnumType: Distances.self, Default: Distances.Medium)
+    }
+    
+    override public func Write()
+    {
+        Settings.SetEnum(Orientation, EnumType: Orientations.self, ForKey: .DiamondOrientation)
+        Settings.SetEnum(Size, EnumType: Distances.self, ForKey: .DiamondLength)
     }
 }
 

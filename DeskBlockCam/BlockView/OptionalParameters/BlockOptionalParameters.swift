@@ -14,6 +14,7 @@ class BlockOptionalParameters: OptionalParameters
     init()
     {
         super.init(WithShape: .Blocks)
+        self.Read()
     }
     
     init(WithChamfer: BlockChamferSizes)
@@ -33,6 +34,16 @@ class BlockOptionalParameters: OptionalParameters
         {
             _Chamfer = newValue
         }
+    }
+    
+    override public func Read()
+    {
+        _Chamfer = Settings.GetEnum(ForKey: .BlockChamfer, EnumType: BlockChamferSizes.self, Default: BlockChamferSizes.None)
+    }
+    
+    override public func Write()
+    {
+        Settings.SetEnum(Chamfer, EnumType: BlockChamferSizes.self, ForKey: .BlockChamfer)
     }
     
     public static func ChamferSize(From: BlockChamferSizes) -> CGFloat

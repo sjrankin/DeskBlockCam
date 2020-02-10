@@ -14,6 +14,7 @@ class StarOptionalParameters: OptionalParameters
     init()
     {
         super.init(WithShape: .Stars)
+        self.Read()
     }
     
     init(ApexCount: Int, UseIntensity: Bool)
@@ -47,5 +48,17 @@ class StarOptionalParameters: OptionalParameters
         {
             _IntensityAffectsApexCount = newValue
         }
+    }
+    
+    override public func Read()
+    {
+        _ApexCount = Settings.GetInteger(ForKey: .StarApexCount)
+        _IntensityAffectsApexCount = Settings.GetBoolean(ForKey: .ApexesIncrease)
+    }
+    
+    override public func Write()
+    {
+        Settings.SetInteger(ApexCount, ForKey: .StarApexCount)
+        Settings.SetBoolean(IntensityAffectsApexCount, ForKey: .ApexesIncrease)
     }
 }
