@@ -63,10 +63,3 @@ class CappedLineOptionalParameters: OptionalParameters
         }
     }
 }
-
-enum CapLocations: String, CaseIterable
-{
-    case Top = "Top"
-    case Middle = "Middle"
-    case Bottom = "Bottom"
-}
