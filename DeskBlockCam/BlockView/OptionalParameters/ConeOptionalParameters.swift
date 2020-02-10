@@ -64,23 +64,3 @@ class ConeOptionalParameters: OptionalParameters
     }
 }
 
-enum ConeTopSizes: String, CaseIterable
-{
-    case Side = "Side value"
-    case Saturation = "Saturation"
-    case Hue = "Hue"
-    case Side10 = "Side 10%"
-    case Side50 = "Side 50%"
-    case TenPercent = "10%"
-    case FiftyPercent = "50%"
-    case Zero = "Zero"
-}
-
-enum ConeBottomSizes: String, CaseIterable
-{
-    case Side = "Side value"
-    case Saturation = "Saturation"
-    case Hue = "Hue"
-    case Side10 = "Side 10%"
-    case Side50 = "Side 50%"
-}
