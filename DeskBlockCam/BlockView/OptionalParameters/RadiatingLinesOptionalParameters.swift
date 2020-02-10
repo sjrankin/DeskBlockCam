@@ -49,10 +49,3 @@ class RadiatingLinesOptionalParameters: OptionalParameters
         }
     }
 }
-
-enum LineThickenesses: String, CaseIterable
-{
-    case Thin = "Thin"
-    case Medium = "Medium"
-    case Thick = "Thick"
-}
