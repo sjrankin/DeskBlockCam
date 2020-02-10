@@ -34,3 +34,11 @@ enum HeightDeterminations: String, CaseIterable
     case Greatest = "Greatest Channel"
     case Least = "Least Channel"
 }
+
+enum HSBChannels: String, CaseIterable
+{
+    case HSB_Hue = "Hue"
+    case HSB_Saturation = "Saturation"
+    case HSB_Brightness = "Brightness"
+}
+
