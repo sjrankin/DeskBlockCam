@@ -1142,7 +1142,7 @@
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <clipView key="contentView" id="Dtb-Dp-0KI">
                                                         <rect key="frame" x="1" y="1" width="170" height="314"/>
-                                                        <autoresizingMask key="autoresizingMask"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <subviews>
                                                             <outlineView verticalHuggingPriority="750" tag="100" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" indentationPerLevel="16" outlineTableColumn="6ne-QB-WiL" id="2CU-gr-s9a">
                                                                 <rect key="frame" x="0.0" y="0.0" width="170" height="314"/>
@@ -1687,6 +1687,9 @@
                                                             <segment label="96" width="50"/>
                                                         </segments>
                                                     </segmentedCell>
+                                                    <connections>
+                                                        <action selector="HandleShapeSizeChanged:" target="zVd-5F-eaa" id="9YL-o2-q9K"/>
+                                                    </connections>
                                                 </segmentedControl>
                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="EIq-LN-N42">
                                                     <rect key="frame" x="7" y="223" width="730" height="48"/>
@@ -1697,15 +1700,59 @@
                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
                                                 </textField>
+                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="2zG-Na-XsI">
+                                                    <rect key="frame" x="7" y="156" width="131" height="16"/>
+                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Maximum image size" id="J9P-7o-21W">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
+                                                <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="sEW-wa-MlX">
+                                                    <rect key="frame" x="173" y="151" width="461" height="24"/>
+                                                    <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="N4Y-uC-taE">
+                                                        <font key="font" metaFont="system"/>
+                                                        <segments>
+                                                            <segment label="512" width="75"/>
+                                                            <segment label="1024" width="75" selected="YES" tag="1"/>
+                                                            <segment label="1600" width="75"/>
+                                                            <segment label="2400" width="75"/>
+                                                            <segment label="4096" width="75"/>
+                                                            <segment label="No Limit" width="75"/>
+                                                        </segments>
+                                                    </segmentedCell>
+                                                    <connections>
+                                                        <action selector="HandleMaximumImageSizeChanged:" target="zVd-5F-eaa" id="Exv-5Q-R9p"/>
+                                                    </connections>
+                                                </segmentedControl>
+                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="c89-at-Lwh">
+                                                    <rect key="frame" x="9" y="79" width="712" height="55"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="55" id="FaT-Cw-web"/>
+                                                    </constraints>
+                                                    <textFieldCell key="cell" selectable="YES" id="wIJ-Zd-sWa">
+                                                        <font key="font" metaFont="system"/>
+                                                        <string key="title">To increse processing times, you can tell BlockCam to resize an image before it is processed. This sets the maximum dimension of an image to process - images larger than this will be resized to the limit you select. Smaller dimensions are faster and use less power.</string>
+                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="EIq-LN-N42" firstAttribute="leading" secondItem="GLn-yi-Sac" secondAttribute="leading" constant="9" id="D82-wa-KEJ"/>
                                                 <constraint firstItem="Gds-lW-cm3" firstAttribute="baseline" secondItem="7yJ-CO-WUW" secondAttribute="baseline" id="EtX-b9-50x"/>
+                                                <constraint firstItem="sEW-wa-MlX" firstAttribute="top" secondItem="EIq-LN-N42" secondAttribute="bottom" constant="49" id="JMm-Wh-t2G"/>
                                                 <constraint firstItem="7yJ-CO-WUW" firstAttribute="top" secondItem="GLn-yi-Sac" secondAttribute="top" constant="15" id="KXe-Q9-c8H"/>
                                                 <constraint firstItem="EIq-LN-N42" firstAttribute="top" secondItem="7yJ-CO-WUW" secondAttribute="bottom" constant="23" id="KZa-S3-gyf"/>
+                                                <constraint firstAttribute="trailing" secondItem="c89-at-Lwh" secondAttribute="trailing" constant="33" id="OOU-ap-hGn"/>
                                                 <constraint firstItem="Gds-lW-cm3" firstAttribute="leading" secondItem="GLn-yi-Sac" secondAttribute="leading" constant="7" id="Qac-l7-jqC"/>
                                                 <constraint firstAttribute="trailing" secondItem="EIq-LN-N42" secondAttribute="trailing" constant="17" id="TKb-0q-KWa"/>
+                                                <constraint firstItem="c89-at-Lwh" firstAttribute="leading" secondItem="GLn-yi-Sac" secondAttribute="leading" constant="11" id="VIR-Ks-WtM"/>
+                                                <constraint firstItem="2zG-Na-XsI" firstAttribute="leading" secondItem="EIq-LN-N42" secondAttribute="leading" id="k7E-He-B0K"/>
+                                                <constraint firstItem="c89-at-Lwh" firstAttribute="top" secondItem="sEW-wa-MlX" secondAttribute="bottom" constant="19" id="mpD-i1-Kt9"/>
                                                 <constraint firstItem="7yJ-CO-WUW" firstAttribute="leading" secondItem="Gds-lW-cm3" secondAttribute="trailing" constant="44" id="p6X-dZ-aW2"/>
+                                                <constraint firstItem="2zG-Na-XsI" firstAttribute="baseline" secondItem="sEW-wa-MlX" secondAttribute="baseline" id="tMw-eA-GKr"/>
+                                                <constraint firstItem="sEW-wa-MlX" firstAttribute="leading" secondItem="2zG-Na-XsI" secondAttribute="trailing" constant="39" id="u84-Br-dpU"/>
                                             </constraints>
                                         </view>
                                     </tabViewItem>
@@ -1743,9 +1790,11 @@
                         <outlet property="LightModelSegment" destination="rdY-bF-ovO" id="REm-5a-xOS"/>
                         <outlet property="LightTypeSegment" destination="31k-0i-hYu" id="Qmk-j9-Naq"/>
                         <outlet property="LightingSample" destination="EJz-oN-pND" id="NTf-em-aOz"/>
+                        <outlet property="MaximumImageSizeSelector" destination="sEW-wa-MlX" id="m2p-tu-e6r"/>
                         <outlet property="OptionBox" destination="jrR-97-li5" id="Mp8-x9-gGy"/>
                         <outlet property="OptionsContainer" destination="umf-Jt-y8C" id="Ofp-JW-tBc"/>
                         <outlet property="ShapeOutlineView" destination="2CU-gr-s9a" id="DIu-TW-oj3"/>
+                        <outlet property="ShapeSizeSelector" destination="7yJ-CO-WUW" id="dA4-Lv-fRT"/>
                         <outlet property="TabView" destination="Fth-zI-31j" id="CBb-AJ-y0h"/>
                     </connections>
                 </viewController>
