@@ -16,14 +16,14 @@ class BlockOptionalParameters: OptionalParameters
         super.init(WithShape: .Blocks)
     }
     
-    init(WithChamfer: CGFloat)
+    init(WithChamfer: BlockChamferSizes)
     {
         super.init(WithShape: .Blocks)
         _Chamfer = WithChamfer
     }
     
-    private var _Chamfer: CGFloat = 0.0
-    public var Chamfer: CGFloat
+    private var _Chamfer: BlockChamferSizes = .None
+    public var Chamfer: BlockChamferSizes
     {
         get
         {
@@ -32,6 +32,24 @@ class BlockOptionalParameters: OptionalParameters
         set
         {
             _Chamfer = newValue
+        }
+    }
+    
+    public static func ChamferSize(From: BlockChamferSizes) -> CGFloat
+    {
+        switch From
+        {
+            case .None:
+                return 0.0
+            
+            case .Small:
+                return 0.01
+            
+            case .Medium:
+                return 0.1
+            
+            case .Heavy:
+                return 0.4
         }
     }
 }
