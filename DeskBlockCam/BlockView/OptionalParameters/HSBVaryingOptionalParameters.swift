@@ -68,9 +68,3 @@ class HSBVaryingOptionalParameters: OptionalParameters
     }
 }
 
-enum HSBChannels: String, CaseIterable
-{
-    case HSB_Hue = "Hue"
-    case HSB_Saturation = "Saturation"
-    case HSB_Brightness = "Brightness"
-}
