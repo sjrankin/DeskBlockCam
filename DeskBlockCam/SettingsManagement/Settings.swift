@@ -21,13 +21,13 @@ class Settings
     /// Table of subscribers.
     private static var Subscribers = [(String, SettingChangedProtocol?)]()
     
-        /// Initialize the class. Creates the default set of settings if they do not exist.
+    /// Initialize the class. Creates the default set of settings if they do not exist.
     public static func Initialize()
     {
         InitializeDefaults()
     }
     
-        /// Initialize defaults if there are no current default settings available.
+    /// Initialize defaults if there are no current default settings available.
     public static func InitializeDefaults()
     {
         if UserDefaults.standard.string(forKey: SettingKeys.Initialized.rawValue) == nil
@@ -63,6 +63,25 @@ class Settings
         UserDefaults.standard.set(LightingTypes.Omni.rawValue, forKey: SettingKeys.LightType.rawValue)
         UserDefaults.standard.set(LightIntensities.Normal.rawValue, forKey: SettingKeys.LightIntensity.rawValue)
         UserDefaults.standard.set(LightModels.Lambert.rawValue, forKey: SettingKeys.LightModel.rawValue)
+        UserDefaults.standard.set(BlockChamferSizes.None.rawValue, forKey: SettingKeys.BlockChamfer.rawValue)
+        UserDefaults.standard.set(Orientations.Horizontal.rawValue, forKey: SettingKeys.OvalOrientation.rawValue)
+        UserDefaults.standard.set(Distances.Medium.rawValue, forKey: SettingKeys.OvalLength.rawValue)
+        UserDefaults.standard.set(Orientations.Horizontal.rawValue, forKey: SettingKeys.DiamondOrientation.rawValue)
+        UserDefaults.standard.set(Distances.Medium.rawValue, forKey: SettingKeys.DiamondLength.rawValue)
+        UserDefaults.standard.set(Shapes.Blocks.rawValue, forKey: SettingKeys.StackedShapeList.rawValue)
+        UserDefaults.standard.set(Shapes.Blocks.rawValue, forKey: SettingKeys.HueShapes.rawValue)
+        UserDefaults.standard.set(Shapes.Blocks.rawValue, forKey: SettingKeys.SaturationShapes.rawValue)
+        UserDefaults.standard.set(Shapes.Blocks.rawValue, forKey: SettingKeys.BrightnessShapes.rawValue)
+        UserDefaults.standard.set(Shapes.Spheres.rawValue, forKey: SettingKeys.CapShape.rawValue)
+        UserDefaults.standard.set(CapLocations.Top.rawValue, forKey: SettingKeys.CapLocation.rawValue)
+        UserDefaults.standard.set(5, forKey: SettingKeys.StarApexCount.rawValue)
+        UserDefaults.standard.set(true, forKey: SettingKeys.ApexesIncrease.rawValue)
+        UserDefaults.standard.set(LineThickenesses.Thin.rawValue, forKey: SettingKeys.LineThickness.rawValue)
+        UserDefaults.standard.set(4, forKey: SettingKeys.LineCount.rawValue)
+        UserDefaults.standard.set(CharacterSets.Latin.rawValue, forKey: SettingKeys.CharacterSet.rawValue)
+        UserDefaults.standard.set(ConeTopSizes.Zero.rawValue, forKey: SettingKeys.ConeTopSize.rawValue)
+        UserDefaults.standard.set(ConeBottomSizes.Side, forKey: SettingKeys.ConeBottomSize.rawValue)
+        UserDefaults.standard.set(false, forKey: SettingKeys.ConeSwapTopBottom.rawValue)
     }
     
     /// Add a subscriber to the notification list. Each subscriber is called just before a setting is committed and just after
@@ -505,39 +524,57 @@ class Settings
     
     /// Contains a list of all boolean-type fields.
     public static let BooleanFields: [SettingKeys] =
-    [
-    .InvertHeight,
-    .InvertConditionalColor
+        [
+            .InvertHeight,
+            .InvertConditionalColor,
+            .ApexesIncrease,
+            .ConeSwapTopBottom
     ]
     
     /// Contains a list of all integer-type fields.
     public static let IntegerFields: [SettingKeys] =
-    [
-    .MaximumLength,
-    .BackgroundColor,
-    .LightColor
+        [
+            .MaximumLength,
+            .BackgroundColor,
+            .LightColor,
+            .StarApexCount,
+            .LineCount
     ]
     
     /// Contains a list of all string-type fields.
     public static let StringFields: [SettingKeys] =
-    [
-    .Shape,
-    .VerticalExaggeration,
-    .HeightDetermination,
-    .ConditionalColor,
-    .ConditionalColorAction,
-    .ConditionalColorThreshold,
-    .BackgroundType,
-    .BackgroundGradientColors,
-    .LightType,
-    .LightIntensity,
-    .LightModel,
+        [
+            .Shape,
+            .VerticalExaggeration,
+            .HeightDetermination,
+            .ConditionalColor,
+            .ConditionalColorAction,
+            .ConditionalColorThreshold,
+            .BackgroundType,
+            .BackgroundGradientColors,
+            .LightType,
+            .LightIntensity,
+            .LightModel,
+            .BlockChamfer,
+            .OvalLength,
+            .OvalOrientation,
+            .DiamondLength,
+            .DiamondOrientation,
+            .StackedShapeList,
+            .HueShapes,
+            .SaturationShapes,
+            .BrightnessShapes,
+            .CapShape,
+            .CapLocation,
+            .LineThickness,
+            .ConeTopSize,
+            .ConeBottomSize
     ]
     
     /// Contains a list of all double-type fields.
     public static let DoubleFields: [SettingKeys] =
-    [
-    .Side
+        [
+            .Side
     ]
 }
 
@@ -570,6 +607,65 @@ enum SettingKeys: String, CaseIterable, Comparable, Hashable
     case ConditionalColorThreshold = "ConditionalColorThreshold"
     /// Boolean: Invert the conditional color threshold comparison.
     case InvertConditionalColor = "InvertConditionalColor"
+    
+    //Optional settings.
+    //Block optional settings.
+    /// String/Enum: Holds the chamfer value for blocks.
+    case BlockChamfer = "BlockChamfer"
+    
+    //Oval optional settings.
+    /// String/Enum: Holds the orientation of oval shapes.
+    case OvalOrientation = "OvalOrientation"
+    /// String/Enum: Holds the length of oval shapes.
+    case OvalLength = "OvalLength"
+    
+    //Diamond optional settings.
+    /// String/Enum: Holds the orientation of diamond shapes.
+    case DiamondOrientation = "DiamondOrientation"
+    /// String/Enum: Holds the length of diamond shapes.
+    case DiamondLength = "DiamondLength"
+    
+    //Stacked shapes optional settings.
+    /// String: List of stacked shapes.
+    case StackedShapeList = "StackedShapeList"
+    
+    //Channel-varying shapes optional settings.
+    /// String: List of shapes for hue varying shapes.
+    case HueShapes = "HueShapes"
+    /// String: List of shapes for saturation varying shapes.
+    case SaturationShapes = "SaturationShapes"
+    /// String: List of shapes for brightness varying shapes.
+    case BrightnessShapes = "BrightnessShapes"
+    
+    //Capped-line shape optional settings.
+    /// String/Enum: The shape of the cap for the capped-line.
+    case CapShape = "CapShape"
+    /// String/Enum: The location of the cap for the capped-line.
+    case CapLocation = "CapLocation"
+    
+    //Star optional settings.
+    /// Int: Number of apexes.
+    case StarApexCount = "StarApexCount"
+    /// Boolean: The number of apexes increases with the intensity of the exaggeration.
+    case ApexesIncrease = "ApexesIncrease"
+    
+    //Radial lines settings.
+    /// String/Enum: Thickness of radial lines.
+    case LineThickness = "LineThickness"
+    /// Int: Number of radial lines.
+    case LineCount = "LineCount"
+    
+    //Character set settings.
+    /// String/Enum: The character set from which to draw random characters.
+    case CharacterSet = "CharacterSet"
+    
+    //Cone settings.
+    /// String/Enum: Determines the size of the top of the cone.
+    case ConeTopSize = "ConeTopSize"
+    /// String/Enum: Determines the size of the bottom of the cone.
+    case ConeBottomSize = "ConeBottomSize"
+    /// Bool: Cone sizes are swapped.
+    case ConeSwapTopBottom = "SwapConeTopAndBottom"
     
     //Processing settings.
     /// String/Enum: Holds the vertical exaggeration.
