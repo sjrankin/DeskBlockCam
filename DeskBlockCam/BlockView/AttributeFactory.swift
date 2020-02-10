@@ -17,7 +17,7 @@ extension ProcessingAttributes
     /// - Returns: New `ProcessingAttributes` instance with current settings.
     public static func Create() -> ProcessingAttributes
     {
-        var Attr = ProcessingAttributes()
+        let Attr = ProcessingAttributes()
         Attr.Shape = Settings.GetEnum(ForKey: .Shape, EnumType: Shapes.self, Default: Shapes.Blocks)
         Attr.VerticalExaggeration = Settings.GetEnum(ForKey: .VerticalExaggeration, EnumType: VerticalExaggerations.self,
                                                      Default: VerticalExaggerations.None)
@@ -59,42 +59,16 @@ extension ProcessingAttributes
                                           Default: LightModels.Lambert)
         //Read and add optional data.
         Attr.ShapeOptions = [OptionalParameters]()
-        let Chamfer = Settings.GetEnum(ForKey: .BlockChamfer, EnumType: BlockChamferSizes.self, Default: BlockChamferSizes.None)
-        let BlockOp = BlockOptionalParameters(WithChamfer: Chamfer)
-        Attr.ShapeOptions!.append(BlockOp)
-        let CLineShape = Settings.GetEnum(ForKey: .CapShape, EnumType: Shapes.self, Default: Shapes.Spheres)
-        let CLoc = Settings.GetEnum(ForKey: .CapLocation, EnumType: CapLocations.self, Default: CapLocations.Top)
-        let CLineOp = CappedLineOptionalParameters(WithCapShape: CLineShape, AtLocation: CLoc)
-        Attr.ShapeOptions!.append(CLineOp)
-        let CSet = Settings.GetEnum(ForKey: .CharacterSet, EnumType: CharacterSets.self, Default: CharacterSets.Latin)
-        let CSetOp = CharactersOptionalParameters(WithSet: CSet)
-        Attr.ShapeOptions!.append(CSetOp)
-        let StarApex = Settings.GetInteger(ForKey: .StarApexCount)
-        let ApexesIncrease = Settings.GetBoolean(ForKey: .ApexesIncrease)
-        let StarOp = StarOptionalParameters(ApexCount: StarApex, UseIntensity: ApexesIncrease)
-        Attr.ShapeOptions!.append(StarOp)
-        let OvalOr = Settings.GetEnum(ForKey: .OvalOrientation, EnumType: Orientations.self, Default: Orientations.Horizontal)
-        let OvalDi = Settings.GetEnum(ForKey: .OvalLength, EnumType: Distances.self, Default: Distances.Medium)
-        let OvalOp = EllipseOptionalParameters(WithOrientation: OvalOr, Size: OvalDi)
-        Attr.ShapeOptions!.append(OvalOp)
-        let DiaOr = Settings.GetEnum(ForKey: .DiamondOrientation, EnumType: Orientations.self, Default: Orientations.Horizontal)
-        let DiaDi = Settings.GetEnum(ForKey: .DiamondLength, EnumType: Distances.self, Default: Distances.Medium)
-        let DiaOp = DiamondOptionalParameters(WithOrientation: DiaOr, Size: DiaDi)
-        Attr.ShapeOptions!.append(DiaOp)
-        let ConeTop = Settings.GetEnum(ForKey: .ConeTopSize, EnumType: ConeTopSizes.self, Default: ConeTopSizes.Zero)
-        let ConeBottom = Settings.GetEnum(ForKey: .ConeBottomSize, EnumType: ConeBottomSizes.self, Default: ConeBottomSizes.Side)
-        let SwapTopBottom = Settings.GetBoolean(ForKey: .ConeSwapTopBottom)
-        let ConeOp = ConeOptionalParameters(WithTopSize: ConeTop, BottomSize: ConeBottom, Swap: SwapTopBottom)
-        Attr.ShapeOptions!.append(ConeOp)
-        let HueList = Settings.GetString(ForKey: .HueShapes, Shapes.Blocks.rawValue)
-        let HueOp = HSBVaryingOptionalParameters(WithChannel: .HSB_Hue, ShapeList: MakeShapeList(From: HueList))
-        Attr.ShapeOptions!.append(HueOp)
-        let SatList = Settings.GetString(ForKey: .SaturationShapes, Shapes.Blocks.rawValue)
-        let SatOp = HSBVaryingOptionalParameters(WithChannel: .HSB_Saturation, ShapeList: MakeShapeList(From: SatList))
-        Attr.ShapeOptions!.append(SatOp)
-        let BriList = Settings.GetString(ForKey: .BrightnessShapes, Shapes.Blocks.rawValue)
-        let BriOp = HSBVaryingOptionalParameters(WithChannel: .HSB_Brightness, ShapeList: MakeShapeList(From: BriList))
-        Attr.ShapeOptions!.append(BriOp)
+        Attr.ShapeOptions!.append(BlockOptionalParameters())
+        Attr.ShapeOptions!.append(CappedLineOptionalParameters())
+        Attr.ShapeOptions!.append(CharactersOptionalParameters())
+        Attr.ShapeOptions!.append(StarOptionalParameters())
+        Attr.ShapeOptions!.append(EllipseOptionalParameters())
+        Attr.ShapeOptions!.append(DiamondOptionalParameters())
+        Attr.ShapeOptions!.append(ConeOptionalParameters())
+        Attr.ShapeOptions!.append(HSBVaryingOptionalParameters(WithChannel: .HSB_Hue))
+                Attr.ShapeOptions!.append(HSBVaryingOptionalParameters(WithChannel: .HSB_Saturation))
+                Attr.ShapeOptions!.append(HSBVaryingOptionalParameters(WithChannel: .HSB_Brightness))
         return Attr
     }
     
@@ -124,11 +98,55 @@ extension ProcessingAttributes
         return ShapeList
     }
     
+    /// Converts a list of shapes into a comma-separated string of shape names.
+    /// - Parameter From: The array of shapes to convert to a string.
+    /// - Returns: Comma-separated string of shape names. May be empty if `From` has no entries.
+    public static func MakeShapeString(From List: [Shapes]) -> String
+    {
+        var Result = ""
+        if List.count < 1
+        {
+            return Result
+        }
+        for Shape in List
+        {
+            Result.append(Shape.rawValue)
+            Result.append(",")
+        }
+        return Result
+    }
+    
     /// Write the passed set of attributes to user settings.
     /// - Parameter Attributes: The attributes to write.
     public static func Write(_ Attributes: ProcessingAttributes)
     {
-        
+        Settings.SetEnum(Attributes.Shape, EnumType: Shapes.self, ForKey: .Shape)
+        Settings.SetEnum(Attributes.VerticalExaggeration, EnumType: VerticalExaggerations.self, ForKey: .VerticalExaggeration)
+        Settings.SetBoolean(Attributes.InvertHeight, ForKey: .InvertHeight)
+        Settings.SetEnum(Attributes.HeightDeterminate, EnumType: HeightDeterminations.self, ForKey: .HeightDetermination)
+        Settings.SetEnum(Attributes.ConditionalColor, EnumType: ConditionalColorTypes.self, ForKey: .ConditionalColor)
+        Settings.SetEnum(Attributes.ConditionalColorAction, EnumType: ConditionalColorActions.self, ForKey: .ConditionalColorAction)
+        Settings.SetEnum(Attributes.ConditionalColorThreshold, EnumType: ConditionalColorThresholds.self, ForKey: .ConditionalColorThreshold)
+        Settings.SetBoolean(Attributes.InvertConditionalColorThreshold, ForKey: .InvertConditionalColor)
+        Settings.SetEnum(Attributes.Background, EnumType: Backgrounds.self, ForKey: .BackgroundType)
+        Settings.SetInteger(NSColor.AsInt(Attributes.BackgroundColor), ForKey: .BackgroundColor)
+    var GrList = ""
+        for GColor in Attributes.BackgroundGradientColors
+        {
+            let GInt = NSColor.AsInt(GColor)
+            let GS = "0x\(GInt)"
+            GrList.append(GS)
+            GrList.append(",")
+        }
+        Settings.SetString(GrList, ForKey: .BackgroundGradientColors)
+        Settings.SetInteger(NSColor.AsInt(Attributes.LightColor), ForKey: .LightColor)
+        Settings.SetEnum(Attributes.LightType, EnumType: LightingTypes.self, ForKey: .LightType)
+        Settings.SetEnum(Attributes.LightIntensity, EnumType: LightIntensities.self, ForKey: .LightIntensity)
+        Settings.SetEnum(Attributes.LightModel, EnumType: LightModels.self, ForKey: .LightModel)
+        for Optional in Attributes.ShapeOptions!
+        {
+            Optional.Write()
+        }
     }
 }
 
@@ -148,5 +166,22 @@ extension NSColor
         let Color = NSColor(red: CGFloat(Red) / 255.0, green: CGFloat(Green) / 255.0, blue: CGFloat(Blue) / 255.0,
                             alpha: ForceAlpha1 ? 1.0 : CGFloat(Alpha) / 255.0)
         return Color
+    }
+    
+    /// Converts the passed color to an integer value.
+    /// - Parameter Value: The color to convert.
+    /// - Returns: Integer equivalent of the passed color.
+    static func AsInt(_ Value: NSColor) -> Int
+    {
+        var Red: CGFloat = 0.0
+        var Green: CGFloat = 0.0
+        var Blue: CGFloat = 0.0
+        var Alpha: CGFloat = 0.0
+        Value.getRed(&Red, green: &Green, blue: &Blue, alpha: &Alpha)
+        let Final: Int = Int(Alpha * 255.0) << 24 +
+            Int(Red * 255.0) << 16 +
+            Int(Green * 255.0) << 8 +
+            Int(Blue * 255.0)
+        return Final
     }
 }
