@@ -23,6 +23,25 @@ class CharactersOptionalParameters: OptionalParameters
         self.FontName = FontName
     }
     
+    init(WithSet: CharacterSets)
+    {
+        super.init(WithShape: .Characters)
+        _CharSet = WithSet
+    }
+    
+    private var _CharSet: CharacterSets = .Latin
+    public var CharSet: CharacterSets
+    {
+        get
+        {
+            return _CharSet
+        }
+        set
+        {
+            _CharSet = newValue
+        }
+    }
+    
     private var _CharacterList: String = "abcdefghijklmnopqrstuvwxyz"
     public var CharacterList: String
     {
