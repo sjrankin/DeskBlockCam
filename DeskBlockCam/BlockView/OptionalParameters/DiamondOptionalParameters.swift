@@ -16,14 +16,15 @@ class DiamondOptionalParameters: OptionalParameters
         super.init(WithShape: .Diamonds)
     }
     
-    init(WithOrientation: DiamondOrientations)
+    init(WithOrientation: Orientations, Size: Distances)
     {
         super.init(WithShape: .Diamonds)
         _Orientation = WithOrientation
+        _Size = Size
     }
     
-    private var _Orientation: DiamondOrientations = .HorizontalMedium
-    public var Orientation: DiamondOrientations
+    private var _Orientation: Orientations = .Horizontal
+    public var Orientation: Orientations
     {
         get
         {
@@ -34,14 +35,18 @@ class DiamondOptionalParameters: OptionalParameters
             _Orientation = newValue
         }
     }
+    
+    private var _Size: Distances = .Medium
+    public var Size: Distances
+    {
+        get
+        {
+            return _Size
+        }
+        set
+        {
+            _Size = newValue
+        }
+    }
 }
 
-enum DiamondOrientations: String, CaseIterable
-{
-    case HorizontalShort = "Horizontal Short"
-    case HorizontalMedium = "Horizontal Medium"
-    case HorizontalLong = "Horizontal Long"
-    case VerticalShort = "Vertical Short"
-    case VerticalMedium = "Vertical Medium"
-    case VerticalLong = "Vertical Long"
-}
