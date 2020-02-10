@@ -477,6 +477,20 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
     {
         DoUpdateLightSample()
     }
+    
+    // MARK: - Processing variables and code.
+    
+    
+    @IBAction func HandleShapeSizeChanged(_ sender: Any)
+    {
+    }
+    
+    @IBAction func HandleMaximumImageSizeChanged(_ sender: Any)
+    {
+    }
+    
+    @IBOutlet weak var ShapeSizeSelector: NSSegmentedControl!
+    @IBOutlet weak var MaximumImageSizeSelector: NSSegmentedControl!
 }
 
 class ShapeTreeNode
