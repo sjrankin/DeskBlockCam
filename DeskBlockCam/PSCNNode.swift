@@ -77,6 +77,19 @@ class PSCNNode: SCNNode
         }
     }
     
+    private var _Prominence: CGFloat = 0.0
+    public var Prominence: CGFloat
+    {
+        get
+        {
+            return _Prominence
+        }
+        set
+        {
+            _Prominence = newValue
+        }
+    }
+    
     /// Holds an array of prominence values.
     var Prominences: [Double] = [Double]()
     
