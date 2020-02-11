@@ -168,3 +168,10 @@ enum ConeBottomSizes: String, CaseIterable
     case Side10 = "Side 10%"
     case Side50 = "Side 50%"
 }
+
+enum MainModes: String, CaseIterable
+{
+    case LiveView = "Live View"
+    case ImageView = "Image View"
+    case VideoView = "Video View"
+}
