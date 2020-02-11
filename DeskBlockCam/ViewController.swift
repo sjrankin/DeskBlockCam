@@ -15,12 +15,17 @@ import AVFoundation
 import CoreGraphics
 
 /// Main window controller.
-class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCaptureVideoDataOutputSampleBufferDelegate
+class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCaptureVideoDataOutputSampleBufferDelegate,
+    NSFilePromiseProviderDelegate,
+    SettingChangedProtocol,
+    DragDropDelegate
 {
     /// Load and set up the UI.
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        
+        Settings.AddSubscriber(self, "ViewController")
         
         LiveView.wantsLayer = true
         LiveView.layer?.borderWidth = 1.0
@@ -51,12 +56,147 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         ModeSelector.addItems(withTitles: ["Live View", "Still Image", "Videos"])
         
         Started = true
-        OpenOptionsWindow()
+        if Settings.GetBoolean(ForKey: .AutoOpenShapeSettings)
+        {
+            OpenOptionsWindow()
+        }
         OpenProcessedWindow()
         StatTable.reloadData()
+        
+        LiveHistogram.isHidden = !Settings.GetBoolean(ForKey: .ShowHistogram)
+        
+        ControllerView.DragDelegate = self
+        view.registerForDraggedTypes(NSFilePromiseReceiver.readableDraggedTypes.map {NSPasteboard.PasteboardType($0)})
+        view.registerForDraggedTypes([NSPasteboard.PasteboardType.fileURL])
+    }
+    
+    // MARK: - Drag and drop
+    func filePromiseProvider(_ filePromiseProvider: NSFilePromiseProvider, fileNameForType fileType: String) -> String
+    {
+        fatalError(fileType)
+    }
+    
+    func filePromiseProvider(_ filePromiseProvider: NSFilePromiseProvider, writePromiseTo url: URL, completionHandler: @escaping (Error?) -> Void)
+    {
+        fatalError()
+    }
+    
+    private lazy var DestinationURL: URL =
+    {
+        let DestinationURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("Drops")
+        try? FileManager.default.createDirectory(at: DestinationURL, withIntermediateDirectories: true, attributes: nil)
+        return DestinationURL
+    }()
+    
+    private lazy var WorkQueue: OperationQueue =
+    {
+        let ProviderQueue = OperationQueue()
+        ProviderQueue.qualityOfService = .userInitiated
+        return ProviderQueue
+    }()
+    
+    func draggingEntered(ForView: ViewControllerView, sender: NSDraggingInfo) -> NSDragOperation
+    {
+        return sender.draggingSourceOperationMask.intersection([.copy])
+    }
+    
+    func performDragOperation(ForView: ViewControllerView, sender: NSDraggingInfo) -> Bool
+    {
+        let SupportedClasses = [NSFilePromiseReceiver.self, NSURL.self]
+        let SearchOptions: [NSPasteboard.ReadingOptionKey: Any] =
+            [
+                .urlReadingFileURLsOnly: true,
+                .urlReadingContentsConformToTypes: [kUTTypeImage]
+        ]
+        sender.enumerateDraggingItems(options: [], for: nil, classes: SupportedClasses, searchOptions: SearchOptions)
+        {
+            (draggingItem, _, _) in
+            print("\(draggingItem.item)")
+            switch draggingItem.item
+            {
+                case let filePromiseReceiver as NSFilePromiseReceiver:
+                    self.prepareForUpdate()
+                    filePromiseReceiver.receivePromisedFiles(atDestination: self.DestinationURL, options: [:],
+                                                             operationQueue: self.WorkQueue)
+                    {
+                        (fileURL, error) in
+                        if let error = error
+                        {
+                            self.handleError(error)
+                        }
+                        else
+                        {
+                            self.handleFile(at: fileURL)
+                        }
+                }
+                
+                case let fileURL as URL:
+                    self.handleFile(at: fileURL)
+                
+                default:
+                    fatalError()
+            }
+        }
+        
+        return true
+    }
+    
+    func handleError(_ error: Error)
+    {
+        print("Error: \(error)")
+    }
+    
+    func handleFile(at url: URL)
+    {
+        let Image = NSImage(contentsOf: url)
+        if Image == nil
+        {
+            print("Error reading image.")
+        }
+    }
+    
+    func prepareForUpdate()
+    {
+        
+    }
+    
+    func pasteboardWriter(ForView: ViewControllerView) -> NSPasteboardWriting
+    {
+        let provider = NSFilePromiseProvider(fileType: kUTTypeJPEG as String, delegate: self)
+        return provider
+    }
+    
+    // MARK: - Other stuff
+    
+    func WillChangeSetting(_ ChangedSetting: SettingKeys, NewValue: Any, CancelChange: inout Bool)
+    {
+    }
+    
+    func DidChangeSetting(_ ChangedSetting: SettingKeys)
+    {
+        switch ChangedSetting
+        {
+            case .ShowHistogram:
+                LiveHistogram.isHidden = !Settings.GetBoolean(ForKey: .ShowHistogram)
+            
+            default:
+                break
+        }
     }
     
     var Started = false
+    
+    func RunProgramSettings()
+    {
+        let Storyboard = NSStoryboard(name: "Main", bundle: nil)
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "ProgramSettingsWindowUI") as? ProgramSettingsWindowController
+        {
+            WindowController.showWindow(nil)
+            MainSettings = WindowController
+        }
+    }
+    
+    var MainSettings: ProgramSettingsWindowController? = nil
     
     /// Open the processed video window.
     func OpenProcessedWindow()
@@ -164,13 +304,16 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
     /// Hook up the camera stream to the output view.
     func SetupLiveView()
     {
-        LiveView.layerContentsPlacement = .scaleProportionallyToFill
-        LiveView.layerContentsRedrawPolicy = .duringViewResize
-        VideoPreviewLayer = AVCaptureVideoPreviewLayer(session: CaptureSession)
-        VideoPreviewLayer.name = "VideoLayer"
-        VideoPreviewLayer.videoGravity = .resizeAspect
-        VideoPreviewLayer.connection?.videoOrientation = .portrait
-        LiveView.layer?.addSublayer(VideoPreviewLayer)
+        OperationQueue.main.addOperation
+            {
+                self.LiveView.layerContentsPlacement = .scaleProportionallyToFill
+                self.LiveView.layerContentsRedrawPolicy = .duringViewResize
+                self.VideoPreviewLayer = AVCaptureVideoPreviewLayer(session: self.CaptureSession)
+                self.VideoPreviewLayer.name = "VideoLayer"
+                self.VideoPreviewLayer.videoGravity = .resizeAspect
+                self.VideoPreviewLayer.connection?.videoOrientation = .portrait
+                self.LiveView.layer?.addSublayer(self.VideoPreviewLayer)
+        }
         DispatchQueue.global(qos: .userInitiated).async
             {
                 [weak self] in
@@ -265,7 +408,10 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
                 if let Buffer: CVPixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer)
                 {
                     let CIImg: CIImage = CIImage(cvPixelBuffer: Buffer)
-                    LiveHistogram.DisplayHistogram(For: CIImg)
+                    if Settings.GetBoolean(ForKey: .ShowHistogram)
+                    {
+                        LiveHistogram.DisplayHistogram(For: CIImg)
+                    }
                     
                     let Start = CACurrentMediaTime()
                     AddStat(ForItem: .CurrentFrame, NewValue: "\(FrameCount)")
@@ -284,11 +430,11 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
                     
                     if ProcessSink != nil
                     {
-                    if DroppedFrames < ProcessSink!.DroppedFrameCount
-                    {
-                        DroppedFrames = ProcessSink!.DroppedFrameCount
-                        AddStat(ForItem: .DroppedFrames, NewValue: "\(DroppedFrames)")
-                    }
+                        if DroppedFrames < ProcessSink!.DroppedFrameCount
+                        {
+                            DroppedFrames = ProcessSink!.DroppedFrameCount
+                            AddStat(ForItem: .DroppedFrames, NewValue: "\(DroppedFrames)")
+                        }
                     }
                     RenderedFrames = RenderedFrames + 1
                     RenderedDuration = RenderedDuration + TotalEnd
@@ -363,6 +509,10 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         {
             Settings.CloseWindow()
         }
+        if let MainS = MainSettings
+        {
+            MainS.CloseWindow()
+        }
         FileIO.ClearFramesDirectory()
     }
     
@@ -384,7 +534,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
             StatRowContainer(.FrameDurationDelta, "Delta Duration", "not yet"),
             StatRowContainer(.ThrottleValue, "Throttle", ""),
     ]
-
+    
     @IBAction func HandleModeSelectorChanged(_ sender: Any)
     {
         if let Selector = sender as? NSPopUpButton
@@ -394,6 +544,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         }
     }
     
+    @IBOutlet var ControllerView: ViewControllerView!
     @IBOutlet weak var ModeSelector: NSPopUpButton!
     @IBOutlet weak var ProcessedImage: SCNView!
     @IBOutlet weak var LiveHistogram: HistogramDisplay!
