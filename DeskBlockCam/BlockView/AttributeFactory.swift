@@ -24,7 +24,7 @@ extension ProcessingAttributes
         Attr.InvertHeight = Settings.GetBoolean(ForKey: .InvertHeight)
         Attr.Side = CGFloat(Settings.GetDouble(ForKey: .Side))
         Attr.HeightDeterminate = Settings.GetEnum(ForKey: .HeightDetermination, EnumType: HeightDeterminations.self,
-                                                 Default: HeightDeterminations.Brightness)
+                                                  Default: HeightDeterminations.Brightness)
         Attr.ConditionalColor = Settings.GetEnum(ForKey: .ConditionalColor, EnumType: ConditionalColorTypes.self,
                                                  Default: ConditionalColorTypes.None)
         Attr.ConditionalColorAction = Settings.GetEnum(ForKey: .ConditionalColorAction, EnumType: ConditionalColorActions.self,
@@ -56,7 +56,7 @@ extension ProcessingAttributes
         Attr.LightIntensity = Settings.GetEnum(ForKey: .LightIntensity, EnumType: LightIntensities.self,
                                                Default: LightIntensities.Normal)
         Attr.LightModel = Settings.GetEnum(ForKey: .LightModel, EnumType: LightModels.self,
-                                          Default: LightModels.Lambert)
+                                           Default: LightModels.Lambert)
         //Read and add optional data.
         Attr.ShapeOptions = [OptionalParameters]()
         Attr.ShapeOptions!.append(BlockOptionalParameters())
@@ -67,8 +67,8 @@ extension ProcessingAttributes
         Attr.ShapeOptions!.append(DiamondOptionalParameters())
         Attr.ShapeOptions!.append(ConeOptionalParameters())
         Attr.ShapeOptions!.append(HSBVaryingOptionalParameters(WithChannel: .HSB_Hue))
-                Attr.ShapeOptions!.append(HSBVaryingOptionalParameters(WithChannel: .HSB_Saturation))
-                Attr.ShapeOptions!.append(HSBVaryingOptionalParameters(WithChannel: .HSB_Brightness))
+        Attr.ShapeOptions!.append(HSBVaryingOptionalParameters(WithChannel: .HSB_Saturation))
+        Attr.ShapeOptions!.append(HSBVaryingOptionalParameters(WithChannel: .HSB_Brightness))
         return Attr
     }
     
@@ -130,7 +130,7 @@ extension ProcessingAttributes
         Settings.SetBoolean(Attributes.InvertConditionalColorThreshold, ForKey: .InvertConditionalColor)
         Settings.SetEnum(Attributes.Background, EnumType: Backgrounds.self, ForKey: .BackgroundType)
         Settings.SetInteger(NSColor.AsInt(Attributes.BackgroundColor), ForKey: .BackgroundColor)
-    var GrList = ""
+        var GrList = ""
         for GColor in Attributes.BackgroundGradientColors
         {
             let GInt = NSColor.AsInt(GColor)
