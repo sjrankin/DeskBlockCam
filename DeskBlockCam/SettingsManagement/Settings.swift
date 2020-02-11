@@ -82,6 +82,10 @@ class Settings
         UserDefaults.standard.set(ConeTopSizes.Zero.rawValue, forKey: SettingKeys.ConeTopSize.rawValue)
         UserDefaults.standard.set(ConeBottomSizes.Side, forKey: SettingKeys.ConeBottomSize.rawValue)
         UserDefaults.standard.set(false, forKey: SettingKeys.ConeSwapTopBottom.rawValue)
+        UserDefaults.standard.set(Shapes.Blocks.rawValue, forKey: SettingKeys.LiveViewShape.rawValue)
+        UserDefaults.standard.set(MainModes.LiveView.rawValue, forKey: SettingKeys.CurrentMode.rawValue)
+        UserDefaults.standard.set(true, forKey: SettingKeys.ShowHistogram.rawValue)
+        UserDefaults.standard.set(true, forKey: SettingKeys.AutoOpenShapeSettings.rawValue)
     }
     
     /// Add a subscriber to the notification list. Each subscriber is called just before a setting is committed and just after
@@ -528,7 +532,9 @@ class Settings
             .InvertHeight,
             .InvertConditionalColor,
             .ApexesIncrease,
-            .ConeSwapTopBottom
+            .ConeSwapTopBottom,
+            .ShowHistogram,
+            .AutoOpenShapeSettings
     ]
     
     /// Contains a list of all integer-type fields.
@@ -568,7 +574,9 @@ class Settings
             .CapLocation,
             .LineThickness,
             .ConeTopSize,
-            .ConeBottomSize
+            .ConeBottomSize,
+            .LiveViewShape,
+            .CurrentMode
     ]
     
     /// Contains a list of all double-type fields.
@@ -695,6 +703,18 @@ enum SettingKeys: String, CaseIterable, Comparable, Hashable
     case LightIntensity = "LightIntensity"
     /// String/Enum: Light material model.
     case LightModel = "LightModel"
+    
+    //Live view settings.
+    /// String/Enum. The shape to use for live views.
+    case LiveViewShape = "LiveViewShape"
+    
+    //Main view settings.
+    /// String/Enum. The current mode for the main view.
+    case CurrentMode = "CurrentMode"
+    /// Bool: Shows or hides the histogram for the live view.
+    case ShowHistogram = "ShowHistogram"
+    /// Bool: Automatically open shape settings.
+    case AutoOpenShapeSettings = "AutoOpenShapeSettings"
 }
 
 /// Types of setting data recognized by the SettingsManager.
