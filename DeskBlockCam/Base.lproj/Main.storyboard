@@ -701,6 +701,9 @@
                                 <toolbarItem implicitItemIdentifier="0BB92195-4A9D-43BD-ADE1-399D3737C2BB" label="Settings" paletteLabel="Settings" tag="-1" image="NSAdvanced" id="Zwt-fV-JhK">
                                     <size key="minSize" width="32" height="32"/>
                                     <size key="maxSize" width="32" height="32"/>
+                                    <connections>
+                                        <action selector="HandleSettingButtonPressed:" target="B8D-0N-5wS" id="rgU-jg-CC7"/>
+                                    </connections>
                                 </toolbarItem>
                                 <toolbarItem implicitItemIdentifier="6C4CABF4-7D01-423D-BDC9-D6AFE2E051E0" label="Share" paletteLabel="Share" tag="-1" image="NSShareTemplate" id="Y61-8D-ng9">
                                     <size key="minSize" width="11" height="16"/>
@@ -730,6 +733,7 @@
                         </connections>
                     </window>
                     <connections>
+                        <outlet property="MainSettingButton" destination="Zwt-fV-JhK" id="X7x-u9-tbs"/>
                         <segue destination="XfG-lQ-9wD" kind="relationship" relationship="window.shadowedContentViewController" id="cq2-FE-JQM"/>
                     </connections>
                 </windowController>
@@ -741,7 +745,7 @@
         <scene sceneID="hIz-AP-VOD">
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="ViewController" customModule="DeskBlockCam" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" id="m2S-Jp-Qdl">
+                    <view key="view" id="m2S-Jp-Qdl" customClass="ViewControllerView" customModule="DeskBlockCam" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="1082" height="578"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
@@ -946,6 +950,7 @@
                     <connections>
                         <outlet property="BottomBar" destination="7Mz-J6-VDI" id="OLk-N4-NNU"/>
                         <outlet property="CameraButton" destination="yfw-EC-nVV" id="fiC-Ke-lar"/>
+                        <outlet property="ControllerView" destination="m2S-Jp-Qdl" id="nFB-wN-KJG"/>
                         <outlet property="LiveHistogram" destination="sD1-1P-Ylf" id="MKZ-QP-h5W"/>
                         <outlet property="LiveView" destination="23E-4E-LEJ" id="lIM-BN-EAH"/>
                         <outlet property="ModeSelector" destination="LJe-NP-c5R" id="YMH-Tj-tdr"/>
@@ -961,7 +966,7 @@
         <scene sceneID="7Bx-O9-Gdr">
             <objects>
                 <windowController storyboardIdentifier="ShapeOptionWindowUI" id="LyL-XC-9lY" customClass="ShapeOptionsWindowCode" customModule="DeskBlockCam" customModuleProvider="target" sceneMemberID="viewController">
-                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="Kee-Cm-eoV">
+                    <window key="window" title="Shape Options" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="Kee-Cm-eoV">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="2932" y="555" width="480" height="270"/>
@@ -1802,6 +1807,114 @@
                 <treeController childrenKeyPath="children" id="9tr-Ob-g7Q"/>
             </objects>
             <point key="canvasLocation" x="1163" y="1210.5"/>
+        </scene>
+        <!--Window Controller-->
+        <scene sceneID="irv-ov-7pB">
+            <objects>
+                <windowController storyboardIdentifier="ProgramSettingsWindowUI" id="6zw-q5-8sJ" customClass="ProgramSettingsWindowController" customModule="DeskBlockCam" customModuleProvider="target" sceneMemberID="viewController">
+                    <window key="window" title="Program Settings" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="Oxs-ir-uRP">
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+                        <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+                        <rect key="contentRect" x="2932" y="555" width="480" height="270"/>
+                        <rect key="screenRect" x="2560" y="144" width="2304" height="1296"/>
+                        <connections>
+                            <outlet property="delegate" destination="6zw-q5-8sJ" id="tOw-cW-lzN"/>
+                        </connections>
+                    </window>
+                    <connections>
+                        <segue destination="2rF-AQ-BcH" kind="relationship" relationship="window.shadowedContentViewController" id="WxB-Ve-2AT"/>
+                    </connections>
+                </windowController>
+                <customObject id="HeQ-Bi-ghy" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-763" y="1480"/>
+        </scene>
+        <!--Program Settings Code-->
+        <scene sceneID="wsJ-X8-bYy">
+            <objects>
+                <viewController id="2rF-AQ-BcH" customClass="ProgramSettingsCode" customModule="DeskBlockCam" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="lDz-au-Rs3">
+                        <rect key="frame" x="0.0" y="0.0" width="733" height="385"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="in9-VH-HA9">
+                                <rect key="frame" x="329" y="13" width="75" height="32"/>
+                                <buttonCell key="cell" type="push" title="Close" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="KG2-Pc-aj9">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="HandleCloseButton:" target="2rF-AQ-BcH" id="2RQ-jP-xLF"/>
+                                </connections>
+                            </button>
+                            <tabView translatesAutoresizingMaskIntoConstraints="NO" id="cr8-F5-Q2P">
+                                <rect key="frame" x="13" y="51" width="707" height="320"/>
+                                <font key="font" metaFont="system"/>
+                                <tabViewItems>
+                                    <tabViewItem label="Main" identifier="" id="2i3-3A-fv7">
+                                        <view key="view" id="Llg-AG-oAx">
+                                            <rect key="frame" x="10" y="33" width="687" height="274"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <subviews>
+                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="p82-0Q-dfB">
+                                                    <rect key="frame" x="15" y="255" width="120" height="18"/>
+                                                    <buttonCell key="cell" type="check" title="Show histogram" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="tdg-21-8gr">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                    <connections>
+                                                        <action selector="HandleShowHistogramChanged:" target="2rF-AQ-BcH" id="fl7-HP-QYB"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="p82-0Q-dfB" firstAttribute="leading" secondItem="Llg-AG-oAx" secondAttribute="leading" constant="17" id="RrB-gp-FPu"/>
+                                                <constraint firstItem="p82-0Q-dfB" firstAttribute="top" secondItem="Llg-AG-oAx" secondAttribute="top" constant="3" id="o3Q-TF-bEu"/>
+                                            </constraints>
+                                        </view>
+                                    </tabViewItem>
+                                    <tabViewItem label="Secondary" identifier="" id="pA3-Sd-Hpq">
+                                        <view key="view" id="7g0-uP-0iW">
+                                            <rect key="frame" x="10" y="33" width="687" height="274"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <subviews>
+                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Y50-RI-ux1">
+                                                    <rect key="frame" x="15" y="248" width="228" height="18"/>
+                                                    <buttonCell key="cell" type="check" title="Open shape options automatically" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="0li-jT-TOM">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                    <connections>
+                                                        <action selector="HandleOpenShapeOptionsChanged:" target="2rF-AQ-BcH" id="9K9-4u-1pV"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Y50-RI-ux1" firstAttribute="leading" secondItem="7g0-uP-0iW" secondAttribute="leading" constant="17" id="ZrF-FT-RLQ"/>
+                                                <constraint firstItem="Y50-RI-ux1" firstAttribute="top" secondItem="7g0-uP-0iW" secondAttribute="top" constant="10" id="aMz-O1-G3v"/>
+                                            </constraints>
+                                        </view>
+                                    </tabViewItem>
+                                </tabViewItems>
+                            </tabView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="cr8-F5-Q2P" secondAttribute="trailing" constant="20" symbolic="YES" id="0Gf-fZ-Ddt"/>
+                            <constraint firstItem="cr8-F5-Q2P" firstAttribute="centerX" secondItem="in9-VH-HA9" secondAttribute="centerX" id="Bru-dE-KGQ"/>
+                            <constraint firstItem="cr8-F5-Q2P" firstAttribute="top" secondItem="lDz-au-Rs3" secondAttribute="top" constant="20" id="CCR-sT-6lz"/>
+                            <constraint firstItem="cr8-F5-Q2P" firstAttribute="leading" secondItem="lDz-au-Rs3" secondAttribute="leading" constant="20" symbolic="YES" id="EvY-RQ-7Ai"/>
+                            <constraint firstItem="in9-VH-HA9" firstAttribute="top" secondItem="cr8-F5-Q2P" secondAttribute="bottom" constant="20" id="FGB-6Y-TFK"/>
+                            <constraint firstAttribute="bottom" secondItem="in9-VH-HA9" secondAttribute="bottom" constant="20" symbolic="YES" id="KUY-lp-tpG"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="OpenShapeOptionsCheck" destination="Y50-RI-ux1" id="0BX-PW-OtR"/>
+                        <outlet property="ShowHistogramCheck" destination="p82-0Q-dfB" id="z1l-sf-Knu"/>
+                    </connections>
+                </viewController>
+                <customObject id="G0G-m9-Sg3" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-922.5" y="2099.5"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="grq-S4-cpn">
