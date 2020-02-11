@@ -192,6 +192,7 @@ class ProcessedViewController: NSViewController, SCNSceneRendererDelegate
         }
         Node.geometry?.firstMaterial?.diffuse.contents = Color
         Node.geometry?.firstMaterial?.specular.contents = NSColor.white
+        Node.geometry?.firstMaterial?.lightingModel = .lambert
         return Node
     }
     
