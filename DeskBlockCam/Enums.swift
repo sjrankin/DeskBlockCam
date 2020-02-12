@@ -175,3 +175,29 @@ enum MainModes: String, CaseIterable
     case ImageView = "Image View"
     case VideoView = "Video View"
 }
+
+/// Program modes for the main window.
+enum ProgramModes: String, CaseIterable
+{
+    /// Video/live view.
+    case Video = "Video"
+    /// Live view/snapshot.
+    case Snapshot = "Snapshot"
+    /// Still image (drag/drop or file operations).
+    case StillImage = "StillImage"
+}
+
+/// Rows for stat table.
+enum StatRows: Int, CaseIterable
+{
+    case CurrentFrame = 0
+    case SkippedFrames = 1
+    case CalculatedFramesPerSecond = 2
+    case LastFrameDuration = 3
+    case RollingMeanFrameDuration = 4
+    case FrameDurationDelta = 5
+    case DroppedFrames = 7
+    case RenderedFrames = 8
+    case RenderDuration = 9
+    case ThrottleValue = 10
+}
