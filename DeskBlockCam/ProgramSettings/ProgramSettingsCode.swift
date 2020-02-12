@@ -16,11 +16,12 @@ class ProgramSettingsCode: NSViewController
         super.viewDidLoad()
         ShowHistogramCheck.state = Settings.GetBoolean(ForKey: .ShowHistogram) ? .on : .off
         OpenShapeOptionsCheck.state = Settings.GetBoolean(ForKey: .AutoOpenShapeSettings) ? .on : .off
+        SwitchOnDropCheck.state = Settings.GetBoolean(ForKey: .SwitchModesWithDroppedImages) ? .on : .off
     }
     
     @IBAction func HandleCloseButton(_ sender: Any)
     {
-        self.dismiss(self)
+        self.view.window?.close()
     }
     
     @IBAction func HandleShowHistogramChanged(_ sender: Any)
@@ -39,6 +40,15 @@ class ProgramSettingsCode: NSViewController
         }
     }
     
+    @IBAction func HandleSwitchOnDropCheckChanged(_ sender: Any)
+    {
+        if let Check = sender as? NSButton
+        {
+            Settings.SetBoolean(Check.state == .on, ForKey: .SwitchModesWithDroppedImages)
+        }
+    }
+    
+    @IBOutlet weak var SwitchOnDropCheck: NSButton!
     @IBOutlet weak var ShowHistogramCheck: NSButton!
     @IBOutlet weak var OpenShapeOptionsCheck: NSButton!
 }
