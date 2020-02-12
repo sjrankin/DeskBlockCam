@@ -26,5 +26,7 @@ import Cocoa
     {
         return true
     }
+    
+    dynamic var MainMenuTitle = "BlockCam"
 }
 
