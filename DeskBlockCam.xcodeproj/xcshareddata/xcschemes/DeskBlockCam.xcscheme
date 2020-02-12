@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "17897B7E23E6A77300AFDA6A"
-               BuildableName = "DeskBlockCam.app"
-               BlueprintName = "DeskBlockCam"
+               BuildableName = "BlockCam.app"
+               BlueprintName = "BlockCam"
                ReferencedContainer = "container:DeskBlockCam.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -45,8 +45,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "17897B7E23E6A77300AFDA6A"
-            BuildableName = "DeskBlockCam.app"
-            BlueprintName = "DeskBlockCam"
+            BuildableName = "BlockCam.app"
+            BlueprintName = "BlockCam"
             ReferencedContainer = "container:DeskBlockCam.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -62,8 +62,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "17897B7E23E6A77300AFDA6A"
-            BuildableName = "DeskBlockCam.app"
-            BlueprintName = "DeskBlockCam"
+            BuildableName = "BlockCam.app"
+            BlueprintName = "BlockCam"
             ReferencedContainer = "container:DeskBlockCam.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
