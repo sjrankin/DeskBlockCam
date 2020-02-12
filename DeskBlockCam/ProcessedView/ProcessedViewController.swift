@@ -12,6 +12,8 @@ import SceneKit
 
 class ProcessedViewController: NSViewController, SCNSceneRendererDelegate
 {
+    public weak var Delegate: ProcessedProtocol? = nil
+    
     /// Standard prominence multiplier.
     let PMul: CGFloat = 1.0
     
@@ -23,24 +25,7 @@ class ProcessedViewController: NSViewController, SCNSceneRendererDelegate
         ProcessedImage.delegate = self
         ProcessedImage.preferredFramesPerSecond = 10
         ProcessedImage.wantsLayer = true
-        ProcessedImage.layer?.borderColor = NSColor.yellow.cgColor
-        ProcessedImage.layer?.borderWidth = 1.0
-        ProcessedImage.layer?.cornerRadius = 5.0
-        SourceImage.wantsLayer = true
-        SourceImage.layer?.borderColor = NSColor.black.cgColor
-        SourceImage.layer?.borderWidth = 0.5
-        SourceImage.layer?.cornerRadius = 2.0
-        SourceImage.layer?.backgroundColor = NSColor.clear.cgColor
-        HistogramViewer.wantsLayer = true
-        HistogramViewer.layer?.borderColor = NSColor.black.cgColor
-        HistogramViewer.layer?.borderWidth = 0.5
-        HistogramViewer.layer?.cornerRadius = 2.0
-        HistogramViewer.layer?.backgroundColor = NSColor.black.cgColor
-        SnapshotView.wantsLayer = true
-        SnapshotView.layer?.borderColor = NSColor.black.cgColor
-        SnapshotView.layer?.borderWidth = 0.5
-        SnapshotView.layer?.cornerRadius = 2.0
-        SnapshotView.layer?.backgroundColor = NSColor.clear.cgColor
+        ProcessedImage.layer?.backgroundColor = NSColor.black.cgColor
         BottomBar.wantsLayer = true
         BottomBar.layer?.backgroundColor = NSColor.systemTeal.cgColor
         
@@ -97,6 +82,7 @@ class ProcessedViewController: NSViewController, SCNSceneRendererDelegate
     /// - Returns: List of colors in YX order.
     func ParseImage(_ Image: NSImage, BlockSize: CGFloat, HBlocks: inout Int, VBlocks: inout Int) -> [[NSColor]]
     {
+        Delegate?.ImageForDebug(Image, ImageType: .Pixellated)
         HBlocks = Int(Image.size.width / BlockSize)
         VBlocks = Int(Image.size.height / BlockSize)
         var Colors = Array(repeating: Array(repeating: NSColor.black, count: Int(HBlocks)), count: Int(VBlocks))
@@ -277,8 +263,11 @@ class ProcessedViewController: NSViewController, SCNSceneRendererDelegate
             }
         }
         let PImage = ProcessedImage.snapshot()
-        SnapshotView.image = PImage
-        HistogramViewer.DisplayHistogram(For: PImage, RemoveFirst: 5)
+        Delegate?.ImageForDebug(PImage, ImageType: .Snapshot)
+        let DHistogram = HistogramDisplay(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
+        DHistogram.DisplayHistogram(For: PImage, RemoveFirst: 5)
+        let HImage = NSImage(data: DHistogram.dataWithPDF(inside: DHistogram.bounds))
+        Delegate?.ImageForDebug(HImage!, ImageType: .Histogram)
         if SaveFrames
         {
             SaveFrame(PImage)
@@ -449,7 +438,7 @@ class ProcessedViewController: NSViewController, SCNSceneRendererDelegate
                 {
                     let ShapeIndex = self.ShapeSelector.selectedSegment
                     self.Busy = true
-                    self.SourceImage.image = Original
+                    Delegate?.ImageForDebug(Original, ImageType: .Original)
                     self.DrawNodes(With: Colors, HShapeCount: HBlocks, VShapeCount: VBlocks, ShapeIndex)
                     self.Busy = false
             }
@@ -524,8 +513,5 @@ class ProcessedViewController: NSViewController, SCNSceneRendererDelegate
     @IBOutlet weak var RecordButton: NSButton!
     @IBOutlet weak var ShapeSelector: NSSegmentedControl!
     @IBOutlet weak var BottomBar: NSView!
-    @IBOutlet weak var SnapshotView: NSImageView!
-    @IBOutlet weak var HistogramViewer: HistogramDisplay!
-    @IBOutlet weak var SourceImage: NSImageView!
     @IBOutlet weak var ProcessedImage: SCNView!
 }
