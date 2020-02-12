@@ -23,14 +23,4 @@ class ViewControllerWindow: NSWindowController, NSWindowDelegate
         let VC = window?.contentViewController as? ViewController
         VC?.WillClose() 
     }
-    
-    @IBAction func HandleSettingButtonPressed(_ sender: Any)
-    {
-        if let VC = window!.contentViewController as? ViewController
-        {
-            VC.RunProgramSettings()
-        }
-    }
-    
-    @IBOutlet weak var MainSettingButton: NSToolbarItem!
 }
