@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="16085" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="16085"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Window Controller-->
+        <scene sceneID="6Ze-21-IFZ">
+            <objects>
+                <windowController storyboardIdentifier="ErrorMessageWindowID" id="Z0E-tC-k1k" customClass="ErrorMessageWindowCode" customModule="BlockCam" customModuleProvider="target" sceneMemberID="viewController">
+                    <window key="window" title="Error" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="Opi-jS-UKm">
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+                        <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+                        <rect key="contentRect" x="2932" y="555" width="480" height="270"/>
+                        <rect key="screenRect" x="2560" y="144" width="2304" height="1296"/>
+                        <connections>
+                            <outlet property="delegate" destination="Z0E-tC-k1k" id="naM-1P-x1a"/>
+                        </connections>
+                    </window>
+                    <connections>
+                        <segue destination="keh-B0-uG9" kind="relationship" relationship="window.shadowedContentViewController" id="dzj-sl-prL"/>
+                    </connections>
+                </windowController>
+                <customObject id="CYU-oL-hGU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-185" y="134"/>
+        </scene>
+        <!--Error Message Controller-->
+        <scene sceneID="lOX-PT-5jE">
+            <objects>
+                <viewController id="keh-B0-uG9" customClass="ErrorMessageController" customModule="BlockCam" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="clK-yf-LpM">
+                        <rect key="frame" x="0.0" y="0.0" width="401" height="231"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5Rd-eO-6EE">
+                                <rect key="frame" x="163" y="6" width="75" height="32"/>
+                                <buttonCell key="cell" type="push" title="Close" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="UUb-kI-L6y">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                            </button>
+                            <box boxType="custom" borderType="line" cornerRadius="4" title="Box" translatesAutoresizingMaskIntoConstraints="NO" id="HPk-QS-HsW">
+                                <rect key="frame" x="20" y="54" width="361" height="157"/>
+                                <view key="contentView" id="ohh-uQ-gTV">
+                                    <rect key="frame" x="1" y="1" width="359" height="155"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="hjx-kk-wTi">
+                                            <rect key="frame" x="7" y="12" width="342" height="135"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="135" id="l4H-gG-c6a"/>
+                                            </constraints>
+                                            <textFieldCell key="cell" selectable="YES" title="Multiline Label" id="A1i-XD-Rxu">
+                                                <font key="font" usesAppearanceFont="YES"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="hjx-kk-wTi" secondAttribute="trailing" constant="12" id="3nX-WF-joJ"/>
+                                        <constraint firstItem="hjx-kk-wTi" firstAttribute="leading" secondItem="ohh-uQ-gTV" secondAttribute="leading" constant="9" id="Z56-Cx-xHT"/>
+                                        <constraint firstItem="hjx-kk-wTi" firstAttribute="top" secondItem="ohh-uQ-gTV" secondAttribute="top" constant="8" id="dmG-Ii-SgA"/>
+                                    </constraints>
+                                </view>
+                                <color key="fillColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                            </box>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="HPk-QS-HsW" firstAttribute="top" secondItem="clK-yf-LpM" secondAttribute="top" constant="20" symbolic="YES" id="Hb4-hr-eEZ"/>
+                            <constraint firstAttribute="bottom" secondItem="5Rd-eO-6EE" secondAttribute="bottom" constant="13" id="IM1-Cc-TLi"/>
+                            <constraint firstAttribute="trailing" secondItem="HPk-QS-HsW" secondAttribute="trailing" constant="20" symbolic="YES" id="J7k-gz-CuD"/>
+                            <constraint firstItem="5Rd-eO-6EE" firstAttribute="top" secondItem="HPk-QS-HsW" secondAttribute="bottom" constant="20" symbolic="YES" id="icU-9F-w9p"/>
+                            <constraint firstItem="HPk-QS-HsW" firstAttribute="leading" secondItem="clK-yf-LpM" secondAttribute="leading" constant="20" symbolic="YES" id="ud1-8u-UYP"/>
+                            <constraint firstItem="HPk-QS-HsW" firstAttribute="centerX" secondItem="5Rd-eO-6EE" secondAttribute="centerX" id="wjL-is-gyz"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="ErrorMessageLabel" destination="hjx-kk-wTi" id="OVs-ml-PbH"/>
+                    </connections>
+                </viewController>
+                <customObject id="IO4-sm-sgx" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="482.5" y="89.5"/>
+        </scene>
+    </scenes>
+</document>
