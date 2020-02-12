@@ -18,8 +18,11 @@ import CoreGraphics
 class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCaptureVideoDataOutputSampleBufferDelegate,
     NSFilePromiseProviderDelegate,
     SettingChangedProtocol,
-    DragDropDelegate
+    DragDropDelegate,
+    ProcessedProtocol
 {
+
+    
     /// Load and set up the UI.
     override func viewDidLoad()
     {
@@ -28,9 +31,9 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         Settings.AddSubscriber(self, "ViewController")
         
         LiveView.wantsLayer = true
-        LiveView.layer?.borderWidth = 1.0
-        LiveView.layer?.borderColor = NSColor.systemYellow.cgColor
-        LiveView.layer?.cornerRadius = 5.0
+        //LiveView.layer?.borderWidth = 1.0
+        //LiveView.layer?.borderColor = NSColor.systemYellow.cgColor
+        //LiveView.layer?.cornerRadius = 5.0
         LiveView.layer?.backgroundColor = NSColor.black.cgColor
         LiveView.isHidden = false
         
@@ -61,7 +64,6 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
             OpenOptionsWindow()
         }
         OpenProcessedWindow()
-        StatTable.reloadData()
         
         LiveHistogram.isHidden = !Settings.GetBoolean(ForKey: .ShowHistogram)
         
@@ -151,7 +153,13 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         let Image = NSImage(contentsOf: url)
         if Image == nil
         {
-            print("Error reading image.")
+            ShowError(Message: "The file you dragged to BlockCam could not be read as an image file. Please verify your image and try again. If the error persists, try something else.",
+                      WindowTitle: "Dropped File Error")
+            return
+        }
+        if Settings.GetBoolean(ForKey: .SwitchModesWithDroppedImages)
+        {
+            
         }
     }
     
@@ -186,18 +194,6 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
     
     var Started = false
     
-    func RunProgramSettings()
-    {
-        let Storyboard = NSStoryboard(name: "Main", bundle: nil)
-        if let WindowController = Storyboard.instantiateController(withIdentifier: "ProgramSettingsWindowUI") as? ProgramSettingsWindowController
-        {
-            WindowController.showWindow(nil)
-            MainSettings = WindowController
-        }
-    }
-    
-    var MainSettings: ProgramSettingsWindowController? = nil
-    
     /// Open the processed video window.
     func OpenProcessedWindow()
     {
@@ -206,6 +202,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         {
             WindowController.showWindow(nil)
             ProcessSink = WindowController.contentViewController as? ProcessedViewController
+            ProcessSink?.Delegate = self
             ProcessedWindow = WindowController
         }
     }
@@ -421,12 +418,12 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
                     if let RollingMean = RollingDurationMean()
                     {
                         AddStat(ForItem: .RollingMeanFrameDuration,
-                                NewValue: RoundedString(RollingMean))
+                                NewValue: Utilities.RoundedString(RollingMean))
                         let Delta = RollingMean - TotalEnd
-                        AddStat(ForItem: .FrameDurationDelta, NewValue: RoundedString(Delta))
+                        AddStat(ForItem: .FrameDurationDelta, NewValue: Utilities.RoundedString(Delta))
                     }
                     AddStat(ForItem: .LastFrameDuration,
-                            NewValue: RoundedString(TotalEnd))
+                            NewValue: Utilities.RoundedString(TotalEnd))
                     
                     if ProcessSink != nil
                     {
@@ -441,7 +438,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
                     AddStat(ForItem: .RenderDuration, NewValue: "\(Int(RenderedDuration)) s")
                     AddStat(ForItem: .RenderedFrames, NewValue: "\(RenderedFrames)")
                     let cFPS = RenderedDuration / Double(RenderedFrames)
-                    AddStat(ForItem: .CalculatedFramesPerSecond, NewValue: RoundedString(cFPS))
+                    AddStat(ForItem: .CalculatedFramesPerSecond, NewValue: Utilities.RoundedString(cFPS))
                 }
         }
     }
@@ -513,27 +510,22 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         {
             MainS.CloseWindow()
         }
+        if let About = AbtWindow
+        {
+            About.CloseWindow()
+        }
+        if let DebugW = DebugWindow
+        {
+            DebugW.CloseWindow()
+        }
         FileIO.ClearFramesDirectory()
     }
+    
+    var AbtWindow: AboutWindow? = nil
     
     var ProcessedWindow: ProcessedViewWindowController? = nil
     
     var ShapeIndex: Int = 0
-    
-    /// Table of statistics and labels to show in the stat table.
-    var CurrentStats: [StatRowContainer] =
-        [
-            StatRowContainer(.CurrentFrame, "Frame", ""),
-            StatRowContainer(.SkippedFrames, "Skipped", ""),
-            StatRowContainer(.DroppedFrames, "Dropped", ""),
-            StatRowContainer(.RenderedFrames, "Rendered", ""),
-            StatRowContainer(.RenderDuration, "Render duration", ""),
-            StatRowContainer(.CalculatedFramesPerSecond, "FPS", ""),
-            StatRowContainer(.LastFrameDuration, "Last Duration", ""),
-            StatRowContainer(.RollingMeanFrameDuration, "Rolling Mean", "not yet"),
-            StatRowContainer(.FrameDurationDelta, "Delta Duration", "not yet"),
-            StatRowContainer(.ThrottleValue, "Throttle", ""),
-    ]
     
     @IBAction func HandleModeSelectorChanged(_ sender: Any)
     {
@@ -544,48 +536,45 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         }
     }
     
+    @IBAction func ShowAbout(_ sender: Any)
+    {
+        let Storyboard = NSStoryboard(name: "Main", bundle: nil)
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "AboutWindowUI") as? AboutWindow
+        {
+            WindowController.showWindow(nil)
+            AbtWindow = WindowController
+        }
+    }
+    
+    @IBAction func ShowProgramSettings(_ sender: Any)
+    {
+        let Storyboard = NSStoryboard(name: "Main", bundle: nil)
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "ProgramSettingsWindowUI") as? ProgramSettingsWindowController
+        {
+            WindowController.showWindow(nil)
+            MainSettings = WindowController
+        }
+    }
+    
+    @IBAction func ShowDebugWindow(_ sender: Any)
+    {
+        OpenDebug()
+    }
+    
+    func ImageForDebug(_ Image: NSImage, ImageType: DebugImageTypes)
+    {
+        AddImage(Type: ImageType, Image)
+    }
+    
+    var DebugWindow: DebugWindowCode? = nil
+        var MainSettings: ProgramSettingsWindowController? = nil
+    
     @IBOutlet var ControllerView: ViewControllerView!
     @IBOutlet weak var ModeSelector: NSPopUpButton!
     @IBOutlet weak var ProcessedImage: SCNView!
     @IBOutlet weak var LiveHistogram: HistogramDisplay!
-    @IBOutlet weak var StatTable: NSTableView!
     @IBOutlet weak var CameraButton: NSButton!
     @IBOutlet weak var LiveView: LiveViewer!
     @IBOutlet weak var BottomBar: NSView!
 }
 
-enum ProgramModes: String, CaseIterable
-{
-    case Video = "Video"
-    case Snapshot = "Snapshot"
-    case StillImage = "StillImage"
-}
-
-enum StatRows: Int, CaseIterable
-{
-    case CurrentFrame = 0
-    case SkippedFrames = 1
-    case CalculatedFramesPerSecond = 2
-    case LastFrameDuration = 3
-    case RollingMeanFrameDuration = 4
-    case FrameDurationDelta = 5
-    case DroppedFrames = 7
-    case RenderedFrames = 8
-    case RenderDuration = 9
-    case ThrottleValue = 10
-}
-
-/// Contains information for one row of the stat table UI.
-class StatRowContainer
-{
-    init(_ Type: StatRows, _ Label: String, _ Value: String)
-    {
-        RowType = Type
-        RowLabel = Label
-        RowValue = Value
-    }
-    
-    public var RowType: StatRows = .CurrentFrame
-    public var RowLabel: String = ""
-    public var RowValue: String = ""
-}
