@@ -339,7 +339,7 @@
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="03m-l9-L2V">
                                 <rect key="frame" x="0.0" y="70" width="1096" height="490"/>
                                 <subviews>
-                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="23E-4E-LEJ" customClass="LiveViewer" customModule="BlockCam" customModuleProvider="target">
+                                    <customView hidden="YES" translatesAutoresizingMaskIntoConstraints="NO" id="23E-4E-LEJ" customClass="LiveViewer" customModule="BlockCam" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="1096" height="490"/>
                                     </customView>
                                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="6iV-Jo-yuM">
@@ -349,7 +349,7 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="846" height="490"/>
                                             </sceneView>
                                             <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="EjG-RI-0P9">
-                                                <rect key="frame" x="846" y="365" width="250" height="125"/>
+                                                <rect key="frame" x="846" y="335" width="250" height="125"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="125" id="1Nb-Qn-Qrp"/>
                                                     <constraint firstAttribute="width" constant="250" id="VdQ-co-bRN"/>
@@ -480,21 +480,34 @@
                                                         </gridView>
                                                     </subviews>
                                                 </view>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="126" id="Fgz-vL-89w"/>
+                                                    <constraint firstAttribute="width" constant="222" id="c9w-7L-ohI"/>
+                                                </constraints>
                                             </box>
+                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gyy-rc-Vs3">
+                                                <rect key="frame" x="854" y="468" width="87" height="16"/>
+                                                <textFieldCell key="cell" lineBreakMode="clipping" title="Source image" id="o4Y-0N-Ndh">
+                                                    <font key="font" metaFont="system"/>
+                                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                            </textField>
                                         </subviews>
                                         <constraints>
                                             <constraint firstItem="ogX-jq-HQb" firstAttribute="leading" secondItem="6iV-Jo-yuM" secondAttribute="leading" id="4op-wZ-GFi"/>
                                             <constraint firstItem="ogX-jq-HQb" firstAttribute="top" secondItem="6iV-Jo-yuM" secondAttribute="top" id="68d-yS-HKV"/>
-                                            <constraint firstItem="EjG-RI-0P9" firstAttribute="top" secondItem="6iV-Jo-yuM" secondAttribute="top" id="Lrg-aA-9Yu"/>
+                                            <constraint firstItem="EjG-RI-0P9" firstAttribute="top" secondItem="6iV-Jo-yuM" secondAttribute="top" constant="30" id="Lrg-aA-9Yu"/>
                                             <constraint firstItem="ogX-jq-HQb" firstAttribute="top" secondItem="6iV-Jo-yuM" secondAttribute="top" id="Mjz-XK-LiT"/>
                                             <constraint firstAttribute="bottom" secondItem="ogX-jq-HQb" secondAttribute="bottom" id="N44-Kg-zyN"/>
+                                            <constraint firstItem="EjG-RI-0P9" firstAttribute="top" secondItem="gyy-rc-Vs3" secondAttribute="bottom" constant="8" symbolic="YES" id="Omx-4Q-pph"/>
                                             <constraint firstItem="QvZ-d3-B1S" firstAttribute="leading" secondItem="ogX-jq-HQb" secondAttribute="trailing" constant="8" id="QV4-eV-1yg"/>
                                             <constraint firstItem="QvZ-d3-B1S" firstAttribute="centerX" secondItem="EjG-RI-0P9" secondAttribute="centerX" constant="-6" id="STc-7T-NFX"/>
+                                            <constraint firstItem="gyy-rc-Vs3" firstAttribute="leading" secondItem="ogX-jq-HQb" secondAttribute="trailing" constant="10" id="TlY-qg-lOa"/>
                                             <constraint firstAttribute="trailing" secondItem="ogX-jq-HQb" secondAttribute="trailing" constant="250" id="c2v-yP-Bvb"/>
                                             <constraint firstAttribute="bottom" secondItem="ogX-jq-HQb" secondAttribute="bottom" id="ee3-8k-IO9"/>
                                             <constraint firstAttribute="trailing" secondItem="EjG-RI-0P9" secondAttribute="trailing" id="j4e-TH-9ac"/>
                                             <constraint firstItem="ogX-jq-HQb" firstAttribute="leading" secondItem="6iV-Jo-yuM" secondAttribute="leading" id="jXF-pw-To9"/>
-                                            <constraint firstItem="QvZ-d3-B1S" firstAttribute="top" secondItem="6iV-Jo-yuM" secondAttribute="top" constant="344" id="lnT-Db-Q7k"/>
                                             <constraint firstAttribute="bottom" secondItem="QvZ-d3-B1S" secondAttribute="bottom" constant="20" symbolic="YES" id="wp0-wg-6Ks"/>
                                         </constraints>
                                     </customView>
@@ -526,16 +539,21 @@
                                             <action selector="HandleCameraButton:" target="XfG-lQ-9wD" id="8aa-Ch-qQw"/>
                                         </connections>
                                     </button>
-                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1R1-GW-T4u">
-                                        <rect key="frame" x="20" y="28" width="39" height="16"/>
-                                        <textFieldCell key="cell" lineBreakMode="clipping" title="Mode" id="B4G-ay-8Ni">
+                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="sD1-1P-Ylf" customClass="HistogramDisplay" customModule="BlockCam" customModuleProvider="target">
+                                        <rect key="frame" x="692" y="11" width="292" height="48"/>
+                                    </customView>
+                                    <button misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2ff-IU-JmN">
+                                        <rect key="frame" x="1014" y="13" width="48" height="48"/>
+                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="BigGear" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="DTo-TD-iaw">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
-                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                        </textFieldCell>
-                                    </textField>
-                                    <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="LJe-NP-c5R">
-                                        <rect key="frame" x="71" y="22" width="169" height="25"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="HandleProcessingSettingsButtonPressed:" target="XfG-lQ-9wD" id="NPg-0F-iA1"/>
+                                        </connections>
+                                    </button>
+                                    <popUpButton verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LJe-NP-c5R">
+                                        <rect key="frame" x="18" y="21" width="169" height="25"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="164" id="vHR-zO-FYf"/>
                                         </constraints>
@@ -554,23 +572,10 @@
                                             <action selector="HandleModeSelectorChanged:" target="XfG-lQ-9wD" id="skr-y5-fum"/>
                                         </connections>
                                     </popUpButton>
-                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="sD1-1P-Ylf" customClass="HistogramDisplay" customModule="BlockCam" customModuleProvider="target">
-                                        <rect key="frame" x="692" y="11" width="292" height="48"/>
-                                    </customView>
-                                    <button misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2ff-IU-JmN">
-                                        <rect key="frame" x="1014" y="13" width="48" height="48"/>
-                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="BigGear" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="DTo-TD-iaw">
-                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="system"/>
-                                        </buttonCell>
-                                        <connections>
-                                            <action selector="HandleProcessingSettingsButtonPressed:" target="XfG-lQ-9wD" id="NPg-0F-iA1"/>
-                                        </connections>
-                                    </button>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="LJe-NP-c5R" firstAttribute="centerY" secondItem="yfw-EC-nVV" secondAttribute="centerY" id="0VN-ap-nx3"/>
-                                    <constraint firstItem="LJe-NP-c5R" firstAttribute="leading" secondItem="1R1-GW-T4u" secondAttribute="trailing" constant="16" id="553-qM-Yoi"/>
+                                    <constraint firstItem="LJe-NP-c5R" firstAttribute="top" secondItem="7Mz-J6-VDI" secondAttribute="top" constant="25" id="32R-bw-HFJ"/>
                                     <constraint firstItem="sD1-1P-Ylf" firstAttribute="top" secondItem="yfw-EC-nVV" secondAttribute="top" id="5YI-xt-Z9H"/>
                                     <constraint firstItem="sD1-1P-Ylf" firstAttribute="bottom" secondItem="yfw-EC-nVV" secondAttribute="bottom" id="H1S-vl-AlJ"/>
                                     <constraint firstItem="2ff-IU-JmN" firstAttribute="bottom" secondItem="sD1-1P-Ylf" secondAttribute="bottom" id="IZH-Oy-6tl"/>
@@ -578,10 +583,9 @@
                                     <constraint firstItem="yfw-EC-nVV" firstAttribute="top" secondItem="7Mz-J6-VDI" secondAttribute="top" constant="11" id="MtR-c8-zYz"/>
                                     <constraint firstAttribute="height" constant="70" id="VFO-fV-X2s"/>
                                     <constraint firstItem="yfw-EC-nVV" firstAttribute="centerX" secondItem="7Mz-J6-VDI" secondAttribute="centerX" id="agE-Ba-o19"/>
-                                    <constraint firstItem="1R1-GW-T4u" firstAttribute="leading" secondItem="7Mz-J6-VDI" secondAttribute="leading" constant="22" id="cMR-KJ-5BY"/>
                                     <constraint firstItem="2ff-IU-JmN" firstAttribute="top" secondItem="sD1-1P-Ylf" secondAttribute="top" id="e46-Wt-Hkz"/>
-                                    <constraint firstItem="1R1-GW-T4u" firstAttribute="baseline" secondItem="LJe-NP-c5R" secondAttribute="baseline" id="f2u-uA-Fga"/>
                                     <constraint firstItem="2ff-IU-JmN" firstAttribute="leading" secondItem="sD1-1P-Ylf" secondAttribute="trailing" constant="44" id="hhG-Bo-w62"/>
+                                    <constraint firstItem="LJe-NP-c5R" firstAttribute="leading" secondItem="7Mz-J6-VDI" secondAttribute="leading" constant="20" symbolic="YES" id="mST-g7-hgH"/>
                                     <constraint firstAttribute="trailing" secondItem="2ff-IU-JmN" secondAttribute="trailing" constant="20" symbolic="YES" id="nM7-Mt-FrQ"/>
                                     <constraint firstItem="yfw-EC-nVV" firstAttribute="centerY" secondItem="7Mz-J6-VDI" secondAttribute="centerY" id="uRJ-kO-Zyf"/>
                                     <constraint firstItem="sD1-1P-Ylf" firstAttribute="leading" secondItem="7Mz-J6-VDI" secondAttribute="leading" constant="692" id="uuc-6I-H84"/>
@@ -1426,6 +1430,41 @@
                                             </constraints>
                                         </view>
                                     </tabViewItem>
+                                    <tabViewItem label="Live View" identifier="" id="cYq-h1-8jj">
+                                        <view key="view" id="fZD-4g-Zy8">
+                                            <rect key="frame" x="10" y="33" width="752" height="330"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <subviews>
+                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RDH-Ph-kXk">
+                                                    <rect key="frame" x="17" y="294" width="100" height="16"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Live view shape" id="a0U-EK-fr7">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
+                                                <segmentedControl verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8J6-fh-U5E">
+                                                    <rect key="frame" x="15" y="263" width="359" height="24"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="ygV-dn-B3t">
+                                                        <font key="font" metaFont="system"/>
+                                                        <segments>
+                                                            <segment label="Block" width="61"/>
+                                                            <segment label="Sphere" width="61" selected="YES" tag="1"/>
+                                                            <segment label="Ring" width="61"/>
+                                                            <segment label="Cone"/>
+                                                            <segment label="Square"/>
+                                                            <segment label="Tube"/>
+                                                        </segments>
+                                                    </segmentedCell>
+                                                    <connections>
+                                                        <action selector="LiveViewShapeSegmentChanged:" target="zVd-5F-eaa" id="asV-zF-FyO"/>
+                                                    </connections>
+                                                </segmentedControl>
+                                            </subviews>
+                                        </view>
+                                    </tabViewItem>
                                 </tabViewItems>
                                 <connections>
                                     <outlet property="delegate" destination="zVd-5F-eaa" id="Ujb-xH-GM1"/>
@@ -1460,6 +1499,7 @@
                         <outlet property="LightModelSegment" destination="rdY-bF-ovO" id="REm-5a-xOS"/>
                         <outlet property="LightTypeSegment" destination="31k-0i-hYu" id="Qmk-j9-Naq"/>
                         <outlet property="LightingSample" destination="EJz-oN-pND" id="NTf-em-aOz"/>
+                        <outlet property="LiveViewShapeSegment" destination="8J6-fh-U5E" id="KKn-aD-OBL"/>
                         <outlet property="MaximumImageSizeSelector" destination="sEW-wa-MlX" id="m2p-tu-e6r"/>
                         <outlet property="OptionBox" destination="jrR-97-li5" id="Mp8-x9-gGy"/>
                         <outlet property="OptionsContainer" destination="umf-Jt-y8C" id="Ofp-JW-tBc"/>
@@ -1593,119 +1633,6 @@
                 <customObject id="G0G-m9-Sg3" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-922.5" y="2099.5"/>
-        </scene>
-        <!--Window Controller-->
-        <scene sceneID="grq-S4-cpn">
-            <objects>
-                <windowController storyboardIdentifier="ProcessedImageWindowUI" id="peb-NA-kOs" customClass="ProcessedViewWindowController" customModule="BlockCam" customModuleProvider="target" sceneMemberID="viewController">
-                    <window key="window" title="Processed View" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="vND-k5-epo">
-                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
-                        <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-                        <rect key="contentRect" x="3252" y="735" width="480" height="270"/>
-                        <rect key="screenRect" x="2880" y="324" width="2304" height="1296"/>
-                        <connections>
-                            <outlet property="delegate" destination="peb-NA-kOs" id="JLe-Yv-XQ1"/>
-                        </connections>
-                    </window>
-                    <connections>
-                        <segue destination="Jgo-qx-PJz" kind="relationship" relationship="window.shadowedContentViewController" id="Ppo-5h-slA"/>
-                    </connections>
-                </windowController>
-                <customObject id="Ofm-Qt-nmc" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="182" y="1570"/>
-        </scene>
-        <!--Processed View Controller-->
-        <scene sceneID="wcN-QM-xga">
-            <objects>
-                <customObject id="EK2-pg-s6n" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-                <viewController storyboardIdentifier="ProcessedViewUI" id="Jgo-qx-PJz" customClass="ProcessedViewController" customModule="BlockCam" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" id="rEb-8I-ND1">
-                        <rect key="frame" x="0.0" y="0.0" width="1018" height="615"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <subviews>
-                            <sceneView allowsCameraControl="YES" preferredRenderingAPI="1" translatesAutoresizingMaskIntoConstraints="NO" id="RUx-Qg-OEr">
-                                <rect key="frame" x="0.0" y="85" width="1018" height="530"/>
-                            </sceneView>
-                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="Igc-bM-CpE">
-                                <rect key="frame" x="0.0" y="0.0" width="1018" height="85"/>
-                                <subviews>
-                                    <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="puW-6d-kTa">
-                                        <rect key="frame" x="18" y="30" width="359" height="24"/>
-                                        <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="iyh-8O-uZO">
-                                            <font key="font" metaFont="system"/>
-                                            <segments>
-                                                <segment label="Block" width="61"/>
-                                                <segment label="Sphere" width="61" selected="YES" tag="1"/>
-                                                <segment label="Ring" width="61"/>
-                                                <segment label="Cone"/>
-                                                <segment label="Square"/>
-                                                <segment label="Tube"/>
-                                            </segments>
-                                        </segmentedCell>
-                                        <connections>
-                                            <action selector="HandleChangedShape:" target="Jgo-qx-PJz" id="2Km-1y-BKd"/>
-                                        </connections>
-                                    </segmentedControl>
-                                    <button translatesAutoresizingMaskIntoConstraints="NO" id="dnm-tM-wDM">
-                                        <rect key="frame" x="950" y="18" width="48" height="49"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="48" id="8Ba-Oq-luT"/>
-                                        </constraints>
-                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="BigCircle" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="42k-3I-lMf">
-                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="system"/>
-                                        </buttonCell>
-                                        <connections>
-                                            <action selector="HandleRecordButtonPressed:" target="Jgo-qx-PJz" id="weB-aD-dzq"/>
-                                        </connections>
-                                    </button>
-                                    <button translatesAutoresizingMaskIntoConstraints="NO" id="de5-ux-vif">
-                                        <rect key="frame" x="485" y="18" width="48" height="49"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="48" id="5dx-TP-Kzu"/>
-                                        </constraints>
-                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="BigCamera" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="CVm-xZ-WQp">
-                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="system"/>
-                                        </buttonCell>
-                                        <connections>
-                                            <action selector="HandleCameraButton:" target="XfG-lQ-9wD" id="S9w-wE-RDt"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="85" id="0nE-jT-8kk"/>
-                                    <constraint firstItem="puW-6d-kTa" firstAttribute="centerY" secondItem="de5-ux-vif" secondAttribute="centerY" id="346-Yt-Uy3"/>
-                                    <constraint firstItem="puW-6d-kTa" firstAttribute="centerY" secondItem="Igc-bM-CpE" secondAttribute="centerY" id="402-R0-iin"/>
-                                    <constraint firstItem="de5-ux-vif" firstAttribute="bottom" secondItem="dnm-tM-wDM" secondAttribute="bottom" id="AQa-CW-sal"/>
-                                    <constraint firstItem="de5-ux-vif" firstAttribute="top" secondItem="dnm-tM-wDM" secondAttribute="top" id="Mwi-5z-ZLu"/>
-                                    <constraint firstAttribute="trailing" secondItem="dnm-tM-wDM" secondAttribute="trailing" constant="20" symbolic="YES" id="Ofy-i1-CIj"/>
-                                    <constraint firstItem="de5-ux-vif" firstAttribute="centerX" secondItem="Igc-bM-CpE" secondAttribute="centerX" id="c6C-qO-zJu"/>
-                                    <constraint firstItem="de5-ux-vif" firstAttribute="top" secondItem="Igc-bM-CpE" secondAttribute="top" constant="18" id="p2q-Qa-V77"/>
-                                    <constraint firstItem="puW-6d-kTa" firstAttribute="leading" secondItem="Igc-bM-CpE" secondAttribute="leading" constant="20" symbolic="YES" id="szp-Bm-Gn1"/>
-                                </constraints>
-                            </customView>
-                        </subviews>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="RUx-Qg-OEr" secondAttribute="trailing" id="5Li-AG-uWd"/>
-                            <constraint firstItem="RUx-Qg-OEr" firstAttribute="leading" secondItem="rEb-8I-ND1" secondAttribute="leading" id="Fea-l5-jy3"/>
-                            <constraint firstItem="Igc-bM-CpE" firstAttribute="leading" secondItem="rEb-8I-ND1" secondAttribute="leading" id="NSF-NO-leF"/>
-                            <constraint firstAttribute="bottom" secondItem="Igc-bM-CpE" secondAttribute="bottom" id="Tga-I6-Df2"/>
-                            <constraint firstAttribute="trailing" secondItem="Igc-bM-CpE" secondAttribute="trailing" id="U0q-vG-kW2"/>
-                            <constraint firstItem="RUx-Qg-OEr" firstAttribute="top" secondItem="rEb-8I-ND1" secondAttribute="top" id="hNg-60-Cni"/>
-                            <constraint firstAttribute="bottom" secondItem="RUx-Qg-OEr" secondAttribute="bottom" constant="85" id="uqW-ec-9KV"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="BottomBar" destination="Igc-bM-CpE" id="z4j-5A-51M"/>
-                        <outlet property="ProcessedImage" destination="RUx-Qg-OEr" id="TR5-Hy-ckR"/>
-                        <outlet property="RecordButton" destination="dnm-tM-wDM" id="2eG-0f-JOt"/>
-                        <outlet property="ShapeSelector" destination="puW-6d-kTa" id="hL1-z5-RX7"/>
-                    </connections>
-                </viewController>
-            </objects>
-            <point key="canvasLocation" x="282" y="2311.5"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="DMn-G4-Yan">
@@ -2588,7 +2515,6 @@
     </scenes>
     <resources>
         <image name="BigCamera" width="659" height="541"/>
-        <image name="BigCircle" width="458" height="456"/>
         <image name="BigGear" width="640" height="630"/>
     </resources>
 </document>
