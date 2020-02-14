@@ -22,8 +22,6 @@
 		172C06EE23ED30ED00313C3E /* CappedLinesOptionsCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172C06ED23ED30ED00313C3E /* CappedLinesOptionsCode.swift */; };
 		172C06F023ED318000313C3E /* StackedShapesOptionsCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172C06EF23ED318000313C3E /* StackedShapesOptionsCode.swift */; };
 		172C06F223ED31DC00313C3E /* OptionsDialogs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172C06F123ED31DC00313C3E /* OptionsDialogs.swift */; };
-		173842CA23E7AE0C00792C9E /* ProcessedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173842C923E7AE0C00792C9E /* ProcessedViewController.swift */; };
-		173842CE23E7B20500792C9E /* ProcessedViewWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173842CD23E7B20500792C9E /* ProcessedViewWindowController.swift */; };
 		173C245423ED28CB00270760 /* NoOptionsCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173C245323ED28CB00270760 /* NoOptionsCode.swift */; };
 		173C245A23ED29DC00270760 /* OptionsProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173C245923ED29DC00270760 /* OptionsProtocol.swift */; };
 		173C245C23ED2CBC00270760 /* BlockOptionsCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173C245B23ED2CBC00270760 /* BlockOptionsCode.swift */; };
@@ -70,7 +68,6 @@
 		17897B9323E6C74000AFDA6A /* LiveViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17897B9223E6C74000AFDA6A /* LiveViewer.swift */; };
 		17897B9723E6EB1D00AFDA6A /* ViewControllerWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17897B9623E6EB1D00AFDA6A /* ViewControllerWindow.swift */; };
 		17A446F523E7F40100D3C571 /* ImageReduction.metal in Sources */ = {isa = PBXBuildFile; fileRef = 17A446F423E7F40100D3C571 /* ImageReduction.metal */; };
-		17A571E123F3EAE600509DE3 /* ProcessedProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A571E023F3EAE600509DE3 /* ProcessedProtocol.swift */; };
 		17B31D4D23EFF18D00C69257 /* Generator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B31D4C23EFF18D00C69257 /* Generator.swift */; };
 		17B31D5023EFF5C800C69257 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B31D4F23EFF5C800C69257 /* Settings.swift */; };
 		17B31D5223EFF74600C69257 /* SettingChangedProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B31D5123EFF74600C69257 /* SettingChangedProtocol.swift */; };
@@ -99,8 +96,6 @@
 		172C06ED23ED30ED00313C3E /* CappedLinesOptionsCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CappedLinesOptionsCode.swift; sourceTree = "<group>"; };
 		172C06EF23ED318000313C3E /* StackedShapesOptionsCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackedShapesOptionsCode.swift; sourceTree = "<group>"; };
 		172C06F123ED31DC00313C3E /* OptionsDialogs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsDialogs.swift; sourceTree = "<group>"; };
-		173842C923E7AE0C00792C9E /* ProcessedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessedViewController.swift; sourceTree = "<group>"; };
-		173842CD23E7B20500792C9E /* ProcessedViewWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessedViewWindowController.swift; sourceTree = "<group>"; };
 		173C245323ED28CB00270760 /* NoOptionsCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoOptionsCode.swift; sourceTree = "<group>"; };
 		173C245923ED29DC00270760 /* OptionsProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsProtocol.swift; sourceTree = "<group>"; };
 		173C245B23ED2CBC00270760 /* BlockOptionsCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockOptionsCode.swift; sourceTree = "<group>"; };
@@ -150,7 +145,6 @@
 		17897B9223E6C74000AFDA6A /* LiveViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveViewer.swift; sourceTree = "<group>"; };
 		17897B9623E6EB1D00AFDA6A /* ViewControllerWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerWindow.swift; sourceTree = "<group>"; };
 		17A446F423E7F40100D3C571 /* ImageReduction.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = ImageReduction.metal; sourceTree = "<group>"; };
-		17A571E023F3EAE600509DE3 /* ProcessedProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessedProtocol.swift; sourceTree = "<group>"; };
 		17B31D4C23EFF18D00C69257 /* Generator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Generator.swift; sourceTree = "<group>"; };
 		17B31D4F23EFF5C800C69257 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		17B31D5123EFF74600C69257 /* SettingChangedProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingChangedProtocol.swift; sourceTree = "<group>"; };
@@ -280,16 +274,6 @@
 			path = DebugView;
 			sourceTree = "<group>";
 		};
-		178041CB23F3E94D006E40C1 /* ProcessedView */ = {
-			isa = PBXGroup;
-			children = (
-				173842CD23E7B20500792C9E /* ProcessedViewWindowController.swift */,
-				173842C923E7AE0C00792C9E /* ProcessedViewController.swift */,
-				17A571E023F3EAE600509DE3 /* ProcessedProtocol.swift */,
-			);
-			path = ProcessedView;
-			sourceTree = "<group>";
-		};
 		178041CC23F3E970006E40C1 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
@@ -329,7 +313,6 @@
 				1740A3DF23EC016C00E29C75 /* Settings */,
 				17609FCC23F660C900391FFB /* AncillaryWindows */,
 				170A10FE23F10394003D0C1D /* ProgramSettings */,
-				178041CB23F3E94D006E40C1 /* ProcessedView */,
 				17897B8623E6A77500AFDA6A /* Assets.xcassets */,
 				17897B8223E6A77300AFDA6A /* AppDelegate.swift */,
 				17897B8423E6A77300AFDA6A /* ViewController.swift */,
@@ -488,21 +471,18 @@
 				17609FC923F64E8E00391FFB /* +StatusView.swift in Sources */,
 				173C245C23ED2CBC00270760 /* BlockOptionsCode.swift in Sources */,
 				1740A3C723EBE5E500E29C75 /* ProcessingAttributes.swift in Sources */,
-				173842CA23E7AE0C00792C9E /* ProcessedViewController.swift in Sources */,
 				17B31D5623EFFAAF00C69257 /* Enums.swift in Sources */,
 				177BF06223EE52CD00670F40 /* ColorSwatchItem.swift in Sources */,
 				17897B9323E6C74000AFDA6A /* LiveViewer.swift in Sources */,
 				17897B9723E6EB1D00AFDA6A /* ViewControllerWindow.swift in Sources */,
 				178041BB23F3D0E6006E40C1 /* ErrorMessageHandling.swift in Sources */,
 				170A110023F103AF003D0C1D /* ProgramSettingsWindowController.swift in Sources */,
-				17A571E123F3EAE600509DE3 /* ProcessedProtocol.swift in Sources */,
 				178041C623F3D8AC006E40C1 /* AncillaryWindowProtocol.swift in Sources */,
 				1740A3D223EBEE6800E29C75 /* EllipseOptionalParameters.swift in Sources */,
 				1717201623EBE2D900636F3C /* Processor.swift in Sources */,
 				1740A3CE23EBEC5300E29C75 /* CappedLineOptionalParameters.swift in Sources */,
 				172C06EA23ED307000313C3E /* RadiatingLinesOptionsCode.swift in Sources */,
 				173C245423ED28CB00270760 /* NoOptionsCode.swift in Sources */,
-				173842CE23E7B20500792C9E /* ProcessedViewWindowController.swift in Sources */,
 				172C06E423ED2FE200313C3E /* DiamondOptionsCode.swift in Sources */,
 				17A446F523E7F40100D3C571 /* ImageReduction.metal in Sources */,
 				1740A3D423EBEF5C00E29C75 /* DiamondOptionalParameters.swift in Sources */,
