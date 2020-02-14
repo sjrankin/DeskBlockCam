@@ -10,16 +10,22 @@ import Foundation
 import AppKit
 import SceneKit
 
+/// Provides a block view in an `SCNView` control.
 class BlockView: SCNView
 {
+    /// Delegate for reporting processing status.
     public weak var StatusDelegate: StatusProtocol? = nil
     
+    /// Initializer.
+    /// - Parameter frame: The frame of the view.
     override init(frame frameRect: NSRect)
     {
         super.init(frame: frameRect)
         Initialize()
     }
     
+    /// Initializer.
+    /// - Parameter coder: See Apple documentation.
     required init?(coder: NSCoder)
     {
         super.init(coder: coder)
@@ -81,6 +87,7 @@ class BlockView: SCNView
         }
     }
     
+    /// Common initialization.
     func Initialize()
     {
         self.scene = SCNScene()
@@ -91,6 +98,7 @@ class BlockView: SCNView
         self.showsStatistics = true
     }
     
+    /// Add a camera to the scene.
     func AddCamera()
     {
         let Camera = SCNCamera()
@@ -102,6 +110,7 @@ class BlockView: SCNView
         self.scene?.rootNode.addChildNode(CameraNode!)
     }
     
+    /// Add a light to the scene.
     func AddLight()
     {
         let Light = SCNLight()
@@ -113,7 +122,9 @@ class BlockView: SCNView
         self.scene?.rootNode.addChildNode(LightNode!)
     }
     
+    /// The camera's node in the scene.
     var CameraNode: SCNNode? = nil
+    /// The light's node in the scene.
     var LightNode: SCNNode? = nil
     
     func Snapshot() -> NSImage
@@ -121,6 +132,7 @@ class BlockView: SCNView
         return self.snapshot()
     }
     
+    /// Master node for still image processing.
     var MasterNode: SCNNode? = nil
     
     /// Determines if all child nodes (including the node itself) are in the frustrum of the passed scene.
@@ -290,10 +302,18 @@ class BlockView: SCNView
     
     // MARK: - Live view processing.
     
+    /// Multiplier for the prominence for live view processing.
     let PMul: CGFloat = 1.0
     
+    /// Lock for processing the live view.
     var CloseLock = NSObject()
     
+    /// Process the passed image. This function works on the assumption the image is from a camera
+    /// stream.
+    /// - Note: Due to performance constrains when processing live views, only a small subset of
+    ///         shapes are supported.
+    /// - Parameter Source: The image to processed.
+    /// - Parameter FrameIndex: Not currently used.
     public func ProcessLiveView(_ Source: CIImage, _ FrameIndex: Int)
     {
         objc_sync_enter(CloseLock)
@@ -470,6 +490,11 @@ class BlockView: SCNView
         return Node
     }
     
+    /// Create a 3D shape for each passed color. Add it to the `LiveViewMasterNode`.
+    /// - Parameter Colors: Array of colors from the original image. One shape will be created for each color.
+    /// - Parameter HShapeCount: Number of horizontal colors.
+    /// - Parameter VShapeCount: Number of vertical colors.
+    /// - Parameter NodeShape: The shape to create.
     func DrawLiveViewNodes(Colors: [[NSColor]], HShapeCount: Int, VShapeCount: Int, NodeShape: Shapes)
     {
         let Side: CGFloat = 0.5
@@ -515,6 +540,8 @@ class BlockView: SCNView
                                           CGFloat(NewHeight))
     }
     
+    /// The current shape to use in live view mode.
     var CurrentLiveViewNodeShape = Shapes.NoShape
+    /// The master node for live view mode.
     var LiveViewMasterNode: SCNNode? = nil
 }
