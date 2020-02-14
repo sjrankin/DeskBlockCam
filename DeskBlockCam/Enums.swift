@@ -201,3 +201,9 @@ enum StatRows: Int, CaseIterable
     case RenderDuration = 9
     case ThrottleValue = 10
 }
+
+enum SphereBehaviors: String, CaseIterable
+{
+    case Size = "Size"
+    case Height = "Height"
+}
