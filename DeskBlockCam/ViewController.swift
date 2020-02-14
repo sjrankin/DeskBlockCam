@@ -143,7 +143,6 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         sender.enumerateDraggingItems(options: [], for: nil, classes: SupportedClasses, searchOptions: SearchOptions)
         {
             (draggingItem, _, _) in
-            print("\(draggingItem.item)")
             switch draggingItem.item
             {
                 case let filePromiseReceiver as NSFilePromiseReceiver:
