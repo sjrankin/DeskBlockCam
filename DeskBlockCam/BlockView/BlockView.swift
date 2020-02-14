@@ -35,6 +35,18 @@ class BlockView: SCNView
     /// Clear the scene of any nodes.
     func ClearScene()
     {
+        #if true
+        if MasterNode != nil
+        {
+            MasterNode?.removeFromParentNode()
+            MasterNode = nil
+        }
+        if LiveViewMasterNode != nil
+        {
+            LiveViewMasterNode?.removeFromParentNode()
+            LiveViewMasterNode = nil
+        }
+        #else
         DispatchQueue.main.async
             {
                 if self.MasterNode != nil
@@ -48,6 +60,7 @@ class BlockView: SCNView
                     self.LiveViewMasterNode = nil
                 }
         }
+        #endif
     }
     
     /// Process the passed image then display the result.
@@ -58,6 +71,11 @@ class BlockView: SCNView
         StatusDelegate?.UpdateStatus(With: .ResetStatus)
         StatusDelegate?.UpdateStatus(With: .PreparingImage)
         ClearScene()
+        if MasterNode == nil
+        {
+            MasterNode = SCNNode()
+            MasterNode?.name = "Master Node"
+        }
         let Resized = Shrinker.ResizeImage(Image: Image, Longest: 1024)
         let ResizedData = Resized.tiffRepresentation
         let ResizedCI = CIImage(data: ResizedData!)
@@ -66,15 +84,40 @@ class BlockView: SCNView
         var HBlocks: Int = 0
         var VBlocks: Int = 0
         let Colors = ParseImage(Pixellated!, BlockSize: 16, HBlocks: &HBlocks, VBlocks: &VBlocks)
-        let Attributes = ProcessingAttributes.Create()
-        Attributes.Colors = Colors
-        Attributes.HorizontalBlocks = HBlocks
-        Attributes.VerticalBlocks = VBlocks
-        let Nodes = Generator.Process(Attributes: Attributes, UIUpdate: StatusDelegate)
-        for Node in Nodes
+        Options.Colors = Colors
+        Options.HorizontalBlocks = HBlocks
+        Options.VerticalBlocks = VBlocks
+        let Nodes = Generator.Process(Attributes: Options, UIUpdate: StatusDelegate)
+        
+        for Y in 0 ... VBlocks - 1
         {
-            MasterNode!.addChildNode(Node)
+            for X in 0 ... HBlocks - 1
+            {
+                autoreleasepool
+                    {
+                        let Color = Colors[Y][X]
+                        let Prominence = ColorProminence(Color) * 0.5
+                        let XLocation: Float = Float(X - (HBlocks / 2))
+                        let YLocation: Float = Float(Y - (VBlocks / 2))
+                        var ZLocation = (Prominence * PMul) * PMul
+                        //let Node = CreateNode(Side: Options.Side, Color: Color, Prominence: Prominence,
+                        //                      AtX: X, AtY: Y, Z: &ZLocation)
+                        if let Node = GetNodeAt(X: X, Y: Y, From: MasterNode!)
+                        {
+                        Node.SetProminence(Double(Prominence))
+                        Node.position = SCNVector3(XLocation * Float(Options.Side),
+                                                   YLocation * Float(Options.Side),
+                                                   Float(ZLocation))
+                        MasterNode?.addChildNode(Node)
+                        }
+                        else
+                        {
+                            print("Node not found at \(X),\(Y)")
+                        }
+                }
+            }
         }
+        
         self.StatusDelegate?.UpdateStatus(With: .AddingShapes)
         prepare([MasterNode!])
         {
@@ -85,6 +128,29 @@ class BlockView: SCNView
                 self.StatusDelegate?.UpdateStatus(With: .AddingDone)
             }
         }
+    }
+    
+    func GetNodeAt(X: Int, Y: Int, From: SCNNode) -> PSCNNode?
+    {
+        for Node in From.childNodes
+        {
+            if let PNode = Node as? PSCNNode
+            {
+                if PNode.X == X && PNode.Y == Y
+                {
+                    return PNode
+                }
+            }
+        }
+        return nil
+    }
+    
+    /// Process the passed image then display the result. Current attributes from user settings are used.
+    /// - Parameter Image: The image to process.
+    func ProcessImage(_ Image: NSImage)
+    {
+        let Options = ProcessingAttributes.Create()
+        ProcessImage(Image, Options: Options)
     }
     
     /// Common initialization.
