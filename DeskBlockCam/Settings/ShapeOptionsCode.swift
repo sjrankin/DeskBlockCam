@@ -26,7 +26,8 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
         ShapeOutlineView.reloadData()
         InitializeColorSwatches()
         InitializeGradientSwatches()
-        InitializeLighting() 
+        InitializeLighting()
+        InitializeLiveView()
     }
     
     func SetAttributes(_ Attributes: ProcessingAttributes)
@@ -491,6 +492,68 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
     
     @IBOutlet weak var ShapeSizeSelector: NSSegmentedControl!
     @IBOutlet weak var MaximumImageSizeSelector: NSSegmentedControl!
+    
+    // MARK: - Live view processing.
+    
+    func InitializeLiveView()
+    {
+        let LVShape = Settings.GetEnum(ForKey: .LiveViewShape, EnumType: Shapes.self, Default: Shapes.Blocks)
+        switch LVShape
+        {
+            case .Blocks:
+                LiveViewShapeSegment.selectedSegment = 0
+            
+            case .Spheres:
+                LiveViewShapeSegment.selectedSegment = 1
+            
+            case .Rings:
+                LiveViewShapeSegment.selectedSegment = 2
+            
+            case .Cones:
+                LiveViewShapeSegment.selectedSegment = 3
+            
+            case .Squares:
+                LiveViewShapeSegment.selectedSegment = 4
+            
+            case .Tubes:
+                LiveViewShapeSegment.selectedSegment = 5
+            
+            default:
+                LiveViewShapeSegment.selectedSegment = 0
+        }
+    }
+    
+    @IBOutlet weak var LiveViewShapeSegment: NSSegmentedControl!
+    
+    @IBAction func LiveViewShapeSegmentChanged(_ sender: Any)
+    {
+        if let Segment = sender as? NSSegmentedControl
+        {
+            switch Segment.selectedSegment
+            {
+                case 0:
+                    Settings.SetEnum(Shapes.Blocks, EnumType: Shapes.self, ForKey: .LiveViewShape)
+                
+                case 1:
+                    Settings.SetEnum(Shapes.Spheres, EnumType: Shapes.self, ForKey: .LiveViewShape)
+                
+                case 2:
+                    Settings.SetEnum(Shapes.Rings, EnumType: Shapes.self, ForKey: .LiveViewShape)
+                
+                case 3:
+                    Settings.SetEnum(Shapes.Cones, EnumType: Shapes.self, ForKey: .LiveViewShape)
+                
+                case 4:
+                    Settings.SetEnum(Shapes.Squares, EnumType: Shapes.self, ForKey: .LiveViewShape)
+                
+                case 5:
+                    Settings.SetEnum(Shapes.Tubes, EnumType: Shapes.self, ForKey: .LiveViewShape)
+                
+                default:
+                    Settings.SetEnum(Shapes.Blocks, EnumType: Shapes.self, ForKey: .LiveViewShape)
+            }
+        }
+    }
 }
 
 class ShapeTreeNode
