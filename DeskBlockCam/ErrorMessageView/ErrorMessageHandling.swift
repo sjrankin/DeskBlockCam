@@ -20,11 +20,16 @@ extension ViewController
         let Storyboard = NSStoryboard(name: "ErrorMessage", bundle: nil)
         if let WindowController = Storyboard.instantiateController(withIdentifier: "ErrorMessageWindowID") as? ErrorMessageWindowCode
         {
+            let ErrorWindow = WindowController.window
             if let ErrorTitle = WindowTitle
             {
                 WindowController.SetTitle(NewTitle: ErrorTitle)
             }
+            #if true
+            self.view.window?.beginSheet(ErrorWindow!, completionHandler: nil)
+            #else
             WindowController.showWindow(nil)
+            #endif
             WindowController.SetErrorMessage(Message)
         }
     }
