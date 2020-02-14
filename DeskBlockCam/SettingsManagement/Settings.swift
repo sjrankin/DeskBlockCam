@@ -38,8 +38,7 @@ class Settings
     }
     
     /// Create and add default settings.
-    /// - Note: If called after initialize instantiation, all user-settings will be overwritten. User data
-    ///         (in the form of the log database) will *not* be affected.
+    /// - Note: If called after initialize instantiation, all user-settings will be overwritten.
     /// - Note: Depending on whether the compilation was for a debug build or a release build, default settings may
     ///         vary. For each instance of a variance between the two build types, comments are provided. In general,
     ///         debug builds are not as stringent with privacy.
@@ -80,7 +79,7 @@ class Settings
         UserDefaults.standard.set(4, forKey: SettingKeys.LineCount.rawValue)
         UserDefaults.standard.set(CharacterSets.Latin.rawValue, forKey: SettingKeys.CharacterSet.rawValue)
         UserDefaults.standard.set(ConeTopSizes.Zero.rawValue, forKey: SettingKeys.ConeTopSize.rawValue)
-        UserDefaults.standard.set(ConeBottomSizes.Side, forKey: SettingKeys.ConeBottomSize.rawValue)
+        UserDefaults.standard.set(ConeBottomSizes.Side.rawValue, forKey: SettingKeys.ConeBottomSize.rawValue)
         UserDefaults.standard.set(false, forKey: SettingKeys.ConeSwapTopBottom.rawValue)
         UserDefaults.standard.set(Shapes.Blocks.rawValue, forKey: SettingKeys.LiveViewShape.rawValue)
         UserDefaults.standard.set(MainModes.LiveView.rawValue, forKey: SettingKeys.CurrentMode.rawValue)
@@ -88,6 +87,7 @@ class Settings
         UserDefaults.standard.set(true, forKey: SettingKeys.AutoOpenShapeSettings.rawValue)
         UserDefaults.standard.set(true, forKey: SettingKeys.SwitchModesWithDroppedImages.rawValue)
         UserDefaults.standard.set(true, forKey: SettingKeys.AutoOpenProcessedView.rawValue)
+        UserDefaults.standard.set(SphereBehaviors.Size.rawValue, forKey: SettingKeys.SphereBehavior.rawValue)
     }
     
     /// Add a subscriber to the notification list. Each subscriber is called just before a setting is committed and just after
@@ -580,7 +580,9 @@ class Settings
             .ConeTopSize,
             .ConeBottomSize,
             .LiveViewShape,
-            .CurrentMode
+            .CurrentMode,
+            .SphereBehavior,
+            .CharacterSet
     ]
     
     /// Contains a list of all double-type fields.
@@ -654,6 +656,10 @@ enum SettingKeys: String, CaseIterable, Comparable, Hashable
     case CapShape = "CapShape"
     /// String/Enum: The location of the cap for the capped-line.
     case CapLocation = "CapLocation"
+    
+    //Sphere optional settings.
+    /// String/Enum: How the sphere behaves in terms of prominence.
+    case SphereBehavior = "SphereBehavior"
     
     //Star optional settings.
     /// Int: Number of apexes.
