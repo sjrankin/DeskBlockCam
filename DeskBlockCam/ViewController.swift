@@ -27,10 +27,6 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         
         Settings.AddSubscriber(self, "ViewController")
         
-        LiveView.wantsLayer = true
-        LiveView.layer?.backgroundColor = NSColor.black.cgColor
-        LiveView.isHidden = true
-        
         StillImageView.wantsLayer = true
         StillImageView.isHidden = false
         OriginalImageView.wantsLayer = true
@@ -188,11 +184,10 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         }
         if Settings.GetBoolean(ForKey: .SwitchModesWithDroppedImages)
         {
-            StillImageView.isHidden = false
-            LiveView.isHidden = true
             OriginalImageView.image = Image
             Settings.SetEnum(MainModes.ImageView, EnumType: MainModes.self, ForKey: .CurrentMode)
             SetProgramMode(ChangeSelector: true)
+            ProcessLoadedImage(Image!)
         }
     }
     
@@ -205,6 +200,13 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
     {
         let provider = NSFilePromiseProvider(fileType: kUTTypeJPEG as String, delegate: self)
         return provider
+    }
+    
+    // MARK: - Still image processing.
+    
+    func ProcessLoadedImage(_ Image: NSImage)
+    {
+        ProcessedImage.ProcessImage(Image)
     }
     
     // MARK: - Other stuff
@@ -399,8 +401,6 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         DispatchQueue.main.async
             {
                 self.VideoPreviewLayer.frame = self.OriginalImageView.bounds//self.LiveView.bounds
-                self.StillImageView.frame = self.LiveView.bounds
-                //               self.ProcessedImage.frame = self.LiveView.bounds
         }
     }
     
@@ -609,6 +609,11 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         OpenDebug()
     }
     
+    @IBAction func DebugResetSettings(_ sender: Any)
+    {
+        Settings.AddDefaultSettings()
+    }
+    
     func ImageForDebug(_ Image: NSImage, ImageType: DebugImageTypes)
     {
         AddImage(Type: ImageType, Image)
@@ -624,7 +629,6 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
     @IBOutlet weak var ProcessedImage: BlockView!
     @IBOutlet weak var LiveHistogram: HistogramDisplay!
     @IBOutlet weak var CameraButton: NSButton!
-    @IBOutlet weak var LiveView: LiveViewer!
     @IBOutlet weak var BottomBar: NSView!
     
     // MARK: - Status controls
