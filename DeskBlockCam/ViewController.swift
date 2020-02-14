@@ -18,8 +18,7 @@ import CoreGraphics
 class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCaptureVideoDataOutputSampleBufferDelegate,
     NSFilePromiseProviderDelegate,
     SettingChangedProtocol,
-    DragDropDelegate,
-    ProcessedProtocol
+    DragDropDelegate
 {
     /// Load and set up the UI.
     override func viewDidLoad()
@@ -30,10 +29,10 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         
         LiveView.wantsLayer = true
         LiveView.layer?.backgroundColor = NSColor.black.cgColor
-        LiveView.isHidden = false
+        LiveView.isHidden = true
         
         StillImageView.wantsLayer = true
-        StillImageView.isHidden = true
+        StillImageView.isHidden = false
         OriginalImageView.wantsLayer = true
         OriginalImageView.layer?.borderWidth = 2.0
         OriginalImageView.layer?.backgroundColor = NSColor.black.cgColor
@@ -65,7 +64,9 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         {
             OpenOptionsWindow(self)
         }
+        #if false
         OpenProcessedWindow()
+        #endif
         
         ResetStatus()
         
@@ -86,22 +87,14 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
                 {
                     ModeSelector.selectItem(at: 1)
                 }
-                if let Processed = ProcessedWindow
-                {
-                    Processed.CloseWindow()
-                }
-                StillImageView.isHidden = false
-                LiveView.isHidden = true
                 StopCamera()
+                ProcessedImage.ClearScene()
             
             case .LiveView:
                 if ChangeSelector
                 {
                     ModeSelector.selectItem(at: 0)
                 }
-                StillImageView.isHidden = true
-                LiveView.isHidden = false
-                OpenProcessedWindow()
                 StartCamera()
             
             case .VideoView:
@@ -235,19 +228,6 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
     
     var Started = false
     
-    /// Open the processed video window.
-    func OpenProcessedWindow()
-    {
-        let Storyboard = NSStoryboard(name: "Main", bundle: nil)
-        if let WindowController = Storyboard.instantiateController(withIdentifier: "ProcessedImageWindowUI") as? ProcessedViewWindowController
-        {
-            WindowController.showWindow(nil)
-            ProcessSink = WindowController.contentViewController as? ProcessedViewController
-            ProcessSink?.Delegate = self
-            ProcessedWindow = WindowController
-        }
-    }
-    
     @IBAction func OpenOptionsWindow(_ sender: Any)
     {
         let Storyboard = NSStoryboard(name: "Main", bundle: nil)
@@ -366,13 +346,16 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
     {
         OperationQueue.main.addOperation
             {
-                self.LiveView.layerContentsPlacement = .scaleProportionallyToFill
-                self.LiveView.layerContentsRedrawPolicy = .duringViewResize
+                self.OriginalImageView.layerContentsPlacement = .scaleProportionallyToFill
+                self.OriginalImageView.layerContentsRedrawPolicy = .duringViewResize
+//                self.LiveView.layerContentsPlacement = .scaleProportionallyToFill
+//                self.LiveView.layerContentsRedrawPolicy = .duringViewResize
                 self.VideoPreviewLayer = AVCaptureVideoPreviewLayer(session: self.CaptureSession)
                 self.VideoPreviewLayer.name = "VideoLayer"
                 self.VideoPreviewLayer.videoGravity = .resizeAspect
                 self.VideoPreviewLayer.connection?.videoOrientation = .portrait
-                self.LiveView.layer?.addSublayer(self.VideoPreviewLayer)
+                self.OriginalImageView.layer?.addSublayer(self.VideoPreviewLayer)
+//                self.LiveView.layer?.addSublayer(self.VideoPreviewLayer)
         }
         DispatchQueue.global(qos: .userInitiated).async
             {
@@ -380,7 +363,8 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
                 self!.CaptureSession.startRunning()
                 DispatchQueue.main.async
                     {
-                        self!.VideoPreviewLayer.frame = self!.LiveView.bounds
+                        self!.VideoPreviewLayer.frame = self!.OriginalImageView.bounds
+                        //self!.VideoPreviewLayer.frame = self!.LiveView.bounds
                 }
         }
     }
@@ -415,7 +399,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         }
         DispatchQueue.main.async
             {
-                self.VideoPreviewLayer.frame = self.LiveView.bounds
+                self.VideoPreviewLayer.frame = self.OriginalImageView.bounds//self.LiveView.bounds
                 self.StillImageView.frame = self.LiveView.bounds
                 //               self.ProcessedImage.frame = self.LiveView.bounds
         }
@@ -476,7 +460,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
                     
                     let Start = CACurrentMediaTime()
                     AddStat(ForItem: .CurrentFrame, NewValue: "\(FrameCount)")
-                    ProcessSink?.NewImage(CIImg, FrameCount)
+                    ProcessedImage.ProcessLiveView(CIImg, FrameCount)
                     let TotalEnd = CACurrentMediaTime() - Start
                     Durations.append(TotalEnd)
                     if let RollingMean = RollingDurationMean()
@@ -489,14 +473,6 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
                     AddStat(ForItem: .LastFrameDuration,
                             NewValue: Utilities.RoundedString(TotalEnd))
                     
-                    if ProcessSink != nil
-                    {
-                        if DroppedFrames < ProcessSink!.DroppedFrameCount
-                        {
-                            DroppedFrames = ProcessSink!.DroppedFrameCount
-                            AddStat(ForItem: .DroppedFrames, NewValue: "\(DroppedFrames)")
-                        }
-                    }
                     RenderedFrames = RenderedFrames + 1
                     RenderedDuration = RenderedDuration + TotalEnd
                     AddStat(ForItem: .RenderDuration, NewValue: "\(Int(RenderedDuration)) s")
@@ -532,8 +508,6 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
     var RenderedFrames: Int = 0
     var FrameCount: Int = 0
     
-    var ProcessSink: ProcessedViewController? = nil
-    
     /// A photo of the live stream is available.
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?)
     {
@@ -562,10 +536,6 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
     /// Clear the frames directory.
     func WillClose()
     {
-        if let Processed = ProcessedWindow
-        {
-            Processed.CloseWindow()
-        }
         if let Settings = SettingsWindow
         {
             Settings.CloseWindow()
@@ -586,8 +556,6 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
     }
     
     var AbtWindow: AboutWindow? = nil
-    
-    var ProcessedWindow: ProcessedViewWindowController? = nil
     
     var ShapeIndex: Int = 0
     
