@@ -204,10 +204,9 @@ class Generator
     }
     
     /// Process the image as defined in the passed attribute. Results placed in the passed scene.
-    /// - Parameter InScene: The scene were the results will be placed.
     /// - Parameter Attributes: Defines how to create the image.
     /// - Parameter UIUpdate: Status update protocol for updating the UI.
-    public static func Process(InScene: SCNScene, Attributes: ProcessingAttributes,
+    public static func Process(Attributes: ProcessingAttributes,
                                UIUpdate: StatusProtocol? = nil) -> [PSCNNode]
     {
         UIUpdate?.UpdateStatus(With: .CreatingShapes)
