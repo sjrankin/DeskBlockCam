@@ -174,8 +174,9 @@ class Generator
     /// Create a set of nodes to display in an SCNView.
     /// - Parameter Attributes: Data that tells how to construct each node as well as containing
     ///                         color data.
+    /// - Parameter UIUpdate: Status update protocol to call for updating the UI.
     /// - Returns: Array of shape nodes.
-    public static func MakeNodesFor(Attributes: ProcessingAttributes) -> [PSCNNode]
+    public static func MakeNodesFor(Attributes: ProcessingAttributes, UIUpdate: StatusProtocol? = nil) -> [PSCNNode]
     {
         var Results = [PSCNNode]()
         if Attributes.Colors.count < 1
@@ -183,6 +184,8 @@ class Generator
             return Results
         }
         
+        var Count = 0
+        let Total = Double(Attributes.Colors.count * Attributes.Colors[0].count)
         for Y in 0 ..< Attributes.Colors.count
         {
             for X in 0 ..< Attributes.Colors[Y].count
@@ -190,10 +193,26 @@ class Generator
                 autoreleasepool
                     {
                         Results.append(MakeShape(With: Attributes, AtX: X, AtY: Y))
+                        Count = Count + 1
+                        let Percent = 100.0 * Double(Count) / Total
+                        UIUpdate?.UpdateStatus(With: .CreatingPercentUpdate, PercentComplete: Percent)
                 }
             }
         }
         
         return Results
+    }
+    
+    /// Process the image as defined in the passed attribute. Results placed in the passed scene.
+    /// - Parameter InScene: The scene were the results will be placed.
+    /// - Parameter Attributes: Defines how to create the image.
+    /// - Parameter UIUpdate: Status update protocol for updating the UI.
+    public static func Process(InScene: SCNScene, Attributes: ProcessingAttributes,
+                               UIUpdate: StatusProtocol? = nil) -> [PSCNNode]
+    {
+        UIUpdate?.UpdateStatus(With: .CreatingShapes)
+        let NodeList = MakeNodesFor(Attributes: Attributes, UIUpdate: UIUpdate)
+        UIUpdate?.UpdateStatus(With: .CreatingDone)
+        return NodeList
     }
 }
