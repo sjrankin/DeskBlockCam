@@ -87,6 +87,7 @@ class Settings
         UserDefaults.standard.set(true, forKey: SettingKeys.ShowHistogram.rawValue)
         UserDefaults.standard.set(true, forKey: SettingKeys.AutoOpenShapeSettings.rawValue)
         UserDefaults.standard.set(true, forKey: SettingKeys.SwitchModesWithDroppedImages.rawValue)
+        UserDefaults.standard.set(true, forKey: SettingKeys.AutoOpenProcessedView.rawValue)
     }
     
     /// Add a subscriber to the notification list. Each subscriber is called just before a setting is committed and just after
@@ -536,7 +537,8 @@ class Settings
             .ConeSwapTopBottom,
             .ShowHistogram,
             .AutoOpenShapeSettings,
-            .SwitchModesWithDroppedImages
+            .SwitchModesWithDroppedImages,
+            .AutoOpenProcessedView
     ]
     
     /// Contains a list of all integer-type fields.
@@ -719,6 +721,8 @@ enum SettingKeys: String, CaseIterable, Comparable, Hashable
     case AutoOpenShapeSettings = "AutoOpenShapeSettings"
     /// Bool: Automatically switch modes if the user drops an image on the program.
     case SwitchModesWithDroppedImages = "SwitchModesWithDroppedImages"
+    /// Bool: Automatically open the processed view window when switching to live view.
+    case AutoOpenProcessedView = "AutoOpenProcessedView"
 }
 
 /// Types of setting data recognized by the SettingsManager.
