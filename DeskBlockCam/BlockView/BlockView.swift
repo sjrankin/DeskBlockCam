@@ -12,6 +12,8 @@ import SceneKit
 
 class BlockView: SCNView
 {
+    public weak var StatusDelegate: StatusProtocol? = nil
+    
     override init(frame frameRect: NSRect)
     {
         super.init(frame: frameRect)
@@ -67,20 +69,47 @@ class BlockView: SCNView
         return self.snapshot()
     }
     
+    /// Process the passed image then display the result.
+    /// - Parameter Image: The image to process.
+    /// - Parameter Options: Determines how the image is processd.
     func ProcessImage(_ Image: NSImage, Options: ProcessingAttributes)
     {
-        DispatchQueue.main.async
+        StatusDelegate?.UpdateStatus(With: .ResetStatus)
+        StatusDelegate?.UpdateStatus(With: .PreparingImage)
+        DispatchQueue.main.sync
             {
                 if self.MasterNode != nil
                 {
                     self.MasterNode?.removeFromParentNode()
                     self.MasterNode = nil
                 }
-                if let Final = self.ImageProcessor?.Process(Image: Image, With: Options)
-                {
-                    self.MasterNode = Final
-                    self.scene?.rootNode.addChildNode(self.MasterNode!)
-                }
+        }
+        let Resized = Shrinker.ResizeImage(Image: Image, Longest: 1024)
+        let ResizedData = Resized.tiffRepresentation
+        let ResizedCI = CIImage(data: ResizedData!)
+        let Pixellated = Pixellator.Pixellate(ResizedCI!)
+        StatusDelegate?.UpdateStatus(With: .PreparationDone)
+        var HBlocks: Int = 0
+        var VBlocks: Int = 0
+        let Colors = ParseImage(Pixellated!, BlockSize: 16, HBlocks: &HBlocks, VBlocks: &VBlocks)
+        let Attributes = ProcessingAttributes.Create()
+        Attributes.Colors = Colors
+        Attributes.HorizontalBlocks = HBlocks
+        Attributes.VerticalBlocks = VBlocks
+        let Nodes = Generator.Process(InScene: self.scene!, Attributes: Attributes, UIUpdate: StatusDelegate)
+        for Node in Nodes
+        {
+            MasterNode!.addChildNode(Node)
+        }
+        self.StatusDelegate?.UpdateStatus(With: .AddingShapes)
+        prepare([MasterNode!])
+        {
+            Completed in
+            if Completed
+            {
+                self.scene?.rootNode.addChildNode(self.MasterNode!)
+                self.StatusDelegate?.UpdateStatus(With: .AddingDone)
+            }
         }
     }
     
@@ -144,12 +173,57 @@ class BlockView: SCNView
         return Double(OriginalZ)
     }
     
+    /// Parses the pixellated image and returns a list of colors, one for each pixellated block.
+    /// - Parameter Image: The pixellated image to parse.
+    /// - Parameter BlockSize: The size of each pixellated region.
+    /// - Parameter HBlocks: On output, will contain the number of horizontal pixellated regions.
+    /// - Parameter VBlocks: On output, will contain the number of vertical pixellated regions.
+    /// - Returns: List of colors in YX order.
+    func ParseImage(_ Image: NSImage, BlockSize: CGFloat, HBlocks: inout Int, VBlocks: inout Int) -> [[NSColor]]
+    {
+        StatusDelegate?.UpdateStatus(With: .ParsingImage)
+        HBlocks = Int(Image.size.width / BlockSize)
+        VBlocks = Int(Image.size.height / BlockSize)
+        var Colors = Array(repeating: Array(repeating: NSColor.black, count: Int(HBlocks)), count: Int(VBlocks))
+        var ImageRep: NSBitmapImageRep? = nil
+        if let Tiff = Image.tiffRepresentation
+        {
+            ImageRep = NSBitmapImageRep(data: Tiff)
+        }
+        else
+        {
+            return [[NSColor]]()
+        }
+        let Total = VBlocks * HBlocks
+        var Count = 0
+        for Y in 0 ..< VBlocks
+        {
+            for X in 0 ..< HBlocks
+            {
+                autoreleasepool
+                    {
+                        let PixelX = X * Int(BlockSize) + Int(BlockSize / 2.0)
+                        let PixelY = Y * Int(BlockSize) + Int(BlockSize / 2.0)
+                        //Online commentators say this is very slow. However, for our purposes and
+                        //for how we use it, it is sufficient.
+                        let Color = ImageRep?.colorAt(x: PixelX, y: PixelY)
+                        Colors[VBlocks - 1 - Y][X] = Color!
+                        Count = Count + 1
+                        let Percent = 100.0 * Double(Count) / Double(Total)
+                        StatusDelegate?.UpdateStatus(With: .ParsingPercentUpdate, PercentComplete: Percent)
+                }
+            }
+        }
+        StatusDelegate?.UpdateStatus(With: .ParsingDone)
+        return Colors
+    }
+    
     /// Returns a node with the specified name in the specified scene.
     /// - Parameter WithName: The name of the node to return. **Names must match exactly**. If multiple nodes have the same name,
     ///                       the first node encountered will be returned.
     /// - Parameter InScene: The scene to search for the named node.
     /// - Returns: The node with the specified name on success, nil if not found.
-    public  func GetNode(WithName: String, InScene: SCNScene) -> SCNNode?
+    public func GetNode(WithName: String, InScene: SCNScene) -> SCNNode?
     {
         return DoGetNode(FromNode: InScene.rootNode, WithName: WithName)
     }
