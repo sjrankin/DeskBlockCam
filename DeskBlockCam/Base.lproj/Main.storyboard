@@ -202,6 +202,19 @@
                                     </items>
                                 </menu>
                             </menuItem>
+                            <menuItem title="Debug" id="GmN-sW-XQt">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="Debug" id="K6I-eO-631">
+                                    <items>
+                                        <menuItem title="Reset Settings" id="AZ3-8t-WmE">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="DebugResetSettings:" target="Ady-hI-5gd" id="4cG-FP-4HG"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </menuItem>
                             <menuItem title="Help" id="wpr-3q-Mcd">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="Help" systemMenu="help" id="F2S-fz-NVQ">
@@ -339,9 +352,6 @@
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="03m-l9-L2V">
                                 <rect key="frame" x="0.0" y="70" width="1096" height="490"/>
                                 <subviews>
-                                    <customView hidden="YES" translatesAutoresizingMaskIntoConstraints="NO" id="23E-4E-LEJ" customClass="LiveViewer" customModule="BlockCam" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="1096" height="490"/>
-                                    </customView>
                                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="6iV-Jo-yuM">
                                         <rect key="frame" x="0.0" y="0.0" width="1096" height="490"/>
                                         <subviews>
@@ -513,14 +523,10 @@
                                     </customView>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="23E-4E-LEJ" secondAttribute="bottom" id="ANU-UZ-alh"/>
-                                    <constraint firstItem="23E-4E-LEJ" firstAttribute="top" secondItem="03m-l9-L2V" secondAttribute="top" id="NPx-S9-SC2"/>
-                                    <constraint firstAttribute="trailing" secondItem="23E-4E-LEJ" secondAttribute="trailing" id="NmV-ir-TWU"/>
                                     <constraint firstItem="6iV-Jo-yuM" firstAttribute="top" secondItem="03m-l9-L2V" secondAttribute="top" id="R3M-iP-BxX"/>
                                     <constraint firstAttribute="trailing" secondItem="6iV-Jo-yuM" secondAttribute="trailing" id="Wno-zs-2mf"/>
                                     <constraint firstAttribute="bottom" secondItem="6iV-Jo-yuM" secondAttribute="bottom" id="bpf-pC-hdt"/>
                                     <constraint firstItem="6iV-Jo-yuM" firstAttribute="leading" secondItem="03m-l9-L2V" secondAttribute="leading" id="w3T-fU-Khd"/>
-                                    <constraint firstItem="23E-4E-LEJ" firstAttribute="leading" secondItem="03m-l9-L2V" secondAttribute="leading" id="xhj-3X-b7r"/>
                                 </constraints>
                             </customView>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="7Mz-J6-VDI">
@@ -613,7 +619,6 @@
                         <outlet property="CreatingShapesIndicator" destination="JZg-Mg-dg4" id="rvE-bB-cvd"/>
                         <outlet property="CreatingShapesText" destination="7vt-fY-8pk" id="yR0-CS-UO5"/>
                         <outlet property="LiveHistogram" destination="sD1-1P-Ylf" id="MKZ-QP-h5W"/>
-                        <outlet property="LiveView" destination="23E-4E-LEJ" id="lIM-BN-EAH"/>
                         <outlet property="ModeSelector" destination="LJe-NP-c5R" id="YMH-Tj-tdr"/>
                         <outlet property="OriginalImageView" destination="EjG-RI-0P9" id="O98-Vb-gyL"/>
                         <outlet property="ParsingImageDone" destination="16R-1n-N5f" id="JhT-yB-rjh"/>
@@ -2511,6 +2516,62 @@
                 <customObject id="rcg-Ja-dQo" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1071" y="1772"/>
+        </scene>
+        <!--Sphere Option Code-->
+        <scene sceneID="3Ac-IY-Yht">
+            <objects>
+                <viewController storyboardIdentifier="SphereOptions" id="aaW-MT-dlz" customClass="SphereOptionCode" customModule="BlockCam" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="o9j-Ic-TwJ">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="lZW-ZQ-kLf">
+                                <rect key="frame" x="6" y="235" width="436" height="57"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="57" id="KSR-pF-WyB"/>
+                                </constraints>
+                                <textFieldCell key="cell" selectable="YES" borderStyle="border" alignment="left" title="Creates a sphere for the related color." drawsBackground="YES" id="875-8v-4QL">
+                                    <font key="font" usesAppearanceFont="YES"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" red="0.15000000599999999" green="0.15000000599999999" blue="0.15000000599999999" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="NHg-pM-BYn">
+                                <rect key="frame" x="6" y="185" width="122" height="16"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Prominence affects" id="Cug-fn-g21">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yB5-fp-Tl1">
+                                <rect key="frame" x="145" y="180" width="160" height="24"/>
+                                <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="oZB-xf-9vX">
+                                    <font key="font" metaFont="system"/>
+                                    <segments>
+                                        <segment label="Size" width="77"/>
+                                        <segment label="Height" width="76" selected="YES" tag="1"/>
+                                    </segments>
+                                </segmentedCell>
+                            </segmentedControl>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="NHg-pM-BYn" firstAttribute="baseline" secondItem="yB5-fp-Tl1" secondAttribute="baseline" id="5wT-2T-C19"/>
+                            <constraint firstAttribute="trailing" secondItem="lZW-ZQ-kLf" secondAttribute="trailing" constant="8" id="7SP-Yp-97F"/>
+                            <constraint firstItem="yB5-fp-Tl1" firstAttribute="leading" secondItem="NHg-pM-BYn" secondAttribute="trailing" constant="21" id="PAb-uP-C9n"/>
+                            <constraint firstItem="yB5-fp-Tl1" firstAttribute="top" secondItem="lZW-ZQ-kLf" secondAttribute="bottom" constant="32" id="T86-k4-wFo"/>
+                            <constraint firstItem="yB5-fp-Tl1" firstAttribute="centerX" secondItem="o9j-Ic-TwJ" secondAttribute="centerX" id="bOY-sM-wUC"/>
+                            <constraint firstItem="lZW-ZQ-kLf" firstAttribute="top" secondItem="o9j-Ic-TwJ" secondAttribute="top" constant="8" id="cuX-Iq-G6x"/>
+                            <constraint firstItem="lZW-ZQ-kLf" firstAttribute="leading" secondItem="o9j-Ic-TwJ" secondAttribute="leading" constant="6" id="f0F-Lv-Kow"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="Caption" destination="lZW-ZQ-kLf" id="JeT-bt-2Hq"/>
+                    </connections>
+                </viewController>
+                <customObject id="EHt-NF-FRT" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1539" y="2945"/>
         </scene>
     </scenes>
     <resources>
