@@ -105,7 +105,9 @@ extension ShapeOptionsCode
                 (OptionMap[Shapes.StackedShapes]!.Controller as? StackedShapesOptionCode)?.SetCaption("Sets the shape based on the saturation of the location of the shape. Shapes are distributed equally in the saturation range.")
             
             case .Spheres:
-                (OptionMap[Shapes.NoShape]!.Controller as? NoOptionsCode)?.SetCaption("Spheres that vary size according to the pixellated color. No options available.")
+                FinalShape = Shapes.Spheres
+                (OptionMap[Shapes.Spheres]!.Controller as? SphereOptionCode)?.SetAttributes(CurrentAttributes)
+                (OptionMap[Shapes.Spheres]!.Controller as? SphereOptionCode)?.SetCaption("Spheres that vary size or height according to the pixellated color.")
             
             case .Squares:
                 (OptionMap[Shapes.NoShape]!.Controller as? NoOptionsCode)?.SetCaption("Two-dimensional squares. No options available.")
@@ -180,6 +182,10 @@ extension ShapeOptionsCode
         OptionMap[Shapes.CappedLines] = OptionEntry(CreateOptionDialog("CappedLineOptions"))
         self.addChild(OptionMap[Shapes.CappedLines]!.Controller!)
         (OptionMap[Shapes.CappedLines]!.Controller as? CappedLinesOptionsCode)?.Delegate = self
+        
+        OptionMap[Shapes.Spheres] = OptionEntry(CreateOptionDialog("SphereOptions"))
+        self.addChild(OptionMap[Shapes.Spheres]!.Controller!)
+        (OptionMap[Shapes.Spheres]!.Controller as? SphereOptionCode)?.Delegate = self
         
         OptionMap[Shapes.StackedShapes] = OptionEntry(CreateOptionDialog("StackedShapeOptions"))
         self.addChild(OptionMap[Shapes.StackedShapes]!.Controller!)
