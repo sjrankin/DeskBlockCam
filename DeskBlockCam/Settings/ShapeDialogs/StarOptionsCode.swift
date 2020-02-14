@@ -9,7 +9,7 @@
 import Foundation
 import AppKit
 
-class StarOptionsCode: NSViewController, ToOptionsDialogProtocol
+class StarOptionsCode: NSViewController, ToOptionsParentProtocol
 {
     weak var Delegate: ToOptionsParentProtocol? = nil
     
@@ -25,6 +25,10 @@ class StarOptionsCode: NSViewController, ToOptionsDialogProtocol
     var NewCaption: String = ""
     
     func SetAttributes(_ Attributes: ProcessingAttributes)
+    {
+    }
+    
+    func UpdatedOptions(_ Updated: ProcessingAttributes)
     {
     }
     
