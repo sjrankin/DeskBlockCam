@@ -21,8 +21,6 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
     DragDropDelegate,
     ProcessedProtocol
 {
-
-    
     /// Load and set up the UI.
     override func viewDidLoad()
     {
@@ -31,14 +29,18 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         Settings.AddSubscriber(self, "ViewController")
         
         LiveView.wantsLayer = true
-        //LiveView.layer?.borderWidth = 1.0
-        //LiveView.layer?.borderColor = NSColor.systemYellow.cgColor
-        //LiveView.layer?.cornerRadius = 5.0
         LiveView.layer?.backgroundColor = NSColor.black.cgColor
         LiveView.isHidden = false
         
+        StillImageView.wantsLayer = true
+        StillImageView.isHidden = true
+        OriginalImageView.wantsLayer = true
+        OriginalImageView.layer?.borderWidth = 2.0
+        OriginalImageView.layer?.backgroundColor = NSColor.black.cgColor
+        OriginalImageView.layer?.borderColor = NSColor.systemYellow.cgColor
         ProcessedImage.wantsLayer = true
-        ProcessedImage.isHidden = true
+        ProcessedImage.layer?.backgroundColor = NSColor.black.cgColor
+        ProcessedImage.StatusDelegate = self
         
         BottomBar.wantsLayer = true
         BottomBar.layer?.backgroundColor = NSColor.systemYellow.cgColor
@@ -61,15 +63,50 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         Started = true
         if Settings.GetBoolean(ForKey: .AutoOpenShapeSettings)
         {
-            OpenOptionsWindow()
+            OpenOptionsWindow(self)
         }
         OpenProcessedWindow()
+        
+        ResetStatus()
         
         LiveHistogram.isHidden = !Settings.GetBoolean(ForKey: .ShowHistogram)
         
         ControllerView.DragDelegate = self
         view.registerForDraggedTypes(NSFilePromiseReceiver.readableDraggedTypes.map {NSPasteboard.PasteboardType($0)})
         view.registerForDraggedTypes([NSPasteboard.PasteboardType.fileURL])
+    }
+    
+    func SetProgramMode(ChangeSelector: Bool = false)
+    {
+        let Mode = Settings.GetEnum(ForKey: .CurrentMode, EnumType: MainModes.self, Default: MainModes.LiveView)
+        switch Mode
+        {
+            case .ImageView:
+                if ChangeSelector
+                {
+                    ModeSelector.selectItem(at: 1)
+                }
+                if let Processed = ProcessedWindow
+                {
+                    Processed.CloseWindow()
+                }
+                StillImageView.isHidden = false
+                LiveView.isHidden = true
+                StopCamera()
+            
+            case .LiveView:
+                if ChangeSelector
+                {
+                    ModeSelector.selectItem(at: 0)
+                }
+                StillImageView.isHidden = true
+                LiveView.isHidden = false
+                OpenProcessedWindow()
+                StartCamera()
+            
+            case .VideoView:
+                break
+        }
     }
     
     // MARK: - Drag and drop
@@ -124,16 +161,16 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
                         (fileURL, error) in
                         if let error = error
                         {
-                            self.handleError(error)
+                            self.HandleDragDropError(error)
                         }
                         else
                         {
-                            self.handleFile(at: fileURL)
+                            self.HandleDroppedFile(at: fileURL)
                         }
                 }
                 
                 case let fileURL as URL:
-                    self.handleFile(at: fileURL)
+                    self.HandleDroppedFile(at: fileURL)
                 
                 default:
                     fatalError()
@@ -143,12 +180,12 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         return true
     }
     
-    func handleError(_ error: Error)
+    func HandleDragDropError(_ error: Error)
     {
-        print("Error: \(error)")
+        ShowError(Message: "Drag drop error: \(error)")
     }
     
-    func handleFile(at url: URL)
+    func HandleDroppedFile(at url: URL)
     {
         let Image = NSImage(contentsOf: url)
         if Image == nil
@@ -159,7 +196,11 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         }
         if Settings.GetBoolean(ForKey: .SwitchModesWithDroppedImages)
         {
-            
+            StillImageView.isHidden = false
+            LiveView.isHidden = true
+            OriginalImageView.image = Image
+            Settings.SetEnum(MainModes.ImageView, EnumType: MainModes.self, ForKey: .CurrentMode)
+            SetProgramMode(ChangeSelector: true)
         }
     }
     
@@ -207,7 +248,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         }
     }
     
-    func OpenOptionsWindow()
+    @IBAction func OpenOptionsWindow(_ sender: Any)
     {
         let Storyboard = NSStoryboard(name: "Main", bundle: nil)
         if let WindowController = Storyboard.instantiateController(withIdentifier: "ShapeOptionWindowUI") as? ShapeOptionsWindowCode
@@ -220,6 +261,8 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
     
     var SettingsControl: ShapeOptionsCode? = nil
     var SettingsWindow: ShapeOptionsWindowCode? = nil
+    
+    // MARK: - Camera control.
     
     /// Get camera access from the user.
     func GetCameraAccess()
@@ -256,6 +299,25 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
     var CaptureDevice: AVCaptureDevice!
     var VideoDeviceDiscoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera],
                                                                        mediaType: .video, position: .unspecified)
+    
+    /// Stops the camera session.
+    func StopCamera()
+    {
+        CaptureSession.stopRunning()
+    }
+    
+    /// Starts the camera session. If the camera has not yet been initialized, it will be initialized
+    /// here.
+    func StartCamera()
+    {
+        if !CameraWasInitialized
+        {
+            GetCameraAccess()
+        }
+        CaptureSession.startRunning()
+    }
+    
+    var CameraWasInitialized = false
     
     /// Set up the capture session so we get the camera's stream.
     func SetupCaptureSession()
@@ -296,6 +358,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         {
             fatalError("Error getting input camera.")
         }
+        CameraWasInitialized = true
     }
     
     /// Hook up the camera stream to the output view.
@@ -353,7 +416,8 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         DispatchQueue.main.async
             {
                 self.VideoPreviewLayer.frame = self.LiveView.bounds
-                self.ProcessedImage.frame = self.LiveView.bounds
+                self.StillImageView.frame = self.LiveView.bounds
+                //               self.ProcessedImage.frame = self.LiveView.bounds
         }
     }
     
@@ -532,7 +596,19 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         if let Selector = sender as? NSPopUpButton
         {
             let Index = Selector.indexOfSelectedItem
-            print("Selected \((Selector.titleOfSelectedItem)!)")
+            switch Index
+            {
+                case 0:
+                    Settings.SetEnum(MainModes.LiveView, EnumType: MainModes.self, ForKey: .CurrentMode)
+                    SetProgramMode()
+                
+                case 1:
+                    Settings.SetEnum(MainModes.ImageView, EnumType: MainModes.self, ForKey: .CurrentMode)
+                    SetProgramMode()
+                
+                default:
+                    return
+            }
         }
     }
     
@@ -556,6 +632,11 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         }
     }
     
+    @IBAction func HandleProcessingSettingsButtonPressed(_ sender: Any)
+    {
+        OpenOptionsWindow(self)
+    }
+    
     @IBAction func ShowDebugWindow(_ sender: Any)
     {
         OpenDebug()
@@ -567,14 +648,32 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
     }
     
     var DebugWindow: DebugWindowCode? = nil
-        var MainSettings: ProgramSettingsWindowController? = nil
+    var MainSettings: ProgramSettingsWindowController? = nil
     
+    @IBOutlet weak var StillImageView: NSView!
+    @IBOutlet weak var OriginalImageView: NSImageView!
     @IBOutlet var ControllerView: ViewControllerView!
     @IBOutlet weak var ModeSelector: NSPopUpButton!
-    @IBOutlet weak var ProcessedImage: SCNView!
+    @IBOutlet weak var ProcessedImage: BlockView!
     @IBOutlet weak var LiveHistogram: HistogramDisplay!
     @IBOutlet weak var CameraButton: NSButton!
     @IBOutlet weak var LiveView: LiveViewer!
     @IBOutlet weak var BottomBar: NSView!
+    
+    // MARK: - Status controls
+    
+    @IBOutlet weak var AddingShapesIndicator: NSProgressIndicator!
+    @IBOutlet weak var CreatingShapesIndicator: NSProgressIndicator!
+    @IBOutlet weak var ParsingImageIndicator: NSProgressIndicator!
+    @IBOutlet weak var PreparingImageIndicator: NSProgressIndicator!
+    @IBOutlet weak var AddingShapesDone: NSTextField!
+    @IBOutlet weak var CreatingShapesDone: NSTextField!
+    @IBOutlet weak var ParsingImageDone: NSTextField!
+    @IBOutlet weak var PreparingTextDone: NSTextField!
+    @IBOutlet weak var AddingShapesText: NSTextField!
+    @IBOutlet weak var CreatingShapesText: NSTextField!
+    @IBOutlet weak var ParsingImageText: NSTextFieldCell!
+    @IBOutlet weak var PreparingImageText: NSTextField!
+    @IBOutlet weak var StatusBox: NSBox!
 }
 
