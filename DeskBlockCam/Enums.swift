@@ -207,3 +207,17 @@ enum SphereBehaviors: String, CaseIterable
     case Size = "Size"
     case Height = "Height"
 }
+
+enum RingOrientations: String, CaseIterable
+{
+    case Rotated = "Rotated"
+    case Flat = "Flat"
+}
+
+enum DonutHoleSizes: String, CaseIterable
+{
+    case Small = "Small"
+    case Medium = "Medium"
+    case Large = "Large"
+}
+
