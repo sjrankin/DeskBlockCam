@@ -19,8 +19,10 @@ class Generator
     /// - Returns: Height for the shape.
     public static func HeightFor(Color: NSColor, With Attributes: ProcessingAttributes) -> CGFloat
     {
+        let Exaggeration = Settings.GetEnum(ForKey: .VerticalExaggeration, EnumType: VerticalExaggerations.self,
+                                            Default: VerticalExaggerations.Medium)
         var Exaggerate: CGFloat = 0.0
-        switch Attributes.VerticalExaggeration
+        switch Exaggeration
         {
             case .None:
                 Exaggerate = 1.0
@@ -35,7 +37,9 @@ class Generator
                 Exaggerate = 2.0
         }
         var Height: CGFloat = 0.0
-        switch Attributes.HeightDeterminate
+        let Determinate = Settings.GetEnum(ForKey: .HeightDetermination, EnumType: HeightDeterminations.self,
+                                           Default: HeightDeterminations.Brightness)
+        switch Determinate
         {
             case .Hue:
                 Height = Color.hueComponent
@@ -87,33 +91,50 @@ class Generator
     
     public static func MakeSimpleShape(With Attributes: ProcessingAttributes, AtX: Int, AtY: Int, Height: CGFloat) -> SCNGeometry?
     {
-        
-        switch Attributes.Shape
+        let Side = Attributes.Side
+        let CurrentShape = Settings.GetEnum(ForKey: .Shape, EnumType: Shapes.self, Default: Shapes.Blocks)
+        switch CurrentShape
         {
             case .Blocks:
                 let BlockOptions = Attributes.GetOptionsFor(.Blocks) as? BlockOptionalParameters
-                let Chamfer = BlockOptionalParameters.ChamferSize(From: BlockOptions!.Chamfer)
-                let BlockGeo = SCNBox(width: Attributes.Side, height: Attributes.Side, length: Height, chamferRadius: Chamfer)
+                let ChamferSetting = Settings.GetEnum(ForKey: .BlockChamfer, EnumType: BlockChamferSizes.self,
+                                                      Default: BlockChamferSizes.None)
+                let Chamfer = BlockOptionalParameters.ChamferSize(From: ChamferSetting)
+                let BlockGeo = SCNBox(width: Side, height: Side, length: Height, chamferRadius: Chamfer)
                 return BlockGeo
             
             case .Spheres:
-                let SphereGeo = SCNSphere(radius: Attributes.Side / 2.0 * Height)
+                let SphereGeo = SCNSphere(radius: Side / 2.0 * Height)
                 return SphereGeo
             
             case .Tubes:
-                let TubeGeo = SCNTube(innerRadius: Attributes.Side * Height * 0.05, outerRadius: Attributes.Side * Height * 0.1, height: Height)
+                let TubeGeo = SCNTube(innerRadius: Side * Height * 0.05, outerRadius: Side * Height * 0.1, height: Height)
                 return TubeGeo
             
             case .Pyramids:
-                let PyGeo = SCNPyramid(width: Attributes.Side * Height * 0.1, height: Attributes.Side * Height * 0.1, length: Height)
+                let PyGeo = SCNPyramid(width: Side * Height * 0.1, height: Side * Height * 0.1, length: Height)
                 return PyGeo
             
             case .Cylinders:
-                let CyGeo = SCNCylinder(radius: Attributes.Side * Height * 0.1, height: Height)
+                let CyGeo = SCNCylinder(radius: Side * Height * 0.1, height: Height)
                 return CyGeo
             
             case .Rings:
-                let RingGeo = SCNTorus(ringRadius: Height, pipeRadius: Height * 0.7)
+                let DonutSize = Settings.GetEnum(ForKey: .DonutHoleSize, EnumType: DonutHoleSizes.self,
+                                                 Default: DonutHoleSizes.Medium)
+                var HoleSize: CGFloat = 0.7
+                switch DonutSize
+                {
+                    case .Small:
+                        HoleSize = 0.35
+                    
+                    case .Medium:
+                        HoleSize = 0.7
+                    
+                    case .Large:
+                        HoleSize = 0.9
+                }
+                let RingGeo = SCNTorus(ringRadius: Height, pipeRadius: Height * HoleSize)
                 return RingGeo
             default:
                 return nil
@@ -129,6 +150,15 @@ class Generator
     {
         autoreleasepool
             {
+                var FinalShape: Shapes = .Blocks
+                if Attributes.Shape == .NoShape
+                {
+                    FinalShape = .Blocks
+                }
+                else
+                {
+                    FinalShape = Attributes.Shape
+                }
                 let Node = PSCNNode()
                 Node.name = "PixelNode"
                 Node.X = AtX
@@ -136,7 +166,8 @@ class Generator
                 let Height = HeightFor(Color: Attributes.Colors[AtY][AtX], With: Attributes)
                 Node.Prominence = Height
                 var Model = SCNMaterial.LightingModel.lambert
-                switch Attributes.LightModel
+                let LightModel = Settings.GetEnum(ForKey: .LightModel, EnumType: LightModels.self, Default: LightModels.Lambert)
+                switch LightModel
                 {
                     case .Blinn:
                         Model = .blinn
@@ -154,7 +185,7 @@ class Generator
                         Model = .physicallyBased
                 }
                 
-                switch Attributes.Shape
+                switch FinalShape
                 {
                     case .Blocks, .Spheres, .Tubes, .Pyramids, .Cylinders, .Rings:
                         let Geo = MakeSimpleShape(With: Attributes, AtX: AtX, AtY: AtY, Height: Height)
@@ -162,6 +193,17 @@ class Generator
                         Geo?.firstMaterial?.specular.contents = NSColor.white
                         Geo?.firstMaterial?.lightingModel = Model
                         Node.geometry = Geo
+                        NeedsOrientationChange(Node, Attributes.Colors[AtY][AtX], Attributes)
+                        {
+                            NeedsToRotate, EulerAngles in
+                            if NeedsToRotate
+                            {
+                                if let Euler = EulerAngles
+                                {
+                                    Node.eulerAngles = Euler
+                                }
+                            }
+                        }
                     
                     default:
                         break
@@ -169,6 +211,36 @@ class Generator
                 
                 return Node
         }
+    }
+    
+    /// Determines if the passed node needs to be rotated in any (or any combination of) dimension.
+    /// - Parameter Node: The node that may need to be rotated.
+    /// - Parameter Color: The color of the node.
+    /// - Parameter Options: Processing attributes for the image.
+    /// - Parameter DoesNeed: Trailing closure. First parameter (`Bool`) is true if the node should be rotated and
+    ///                       false if not. The second parameter (`SCNVector3`) contains the Euler angles to use
+    ///                       to rotate the node **if** the first parameter is `true`. If the first parameter is
+    ///                       `false`, the second parameter will also be `false`.
+    public static func NeedsOrientationChange(_ Node: PSCNNode, _ Color: NSColor, _ Options: ProcessingAttributes,
+                                              DoesNeed: ((Bool, SCNVector3?) -> ())?)
+    {
+        var NeedsToRotate = false
+        var EulerAngles: SCNVector3? = nil
+        switch Options.Shape
+        {
+            case .Rings:
+                let RingOrientation = Settings.GetEnum(ForKey: .RingOrientation, EnumType: RingOrientations.self,
+                                                       Default: RingOrientations.Flat)
+                    if RingOrientation == .Flat
+                    {
+                        NeedsToRotate = true
+                        EulerAngles = SCNVector3(90.0 * CGFloat.pi / 180.0, 0.0, 0.0)
+                    }
+            
+            default:
+                break
+        }
+        DoesNeed?(NeedsToRotate, EulerAngles)
     }
     
     /// Create a set of nodes to display in an SCNView.
