@@ -88,6 +88,8 @@ class Settings
         UserDefaults.standard.set(true, forKey: SettingKeys.SwitchModesWithDroppedImages.rawValue)
         UserDefaults.standard.set(true, forKey: SettingKeys.AutoOpenProcessedView.rawValue)
         UserDefaults.standard.set(SphereBehaviors.Size.rawValue, forKey: SettingKeys.SphereBehavior.rawValue)
+        UserDefaults.standard.set(DonutHoleSizes.Medium.rawValue, forKey: SettingKeys.DonutHoleSize.rawValue)
+        UserDefaults.standard.set(RingOrientations.Flat.rawValue, forKey: SettingKeys.RingOrientation.rawValue)
     }
     
     /// Add a subscriber to the notification list. Each subscriber is called just before a setting is committed and just after
@@ -582,7 +584,9 @@ class Settings
             .LiveViewShape,
             .CurrentMode,
             .SphereBehavior,
-            .CharacterSet
+            .CharacterSet,
+            .DonutHoleSize,
+            .RingOrientation,
     ]
     
     /// Contains a list of all double-type fields.
@@ -642,6 +646,12 @@ enum SettingKeys: String, CaseIterable, Comparable, Hashable
     //Stacked shapes optional settings.
     /// String: List of stacked shapes.
     case StackedShapeList = "StackedShapeList"
+    
+    //Ring optional settings.
+    /// String/Enum: Holds the size of the donut hole.
+    case DonutHoleSize = "DonutHoleSize"
+    /// String/Enum: Holds the orientation of the ring.
+    case RingOrientation = "RingOrientation"
     
     //Channel-varying shapes optional settings.
     /// String: List of shapes for hue varying shapes.
