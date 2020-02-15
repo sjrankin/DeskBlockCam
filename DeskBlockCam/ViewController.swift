@@ -231,8 +231,8 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
     
     @IBAction func OpenOptionsWindow(_ sender: Any)
     {
-        let Storyboard = NSStoryboard(name: "Main", bundle: nil)
-        if let WindowController = Storyboard.instantiateController(withIdentifier: "ShapeOptionWindowUI") as? ShapeOptionsWindowCode
+        let Storyboard = NSStoryboard(name: "Settings", bundle: nil)
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "ShapeOptionWindowUI2") as? ShapeOptionsWindowCode
         {
             WindowController.showWindow(nil)
             SettingsWindow = WindowController
@@ -398,9 +398,17 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         {
             return
         }
+        if VideoPreviewLayer == nil
+        {
+            return
+        }
+        if OriginalImageView == nil
+        {
+            return
+        }
         DispatchQueue.main.async
             {
-                self.VideoPreviewLayer.frame = self.OriginalImageView.bounds//self.LiveView.bounds
+                self.VideoPreviewLayer.frame = self.OriginalImageView.bounds
         }
     }
     
@@ -633,6 +641,8 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
     
     // MARK: - Status controls
     
+    @IBOutlet weak var DurationValue: NSTextField!
+    @IBOutlet weak var DurationText: NSTextField!
     @IBOutlet weak var AddingShapesIndicator: NSProgressIndicator!
     @IBOutlet weak var CreatingShapesIndicator: NSProgressIndicator!
     @IBOutlet weak var ParsingImageIndicator: NSProgressIndicator!
@@ -647,4 +657,5 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
     @IBOutlet weak var PreparingImageText: NSTextField!
     @IBOutlet weak var StatusBox: NSBox!
 }
+
 
