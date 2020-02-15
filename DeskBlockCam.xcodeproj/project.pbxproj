@@ -24,6 +24,9 @@
 		172C06EE23ED30ED00313C3E /* CappedLinesOptionsCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172C06ED23ED30ED00313C3E /* CappedLinesOptionsCode.swift */; };
 		172C06F023ED318000313C3E /* StackedShapesOptionsCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172C06EF23ED318000313C3E /* StackedShapesOptionsCode.swift */; };
 		172C06F223ED31DC00313C3E /* OptionsDialogs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172C06F123ED31DC00313C3E /* OptionsDialogs.swift */; };
+		1732796C23F7E47C00EE0213 /* RingOptionalParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1732796B23F7E47C00EE0213 /* RingOptionalParameters.swift */; };
+		1732796E23F7E6D800EE0213 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1732796D23F7E6D800EE0213 /* Settings.storyboard */; };
+		1732797023F7E93800EE0213 /* RingOptionCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1732796F23F7E93800EE0213 /* RingOptionCode.swift */; };
 		173C245423ED28CB00270760 /* NoOptionsCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173C245323ED28CB00270760 /* NoOptionsCode.swift */; };
 		173C245A23ED29DC00270760 /* OptionsProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173C245923ED29DC00270760 /* OptionsProtocol.swift */; };
 		173C245C23ED2CBC00270760 /* BlockOptionsCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173C245B23ED2CBC00270760 /* BlockOptionsCode.swift */; };
@@ -100,6 +103,9 @@
 		172C06ED23ED30ED00313C3E /* CappedLinesOptionsCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CappedLinesOptionsCode.swift; sourceTree = "<group>"; };
 		172C06EF23ED318000313C3E /* StackedShapesOptionsCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackedShapesOptionsCode.swift; sourceTree = "<group>"; };
 		172C06F123ED31DC00313C3E /* OptionsDialogs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsDialogs.swift; sourceTree = "<group>"; };
+		1732796B23F7E47C00EE0213 /* RingOptionalParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingOptionalParameters.swift; sourceTree = "<group>"; };
+		1732796D23F7E6D800EE0213 /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
+		1732796F23F7E93800EE0213 /* RingOptionCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingOptionCode.swift; sourceTree = "<group>"; };
 		173C245323ED28CB00270760 /* NoOptionsCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoOptionsCode.swift; sourceTree = "<group>"; };
 		173C245923ED29DC00270760 /* OptionsProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsProtocol.swift; sourceTree = "<group>"; };
 		173C245B23ED2CBC00270760 /* BlockOptionsCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockOptionsCode.swift; sourceTree = "<group>"; };
@@ -204,6 +210,7 @@
 				172C06E323ED2FE200313C3E /* DiamondOptionsCode.swift */,
 				172C06E523ED300D00313C3E /* StarOptionsCode.swift */,
 				170DF1E523F6C55F00DDB5D0 /* SphereOptionCode.swift */,
+				1732796F23F7E93800EE0213 /* RingOptionCode.swift */,
 				172C06E723ED303E00313C3E /* ConeOptionsCode.swift */,
 				172C06E923ED307000313C3E /* RadiatingLinesOptionsCode.swift */,
 				172C06EB23ED309800313C3E /* CharacterSetOptionsCode.swift */,
@@ -223,6 +230,7 @@
 				1740A3D123EBEE6800E29C75 /* EllipseOptionalParameters.swift */,
 				1740A3D323EBEF5C00E29C75 /* DiamondOptionalParameters.swift */,
 				170DF1E323F6C3E700DDB5D0 /* SphereOptionalParameters.swift */,
+				1732796B23F7E47C00EE0213 /* RingOptionalParameters.swift */,
 				1740A3D523EBF73000E29C75 /* ConeOptionalParameters.swift */,
 				1740A3D723EBF8A900E29C75 /* StarOptionalParameters.swift */,
 				1740A3D923EBF96600E29C75 /* StackedShapesOptionalParameters.swift */,
@@ -237,14 +245,15 @@
 			children = (
 				173C245223ED28AD00270760 /* ShapeDialogs */,
 				1740A3E023EC018100E29C75 /* ShapeOptionsCode.swift */,
+				172C06F123ED31DC00313C3E /* OptionsDialogs.swift */,
 				177BF06A23EE923E00670F40 /* +Lighting.swift */,
 				177BF06823EE765500670F40 /* GradientFactory.swift */,
-				172C06F123ED31DC00313C3E /* OptionsDialogs.swift */,
 				1740A3E223EC01AA00E29C75 /* ShapeOptionsWindowCode.swift */,
 				177BF06023EE52CD00670F40 /* ColorSwatchItem.swift */,
 				177BF06123EE52CD00670F40 /* ColorSwatchItem.xib */,
 				177BF06423EE735000670F40 /* GradientSwatchItem.swift */,
 				177BF06523EE735000670F40 /* GradientSwatchItem.xib */,
+				1732796D23F7E6D800EE0213 /* Settings.storyboard */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -438,6 +447,7 @@
 				177BF06723EE735000670F40 /* GradientSwatchItem.xib in Resources */,
 				17897B8A23E6A77500AFDA6A /* Main.storyboard in Resources */,
 				178041B523F3CF1C006E40C1 /* ErrorMessage.storyboard in Resources */,
+				1732796E23F7E6D800EE0213 /* Settings.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -465,6 +475,8 @@
 				178041C823F3D959006E40C1 /* AncillaryWindowManagement.swift in Sources */,
 				17EB900023E9639D00A4C09A /* ImageDelta.swift in Sources */,
 				172C06F023ED318000313C3E /* StackedShapesOptionsCode.swift in Sources */,
+				1732797023F7E93800EE0213 /* RingOptionCode.swift in Sources */,
+				1732796C23F7E47C00EE0213 /* RingOptionalParameters.swift in Sources */,
 				17609FCE23F6611700391FFB /* Shrinker.swift in Sources */,
 				1717201123EBD23100636F3C /* Pixellator.swift in Sources */,
 				17897B8523E6A77300AFDA6A /* ViewController.swift in Sources */,
