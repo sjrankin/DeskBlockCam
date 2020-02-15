@@ -69,8 +69,12 @@ class BlockView: SCNView
     func ProcessImage(_ Image: NSImage, Options: ProcessingAttributes)
     {
         StatusDelegate?.UpdateStatus(With: .ResetStatus)
+        let Start = CACurrentMediaTime()
+        StatusDelegate?.UpdateDuration(NewDuration: 0.0)
         StatusDelegate?.UpdateStatus(With: .PreparingImage)
         ClearScene()
+        let AfterClear = CACurrentMediaTime() - Start
+        StatusDelegate?.UpdateDuration(NewDuration: AfterClear)
         if MasterNode == nil
         {
             MasterNode = SCNNode()
@@ -79,16 +83,25 @@ class BlockView: SCNView
         let Resized = Shrinker.ResizeImage(Image: Image, Longest: 1024)
         let ResizedData = Resized.tiffRepresentation
         let ResizedCI = CIImage(data: ResizedData!)
+        let AfterResize = CACurrentMediaTime() - Start
+        StatusDelegate?.UpdateDuration(NewDuration: AfterResize)
         let Pixellated = Pixellator.Pixellate(ResizedCI!)
+        let AfterPixellate = CACurrentMediaTime() - Start
+        StatusDelegate?.UpdateDuration(NewDuration: AfterPixellate)
         StatusDelegate?.UpdateStatus(With: .PreparationDone)
         var HBlocks: Int = 0
         var VBlocks: Int = 0
-        let Colors = ParseImage(Pixellated!, BlockSize: 16, HBlocks: &HBlocks, VBlocks: &VBlocks)
+        let Colors = ParseImage(Pixellated!, BlockSize: 16, HBlocks: &HBlocks, VBlocks: &VBlocks,
+                                IsLiveView: false)
+        let AfterParsing = CACurrentMediaTime() - Start
+        StatusDelegate?.UpdateDuration(NewDuration: AfterParsing)
         Options.Colors = Colors
         Options.HorizontalBlocks = HBlocks
         Options.VerticalBlocks = VBlocks
-        let Nodes = Generator.Process(Attributes: Options, UIUpdate: StatusDelegate)
         
+        StatusDelegate?.UpdateStatus(With: .CreatingShapes)
+        let Total = Double(VBlocks * HBlocks)
+        var Count: Double = 0.0
         for Y in 0 ... VBlocks - 1
         {
             for X in 0 ... HBlocks - 1
@@ -100,23 +113,21 @@ class BlockView: SCNView
                         let XLocation: Float = Float(X - (HBlocks / 2))
                         let YLocation: Float = Float(Y - (VBlocks / 2))
                         var ZLocation = (Prominence * PMul) * PMul
-                        //let Node = CreateNode(Side: Options.Side, Color: Color, Prominence: Prominence,
-                        //                      AtX: X, AtY: Y, Z: &ZLocation)
-                        if let Node = GetNodeAt(X: X, Y: Y, From: MasterNode!)
-                        {
-                        Node.SetProminence(Double(Prominence))
-                        Node.position = SCNVector3(XLocation * Float(Options.Side),
-                                                   YLocation * Float(Options.Side),
-                                                   Float(ZLocation))
-                        MasterNode?.addChildNode(Node)
-                        }
-                        else
-                        {
-                            print("Node not found at \(X),\(Y)")
-                        }
+                        let ShapeNode = Generator.MakeShape(With: Options, AtX: X, AtY: Y)
+                        ShapeNode.SetProminence(Double(Prominence))
+                        ShapeNode.position = SCNVector3(XLocation * Float(Options.Side),
+                                                        YLocation * Float(Options.Side),
+                                                        Float(ZLocation))
+                        MasterNode?.addChildNode(ShapeNode)
+                        Count = Count + 1.0
+                        let Percent = 100.0 * (Count / Total)
+                        StatusDelegate?.UpdateStatus(With: .CreatingPercentUpdate, PercentComplete: Percent)
                 }
             }
         }
+        StatusDelegate?.UpdateStatus(With: .CreatingDone)
+        let AfterShapes = CACurrentMediaTime() - Start
+        StatusDelegate?.UpdateDuration(NewDuration: AfterShapes)
         
         self.StatusDelegate?.UpdateStatus(With: .AddingShapes)
         prepare([MasterNode!])
@@ -126,6 +137,8 @@ class BlockView: SCNView
             {
                 self.scene?.rootNode.addChildNode(self.MasterNode!)
                 self.StatusDelegate?.UpdateStatus(With: .AddingDone)
+                let AfterAdded = CACurrentMediaTime() - Start
+                self.StatusDelegate?.FinalizeDuration(WithDuration: AfterAdded)
             }
         }
     }
@@ -234,6 +247,10 @@ class BlockView: SCNView
     {
         var OriginalZ: CGFloat = 15.0
         let POV = self.pointOfView
+        if POV == nil
+        {
+            return Double((CameraNode?.position.z)!)
+        }
         if let RootNode = GetNode(WithName: "Master Node", InScene: self.scene!)
         {
             if let CameraNode = GetNode(WithName: "Camera Node", InScene: self.scene!)
