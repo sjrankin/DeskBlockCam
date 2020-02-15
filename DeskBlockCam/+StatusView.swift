@@ -11,11 +11,11 @@ import AppKit
 
 extension ViewController: StatusProtocol
 {
-    
-    
     /// Reset the image view status indicators.
     func ResetStatus()
     {
+        DurationValue.isHidden = true
+        DurationText.textColor = NSColor.gray
         PreparingTextDone.isHidden = true
         PreparingImageText.textColor = NSColor.gray
         PreparingImageIndicator.stopAnimation(self)
@@ -51,6 +51,34 @@ extension ViewController: StatusProtocol
         }
     }
     
+    /// Display the current duration of still image processing.
+    /// - Parameter NewDuration: Number of seconds for the current duration of image processing.
+    func UpdateDuration(NewDuration: Double)
+    {
+        OperationQueue.main.addOperation
+            {
+                self.DurationText.textColor = NSColor.systemBlue
+                let Value = Utilities.RoundedString(NewDuration, ToMagnitude: 1) + "s"
+                self.DurationValue.isHidden = false
+                self.DurationValue.textColor = NSColor.systemBlue
+                self.DurationValue.stringValue = Value
+        }
+    }
+    
+    /// Finalize the duration for the processing of a still image.
+    /// - Parameter WithDuration: The final duration to display.
+    func FinalizeDuration(WithDuration: Double)
+    {
+        OperationQueue.main.addOperation
+            {
+                self.DurationText.textColor = NSColor.black
+                let Value = Utilities.RoundedString(WithDuration, ToMagnitude: 1) + "s"
+                self.DurationValue.isHidden = false
+                self.DurationValue.textColor = NSColor.black
+                self.DurationValue.stringValue = Value
+        }
+    }
+    
     /// Run a status command.
     /// - Parameter Command: The status command to run.
     /// - Parameter Percent: If present and `Command` supports it, the percent complete of
@@ -63,7 +91,7 @@ extension ViewController: StatusProtocol
                 ResetStatus()
             
             case .PreparingImage:
-                PreparingImageText.textColor = NSColor.systemYellow
+                PreparingImageText.textColor = NSColor.systemBlue
                 PreparingImageIndicator.startAnimation(self)
             
             case .PreparationDone:
@@ -74,7 +102,7 @@ extension ViewController: StatusProtocol
             case .ParsingImage:
                 ParsingImageIndicator.isHidden = false
                 ParsingImageIndicator.doubleValue = 0.0
-                ParsingImageText.textColor = NSColor.systemYellow
+                ParsingImageText.textColor = NSColor.systemBlue
             
             case .ParsingPercentUpdate:
                 ParsingImageIndicator.doubleValue = Percent!
@@ -87,7 +115,7 @@ extension ViewController: StatusProtocol
             case .CreatingShapes:
                 CreatingShapesIndicator.isHidden = false
                 CreatingShapesIndicator.doubleValue = 0.0
-                CreatingShapesText.textColor = NSColor.systemYellow
+                CreatingShapesText.textColor = NSColor.systemBlue
             
             case .CreatingPercentUpdate:
                 CreatingShapesIndicator.doubleValue = Percent!
@@ -98,7 +126,7 @@ extension ViewController: StatusProtocol
                 CreatingShapesIndicator.isHidden = true
             
             case .AddingShapes:
-                AddingShapesText.textColor = NSColor.systemYellow
+                AddingShapesText.textColor = NSColor.systemBlue
                 AddingShapesIndicator.startAnimation(self)
             
             case .AddingDone:
