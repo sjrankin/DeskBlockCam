@@ -28,6 +28,15 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
         InitializeGradientSwatches()
         InitializeLighting()
         InitializeLiveView()
+        LastTouchedShape = Settings.GetEnum(ForKey: .Shape, EnumType: Shapes.self, Default: Shapes.Blocks)
+        if LastTouchedShape == .NoShape
+        {
+            CurrentShapeTitle.stringValue = ""
+        }
+        else
+        {
+            CurrentShapeTitle.stringValue = LastTouchedShape.rawValue
+        }
     }
     
     func SetAttributes(_ Attributes: ProcessingAttributes)
@@ -183,6 +192,15 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
                 {
                     if let SelectedShape = Shapes(rawValue: ShapeName)
                     {
+                        if SelectedShape == Settings.GetEnum(ForKey: .Shape, EnumType: Shapes.self, Default: Shapes.Blocks)
+                        {
+                            SelectedShapeSwitch.state = .on
+                        }
+                        else
+                        {
+                            SelectedShapeSwitch.state = .off
+                        }
+                        LastTouchedShape = SelectedShape
                         DisplayShapeOptions(For: SelectedShape)
                         OptionBox.title = "Options for \(ShapeName)"
                     }
@@ -194,8 +212,9 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
             default:
                 break
         }
-        
     }
+    
+    var LastTouchedShape: Shapes = .NoShape
     
     func UpdatedOptions(_ Updated: ProcessingAttributes)
     {
@@ -225,6 +244,9 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
         GradientList.append((NSColor.blue, NSColor.black))
         GradientList.append((NSColor.yellow, NSColor.systemYellow))
         GradientList.append((NSColor.systemYellow, NSColor.red))
+        GradientList.append((NSColor.systemYellow, NSColor.systemOrange))
+        GradientList.append((NSColor.gray, NSColor.systemGray))
+        GradientList.append((NSColor.cyan, NSColor.systemBlue))
         GradientSwatchView.enclosingScrollView?.borderType = .noBorder
         GradientSwatchView.wantsLayer = true
         GradientSwatchView.backgroundColors = [NSColor.clear]
@@ -242,6 +264,7 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
             (Name: "Indigo", Color: NSColor.systemIndigo),
             (Name: "Purple", Color: NSColor.purple),
             (Name: "Orange", Color: NSColor.orange),
+            (Name: "System Orange", Color: NSColor.systemOrange),
             (Name: "Teal", Color: NSColor.systemTeal),
             (Name: "Yellow", Color: NSColor.yellow),
             (Name: "System Yellow", Color: NSColor.systemYellow),
@@ -331,6 +354,17 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
     func tabView(_ tabView: NSTabView, didSelect tabViewItem: NSTabViewItem?)
     {
         
+    }
+    
+    // MARK: - Shape options.
+    
+    @IBOutlet weak var CurrentShapeTitle: NSTextField!
+    @IBOutlet weak var SelectedShapeSwitch: NSSwitch!
+    
+    @IBAction func HandleUseShapeSwitched(_ sender: Any)
+    {
+        Settings.SetEnum(LastTouchedShape, EnumType: Shapes.self, ForKey: .Shape)
+        CurrentShapeTitle.stringValue = "\(LastTouchedShape.rawValue)"
     }
     
     // MARK: - Options interface builder outlets.
@@ -554,6 +588,15 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
             }
         }
     }
+    
+    @IBAction func HandleCloseButtonPressed(_ sender: Any)
+    {
+        self.view.window?.close()
+    }
+    
+    // MARK: - Sidebar variables and functions.
+    
+    @IBOutlet weak var SideBar: NSScrollView!
 }
 
 class ShapeTreeNode
