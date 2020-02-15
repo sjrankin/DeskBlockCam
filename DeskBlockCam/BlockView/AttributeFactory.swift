@@ -69,6 +69,8 @@ extension ProcessingAttributes
         Attr.ShapeOptions!.append(HSBVaryingOptionalParameters(WithChannel: .HSB_Hue))
         Attr.ShapeOptions!.append(HSBVaryingOptionalParameters(WithChannel: .HSB_Saturation))
         Attr.ShapeOptions!.append(HSBVaryingOptionalParameters(WithChannel: .HSB_Brightness))
+        Attr.ShapeOptions!.append(SphereOptionalParameters())
+        Attr.ShapeOptions!.append(RingOptionalParameters())
         return Attr
     }
     
