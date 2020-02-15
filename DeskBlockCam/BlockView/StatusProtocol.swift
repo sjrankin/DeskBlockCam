@@ -19,4 +19,8 @@ protocol StatusProtocol: class
     /// - Parameter With: The command to execute.
     /// - Parameter PercentComplete: Percent complete (from 0.0 to 100.0) of an operation.
     func UpdateStatus(With Command: StatusCommands, PercentComplete: Double)
+    
+    func UpdateDuration(NewDuration: Double)
+    
+    func FinalizeDuration(WithDuration: Double)
 }
