@@ -11,7 +11,10 @@ import AppKit
 
 extension ShapeOptionsCode
 {
-    //https://stackoverflow.com/questions/40790267/swift-switch-between-nsviewcontroller-inside-container-view-nsview
+    /// Display the options for the passed shape.
+    /// - Note: See [Switch between NSViewControllers](https://stackoverflow.com/questions/40790267/swift-switch-between-nsviewcontroller-inside-container-view-nsview)
+    /// - Parameter For: The shape whose options will be shown. If a given shape does not have any options, a generic
+    ///                  "no options" view will be shown.
     func  DisplayShapeOptions(For Shape: Shapes)
     {
         for SomeView in OptionsContainer.subviews
@@ -97,7 +100,9 @@ extension ShapeOptionsCode
                 (OptionMap[Shapes.RadiatingLines]!.Controller as? RadiatingLinesOptionsCode)?.SetAttributes(CurrentAttributes)
             
             case .Rings:
-                (OptionMap[Shapes.NoShape]!.Controller as? NoOptionsCode)?.SetCaption("Ring or donut shaped solids. No options available.")
+                FinalShape = Shapes.Rings
+                (OptionMap[Shapes.Rings]!.Controller as? RingOptionCode)?.SetCaption("Creates a rounded ring (or donut, or torus) shape whose size and position is determined by the base color.")
+                (OptionMap[Shapes.Rings]!.Controller as? RingOptionCode)?.SetAttributes(CurrentAttributes)
             
             case .SaturationVarying:
                 FinalShape = Shapes.StackedShapes
@@ -141,6 +146,7 @@ extension ShapeOptionsCode
         OptionsContainer.addSubview(OptionMap[FinalShape]!.Controller!.view)
     }
     
+    /// Create all of the optional dialogs for shapes with options.
     func CreateOptionDialogs()
     {
         OptionMap[Shapes.NoShape] = OptionEntry(CreateOptionDialog("NoOptions"))
@@ -190,11 +196,18 @@ extension ShapeOptionsCode
         OptionMap[Shapes.StackedShapes] = OptionEntry(CreateOptionDialog("StackedShapeOptions"))
         self.addChild(OptionMap[Shapes.StackedShapes]!.Controller!)
         (OptionMap[Shapes.StackedShapes]!.Controller as? StackedShapesOptionCode)?.Delegate = self
+        
+        OptionMap[Shapes.Rings] = OptionEntry(CreateOptionDialog("RingOptions"))
+        self.addChild(OptionMap[Shapes.Rings]!.Controller!)
+        (OptionMap[Shapes.Rings]!.Controller as? RingOptionCode)?.Delegate = self
     }
     
+    /// Create the optional settings view.
+    /// - Parameter IDName: The name of the optional controller.
+    /// - Returns: View controller for the optional settings.
     func CreateOptionDialog(_ IDName: String) -> NSViewController?
     {
-        if let Controller = NSStoryboard(name: "Main", bundle: nil).instantiateController(withIdentifier: IDName) as? NSViewController
+        if let Controller = NSStoryboard(name: "Settings", bundle: nil).instantiateController(withIdentifier: IDName) as? NSViewController
         {
             return Controller
         }
