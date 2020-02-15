@@ -17,7 +17,7 @@ class SphereOptionalParameters: OptionalParameters
         self.Read()
     }
     
-    init(WithOrientation: Orientations, Behavior: SphereBehaviors)
+    init(Behavior: SphereBehaviors)
     {
         super.init(WithShape: .Spheres)
         _Behavior = Behavior
