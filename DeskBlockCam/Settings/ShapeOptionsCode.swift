@@ -17,7 +17,7 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
 {
     private let ShapeTableTag = 100
     private let ShapesOutlineTag = 100
-    private let CurrentSettingsTag = 200
+    private let SideBarTag = 200
     
     override func viewDidLoad()
     {
@@ -28,6 +28,7 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
         InitializeGradientSwatches()
         InitializeLighting()
         InitializeLiveView()
+        InitializeSideBar()
         LastTouchedShape = Settings.GetEnum(ForKey: .Shape, EnumType: Shapes.self, Default: Shapes.Blocks)
         if LastTouchedShape == .NoShape
         {
@@ -36,6 +37,7 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
         else
         {
             CurrentShapeTitle.stringValue = LastTouchedShape.rawValue
+            //DisplayShapeOptions(For: LastTouchedShape)
         }
     }
     
@@ -65,6 +67,153 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
     
     
     // MARK: - Outline view functions.
+    
+    @IBOutlet weak var CurrentSettings: NSOutlineView!
+    
+    /// Initialize the current settings side bar.
+    func InitializeSideBar()
+    {
+        CurrentSettings.reloadData()
+        CurrentSettings.expandItem(Current[1])
+        CurrentSettings.expandItem(Current[2])
+        let CurrentShape = Settings.GetEnum(ForKey: .Shape, EnumType: Shapes.self, Default: Shapes.Blocks)
+        UpdateShapeSettings(With: CurrentShape)
+    }
+    
+    /// Update the current side bar shape settings.
+    /// - Parameter With: The new shape.
+    func UpdateShapeSettings(With NewShape: Shapes)
+    {
+        let ShapeName = NewShape.rawValue
+        
+        Current[1].ValueItems.removeAll()
+        Current[1].ValueItems.append(ValueItem(Description: "Shape", Value: ShapeName, Color: NSColor.systemBlue))
+        switch NewShape
+        {
+            case .Blocks:
+                let Chamfer = Settings.GetEnum(ForKey: .BlockChamfer, EnumType: BlockChamferSizes.self, Default: BlockChamferSizes.None)
+                Current[1].ValueItems.append(ValueItem(Description: "Chamfer", Value: Chamfer.rawValue))
+            
+            case .BrightnessVarying:
+                let Shapes = Settings.GetString(ForKey: .BrightnessShapes)
+                Current[1].ValueItems.append(ValueItem(Description: "Shapes", Value: Shapes!))
+            
+            case .HueVarying:
+                let Shapes = Settings.GetString(ForKey: .HueShapes)
+                Current[1].ValueItems.append(ValueItem(Description: "Shapes", Value: Shapes!))
+            
+            case .SaturationVarying:
+                let Shapes = Settings.GetString(ForKey: .SaturationShapes)
+                Current[1].ValueItems.append(ValueItem(Description: "Shapes", Value: Shapes!))
+            
+            case .CappedLines:
+                let Location = Settings.GetEnum(ForKey: .CapLocation, EnumType: CapLocations.self, Default: CapLocations.Top)
+                let CapShape = Settings.GetEnum(ForKey: .CapShape, EnumType: Shapes.self, Default: Shapes.Spheres)
+                Current[1].ValueItems.append(ValueItem(Description: "Location", Value: Location.rawValue))
+                Current[1].ValueItems.append(ValueItem(Description: "Shape", Value: CapShape.rawValue))
+            
+            case .Characters:
+                let CharSet = Settings.GetEnum(ForKey: .CharacterSet, EnumType: CharacterSets.self, Default: CharacterSets.Latin)
+                Current[1].ValueItems.append(ValueItem(Description: "Character set", Value: CharSet.rawValue))
+            
+            case .Cones:
+                let Top = Settings.GetEnum(ForKey: .ConeTopSize, EnumType: ConeTopSizes.self, Default: ConeTopSizes.Zero)
+                let Bottom = Settings.GetEnum(ForKey: .ConeBottomSize, EnumType: ConeBottomSizes.self, Default: ConeBottomSizes.Side)
+                let Invert = Settings.GetBoolean(ForKey: .ConeSwapTopBottom)
+                Current[1].ValueItems.append(ValueItem(Description: "Top size", Value: Top.rawValue))
+                Current[1].ValueItems.append(ValueItem(Description: "Bottom size", Value: Bottom.rawValue))
+                Current[1].ValueItems.append(ValueItem(Description: "Invert top/bottom", Value: "\(Invert)"))
+            
+            case .Diamonds:
+                let Orientation = Settings.GetEnum(ForKey: .DiamondOrientation, EnumType: Orientations.self, Default: Orientations.Horizontal)
+                let Distance = Settings.GetEnum(ForKey: .DiamondLength, EnumType: Distances.self, Default: Distances.Medium)
+                Current[1].ValueItems.append(ValueItem(Description: "Orientation", Value: Orientation.rawValue))
+                Current[1].ValueItems.append(ValueItem(Description: "Length", Value: Distance.rawValue))
+            
+            case .Ovals:
+                let Orientation = Settings.GetEnum(ForKey: .OvalOrientation, EnumType: Orientations.self, Default: Orientations.Horizontal)
+                let Distance = Settings.GetEnum(ForKey: .OvalLength, EnumType: Distances.self, Default: Distances.Medium)
+                Current[1].ValueItems.append(ValueItem(Description: "Orientation", Value: Orientation.rawValue))
+                Current[1].ValueItems.append(ValueItem(Description: "Length", Value: Distance.rawValue))
+            
+            case .RadiatingLines:
+                let LineCount = Settings.GetInteger(ForKey: .LineCount)
+                let Thickness = Settings.GetEnum(ForKey: .LineThickness, EnumType: LineThickenesses.self, Default: LineThickenesses.Thin)
+                Current[1].ValueItems.append(ValueItem(Description: "Line count", Value: "\(LineCount)"))
+                Current[1].ValueItems.append(ValueItem(Description: "Thickness", Value: Thickness.rawValue))
+            
+            case .Rings:
+                let Orientation = Settings.GetEnum(ForKey: .RingOrientation, EnumType: RingOrientations.self, Default: RingOrientations.Flat)
+                let DonutHole = Settings.GetEnum(ForKey: .DonutHoleSize, EnumType: DonutHoleSizes.self, Default: DonutHoleSizes.Medium)
+                Current[1].ValueItems.append(ValueItem(Description: "Orientation", Value: Orientation.rawValue))
+                Current[1].ValueItems.append(ValueItem(Description: "Hole size", Value: DonutHole.rawValue))
+            
+            case .Spheres:
+                let SphereB = Settings.GetEnum(ForKey: .SphereBehavior, EnumType: SphereBehaviors.self, Default: SphereBehaviors.Size)
+                Current[1].ValueItems.append(ValueItem(Description: "Prominence", Value: SphereB.rawValue))
+            
+            case .StackedShapes:
+                let Shapes = Settings.GetString(ForKey: .StackedShapeList)
+                Current[1].ValueItems.append(ValueItem(Description: "Shapes", Value: Shapes!))
+            
+            case .Stars:
+                let Apexes = Settings.GetInteger(ForKey: .StarApexCount)
+                let Intensity = Settings.GetBoolean(ForKey: .ApexesIncrease)
+                Current[1].ValueItems.append(ValueItem(Description: "Apex count", Value: "\(Apexes)"))
+                Current[1].ValueItems.append(ValueItem(Description: "Variable apexes", Value: "\(Intensity)"))
+            
+            default:
+                break
+        }
+        CurrentSettings.reloadData()
+    }
+    
+    var Current =
+        [
+            CurrentCategory(Name: "Current Settings", Icon: nil, Values: []),
+            CurrentCategory(Name: "Shape Settings", Icon: NSImage(named: "ShapeIcon"),
+                            Values: [
+                                ValueItem(Description: "Shape", Value: "Some Shape"),
+                                ValueItem(Description: "option 1", Value: "option value"),
+                                ValueItem(Description: "option 2", Value: "option value")
+            ]),
+            CurrentCategory(Name: "Height Settings", Icon: NSImage(named: "HeightIcon"),
+                            Values: [
+                                ValueItem(Description: "Height from", Value: "brightness"),
+                                ValueItem(Description: "Exaggeration", Value: "Medium"),
+                                ValueItem(Description: "Invert height", Value: "false")
+            ]),
+            CurrentCategory(Name: "Color Settings", Icon: NSImage(named: "PaintbrushIcon"),
+                            Values: [
+                                ValueItem(Description: "Conditional colors", Value: "none"),
+                                ValueItem(Description: "Action", Value: "Decrease saturation"),
+                                ValueItem(Description: "Threshold", Value: "0.50"),
+                                ValueItem(Description: "Invert threshold", Value: "false"),
+            ]),
+            CurrentCategory(Name: "Lighting Settings", Icon: NSImage(named: "LightbulbIcon"),
+                            Values: [
+                                ValueItem(Description: "Type", Value: "Omni"),
+                                ValueItem(Description: "Color", Value: "white"),
+                                ValueItem(Description: "Intensity", Value: "normal"),
+                                ValueItem(Description: "Model", Value: "Phong"),
+            ]),
+            CurrentCategory(Name: "Processing Settings", Icon: NSImage(named: "PerformanceIcon"),
+                            Values: [
+                                ValueItem(Description: "Shape size", Value: "16"),
+                                ValueItem(Description: "Maximum size", Value: "1024")
+            ]),
+            CurrentCategory(Name: "Background Settings", Icon: NSImage(named: "PhotoIcon"),
+                            Values: [
+                                ValueItem(Description: "Type", Value: "Color"),
+                                ValueItem(Description: "Color", Value: "some color"),
+                                ValueItem(Description: "Gradient", Value: "some gradient")
+            ]),
+            CurrentCategory(Name: "Live View Settings", Icon: nil, Values: []),
+            CurrentCategory(Name: "Live View Settings", Icon: NSImage(named: "TVIcon"),
+                            Values: [
+                                ValueItem(Description: "Shape", Value: "Block")
+            ])
+    ]
     
     //https://qtsoftware.co.uk/programming/swift/solved-how-to-use-outline-views-in-swift-4/
     let Categories =
@@ -97,13 +246,19 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
                 }
                 return AllShapes![index]
             
-            case CurrentSettingsTag:
-                return 0
+            case SideBarTag:
+                if let SomeItem = item as? CurrentCategory
+                {
+                    return SomeItem.ValueItems[index]
+                }
+                else
+                {
+                    return Current[index]
+            }
             
             default:
                 return 0
         }
-        
     }
     
     func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool
@@ -117,13 +272,16 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
                 }
                 return false
             
-            case CurrentSettingsTag:
+            case SideBarTag:
+                if let SomeItem = item as? CurrentCategory
+                {
+                    return SomeItem.ValueItems.count > 0
+                }
                 return false
             
             default:
                 return false
         }
-        
     }
     
     func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int
@@ -141,13 +299,20 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
                 }
                 return AllShapes!.count
             
-            case CurrentSettingsTag:
-                return 0
+            case SideBarTag:
+                if Current.count < 1
+                {
+                    return 0
+                }
+                if let SomeItem = item as? CurrentCategory
+                {
+                    return SomeItem.ValueItems.count
+                }
+                return Current.count
             
             default:
                 return 0
         }
-        
     }
     
     func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: Any) -> NSView?
@@ -169,13 +334,49 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
                 tableCell.textField!.stringValue = Text
                 return tableCell
             
-            case CurrentSettingsTag:
-                return nil
+            case SideBarTag:
+                var Text = ""
+                var Image: NSImage? = nil
+                var FontSize: CGFloat = 13.0
+                var IsHeader = false
+                var TextColor = NSColor.black
+                if let SomeItem = item as? CurrentCategory
+                {
+                    Text = SomeItem.Name
+                    Image = SomeItem.Icon
+                    FontSize = 13.0
+                    if Image == nil
+                    {
+                        IsHeader = true
+                    }
+                }
+                else
+                {
+                    if let Item = item as? ValueItem
+                    {
+                        Text = Item.Description + ": " + Item.Value
+                        FontSize = 11.0
+                        TextColor = Item.TextColor
+                    }
+                }
+                var tableCell: NSTableCellView!
+                if IsHeader
+                {
+                    tableCell = outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "IconlessHeader"), owner: self) as? NSTableCellView
+                }
+                else
+                {
+                    tableCell = outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "CurrentCell"), owner: self) as? NSTableCellView
+                    tableCell.imageView!.image = Image
+                    tableCell.textField!.font = NSFont.systemFont(ofSize: FontSize)
+                    tableCell.textField!.textColor = TextColor
+                }
+                tableCell.textField!.stringValue = Text
+                return tableCell
             
             default:
                 return nil
         }
-        
     }
     
     func outlineViewSelectionDidChange(_ notification: Notification)
@@ -192,22 +393,18 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
                 {
                     if let SelectedShape = Shapes(rawValue: ShapeName)
                     {
-                        if SelectedShape == Settings.GetEnum(ForKey: .Shape, EnumType: Shapes.self, Default: Shapes.Blocks)
-                        {
-                            SelectedShapeSwitch.state = .on
-                        }
-                        else
-                        {
-                            SelectedShapeSwitch.state = .off
-                        }
                         LastTouchedShape = SelectedShape
+                        UpdateShapeSettings(With: SelectedShape)
                         DisplayShapeOptions(For: SelectedShape)
-                        OptionBox.title = "Options for \(ShapeName)"
                     }
             }
             
-            case CurrentSettingsTag:
-                break
+            case SideBarTag:
+                let SelectedIndex = outView.selectedRow
+                if let Name = outView.item(atRow: SelectedIndex) as? String
+                {
+                    print("Selected \(Name)")
+            }
             
             default:
                 break
@@ -359,23 +556,23 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
     // MARK: - Shape options.
     
     @IBOutlet weak var CurrentShapeTitle: NSTextField!
-    @IBOutlet weak var SelectedShapeSwitch: NSSwitch!
     
-    @IBAction func HandleUseShapeSwitched(_ sender: Any)
+    func WasSelected(_ Shape: Shapes)
     {
         Settings.SetEnum(LastTouchedShape, EnumType: Shapes.self, ForKey: .Shape)
         CurrentShapeTitle.stringValue = "\(LastTouchedShape.rawValue)"
+        UpdateShapeSettings(With: LastTouchedShape)
     }
     
     // MARK: - Options interface builder outlets.
     
-    @IBOutlet weak var OptionBox: NSBox!
+    // @IBOutlet weak var OptionBox: NSBox!
     @IBOutlet weak var OptionsContainer: NSView!
     @IBOutlet weak var ShapeOutlineView: NSOutlineView!
     
     // MARK: - Current settings outline
     
-    @IBOutlet weak var CurrentSettingsTable: NSOutlineView!
+    //   @IBOutlet weak var CurrentSettingsTable: NSOutlineView!
     
     // MARK: - TabView interface builder outlets.
     
@@ -611,17 +808,19 @@ class ShapeTreeNode
     }
 }
 
-class CurrentTreeNode
-{
-    var Category: String!
-    var Properties: [(Key: String, Value: String)]!
-    
-    init(Category: String, Properties: [(Key: String, Value: String)])
-    {
-        self.Category = Category
-        self.Properties = Properties
-    }
-}
+/*
+ class CurrentTreeNode
+ {
+ var Category: String!
+ var Properties: [(Key: String, Value: String)]!
+ 
+ init(Category: String, Properties: [(Key: String, Value: String)])
+ {
+ self.Category = Category
+ self.Properties = Properties
+ }
+ }
+ */
 
 class ShapeCategory
 {
