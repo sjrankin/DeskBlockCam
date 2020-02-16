@@ -9,7 +9,7 @@
 import Foundation
 import AppKit
 
-class SphereOptionCode: NSViewController, ToOptionsParentProtocol
+class SphereOptionCode: NSViewController, ToOptionsDialogProtocol
 {
     weak var Delegate: ToOptionsParentProtocol? = nil
     
@@ -42,5 +42,12 @@ class SphereOptionCode: NSViewController, ToOptionsParentProtocol
         }
     }
     
+    func SetShape(_ Shape: Shapes)
+    {
+        CurrentShape = Shape
+    }
+    
+    var CurrentShape: Shapes = .NoShape
+
     @IBOutlet weak var Caption: NSTextField!
 }

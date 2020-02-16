@@ -11,6 +11,7 @@ import AppKit
 
 protocol ToOptionsDialogProtocol: class
 {
+    func SetShape(_ Shape: Shapes)
     func SetCaption(_ CaptionText: String)
     func SetAttributes(_ Attributes: ProcessingAttributes)
 }
@@ -18,4 +19,5 @@ protocol ToOptionsDialogProtocol: class
 protocol ToOptionsParentProtocol: class
 {
     func UpdatedOptions(_ Updated: ProcessingAttributes)
+    func WasSelected(_ Shape: Shapes)
 }

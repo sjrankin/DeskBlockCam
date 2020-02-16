@@ -9,7 +9,7 @@
 import Foundation
 import AppKit
 
-class RingOptionCode: NSViewController, ToOptionsParentProtocol
+class RingOptionCode: NSViewController, ToOptionsDialogProtocol
 {
     weak var Delegate: ToOptionsParentProtocol? = nil
     
@@ -107,6 +107,13 @@ class RingOptionCode: NSViewController, ToOptionsParentProtocol
             }
         }
     }
+    
+    func SetShape(_ Shape: Shapes)
+    {
+        CurrentShape = Shape
+    }
+    
+    var CurrentShape: Shapes = .NoShape
     
     @IBOutlet weak var DonutHoleSegment: NSSegmentedControl!
     @IBOutlet weak var OrientationSegment: NSSegmentedControl!

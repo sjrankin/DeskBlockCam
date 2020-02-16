@@ -18,7 +18,7 @@ class RadiatingLinesOptionsCode: NSViewController, ToOptionsDialogProtocol
         super.viewDidLoad()
         if !NewCaption.isEmpty
         {
-        Caption.stringValue = NewCaption
+            Caption.stringValue = NewCaption
         }
     }
     
@@ -37,5 +37,12 @@ class RadiatingLinesOptionsCode: NSViewController, ToOptionsDialogProtocol
         }
     }
     
+    func SetShape(_ Shape: Shapes)
+    {
+        CurrentShape = Shape
+    }
+    
+    var CurrentShape: Shapes = .NoShape
+
     @IBOutlet weak var Caption: NSTextField!
 }

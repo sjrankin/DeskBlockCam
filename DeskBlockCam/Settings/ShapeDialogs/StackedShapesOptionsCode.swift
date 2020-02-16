@@ -88,7 +88,7 @@ class StackedShapesOptionCode: NSViewController, NSTableViewDelegate,
     
     @IBAction func HandleRemoveButtonPressed(_ sender: Any)
     {
-       let Index = ShapeTable.selectedRow
+        let Index = ShapeTable.selectedRow
         if Index < 0
         {
             return
@@ -96,6 +96,13 @@ class StackedShapesOptionCode: NSViewController, NSTableViewDelegate,
         StackedShapes.remove(at: Index)
         ShapeTable.reloadData()
     }
+    
+    func SetShape(_ Shape: Shapes)
+    {
+        CurrentShape = Shape
+    }
+    
+    var CurrentShape: Shapes = .NoShape
     
     @IBOutlet weak var ShapeTable: NSTableView!
     @IBOutlet weak var ShapeCombo: NSComboBox!

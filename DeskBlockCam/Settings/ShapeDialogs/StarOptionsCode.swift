@@ -9,7 +9,7 @@
 import Foundation
 import AppKit
 
-class StarOptionsCode: NSViewController, ToOptionsParentProtocol
+class StarOptionsCode: NSViewController, ToOptionsDialogProtocol
 {
     weak var Delegate: ToOptionsParentProtocol? = nil
     
@@ -18,7 +18,7 @@ class StarOptionsCode: NSViewController, ToOptionsParentProtocol
         super.viewDidLoad()
         if !NewCaption.isEmpty
         {
-        Caption.stringValue = NewCaption
+            Caption.stringValue = NewCaption
         }
     }
     
@@ -40,6 +40,13 @@ class StarOptionsCode: NSViewController, ToOptionsParentProtocol
             Caption.stringValue = NewCaption
         }
     }
+    
+    func SetShape(_ Shape: Shapes)
+    {
+        CurrentShape = Shape
+    }
+    
+    var CurrentShape: Shapes = .NoShape
     
     @IBOutlet weak var Caption: NSTextField!
 }

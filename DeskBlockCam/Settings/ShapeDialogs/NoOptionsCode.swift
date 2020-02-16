@@ -18,7 +18,7 @@ class NoOptionsCode: NSViewController, ToOptionsDialogProtocol
         super.viewDidLoad()
         if !CaptionString.isEmpty
         {
-        Caption2.stringValue = CaptionString
+            Caption2.stringValue = CaptionString
         }
     }
     
@@ -36,6 +36,13 @@ class NoOptionsCode: NSViewController, ToOptionsDialogProtocol
             Caption2.stringValue = CaptionString
         }
     }
+    
+    func SetShape(_ Shape: Shapes)
+    {
+        CurrentShape = Shape
+    }
+    
+    var CurrentShape: Shapes = .NoShape
     
     @IBOutlet weak var Caption2: NSTextField!
 }
