@@ -47,6 +47,10 @@
 		17609FC923F64E8E00391FFB /* +StatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17609FC823F64E8E00391FFB /* +StatusView.swift */; };
 		17609FCB23F65D5100391FFB /* StatusProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17609FCA23F65D5100391FFB /* StatusProtocol.swift */; };
 		17609FCE23F6611700391FFB /* Shrinker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17609FCD23F6611700391FFB /* Shrinker.swift */; };
+		176B898123F9039500EC708B /* CurrentCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176B898023F9039500EC708B /* CurrentCategory.swift */; };
+		176B898323F9047100EC708B /* ValueItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176B898223F9047100EC708B /* ValueItem.swift */; };
+		176B898523F9094E00EC708B /* CurrentTreeNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176B898423F9094E00EC708B /* CurrentTreeNode.swift */; };
+		176B898723F9436400EC708B /* ShapeOptionsCode2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176B898623F9436400EC708B /* ShapeOptionsCode2.swift */; };
 		176E565323EBB50E0001215A /* HistogramDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176E565223EBB50E0001215A /* HistogramDisplay.swift */; };
 		177BF06223EE52CD00670F40 /* ColorSwatchItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177BF06023EE52CD00670F40 /* ColorSwatchItem.swift */; };
 		177BF06323EE52CD00670F40 /* ColorSwatchItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = 177BF06123EE52CD00670F40 /* ColorSwatchItem.xib */; };
@@ -126,6 +130,10 @@
 		17609FC823F64E8E00391FFB /* +StatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+StatusView.swift"; sourceTree = "<group>"; };
 		17609FCA23F65D5100391FFB /* StatusProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusProtocol.swift; sourceTree = "<group>"; };
 		17609FCD23F6611700391FFB /* Shrinker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shrinker.swift; sourceTree = "<group>"; };
+		176B898023F9039500EC708B /* CurrentCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentCategory.swift; sourceTree = "<group>"; };
+		176B898223F9047100EC708B /* ValueItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueItem.swift; sourceTree = "<group>"; };
+		176B898423F9094E00EC708B /* CurrentTreeNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentTreeNode.swift; sourceTree = "<group>"; };
+		176B898623F9436400EC708B /* ShapeOptionsCode2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeOptionsCode2.swift; sourceTree = "<group>"; };
 		176E565223EBB50E0001215A /* HistogramDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistogramDisplay.swift; sourceTree = "<group>"; };
 		177BF06023EE52CD00670F40 /* ColorSwatchItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSwatchItem.swift; sourceTree = "<group>"; };
 		177BF06123EE52CD00670F40 /* ColorSwatchItem.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ColorSwatchItem.xib; sourceTree = "<group>"; };
@@ -247,6 +255,7 @@
 				1740A3E023EC018100E29C75 /* ShapeOptionsCode.swift */,
 				172C06F123ED31DC00313C3E /* OptionsDialogs.swift */,
 				177BF06A23EE923E00670F40 /* +Lighting.swift */,
+				176B898623F9436400EC708B /* ShapeOptionsCode2.swift */,
 				177BF06823EE765500670F40 /* GradientFactory.swift */,
 				1740A3E223EC01AA00E29C75 /* ShapeOptionsWindowCode.swift */,
 				177BF06023EE52CD00670F40 /* ColorSwatchItem.swift */,
@@ -254,6 +263,7 @@
 				177BF06423EE735000670F40 /* GradientSwatchItem.swift */,
 				177BF06523EE735000670F40 /* GradientSwatchItem.xib */,
 				1732796D23F7E6D800EE0213 /* Settings.storyboard */,
+				176B897F23F9036F00EC708B /* CurrentSettings */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -265,6 +275,16 @@
 				178041C723F3D959006E40C1 /* AncillaryWindowManagement.swift */,
 			);
 			path = AncillaryWindows;
+			sourceTree = "<group>";
+		};
+		176B897F23F9036F00EC708B /* CurrentSettings */ = {
+			isa = PBXGroup;
+			children = (
+				176B898023F9039500EC708B /* CurrentCategory.swift */,
+				176B898223F9047100EC708B /* ValueItem.swift */,
+				176B898423F9094E00EC708B /* CurrentTreeNode.swift */,
+			);
+			path = CurrentSettings;
 			sourceTree = "<group>";
 		};
 		178041B323F3CF05006E40C1 /* ErrorMessageView */ = {
@@ -461,8 +481,10 @@
 				170A110223F103E8003D0C1D /* ProgramSettingsCode.swift in Sources */,
 				178041C023F3D5C3006E40C1 /* DebugWindowCode.swift in Sources */,
 				178041C223F3D605006E40C1 /* DebugControllerCode.swift in Sources */,
+				176B898123F9039500EC708B /* CurrentCategory.swift in Sources */,
 				176E565323EBB50E0001215A /* HistogramDisplay.swift in Sources */,
 				172C06E623ED300D00313C3E /* StarOptionsCode.swift in Sources */,
+				176B898723F9436400EC708B /* ShapeOptionsCode2.swift in Sources */,
 				172C06F223ED31DC00313C3E /* OptionsDialogs.swift in Sources */,
 				1717201323EBDF1600636F3C /* BlockView.swift in Sources */,
 				172C06EC23ED309800313C3E /* CharacterSetOptionsCode.swift in Sources */,
@@ -514,8 +536,10 @@
 				178828A823E90E310041C2D1 /* PSCNNode.swift in Sources */,
 				1740A3CC23EBEBD400E29C75 /* BlockOptionalParameters.swift in Sources */,
 				1740A3E123EC018100E29C75 /* ShapeOptionsCode.swift in Sources */,
+				176B898523F9094E00EC708B /* CurrentTreeNode.swift in Sources */,
 				17B31D5223EFF74600C69257 /* SettingChangedProtocol.swift in Sources */,
 				177BF06923EE765500670F40 /* GradientFactory.swift in Sources */,
+				176B898323F9047100EC708B /* ValueItem.swift in Sources */,
 				17D5AD2723F3BE39006C295F /* AboutController.swift in Sources */,
 				1740A3DA23EBF96600E29C75 /* StackedShapesOptionalParameters.swift in Sources */,
 				17B31D5023EFF5C800C69257 /* Settings.swift in Sources */,
