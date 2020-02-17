@@ -186,4 +186,41 @@ extension NSColor
             Int(Blue * 255.0)
         return Final
     }
+    
+    /// Given a color, return its name. If no name is known, return its hex value.
+    /// - Parameter NameFor: The color whose name will be returned.
+    /// - Returns: Name of the color if available, hex string of the value of the color if not.
+    static func NameFor(Color: NSColor) -> String
+    {
+        switch NSColor.AsInt(Color)
+        {
+            case 0xff000000:
+            return "Black"
+            
+            case 0xffffffff:
+            return "White"
+            
+            case 0xffff0000:
+            return "Red"
+            
+            case 0xff00ff00:
+            return "Green"
+            
+            case 0xff0000ff:
+            return "Blue"
+            
+            case 0xff00ffff:
+            return "Cyan"
+            
+            case 0xffff00ff:
+            return "Magenta"
+            
+            case 0xffffff00:
+            return "Yellow"
+            
+            default:
+                let Converted = String(NSColor.AsInt(Color), radix: 16, uppercase: false)
+            return "0x\(Converted)"
+        }
+    }
 }
