@@ -20,6 +20,10 @@ class StarOptionsCode: NSViewController, ToOptionsDialogProtocol
         {
             Caption.stringValue = NewCaption
         }
+        let Varies = Settings.GetBoolean(ForKey: .ApexesIncrease)
+        let Apexes = Settings.GetInteger(ForKey: .StarApexCount)
+        ApexSegment.selectedSegment = Apexes - 4
+        VariableApexesCheck.state = Varies ? .on : .off
     }
     
     var NewCaption: String = ""
@@ -46,7 +50,22 @@ class StarOptionsCode: NSViewController, ToOptionsDialogProtocol
         CurrentShape = Shape
     }
     
+    @IBAction func HandleVariableApexesChanged(_ sender: Any)
+    {
+        Settings.SetBoolean(VariableApexesCheck.state == .on, ForKey: .ApexesIncrease)
+        Delegate?.UpdateCurrent()
+    }
+    
+    @IBAction func HandleApexCountChanged(_ sender: Any)
+    {
+        let Index = ApexSegment.selectedSegment + 4
+        Settings.SetInteger(Index, ForKey: .StarApexCount)
+        Delegate?.UpdateCurrent()
+    }
+    
     var CurrentShape: Shapes = .NoShape
     
+    @IBOutlet weak var VariableApexesCheck: NSButton!
+    @IBOutlet weak var ApexSegment: NSSegmentedControl!
     @IBOutlet weak var Caption: NSTextField!
 }

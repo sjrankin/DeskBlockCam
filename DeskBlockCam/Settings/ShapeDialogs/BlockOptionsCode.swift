@@ -20,6 +20,22 @@ class BlockOptionsCode: NSViewController, ToOptionsDialogProtocol
         {
             Caption.stringValue = NewCaption
         }
+        let Chamfer = Settings.GetEnum(ForKey: .BlockChamfer, EnumType: BlockChamferSizes.self,
+                                       Default: .None)
+        switch Chamfer
+        {
+            case .None:
+                ChamferSegment.selectedSegment = 0
+            
+            case .Small:
+                ChamferSegment.selectedSegment = 1
+            
+            case .Medium:
+                ChamferSegment.selectedSegment = 2
+            
+            case .Heavy:
+                ChamferSegment.selectedSegment = 3
+        }
     }
     
     var NewCaption: String = ""
@@ -42,7 +58,30 @@ class BlockOptionsCode: NSViewController, ToOptionsDialogProtocol
         CurrentShape = Shape
     }
     
+    @IBAction func HandleChamferChanged(_ sender: Any)
+    {
+        switch ChamferSegment.selectedSegment
+        {
+            case 0:
+                Settings.SetEnum(.None, EnumType: BlockChamferSizes.self, ForKey: .BlockChamfer)
+            
+            case 1:
+                Settings.SetEnum(.Small, EnumType: BlockChamferSizes.self, ForKey: .BlockChamfer)
+            
+            case 2:
+                Settings.SetEnum(.Medium, EnumType: BlockChamferSizes.self, ForKey: .BlockChamfer)
+            
+            case 3:
+                Settings.SetEnum(.Heavy, EnumType: BlockChamferSizes.self, ForKey: .BlockChamfer)
+            
+            default:
+                Settings.SetEnum(.None, EnumType: BlockChamferSizes.self, ForKey: .BlockChamfer)
+        }
+        Delegate?.UpdateCurrent() 
+    }
+    
     var CurrentShape: Shapes = .NoShape
 
+    @IBOutlet weak var ChamferSegment: NSSegmentedControl!
     @IBOutlet weak var Caption: NSTextField!
 }

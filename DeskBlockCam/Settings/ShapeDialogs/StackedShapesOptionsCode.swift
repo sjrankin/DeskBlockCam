@@ -22,7 +22,38 @@ class StackedShapesOptionCode: NSViewController, NSTableViewDelegate,
             Caption.stringValue = NewCaption
         }
         InitializeShapeCombo()
+        InitializeTable()
     }
+    
+    func InitializeTable()
+    {
+        var RawShapeList: String = ""
+        switch CurrentShape
+        {
+            case .StackedShapes:
+                RawShapeList = Settings.GetString(ForKey: .StackedShapeList, Shapes.Blocks.rawValue)
+            
+            case .HueVarying:
+                RawShapeList = Settings.GetString(ForKey: .HueShapes, Shapes.Blocks.rawValue)
+            
+            case .SaturationVarying:
+                RawShapeList = Settings.GetString(ForKey: .SaturationShapes, Shapes.Blocks.rawValue)
+            
+            case .BrightnessVarying:
+                RawShapeList = Settings.GetString(ForKey: .BrightnessShapes, Shapes.Blocks.rawValue)
+            
+            default:
+                fatalError("Found unexpected shape: \(CurrentShape.rawValue)")
+        }
+        let Parts = RawShapeList.split(separator: ",", omittingEmptySubsequences: true)
+        for Part in Parts
+        {
+            ShapeList.append(String(Part))
+        }
+        
+    }
+    
+    var ShapeList = [String]()
     
     func InitializeShapeCombo()
     {
@@ -53,11 +84,9 @@ class StackedShapesOptionCode: NSViewController, NSTableViewDelegate,
         }
     }
     
-    var StackedShapes = [Shapes]()
-    
     func numberOfRows(in tableView: NSTableView) -> Int
     {
-        return StackedShapes.count
+        return ShapeList.count
     }
     
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView?
@@ -67,7 +96,7 @@ class StackedShapesOptionCode: NSViewController, NSTableViewDelegate,
         if tableColumn == tableView.tableColumns[0]
         {
             CellIdentifier = "ShapeColumn"
-            CellContents = StackedShapes[row].rawValue
+            CellContents = ShapeList[row]
         }
         let Cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: CellIdentifier), owner: self) as? NSTableCellView
         Cell?.textField?.stringValue = CellContents
@@ -80,8 +109,9 @@ class StackedShapesOptionCode: NSViewController, NSTableViewDelegate,
         {
             if let ActualShape = Shapes(rawValue: Raw)
             {
-                StackedShapes.append(ActualShape)
+                ShapeList.append(ActualShape.rawValue)
                 ShapeTable.reloadData()
+                SaveShapeList()
             }
         }
     }
@@ -93,8 +123,40 @@ class StackedShapesOptionCode: NSViewController, NSTableViewDelegate,
         {
             return
         }
-        StackedShapes.remove(at: Index)
+        ShapeList.remove(at: Index)
         ShapeTable.reloadData()
+        SaveShapeList()
+    }
+    
+    func SaveShapeList()
+    {
+        var Final = ""
+        for Shape in ShapeList
+        {
+            Final.append(Shape)
+            Final.append(",")
+        }
+        Final.removeLast(1)
+        var Key: SettingKeys!
+        switch CurrentShape
+        {
+            case .StackedShapes:
+                Key = SettingKeys.StackedShapeList
+            
+            case .HueVarying:
+                Key = SettingKeys.HueShapes
+            
+            case .SaturationVarying:
+                Key = SettingKeys.SaturationShapes
+            
+            case .BrightnessVarying:
+                Key = SettingKeys.BrightnessShapes
+            
+            default:
+                fatalError("Found unexpected shape: \(CurrentShape.rawValue)")
+        }
+        Settings.SetString(Final, ForKey: Key)
+        Delegate?.UpdateCurrent()
     }
     
     func SetShape(_ Shape: Shapes)

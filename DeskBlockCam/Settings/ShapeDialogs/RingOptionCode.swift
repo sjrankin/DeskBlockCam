@@ -20,34 +20,35 @@ class RingOptionCode: NSViewController, ToOptionsDialogProtocol
         {
             Caption.stringValue = NewCaption
         }
+        let HoleSize = Settings.GetEnum(ForKey: .DonutHoleSize, EnumType: DonutHoleSizes.self,
+                                        Default: .Medium)
+        switch HoleSize
+        {
+            case .Small:
+                DonutHoleSegment.selectedSegment = 0
+            
+            case .Medium:
+                DonutHoleSegment.selectedSegment = 1
+            
+            case .Large:
+                DonutHoleSegment.selectedSegment = 2
+        }
+        let Orientation = Settings.GetEnum(ForKey: .RingOrientation, EnumType: RingOrientations.self,
+                                           Default: .Flat)
+        switch Orientation
+        {
+            case .Flat:
+                OrientationSegment.selectedSegment = 0
+            
+            case .Rotated:
+                OrientationSegment.selectedSegment = 1
+        }
     }
     
     var NewCaption: String = ""
     
     func ApplyAttributes(_ NewAttributes: ProcessingAttributes)
     {
-        if let RingAttributes = NewAttributes.GetOptionsFor(.Rings) as? RingOptionalParameters
-        {
-            switch RingAttributes.DonutHoleSize
-            {
-                case .Small:
-                    DonutHoleSegment.selectedSegment = 0
-                
-                case .Medium:
-                    DonutHoleSegment.selectedSegment = 1
-                
-                case .Large:
-                    DonutHoleSegment.selectedSegment = 2
-            }
-            switch RingAttributes.Orientation
-            {
-                case .Flat:
-                    OrientationSegment.selectedSegment = 0
-                
-                case .Rotated:
-                    OrientationSegment.selectedSegment = 1
-            }
-        }
     }
     
     func SetAttributes(_ Attributes: ProcessingAttributes)
@@ -84,6 +85,7 @@ class RingOptionCode: NSViewController, ToOptionsDialogProtocol
                 default:
                     Settings.SetEnum(RingOrientations.Flat, EnumType: RingOrientations.self, ForKey: .RingOrientation)
             }
+            Delegate?.UpdateCurrent()
         }
     }
     
@@ -105,6 +107,7 @@ class RingOptionCode: NSViewController, ToOptionsDialogProtocol
                 default:
                     Settings.SetEnum(DonutHoleSizes.Medium, EnumType: DonutHoleSizes.self, ForKey: .RingOrientation)
             }
+            Delegate?.UpdateCurrent()
         }
     }
     

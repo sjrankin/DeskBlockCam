@@ -20,6 +20,16 @@ class SphereOptionCode: NSViewController, ToOptionsDialogProtocol
         {
             Caption.stringValue = NewCaption
         }
+        let Behavior = Settings.GetEnum(ForKey: .SphereBehavior, EnumType: SphereBehaviors.self,
+                                        Default: .Size)
+        switch Behavior
+        {
+            case .Height:
+                BehaviorSegment.selectedSegment = 1
+            
+            case .Size:
+                BehaviorSegment.selectedSegment = 0
+        }
     }
     
     var NewCaption: String = ""
@@ -42,6 +52,22 @@ class SphereOptionCode: NSViewController, ToOptionsDialogProtocol
         }
     }
     
+    @IBAction func HandleBehaviorChanged(_ sender: Any)
+    {
+        switch BehaviorSegment.selectedSegment
+        {
+            case 0:
+                Settings.SetEnum(.Size, EnumType: SphereBehaviors.self, ForKey: .SphereBehavior)
+            
+            case 1:
+                Settings.SetEnum(.Height, EnumType: SphereBehaviors.self, ForKey: .SphereBehavior)
+            
+            default:
+                Settings.SetEnum(.Size, EnumType: SphereBehaviors.self, ForKey: .SphereBehavior)
+        }
+        Delegate?.UpdateCurrent()
+    }
+    
     func SetShape(_ Shape: Shapes)
     {
         CurrentShape = Shape
@@ -49,5 +75,6 @@ class SphereOptionCode: NSViewController, ToOptionsDialogProtocol
     
     var CurrentShape: Shapes = .NoShape
 
+    @IBOutlet weak var BehaviorSegment: NSSegmentedControl!
     @IBOutlet weak var Caption: NSTextField!
 }

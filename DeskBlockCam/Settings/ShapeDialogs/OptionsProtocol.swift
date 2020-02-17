@@ -18,6 +18,7 @@ protocol ToOptionsDialogProtocol: class
 
 protocol ToOptionsParentProtocol: class
 {
+    func UpdateCurrent()
     func UpdatedOptions(_ Updated: ProcessingAttributes)
     func WasSelected(_ Shape: Shapes)
 }
