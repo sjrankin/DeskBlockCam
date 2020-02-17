@@ -44,6 +44,9 @@
 		1740A3DE23EBFB7500E29C75 /* HSBVaryingOptionalParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1740A3DD23EBFB7500E29C75 /* HSBVaryingOptionalParameters.swift */; };
 		1740A3E123EC018100E29C75 /* ShapeOptionsCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1740A3E023EC018100E29C75 /* ShapeOptionsCode.swift */; };
 		1740A3E323EC01AA00E29C75 /* ShapeOptionsWindowCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1740A3E223EC01AA00E29C75 /* ShapeOptionsWindowCode.swift */; };
+		17452EC523FA24AD004888EB /* ContainerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17452EC423FA24AD004888EB /* ContainerController.swift */; };
+		17452EC823FA8612004888EB /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17452EC723FA8612004888EB /* Colors.swift */; };
+		17452ECA23FA864E004888EB /* ColorDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17452EC923FA864E004888EB /* ColorDescription.swift */; };
 		17609FC923F64E8E00391FFB /* +StatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17609FC823F64E8E00391FFB /* +StatusView.swift */; };
 		17609FCB23F65D5100391FFB /* StatusProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17609FCA23F65D5100391FFB /* StatusProtocol.swift */; };
 		17609FCE23F6611700391FFB /* Shrinker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17609FCD23F6611700391FFB /* Shrinker.swift */; };
@@ -127,6 +130,9 @@
 		1740A3DD23EBFB7500E29C75 /* HSBVaryingOptionalParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HSBVaryingOptionalParameters.swift; sourceTree = "<group>"; };
 		1740A3E023EC018100E29C75 /* ShapeOptionsCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeOptionsCode.swift; sourceTree = "<group>"; };
 		1740A3E223EC01AA00E29C75 /* ShapeOptionsWindowCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeOptionsWindowCode.swift; sourceTree = "<group>"; };
+		17452EC423FA24AD004888EB /* ContainerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerController.swift; sourceTree = "<group>"; };
+		17452EC723FA8612004888EB /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		17452EC923FA864E004888EB /* ColorDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorDescription.swift; sourceTree = "<group>"; };
 		17609FC823F64E8E00391FFB /* +StatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+StatusView.swift"; sourceTree = "<group>"; };
 		17609FCA23F65D5100391FFB /* StatusProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusProtocol.swift; sourceTree = "<group>"; };
 		17609FCD23F6611700391FFB /* Shrinker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shrinker.swift; sourceTree = "<group>"; };
@@ -224,6 +230,7 @@
 				172C06EB23ED309800313C3E /* CharacterSetOptionsCode.swift */,
 				172C06ED23ED30ED00313C3E /* CappedLinesOptionsCode.swift */,
 				172C06EF23ED318000313C3E /* StackedShapesOptionsCode.swift */,
+				17452EC423FA24AD004888EB /* ContainerController.swift */,
 			);
 			path = ShapeDialogs;
 			sourceTree = "<group>";
@@ -266,6 +273,15 @@
 				176B897F23F9036F00EC708B /* CurrentSettings */,
 			);
 			path = Settings;
+			sourceTree = "<group>";
+		};
+		17452EC623FA85F8004888EB /* ColorManagement */ = {
+			isa = PBXGroup;
+			children = (
+				17452EC723FA8612004888EB /* Colors.swift */,
+				17452EC923FA864E004888EB /* ColorDescription.swift */,
+			);
+			path = ColorManagement;
 			sourceTree = "<group>";
 		};
 		17609FCC23F660C900391FFB /* AncillaryWindows */ = {
@@ -338,6 +354,7 @@
 			isa = PBXGroup;
 			children = (
 				17B31D4E23EFF5AF00C69257 /* SettingsManagement */,
+				17452EC623FA85F8004888EB /* ColorManagement */,
 				178041CC23F3E970006E40C1 /* Utilities */,
 				178041BC23F3D48B006E40C1 /* DebugView */,
 				178041B323F3CF05006E40C1 /* ErrorMessageView */,
@@ -485,6 +502,7 @@
 				176E565323EBB50E0001215A /* HistogramDisplay.swift in Sources */,
 				172C06E623ED300D00313C3E /* StarOptionsCode.swift in Sources */,
 				176B898723F9436400EC708B /* ShapeOptionsCode2.swift in Sources */,
+				17452EC523FA24AD004888EB /* ContainerController.swift in Sources */,
 				172C06F223ED31DC00313C3E /* OptionsDialogs.swift in Sources */,
 				1717201323EBDF1600636F3C /* BlockView.swift in Sources */,
 				172C06EC23ED309800313C3E /* CharacterSetOptionsCode.swift in Sources */,
@@ -508,6 +526,7 @@
 				173C245A23ED29DC00270760 /* OptionsProtocol.swift in Sources */,
 				1740A3D023EBED8500E29C75 /* CharactersOptionalParameters.swift in Sources */,
 				170DF1E423F6C3E700DDB5D0 /* SphereOptionalParameters.swift in Sources */,
+				17452EC823FA8612004888EB /* Colors.swift in Sources */,
 				178041CA23F3DAA1006E40C1 /* Utilities.swift in Sources */,
 				17EB900223E9829E00A4C09A /* FileIO.swift in Sources */,
 				17609FC923F64E8E00391FFB /* +StatusView.swift in Sources */,
@@ -544,6 +563,7 @@
 				1740A3DA23EBF96600E29C75 /* StackedShapesOptionalParameters.swift in Sources */,
 				17B31D5023EFF5C800C69257 /* Settings.swift in Sources */,
 				172C06E223ED2F9000313C3E /* OvalOptionsCode.swift in Sources */,
+				17452ECA23FA864E004888EB /* ColorDescription.swift in Sources */,
 				17609FCB23F65D5100391FFB /* StatusProtocol.swift in Sources */,
 				177BF06B23EE923E00670F40 /* +Lighting.swift in Sources */,
 				1740A3C923EBEB6400E29C75 /* OptionalParameters.swift in Sources */,
