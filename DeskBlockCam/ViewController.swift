@@ -27,6 +27,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         
         Settings.AddSubscriber(self, "ViewController")
         
+        Colors.Initialize()
         StillImageView.wantsLayer = true
         StillImageView.isHidden = false
         OriginalImageView.wantsLayer = true
