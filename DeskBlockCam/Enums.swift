@@ -221,3 +221,23 @@ enum DonutHoleSizes: String, CaseIterable
     case Large = "Large"
 }
 
+enum BasicColors: String, CaseIterable
+{
+    case Black = "Black"
+    case White = "White"
+    case Red = "Red"
+    case Green = "Green"
+    case Blue = "Blue"
+    case Gray = "Gray"
+    case Cyan = "Cyan"
+    case Magenta = "Magenta"
+    case Yellow = "Yellow"
+    case Orange = "Orange"
+    case Indigo = "Indigo"
+    case Purple = "Purple"
+    case Brown = "Brown"
+    case Yellow2 = "Yellow 2"
+    case Orange2 = "Orange 2"
+    case Brown2 = "Brown 2"
+    case Teal = "Teal"
+}
