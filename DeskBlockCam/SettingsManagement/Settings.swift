@@ -46,6 +46,7 @@ class Settings
     {
         UserDefaults.standard.set("Initialized", forKey: SettingKeys.Initialized.rawValue)
         UserDefaults.standard.set(Shapes.Blocks.rawValue, forKey: SettingKeys.Shape.rawValue)
+        UserDefaults.standard.set(16, forKey: SettingKeys.ShapeSize.rawValue)
         UserDefaults.standard.set(VerticalExaggerations.Medium.rawValue, forKey: SettingKeys.VerticalExaggeration.rawValue)
         UserDefaults.standard.set(false, forKey: SettingKeys.InvertHeight.rawValue)
         UserDefaults.standard.set(0.5, forKey: SettingKeys.Side.rawValue)
@@ -82,6 +83,7 @@ class Settings
         UserDefaults.standard.set(ConeBottomSizes.Side.rawValue, forKey: SettingKeys.ConeBottomSize.rawValue)
         UserDefaults.standard.set(false, forKey: SettingKeys.ConeSwapTopBottom.rawValue)
         UserDefaults.standard.set(Shapes.Blocks.rawValue, forKey: SettingKeys.LiveViewShape.rawValue)
+        UserDefaults.standard.set(HeightDeterminations.Brightness.rawValue, forKey: SettingKeys.LiveViewHeight.rawValue)
         UserDefaults.standard.set(MainModes.LiveView.rawValue, forKey: SettingKeys.CurrentMode.rawValue)
         UserDefaults.standard.set(true, forKey: SettingKeys.ShowHistogram.rawValue)
         UserDefaults.standard.set(true, forKey: SettingKeys.AutoOpenShapeSettings.rawValue)
@@ -550,7 +552,8 @@ class Settings
             .BackgroundColor,
             .LightColor,
             .StarApexCount,
-            .LineCount
+            .LineCount,
+            .ShapeSize
     ]
     
     /// Contains a list of all string-type fields.
@@ -582,6 +585,7 @@ class Settings
             .ConeTopSize,
             .ConeBottomSize,
             .LiveViewShape,
+            .LiveViewHeight,
             .CurrentMode,
             .SphereBehavior,
             .CharacterSet,
@@ -617,6 +621,8 @@ enum SettingKeys: String, CaseIterable, Comparable, Hashable
     //Shape settings.
     /// String/Enum: Holds the current shape.
     case Shape = "Shape"
+    /// Integer: Size of each shape.
+    case ShapeSize = "ShapeSize"
     /// String/Enum: Holds the conditional color determination.
     case ConditionalColor = "ConditionalColor"
     /// String/Enum: Holds the action to take if conditional colors are active.
@@ -727,6 +733,8 @@ enum SettingKeys: String, CaseIterable, Comparable, Hashable
     //Live view settings.
     /// String/Enum. The shape to use for live views.
     case LiveViewShape = "LiveViewShape"
+    /// String/Enum. The color component from which height is derived.
+    case LiveViewHeight = "LiveViewHeight"
     
     //Main view settings.
     /// String/Enum. The current mode for the main view.
