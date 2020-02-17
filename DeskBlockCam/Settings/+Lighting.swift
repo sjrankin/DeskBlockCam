@@ -14,9 +14,6 @@ extension ShapeOptionsCode
 {
     func InitializeLighting()
     {
-        LightColorCombo.removeAllItems()
-        LightColorCombo.addItems(withObjectValues: ["White", "Yellow", "Orange", "Teal", "Blue", "Black"])
-        LightColorCombo.selectItem(at: 0)
         LightingSampleInitialized = false
         DoUpdateLightSample()
     }
