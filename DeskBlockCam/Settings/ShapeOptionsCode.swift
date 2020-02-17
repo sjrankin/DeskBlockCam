@@ -25,9 +25,12 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
         InitializeShapes()
         ShapeOutlineView.reloadData()
         InitializeColorSwatches()
+        InitializeHeight()
         InitializeGradientSwatches()
         InitializeLighting()
         InitializeLiveView()
+        InitializeProcessing()
+        InitializeConditionalColors()
         InitializeSideBar()
         LastTouchedShape = Settings.GetEnum(ForKey: .Shape, EnumType: Shapes.self, Default: Shapes.Blocks)
         if LastTouchedShape == .NoShape
@@ -65,6 +68,17 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
     
     var AllShapes: [ShapeTreeNode]!
     
+    func UpdateCurrent()
+    {
+        let CurrentShape = Settings.GetEnum(ForKey: .Shape, EnumType: Shapes.self, Default: Shapes.Blocks)
+        UpdateShapeSettings(With: CurrentShape)
+        UpdateHeightSettings()
+        UpdateLiveViewSettings()
+        UpdateLightSettings()
+        UpdateColorSettings()
+        UpdateProcessingSettings()
+        UpdateBackgroundSettings()
+    }
     
     // MARK: - Outline view functions.
     
@@ -78,6 +92,108 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
         CurrentSettings.expandItem(Current[2])
         let CurrentShape = Settings.GetEnum(ForKey: .Shape, EnumType: Shapes.self, Default: Shapes.Blocks)
         UpdateShapeSettings(With: CurrentShape)
+        UpdateHeightSettings()
+        UpdateLiveViewSettings()
+        UpdateLightSettings()
+        UpdateColorSettings()
+        UpdateProcessingSettings()
+        UpdateBackgroundSettings()
+    }
+    
+    func UpdateHeightSettings()
+    {
+        Current[2].ValueItems.removeAll()
+        let HDeterm = Settings.GetEnum(ForKey: .HeightDetermination, EnumType: HeightDeterminations.self,
+                                       Default: HeightDeterminations.Brightness)
+        Current[2].ValueItems.append(ValueItem(Description: "Height", Value: HDeterm.rawValue))
+        let Exg = Settings.GetEnum(ForKey: .VerticalExaggeration, EnumType: VerticalExaggerations.self,
+                                   Default: VerticalExaggerations.Medium)
+        Current[2].ValueItems.append(ValueItem(Description: "Exaggeration", Value: Exg.rawValue))
+        let Invert = Settings.GetBoolean(ForKey: .InvertHeight)
+        Current[2].ValueItems.append(ValueItem(Description: "Invert", Value: "\(Invert)"))
+        CurrentSettings.reloadData()
+    }
+    
+    func UpdateLightSettings()
+    {
+        Current[3].ValueItems.removeAll()
+        let LType = Settings.GetEnum(ForKey: .LightType, EnumType: LightingTypes.self, Default: .Omni)
+        Current[3].ValueItems.append(ValueItem(Description: "Type", Value: LType.rawValue))
+        let RawLColor = Settings.GetInteger(ForKey: .LightColor)
+        let LColor = NSColor.MakeColor(With: RawLColor)
+        let LColorName = NSColor.NameFor(Color: LColor)
+        Current[3].ValueItems.append(ValueItem(Description: "Color", Value: LColorName))
+        let LInt = Settings.GetEnum(ForKey: .LightIntensity, EnumType: LightIntensities.self,
+                                    Default: .Normal)
+        Current[3].ValueItems.append(ValueItem(Description: "Intensity", Value: LInt.rawValue))
+        let LModel = Settings.GetEnum(ForKey: .LightModel, EnumType: LightModels.self,
+                                      Default: .Lambert)
+        Current[3].ValueItems.append(ValueItem(Description: "Model", Value: LModel.rawValue))
+        CurrentSettings.reloadData()
+    }
+    
+    func UpdateColorSettings()
+    {
+        CurrentSettings.reloadData()
+    }
+    
+    func UpdateProcessingSettings()
+    {
+        Current[5].ValueItems.removeAll()
+        let NodeSize = Settings.GetInteger(ForKey: .ShapeSize)
+        Current[5].ValueItems.append(ValueItem(Description: "Shape size", Value: "\(NodeSize)"))
+        let ISize = Settings.GetInteger(ForKey: .MaximumLength)
+        Current[5].ValueItems.append(ValueItem(Description: "Image size", Value: "\(ISize)"))
+        CurrentSettings.reloadData()
+    }
+    
+    func UpdateBackgroundSettings()
+    {
+        Current[6].ValueItems.removeAll()
+        let BType = Settings.GetEnum(ForKey: .BackgroundType, EnumType: Backgrounds.self,
+                                     Default: .Color)
+        Current[6].ValueItems.append(ValueItem(Description: "Type", Value: BType.rawValue))
+        switch BType
+        {
+            case .Color:
+                let BColor = Settings.GetInteger(ForKey: .BackgroundColor)
+                let Name = NSColor.NameFor(Color: NSColor.MakeColor(With: BColor))
+                Current[6].ValueItems.append(ValueItem(Description: "Color", Value: Name))
+            
+            case .Gradient:
+                let GColors = Settings.GetString(ForKey: .BackgroundGradientColors)
+                let Parts = GColors?.split(separator: ",", omittingEmptySubsequences: true)
+                var GColorList = [String]()
+                for Part in Parts!
+                {
+                    var SPart = String(Part)
+                    SPart.removeFirst(2)
+                    let SInt = Int(SPart) ?? 0
+                    let SColor = NSColor.MakeColor(With: SInt)
+                    let Name = NSColor.NameFor(Color: SColor)
+                    GColorList.append(Name)
+                }
+                var Final = ""
+                for Clr in GColorList
+                {
+                    Final.append(Clr)
+                    Final.append(",")
+                }
+                Final.removeLast(1)
+                Current[6].ValueItems.append(ValueItem(Description: "Gradient", Value: Final))
+            default:
+                break
+        }
+        CurrentSettings.reloadData()
+    }
+    
+    /// Update live view settings.
+    func UpdateLiveViewSettings()
+    {
+        Current[8].ValueItems.removeAll()
+        let Shape = Settings.GetEnum(ForKey: .LiveViewShape, EnumType: Shapes.self, Default: Shapes.Blocks)
+        Current[8].ValueItems.append(ValueItem(Description: "Shape", Value: Shape.rawValue))
+        CurrentSettings.reloadData()
     }
     
     /// Update the current side bar shape settings.
@@ -114,7 +230,7 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
             
             case .Characters:
                 let CharSet = Settings.GetEnum(ForKey: .CharacterSet, EnumType: CharacterSets.self, Default: CharacterSets.Latin)
-                Current[1].ValueItems.append(ValueItem(Description: "Character set", Value: CharSet.rawValue))
+                Current[1].ValueItems.append(ValueItem(Description: "Characters", Value: CharSet.rawValue))
             
             case .Cones:
                 let Top = Settings.GetEnum(ForKey: .ConeTopSize, EnumType: ConeTopSizes.self, Default: ConeTopSizes.Zero)
@@ -122,7 +238,7 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
                 let Invert = Settings.GetBoolean(ForKey: .ConeSwapTopBottom)
                 Current[1].ValueItems.append(ValueItem(Description: "Top size", Value: Top.rawValue))
                 Current[1].ValueItems.append(ValueItem(Description: "Bottom size", Value: Bottom.rawValue))
-                Current[1].ValueItems.append(ValueItem(Description: "Invert top/bottom", Value: "\(Invert)"))
+                Current[1].ValueItems.append(ValueItem(Description: "Swap top/bottom", Value: "\(Invert)"))
             
             case .Diamonds:
                 let Orientation = Settings.GetEnum(ForKey: .DiamondOrientation, EnumType: Orientations.self, Default: Orientations.Horizontal)
@@ -179,16 +295,16 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
             ]),
             CurrentCategory(Name: "Height Settings", Icon: NSImage(named: "HeightIcon"),
                             Values: [
-                                ValueItem(Description: "Height from", Value: "brightness"),
+                                ValueItem(Description: "Height", Value: "brightness"),
                                 ValueItem(Description: "Exaggeration", Value: "Medium"),
-                                ValueItem(Description: "Invert height", Value: "false")
+                                ValueItem(Description: "Invert", Value: "false")
             ]),
             CurrentCategory(Name: "Color Settings", Icon: NSImage(named: "PaintbrushIcon"),
                             Values: [
                                 ValueItem(Description: "Conditional colors", Value: "none"),
                                 ValueItem(Description: "Action", Value: "Decrease saturation"),
                                 ValueItem(Description: "Threshold", Value: "0.50"),
-                                ValueItem(Description: "Invert threshold", Value: "false"),
+                                ValueItem(Description: "Invert", Value: "false"),
             ]),
             CurrentCategory(Name: "Lighting Settings", Icon: NSImage(named: "LightbulbIcon"),
                             Values: [
@@ -200,7 +316,7 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
             CurrentCategory(Name: "Processing Settings", Icon: NSImage(named: "PerformanceIcon"),
                             Values: [
                                 ValueItem(Description: "Shape size", Value: "16"),
-                                ValueItem(Description: "Maximum size", Value: "1024")
+                                ValueItem(Description: "Image size", Value: "1024")
             ]),
             CurrentCategory(Name: "Background Settings", Icon: NSImage(named: "PhotoIcon"),
                             Values: [
@@ -336,6 +452,7 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
             
             case SideBarTag:
                 var Text = ""
+                var ToolTipText: String? = nil
                 var Image: NSImage? = nil
                 var FontSize: CGFloat = 13.0
                 var IsHeader = false
@@ -357,6 +474,10 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
                         Text = Item.Description + ": " + Item.Value
                         FontSize = 11.0
                         TextColor = Item.TextColor
+                        if Item.Description == "Shape"
+                        {
+                            ToolTipText = Item.Value
+                        }
                     }
                 }
                 var tableCell: NSTableCellView!
@@ -370,6 +491,10 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
                     tableCell.imageView!.image = Image
                     tableCell.textField!.font = NSFont.systemFont(ofSize: FontSize)
                     tableCell.textField!.textColor = TextColor
+                    if let TipText = ToolTipText
+                    {
+                        tableCell.toolTip = TipText
+                    }
                 }
                 tableCell.textField!.stringValue = Text
                 return tableCell
@@ -420,6 +545,46 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
     
     var CurrentAttributes: ProcessingAttributes = ProcessingAttributes()
     
+    // MARK: - Background functions.
+    
+    func InitializeBackground()
+    {
+        let Type = Settings.GetEnum(ForKey: .BackgroundType, EnumType: Backgrounds.self, Default: Backgrounds.Color)
+        switch Type
+        {
+            case .Color:
+                BackgroundTypeSegment.selectedSegment = 0
+            
+            case .Gradient:
+                BackgroundTypeSegment.selectedSegment = 1
+            
+            case .Image:
+                BackgroundTypeSegment.selectedSegment = 2
+        }
+        
+    }
+    
+    @IBAction func HandleBackgroundTypeChanged(_ sender: Any)
+    {
+        switch BackgroundTypeSegment.selectedSegment
+        {
+            case 0:
+                Settings.SetEnum(.Color, EnumType: Backgrounds.self, ForKey: .BackgroundType)
+            
+            case 1:
+                Settings.SetEnum(.Gradient, EnumType: Backgrounds.self, ForKey: .BackgroundType)
+            
+            case 2:
+                Settings.SetEnum(.Image, EnumType: Backgrounds.self, ForKey: .BackgroundType)
+            
+            default:
+                Settings.SetEnum(.Color, EnumType: Backgrounds.self, ForKey: .BackgroundType)
+        }
+        UpdateBackgroundSettings()
+    }
+    
+    @IBOutlet weak var BackgroundTypeSegment: NSSegmentedControl!
+    
     // MARK: - Colors functions
     
     func InitializeColorSwatches()
@@ -452,20 +617,22 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
     
     var ColorList: [(Name: String, Color: NSColor)] =
         [
-            (Name: "Black", Color: NSColor.black),
-            (Name: "White", Color: NSColor.white),
-            (Name: "Red", Color: NSColor.red),
-            (Name: "Green", Color: NSColor.green),
-            (Name: "Blue", Color: NSColor.blue),
-            (Name: "Gray", Color: NSColor.gray),
-            (Name: "Indigo", Color: NSColor.systemIndigo),
-            (Name: "Purple", Color: NSColor.purple),
-            (Name: "Orange", Color: NSColor.orange),
-            (Name: "System Orange", Color: NSColor.systemOrange),
-            (Name: "Teal", Color: NSColor.systemTeal),
-            (Name: "Yellow", Color: NSColor.yellow),
-            (Name: "System Yellow", Color: NSColor.systemYellow),
-            (Name: "Brown", Color: NSColor.brown)
+            (Name: BasicColors.Black.rawValue, Color: NSColor.black),
+            (Name: BasicColors.White.rawValue, Color: NSColor.white),
+            (Name: BasicColors.Red.rawValue, Color: NSColor.red),
+            (Name: BasicColors.Green.rawValue, Color: NSColor.green),
+            (Name: BasicColors.Blue.rawValue, Color: NSColor.blue),
+            (Name: BasicColors.Cyan.rawValue, Color: NSColor.cyan),
+            (Name: BasicColors.Magenta.rawValue, Color: NSColor.magenta),
+            (Name: BasicColors.Yellow.rawValue, Color: NSColor.yellow),
+            (Name: BasicColors.Orange.rawValue, Color: NSColor.orange),
+            (Name: BasicColors.Indigo.rawValue, Color: NSColor.systemIndigo),
+            (Name: BasicColors.Purple.rawValue, Color: NSColor.purple),
+            (Name: BasicColors.Brown.rawValue, Color: NSColor.brown),
+            (Name: BasicColors.Yellow2.rawValue, Color: NSColor.systemYellow),
+            (Name: BasicColors.Orange2.rawValue, Color: NSColor.systemOrange),
+            (Name: BasicColors.Brown2.rawValue, Color: NSColor.systemBrown),
+            (Name: BasicColors.Gray.rawValue, Color: NSColor.gray),
     ]
     
     var GradientList = [(NSColor, NSColor)]()
@@ -475,6 +642,9 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
         switch collectionView
         {
             case ColorSwatchView:
+                return ColorList.count
+            
+            case LightColorView:
                 return ColorList.count
             
             case GradientSwatchView:
@@ -500,6 +670,16 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
                 SomeItem.SetSelectionState(To: indexPath.item == SelectedColorIndex)
                 return SomeItem
             
+            case LightColorView:
+                let Item = ColorSwatchView.makeItem(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "ColorSwatchItem"), for: indexPath)
+                guard let SomeItem = Item as? ColorSwatchItem else
+                {
+                    return Item
+                }
+                SomeItem.SetColor(ColorList[indexPath.item].Color, WithName: ColorList[indexPath.item].Name)
+                SomeItem.SetSelectionState(To: indexPath.item == SelectedLightColorIndex)
+                return SomeItem
+            
             case GradientSwatchView:
                 let Item = GradientSwatchView.makeItem(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "GradientSwatchItem"), for: indexPath)
                 guard let SomeItem = Item as? GradientSwatchItem else
@@ -522,10 +702,28 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
             case ColorSwatchView:
                 SelectedColorIndex = indexPaths.first!.item
                 ColorSwatchView.reloadData()
+                let Color = ColorList[SelectedColorIndex].Color
+                Settings.SetInteger(NSColor.AsInt(Color), ForKey: .BackgroundColor)
+                UpdateBackgroundSettings()
+            
+            case LightColorView:
+                SelectedLightColorIndex = indexPaths.first!.item
+                LightColorView.reloadData()
+                let Color = ColorList[SelectedLightColorIndex].Color
+                Settings.SetInteger(NSColor.AsInt(Color), ForKey: .LightColor)
+                UpdateLightSettings()
             
             case GradientSwatchView:
                 SelectedGradientIndex = indexPaths.first!.item
                 GradientSwatchView.reloadData()
+                let Gradient = GradientList[SelectedGradientIndex]
+                let Color1Int = NSColor.AsInt(Gradient.0)
+                let Color1Name = "0x" + String(Color1Int, radix: 16, uppercase: false)
+                let Color2Int = NSColor.AsInt(Gradient.1)
+                let Color2Name = "0x" + String(Color2Int, radix: 16, uppercase: false)
+                let Final = "\(Color1Name),\(Color2Name)"
+                Settings.SetString(Final, ForKey: .BackgroundGradientColors)
+                UpdateBackgroundSettings()
             
             default:
                 break
@@ -553,6 +751,174 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
         
     }
     
+    // MARK: - Conditional colors.
+    
+    func InitializeConditionalColors()
+    {
+        InvertThresholdCheck.state = Settings.GetBoolean(ForKey: .InvertConditionalColor) ? .on : .off
+        SetThresholdLabels(ForInverted: Settings.GetBoolean(ForKey: .InvertConditionalColor))
+        let CColor = Settings.GetEnum(ForKey: .ConditionalColor, EnumType: ConditionalColorTypes.self,
+                                      Default: ConditionalColorTypes.None)
+        switch CColor
+        {
+            case .None:
+                ConditionalColorSegment.selectedSegment = 0
+            
+            case .Hue:
+                ConditionalColorSegment.selectedSegment = 1
+            
+            case .Saturation:
+                ConditionalColorSegment.selectedSegment = 2
+            
+            case .Brightness:
+                ConditionalColorSegment.selectedSegment = 3
+        }
+        
+        let CAction = Settings.GetEnum(ForKey: .ConditionalColorAction, EnumType: ConditionalColorActions.self,
+                                       Default: ConditionalColorActions.Grayscale)
+        switch CAction
+        {
+            case .Grayscale:
+                ColorActionSegment.selectedSegment = 0
+            
+            case .IncreaseSaturation:
+                ColorActionSegment.selectedSegment = 1
+            
+            case .DecreaseSaturation:
+                ColorActionSegment.selectedSegment = 2
+        }
+        
+        let CThresh = Settings.GetEnum(ForKey: .ConditionalColorThreshold, EnumType: ConditionalColorThresholds.self,
+                                       Default: ConditionalColorThresholds.Less50)
+        switch CThresh
+        {
+            case .Less10:
+                ColorThresholdSegment.selectedSegment = 0
+            
+            case .Less25:
+                ColorThresholdSegment.selectedSegment = 1
+            
+            case .Less50:
+                ColorThresholdSegment.selectedSegment = 2
+            
+            case .Less75:
+                ColorThresholdSegment.selectedSegment = 3
+            
+            case .Less90:
+                ColorThresholdSegment.selectedSegment = 4
+        }
+    }
+    
+    @IBAction func HandleConditionalColorsChanged(_ sender: Any)
+    {
+        let SegmentIndex = ConditionalColorSegment.selectedSegment
+        switch SegmentIndex
+        {
+            case 0:
+                Settings.SetEnum(ConditionalColorTypes.None, EnumType: ConditionalColorTypes.self,
+                                 ForKey: .ConditionalColor)
+            
+            case 1:
+                Settings.SetEnum(ConditionalColorTypes.Hue, EnumType: ConditionalColorTypes.self,
+                                 ForKey: .ConditionalColor)
+            
+            case 2:
+                Settings.SetEnum(ConditionalColorTypes.Saturation, EnumType: ConditionalColorTypes.self,
+                                 ForKey: .ConditionalColor)
+            
+            case 3:
+                Settings.SetEnum(ConditionalColorTypes.Brightness, EnumType: ConditionalColorTypes.self,
+                                 ForKey: .ConditionalColor)
+            
+            default:
+                Settings.SetEnum(ConditionalColorTypes.None, EnumType: ConditionalColorTypes.self,
+                                 ForKey: .ConditionalColor)
+        }
+    }
+    
+    @IBAction func HandleColorActionChanged(_ sender: Any)
+    {
+        let SegmentIndex = ColorActionSegment.selectedSegment
+        switch SegmentIndex
+        {
+            case 0:
+                Settings.SetEnum(ConditionalColorActions.Grayscale, EnumType: ConditionalColorActions.self,
+                                 ForKey: .ConditionalColorAction)
+            
+            case 1:
+                Settings.SetEnum(ConditionalColorActions.IncreaseSaturation, EnumType: ConditionalColorActions.self,
+                                 ForKey: .ConditionalColorAction)
+            
+            case 2:
+                Settings.SetEnum(ConditionalColorActions.DecreaseSaturation, EnumType: ConditionalColorActions.self,
+                                 ForKey: .ConditionalColorAction)
+            
+            default:
+                Settings.SetEnum(ConditionalColorActions.Grayscale, EnumType: ConditionalColorActions.self,
+                                 ForKey: .ConditionalColorAction)
+        }
+    }
+    
+    @IBAction func HandleInvertColorThresholdChanged(_ sender: Any)
+    {
+        Settings.SetBoolean(InvertThresholdCheck.state == .on, ForKey: .InvertConditionalColor)
+        SetThresholdLabels(ForInverted: InvertThresholdCheck.state == .on)
+    }
+    
+    @IBAction func HandleColorThresholdChanged(_ sender: Any)
+    {
+        let SegmentIndex = ColorThresholdSegment.selectedSegment
+        switch SegmentIndex
+        {
+            case 0:
+                Settings.SetEnum(ConditionalColorThresholds.Less10, EnumType: ConditionalColorThresholds.self,
+                                 ForKey: .ConditionalColorThreshold)
+            
+            case 1:
+                Settings.SetEnum(ConditionalColorThresholds.Less25, EnumType: ConditionalColorThresholds.self,
+                                 ForKey: .ConditionalColorThreshold)
+            
+            case 2:
+                Settings.SetEnum(ConditionalColorThresholds.Less50, EnumType: ConditionalColorThresholds.self,
+                                 ForKey: .ConditionalColorThreshold)
+            
+            case 3:
+                Settings.SetEnum(ConditionalColorThresholds.Less75, EnumType: ConditionalColorThresholds.self,
+                                 ForKey: .ConditionalColorThreshold)
+            
+            case 4:
+                Settings.SetEnum(ConditionalColorThresholds.Less90, EnumType: ConditionalColorThresholds.self,
+                                 ForKey: .ConditionalColorThreshold)
+            
+            default:
+                Settings.SetEnum(ConditionalColorThresholds.Less50, EnumType: ConditionalColorThresholds.self,
+                                 ForKey: .ConditionalColorThreshold)
+        }
+    }
+    
+    func SetThresholdLabels(ForInverted: Bool)
+    {
+        if ForInverted
+        {
+            ColorThresholdSegment.setLabel("> 0.10", forSegment: 0)
+            ColorThresholdSegment.setLabel("> 0.25", forSegment: 1)
+            ColorThresholdSegment.setLabel("> 0.75", forSegment: 3)
+            ColorThresholdSegment.setLabel("> 0.90", forSegment: 4)
+        }
+        else
+        {
+            ColorThresholdSegment.setLabel("< 0.10", forSegment: 0)
+            ColorThresholdSegment.setLabel("< 0.25", forSegment: 1)
+            ColorThresholdSegment.setLabel("< 0.75", forSegment: 3)
+            ColorThresholdSegment.setLabel("< 0.90", forSegment: 4)
+        }
+    }
+    
+    @IBOutlet weak var ConditionalColorSegment: NSSegmentedControl!
+    @IBOutlet weak var ColorActionSegment: NSSegmentedControl!
+    @IBOutlet weak var ColorThresholdSegment: NSSegmentedControl!
+    @IBOutlet weak var InvertThresholdCheck: NSButton!
+    
     // MARK: - Shape options.
     
     @IBOutlet weak var CurrentShapeTitle: NSTextField!
@@ -563,6 +929,93 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
         CurrentShapeTitle.stringValue = "\(LastTouchedShape.rawValue)"
         UpdateShapeSettings(With: LastTouchedShape)
     }
+    
+    // MARK: - Height settings and functions.
+    
+    func InitializeHeight()
+    {
+        let HeightDetermination = Settings.GetEnum(ForKey: .HeightDetermination, EnumType: HeightDeterminations.self,
+                                                   Default: HeightDeterminations.Brightness)
+        let IsInverted = Settings.GetBoolean(ForKey: .InvertHeight)
+        let Exaggeration = Settings.GetEnum(ForKey: .VerticalExaggeration, EnumType: VerticalExaggerations.self,
+                                            Default: VerticalExaggerations.Medium)
+        
+        HeightDeterminationCombo.removeAllItems()
+        var Index = 0
+        var SelectedComboItem = 2
+        for det in HeightDeterminations.allCases
+        {
+            HeightDeterminationCombo.addItem(withObjectValue: det.rawValue)
+            if det == HeightDetermination
+            {
+                SelectedComboItem = Index
+            }
+            Index = Index + 1
+        }
+        HeightDeterminationCombo.selectItem(at: SelectedComboItem)
+        switch Exaggeration
+        {
+            case .None:
+                VerticalExaggerationSegment.selectedSegment = 0
+            
+            case .Small:
+                VerticalExaggerationSegment.selectedSegment = 1
+            
+            case .Medium:
+                VerticalExaggerationSegment.selectedSegment = 2
+            
+            case .Large:
+                VerticalExaggerationSegment.selectedSegment = 3
+        }
+        InvertVerticalHeightCheck.state = IsInverted ? .on : .off
+    }
+    
+    @IBAction func HandleHeightDeterminationChanged(_ sender: Any)
+    {
+        let Selected = HeightDeterminationCombo.indexOfSelectedItem
+        if Selected == -1
+        {
+            return
+        }
+        let Item = HeightDeterminations.allCases[Selected]
+        Settings.SetEnum(Item, EnumType: HeightDeterminations.self, ForKey: .HeightDetermination)
+        UpdateHeightSettings()
+    }
+    
+    @IBAction func HandleVerticalExaggerationChanged(_ sender: Any)
+    {
+        let Index = VerticalExaggerationSegment.selectedSegment
+        var Ex = VerticalExaggerations.Medium
+        switch Index
+        {
+            case 0:
+                Ex = .None
+            
+            case 1:
+                Ex = .Small
+            
+            case 2:
+                Ex = .Medium
+            
+            case 3:
+                Ex = .Large
+            
+            default:
+                Ex = .Medium
+        }
+        Settings.SetEnum(Ex, EnumType: VerticalExaggerations.self, ForKey: .VerticalExaggeration)
+        UpdateHeightSettings()
+    }
+    
+    @IBAction func HandleInvertHeightChanged(_ sender: Any)
+    {
+        Settings.SetBoolean(InvertVerticalHeightCheck.state == .on, ForKey: .InvertHeight)
+        UpdateHeightSettings()
+    }
+    
+    @IBOutlet weak var VerticalExaggerationSegment: NSSegmentedControl!
+    @IBOutlet weak var HeightDeterminationCombo: NSComboBox!
+    @IBOutlet weak var InvertVerticalHeightCheck: NSButton!
     
     // MARK: - Options interface builder outlets.
     
@@ -589,12 +1042,13 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
     
     //MARK: - Lighting interface builder outlines and variables.
     
+    @IBOutlet weak var LightColorView: NSCollectionView!
     @IBOutlet weak var LightModelSegment: NSSegmentedControl!
     @IBOutlet weak var LightIntensitySegment: NSSegmentedControl!
     @IBOutlet weak var LightTypeSegment: NSSegmentedControl!
-    @IBOutlet weak var LightColorCombo: NSComboBox!
     @IBOutlet weak var LightingSample: SCNView!
     var LightingSampleInitialized = false
+    var SelectedLightColorIndex = -1
     
     func DoUpdateLightSample()
     {
@@ -621,30 +1075,8 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
         }
         
         var Color = NSColor.white
-        let RawColor = LightColorCombo.objectValueOfSelectedItem as? String
-        switch RawColor
-        {
-            case "White":
-                Color = NSColor.white
-            
-            case "Yellow":
-                Color = NSColor.yellow
-            
-            case "Orange":
-                Color = NSColor.orange
-            
-            case "Teal":
-                Color = NSColor.systemTeal
-            
-            case "Blue":
-                Color = NSColor.blue
-            
-            case "Black":
-                Color = NSColor.black
-            
-            default:
-                Color = NSColor.white
-        }
+        let RawColorS = Settings.GetInteger(ForKey: .LightColor)
+        Color = NSColor.MakeColor(With: RawColorS)
         
         var Intensity: CGFloat = 1000.0
         switch LightIntensitySegment.selectedSegment
@@ -692,33 +1124,205 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
     
     @IBAction func HandleLightTypeChanged(_ sender: Any)
     {
+        switch LightTypeSegment.selectedSegment
+        {
+            case 0:
+                Settings.SetEnum(.Omni, EnumType: LightingTypes.self, ForKey: .LightType)
+            
+            case 1:
+                Settings.SetEnum(.Spot, EnumType: LightingTypes.self, ForKey: .LightType)
+            
+            case 2:
+                Settings.SetEnum(.Directional, EnumType: LightingTypes.self, ForKey: .LightType)
+            
+            case 3:
+                Settings.SetEnum(.Ambient, EnumType: LightingTypes.self, ForKey: .LightType)
+            
+            default:
+                Settings.SetEnum(.Omni, EnumType: LightingTypes.self, ForKey: .LightType)
+        }
         DoUpdateLightSample()
+        UpdateLightSettings()
     }
     
     @IBAction func HandleLightColorChanged(_ sender: Any)
     {
         DoUpdateLightSample()
+        UpdateLightSettings()
     }
     
     @IBAction func HandleLightIntensityChanged(_ sender: Any)
     {
+        switch LightIntensitySegment.selectedSegment
+        {
+            case 0:
+                Settings.SetEnum(.Darkest, EnumType: LightIntensities.self, ForKey: .LightIntensity)
+            
+            case 1:
+                Settings.SetEnum(.Dim, EnumType: LightIntensities.self, ForKey: .LightIntensity)
+            
+            case 2:
+                Settings.SetEnum(.Normal, EnumType: LightIntensities.self, ForKey: .LightIntensity)
+            
+            case 3:
+                Settings.SetEnum(.Bright, EnumType: LightIntensities.self, ForKey: .LightIntensity)
+            
+            case 4:
+                Settings.SetEnum(.Brightest, EnumType: LightIntensities.self, ForKey: .LightIntensity)
+            
+            default:
+                Settings.SetEnum(.Normal, EnumType: LightIntensities.self, ForKey: .LightIntensity)
+        }
         DoUpdateLightSample()
+        UpdateLightSettings()
     }
     
     @IBAction func HandleLightModelChanged(_ sender: Any)
     {
+        switch LightModelSegment.selectedSegment
+        {
+            case 0:
+                Settings.SetEnum(.Blinn, EnumType: LightModels.self, ForKey: .LightModel)
+            
+            case 1:
+                Settings.SetEnum(.Constant, EnumType: LightModels.self, ForKey: .LightModel)
+            
+            case 2:
+                Settings.SetEnum(.Lambert, EnumType: LightModels.self, ForKey: .LightModel)
+            
+            case 3:
+                Settings.SetEnum(.Phong, EnumType: LightModels.self, ForKey: .LightModel)
+            
+            case 4:
+                Settings.SetEnum(.Physical, EnumType: LightModels.self, ForKey: .LightModel)
+            
+            default:
+                Settings.SetEnum(.Lambert, EnumType: LightModels.self, ForKey: .LightModel)
+        }
         DoUpdateLightSample()
+        UpdateLightSettings()
     }
     
     // MARK: - Processing variables and code.
     
+    func InitializeProcessing()
+    {
+        var Size = Settings.GetInteger(ForKey: .ShapeSize)
+        if Size == 0
+        {
+            Size = 16
+            Settings.SetInteger(Size, ForKey: .ShapeSize)
+        }
+        switch Size
+        {
+            case 16:
+                ShapeSizeSelector.selectedSegment = 0
+            
+            case 32:
+                ShapeSizeSelector.selectedSegment = 1
+            
+            case 48:
+                ShapeSizeSelector.selectedSegment = 2
+            
+            case 64:
+                ShapeSizeSelector.selectedSegment = 3
+            
+            case 96:
+                ShapeSizeSelector.selectedSegment = 4
+            
+            default:
+                ShapeSizeSelector.selectedSegment = 0
+        }
+        var Maximum = Settings.GetInteger(ForKey: .MaximumLength)
+        if Maximum == 0
+        {
+            Maximum = 1024
+        }
+        switch Maximum
+        {
+            case 512:
+                MaximumImageSizeSelector.selectedSegment = 0
+            
+            case 1024:
+                MaximumImageSizeSelector.selectedSegment = 1
+            
+            case 1600:
+                MaximumImageSizeSelector.selectedSegment = 2
+            
+            case 2400:
+                MaximumImageSizeSelector.selectedSegment = 3
+            
+            case 4096:
+                MaximumImageSizeSelector.selectedSegment = 4
+            
+            default:
+                MaximumImageSizeSelector.selectedSegment = 5
+        }
+    }
     
     @IBAction func HandleShapeSizeChanged(_ sender: Any)
     {
+        if let Segment = sender as? NSSegmentedControl
+        {
+            let Index = Segment.selectedSegment
+            var NewSize = 16
+            switch Index
+            {
+                case 0:
+                    NewSize = 16
+                
+                case 1:
+                    NewSize = 32
+                
+                case 2:
+                    NewSize = 48
+                
+                case 3:
+                    NewSize = 64
+                
+                case 4:
+                    NewSize = 96
+                
+                default:
+                    NewSize = 16
+            }
+            Settings.SetInteger(NewSize, ForKey: .ShapeSize)
+            UpdateProcessingSettings()
+        }
     }
     
     @IBAction func HandleMaximumImageSizeChanged(_ sender: Any)
     {
+        if let Segment = sender as? NSSegmentedControl
+        {
+            let Index = Segment.selectedSegment
+            var NewLength = 1024
+            switch Index
+            {
+                case 0:
+                    NewLength = 512
+                
+                case 1:
+                    NewLength = 1024
+                
+                case 2:
+                    NewLength = 1600
+                
+                case 3:
+                    NewLength = 2400
+                
+                case 4:
+                    NewLength = 4096
+                
+                case 5:
+                    NewLength = 100000
+                
+                default:
+                    NewLength = 1024
+            }
+            Settings.SetInteger(NewLength, ForKey: .MaximumLength)
+            UpdateProcessingSettings()
+        }
     }
     
     @IBOutlet weak var ShapeSizeSelector: NSSegmentedControl!
@@ -752,9 +1356,48 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
             default:
                 LiveViewShapeSegment.selectedSegment = 0
         }
+        let LVHeight = Settings.GetEnum(ForKey: .LiveViewHeight, EnumType: HeightDeterminations.self,
+                                        Default: HeightDeterminations.Brightness)
+        switch LVHeight
+        {
+            case .Hue:
+                LiveViewHeightSegment.selectedSegment = 0
+            
+            case .Saturation:
+                LiveViewHeightSegment.selectedSegment = 1
+            
+            case .Brightness:
+                LiveViewHeightSegment.selectedSegment = 2
+            
+            default:
+                LiveViewHeightSegment.selectedSegment = 0
+        }
     }
     
+    @IBOutlet weak var LiveViewHeightSegment: NSSegmentedControl!
     @IBOutlet weak var LiveViewShapeSegment: NSSegmentedControl!
+    
+    @IBAction func LiveViewHeightChanged(_ sender: Any)
+    {
+        if let Segment = sender as? NSSegmentedControl
+        {
+            switch Segment.selectedSegment
+            {
+                case 0:
+                    Settings.SetEnum(.Hue, EnumType: HeightDeterminations.self, ForKey: .LiveViewHeight)
+                
+                case 1:
+                    Settings.SetEnum(.Saturation, EnumType: HeightDeterminations.self, ForKey: .LiveViewHeight)
+                
+                case 2:
+                    Settings.SetEnum(.Brightness, EnumType: HeightDeterminations.self, ForKey: .LiveViewHeight)
+                
+                default:
+                    Settings.SetEnum(.Brightness, EnumType: HeightDeterminations.self, ForKey: .LiveViewHeight)
+            }
+            UpdateLiveViewSettings()
+        }
+    }
     
     @IBAction func LiveViewShapeSegmentChanged(_ sender: Any)
     {
@@ -783,6 +1426,7 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
                 default:
                     Settings.SetEnum(Shapes.Blocks, EnumType: Shapes.self, ForKey: .LiveViewShape)
             }
+            UpdateLiveViewSettings()
         }
     }
     
@@ -807,20 +1451,6 @@ class ShapeTreeNode
         self.Shapes = Shapes
     }
 }
-
-/*
- class CurrentTreeNode
- {
- var Category: String!
- var Properties: [(Key: String, Value: String)]!
- 
- init(Category: String, Properties: [(Key: String, Value: String)])
- {
- self.Category = Category
- self.Properties = Properties
- }
- }
- */
 
 class ShapeCategory
 {
