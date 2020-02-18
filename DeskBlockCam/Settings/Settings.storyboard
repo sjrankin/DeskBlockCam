@@ -43,11 +43,11 @@
                                 <tabViewItems>
                                     <tabViewItem label="Shapes" identifier="" id="Rcg-iF-TVe">
                                         <view key="view" id="YsM-0z-S6b">
-                                            <rect key="frame" x="10" y="33" width="705" height="370"/>
+                                            <rect key="frame" x="10" y="33" width="705" height="365"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hAU-WQ-xhf">
-                                                    <rect key="frame" x="101" y="348" width="527" height="19"/>
+                                                    <rect key="frame" x="101" y="343" width="527" height="19"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <textFieldCell key="cell" lineBreakMode="clipping" title="Current shape name" id="eTC-2a-GUP">
                                                         <font key="font" metaFont="systemSemibold" size="18"/>
@@ -56,7 +56,7 @@
                                                     </textFieldCell>
                                                 </textField>
                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3s4-PN-PFv">
-                                                    <rect key="frame" x="6" y="349" width="91" height="16"/>
+                                                    <rect key="frame" x="6" y="344" width="91" height="16"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <textFieldCell key="cell" lineBreakMode="clipping" title="Current shape" id="M92-Lw-yhj">
                                                         <font key="font" metaFont="system"/>
@@ -65,7 +65,7 @@
                                                     </textFieldCell>
                                                 </textField>
                                                 <splitView arrangesAllSubviews="NO" dividerStyle="thin" vertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="txu-ab-WxC">
-                                                    <rect key="frame" x="8" y="13" width="688" height="325"/>
+                                                    <rect key="frame" x="8" y="8" width="688" height="325"/>
                                                     <subviews>
                                                         <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="YsA-Fo-flh">
                                                             <rect key="frame" x="0.0" y="0.0" width="130" height="325"/>
@@ -409,7 +409,7 @@
                                                                 <rect key="frame" x="8" y="-30" width="295" height="238"/>
                                                                 <clipView key="contentView" id="DTY-87-yDG">
                                                                     <rect key="frame" x="1" y="1" width="293" height="236"/>
-                                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                                    <autoresizingMask key="autoresizingMask"/>
                                                                     <subviews>
                                                                         <collectionView selectable="YES" allowsEmptySelection="NO" id="j25-dt-NK7">
                                                                             <rect key="frame" x="0.0" y="0.0" width="293" height="236"/>
@@ -455,7 +455,7 @@
                                                                 <rect key="frame" x="6" y="-27" width="338" height="235"/>
                                                                 <clipView key="contentView" id="KAP-vs-NQE">
                                                                     <rect key="frame" x="1" y="1" width="336" height="233"/>
-                                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                                    <autoresizingMask key="autoresizingMask"/>
                                                                     <subviews>
                                                                         <collectionView selectable="YES" allowsEmptySelection="NO" id="4wd-gB-d1F">
                                                                             <rect key="frame" x="0.0" y="0.0" width="336" height="233"/>
@@ -669,7 +669,7 @@
                                                                 <rect key="frame" x="8" y="8" width="390" height="165"/>
                                                                 <clipView key="contentView" id="TP1-8j-PYF">
                                                                     <rect key="frame" x="1" y="1" width="373" height="163"/>
-                                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                                    <autoresizingMask key="autoresizingMask"/>
                                                                     <subviews>
                                                                         <collectionView selectable="YES" allowsEmptySelection="NO" id="1nk-aB-DVp">
                                                                             <rect key="frame" x="0.0" y="0.0" width="373" height="236"/>
@@ -1667,9 +1667,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="450" height="292"/>
                         <subviews>
                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="Del-ix-ZUw">
-                                <rect key="frame" x="8" y="234" width="434" height="49"/>
+                                <rect key="frame" x="8" y="227" width="434" height="56"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="49" id="BuK-S8-IKR"/>
+                                    <constraint firstAttribute="height" constant="56" id="BuK-S8-IKR"/>
                                 </constraints>
                                 <textFieldCell key="cell" selectable="YES" borderStyle="border" title="Description for some generic shape that has no options." id="xxj-C5-LFH">
                                     <font key="font" metaFont="system"/>
@@ -2523,7 +2523,7 @@
                                 <gridCells>
                                     <gridCell row="VoT-A9-sVc" column="DeZ-o7-2J0" yPlacement="center" id="ziW-Ya-KJw">
                                         <button key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zYI-pr-QYT">
-                                            <rect key="frame" x="-6" y="33" width="65" height="32"/>
+                                            <rect key="frame" x="-6" y="44" width="65" height="32"/>
                                             <buttonCell key="cell" type="push" title="Add" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="fri-Hg-0M3">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
@@ -2535,7 +2535,7 @@
                                     </gridCell>
                                     <gridCell row="VoT-A9-sVc" column="kKC-Mh-d0t" yPlacement="center" id="lJH-9M-wtf">
                                         <comboBox key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dyk-60-HBR">
-                                            <rect key="frame" x="82" y="37" width="164" height="25"/>
+                                            <rect key="frame" x="82" y="48" width="164" height="25"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="161" id="SPs-AT-9NA"/>
                                             </constraints>
@@ -2553,7 +2553,7 @@
                                     </gridCell>
                                     <gridCell row="FKP-ZN-iQm" column="DeZ-o7-2J0" yPlacement="center" id="90b-Ej-1Kr">
                                         <button key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BD0-WF-m4u">
-                                            <rect key="frame" x="-6" y="-7" width="89" height="32"/>
+                                            <rect key="frame" x="-6" y="4" width="89" height="32"/>
                                             <buttonCell key="cell" type="push" title="Remove" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="swa-bA-WGe">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
@@ -2565,7 +2565,7 @@
                                     </gridCell>
                                     <gridCell row="FKP-ZN-iQm" column="kKC-Mh-d0t" yPlacement="center" id="i79-9k-laR">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="b9M-Ur-o1k">
-                                            <rect key="frame" x="80" y="4" width="129" height="14"/>
+                                            <rect key="frame" x="80" y="15" width="129" height="14"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Remove selected shape" id="d3i-N1-5nK">
                                                 <font key="font" metaFont="message" size="11"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -2652,6 +2652,9 @@
                                                     <string>Item 3</string>
                                                 </objectValues>
                                             </comboBoxCell>
+                                            <connections>
+                                                <action selector="HandleCharacterSetChanged:" target="iA7-Lc-pjR" id="tQn-bI-9iM"/>
+                                            </connections>
                                         </comboBox>
                                     </gridCell>
                                 </gridCells>
@@ -2713,6 +2716,9 @@
                     </view>
                     <connections>
                         <outlet property="Caption" destination="c9s-5Q-S0O" id="J7x-7E-uQZ"/>
+                        <outlet property="CharBox" destination="aFP-eW-XJP" id="q37-hS-lf7"/>
+                        <outlet property="CharacterCombo" destination="NkR-7e-2nd" id="tSC-fw-bWy"/>
+                        <outlet property="CharactersView" destination="EpH-Ga-ThY" id="DfV-3J-9oO"/>
                     </connections>
                 </viewController>
                 <customObject id="EBq-ap-XR5" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
