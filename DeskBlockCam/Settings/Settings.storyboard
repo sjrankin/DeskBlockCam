@@ -2504,7 +2504,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="57" id="mF6-aE-WYE"/>
                                 </constraints>
-                                <textFieldCell key="cell" selectable="YES" borderStyle="border" alignment="left" title="Extruded diamond shapes." drawsBackground="YES" id="ZIt-bM-y44">
+                                <textFieldCell key="cell" selectable="YES" borderStyle="border" alignment="left" title="Multi-shape selection" drawsBackground="YES" id="ZIt-bM-y44">
                                     <font key="font" usesAppearanceFont="YES"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" red="0.15000000599999999" green="0.15000000599999999" blue="0.15000000599999999" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -2610,7 +2610,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="57" id="hm8-Q9-bPA"/>
                                 </constraints>
-                                <textFieldCell key="cell" selectable="YES" borderStyle="border" alignment="left" title="Creates a randomly-selected, extruded character selected from the set of characters you select here." drawsBackground="YES" id="ajm-Sv-Khi">
+                                <textFieldCell key="cell" selectable="YES" borderStyle="border" alignment="left" title="Creates a randomly-selected, extruded character selected from the set of characters you choose here." drawsBackground="YES" id="ajm-Sv-Khi">
                                     <font key="font" usesAppearanceFont="YES"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" red="0.15000000599999999" green="0.15000000599999999" blue="0.15000000599999999" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
