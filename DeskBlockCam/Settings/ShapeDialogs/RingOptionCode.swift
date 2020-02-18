@@ -85,7 +85,7 @@ class RingOptionCode: NSViewController, ToOptionsDialogProtocol
                 default:
                     Settings.SetEnum(RingOrientations.Flat, EnumType: RingOrientations.self, ForKey: .RingOrientation)
             }
-            Delegate?.UpdateCurrent()
+            Delegate?.UpdateCurrent(With: CurrentShape)
         }
     }
     
@@ -107,7 +107,7 @@ class RingOptionCode: NSViewController, ToOptionsDialogProtocol
                 default:
                     Settings.SetEnum(DonutHoleSizes.Medium, EnumType: DonutHoleSizes.self, ForKey: .RingOrientation)
             }
-            Delegate?.UpdateCurrent()
+            Delegate?.UpdateCurrent(With: CurrentShape)
         }
     }
     

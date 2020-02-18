@@ -71,7 +71,7 @@ class OvalOptionsCode: NSViewController, ToOptionsDialogProtocol
             default:
                 Settings.SetEnum(.Horizontal, EnumType: Orientations.self, ForKey: .OvalOrientation)
         }
-        Delegate?.UpdateCurrent()
+        Delegate?.UpdateCurrent(With: CurrentShape)
     }
     
     @IBAction func HandleAxisSizeChanged(_ sender: Any)
@@ -90,7 +90,7 @@ class OvalOptionsCode: NSViewController, ToOptionsDialogProtocol
             default:
                 Settings.SetEnum(.Short, EnumType: Distances.self, ForKey: .OvalLength)
         }
-        Delegate?.UpdateCurrent()
+        Delegate?.UpdateCurrent(With: CurrentShape)
     }
     
     func SetShape(_ Shape: Shapes)

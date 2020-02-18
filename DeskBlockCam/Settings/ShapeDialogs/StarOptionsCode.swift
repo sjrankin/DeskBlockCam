@@ -53,14 +53,14 @@ class StarOptionsCode: NSViewController, ToOptionsDialogProtocol
     @IBAction func HandleVariableApexesChanged(_ sender: Any)
     {
         Settings.SetBoolean(VariableApexesCheck.state == .on, ForKey: .ApexesIncrease)
-        Delegate?.UpdateCurrent()
+        Delegate?.UpdateCurrent(With: CurrentShape)
     }
     
     @IBAction func HandleApexCountChanged(_ sender: Any)
     {
         let Index = ApexSegment.selectedSegment + 4
         Settings.SetInteger(Index, ForKey: .StarApexCount)
-        Delegate?.UpdateCurrent()
+        Delegate?.UpdateCurrent(With: CurrentShape)
     }
     
     var CurrentShape: Shapes = .NoShape

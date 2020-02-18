@@ -156,7 +156,7 @@ class StackedShapesOptionCode: NSViewController, NSTableViewDelegate,
                 fatalError("Found unexpected shape: \(CurrentShape.rawValue)")
         }
         Settings.SetString(Final, ForKey: Key)
-        Delegate?.UpdateCurrent()
+        Delegate?.UpdateCurrent(With: CurrentShape)
     }
     
     func SetShape(_ Shape: Shapes)

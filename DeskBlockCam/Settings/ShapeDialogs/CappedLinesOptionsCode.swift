@@ -95,7 +95,7 @@ class CappedLinesOptionsCode: NSViewController, ToOptionsDialogProtocol
             default:
                 Settings.SetEnum(.Top, EnumType: CapLocations.self, ForKey: .CapLocation)
         }
-        Delegate?.UpdateCurrent()
+        Delegate?.UpdateCurrent(With: CurrentShape)
     }
     
     @IBAction func HandleShapeChanged(_ sender: Any)
@@ -105,7 +105,7 @@ class CappedLinesOptionsCode: NSViewController, ToOptionsDialogProtocol
             if let FinalShape = Shapes(rawValue: Shp)
             {
                 Settings.SetEnum(FinalShape, EnumType: Shapes.self, ForKey: .CapShape)
-                Delegate?.UpdateCurrent()
+                Delegate?.UpdateCurrent(With: CurrentShape)
             }
         }
     }

@@ -85,7 +85,7 @@ class RadiatingLinesOptionsCode: NSViewController, ToOptionsDialogProtocol
             default:
                 Settings.SetInteger(4, ForKey: .LineCount)
         }
-        Delegate?.UpdateCurrent()
+        Delegate?.UpdateCurrent(With: CurrentShape)
     }
     
     @IBAction func HandleLineThicknessChanged(_ sender: Any)
@@ -104,7 +104,7 @@ class RadiatingLinesOptionsCode: NSViewController, ToOptionsDialogProtocol
             default:
                 Settings.SetEnum(.Thin, EnumType: LineThickenesses.self, ForKey: .LineThickness)
         }
-        Delegate?.UpdateCurrent()
+        Delegate?.UpdateCurrent(With: CurrentShape)
     }
     
     var CurrentShape: Shapes = .NoShape

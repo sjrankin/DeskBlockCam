@@ -76,7 +76,7 @@ class DiamondOptionsCode: NSViewController, ToOptionsDialogProtocol
             default:
                 Settings.SetEnum(.Horizontal, EnumType: Orientations.self, ForKey: .DiamondOrientation)
         }
-        Delegate?.UpdateCurrent()
+        Delegate?.UpdateCurrent(With: CurrentShape)
     }
     
     @IBAction func HandleAxisSizeChanged(_ sender: Any)
@@ -95,7 +95,7 @@ class DiamondOptionsCode: NSViewController, ToOptionsDialogProtocol
             default:
                 Settings.SetEnum(.Short, EnumType: Distances.self, ForKey: .DiamondLength)
         }
-        Delegate?.UpdateCurrent()
+        Delegate?.UpdateCurrent(With: CurrentShape)
     }
     
     var CurrentShape: Shapes = .NoShape

@@ -49,7 +49,7 @@ class ConeOptionsCode: NSViewController, ToOptionsDialogProtocol
     @IBAction func HandleSwapTopBottomChanged(_ sender: Any)
     {
         Settings.SetBoolean(SwapTopBottomCheck.state == .on, ForKey: .ConeSwapTopBottom)
-        Delegate?.UpdateCurrent()
+        Delegate?.UpdateCurrent(With: CurrentShape)
     }
     
     @IBAction func HandleTopSizeChanged(_ sender: Any)
@@ -59,7 +59,7 @@ class ConeOptionsCode: NSViewController, ToOptionsDialogProtocol
             if let TopSize = ConeTopSizes(rawValue: Top)
             {
                 Settings.SetEnum(TopSize, EnumType: ConeTopSizes.self, ForKey: .ConeTopSize)
-                Delegate?.UpdateCurrent()
+                Delegate?.UpdateCurrent(With: CurrentShape)
             }
         }
     }
@@ -71,7 +71,7 @@ class ConeOptionsCode: NSViewController, ToOptionsDialogProtocol
             if let BottomSize = ConeBottomSizes(rawValue: Bottom)
             {
                 Settings.SetEnum(BottomSize, EnumType: ConeBottomSizes.self, ForKey: .ConeBottomSize)
-                Delegate?.UpdateCurrent()
+                Delegate?.UpdateCurrent(With: CurrentShape)
             }
         }
     }

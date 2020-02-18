@@ -65,7 +65,7 @@ class SphereOptionCode: NSViewController, ToOptionsDialogProtocol
             default:
                 Settings.SetEnum(.Size, EnumType: SphereBehaviors.self, ForKey: .SphereBehavior)
         }
-        Delegate?.UpdateCurrent()
+        Delegate?.UpdateCurrent(With: CurrentShape)
     }
     
     func SetShape(_ Shape: Shapes)

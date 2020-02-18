@@ -77,7 +77,7 @@ class BlockOptionsCode: NSViewController, ToOptionsDialogProtocol
             default:
                 Settings.SetEnum(.None, EnumType: BlockChamferSizes.self, ForKey: .BlockChamfer)
         }
-        Delegate?.UpdateCurrent() 
+        Delegate?.UpdateCurrent(With: CurrentShape) 
     }
     
     var CurrentShape: Shapes = .NoShape
