@@ -64,14 +64,9 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="File" id="bib-Uj-vzu">
                                     <items>
-                                        <menuItem title="New" keyEquivalent="n" id="Was-JA-tGl">
-                                            <connections>
-                                                <action selector="newDocument:" target="Ady-hI-5gd" id="4Si-XN-c54"/>
-                                            </connections>
-                                        </menuItem>
                                         <menuItem title="Open…" keyEquivalent="o" id="IAo-SY-fd9">
                                             <connections>
-                                                <action selector="openDocument:" target="Ady-hI-5gd" id="bVn-NM-KNZ"/>
+                                                <action selector="OpenFileFromMenu:" target="Ady-hI-5gd" id="OqD-DV-CMi"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Open Recent" id="tXI-mr-wws">
@@ -95,7 +90,7 @@
                                         </menuItem>
                                         <menuItem title="Save…" keyEquivalent="s" id="pxx-59-PXV">
                                             <connections>
-                                                <action selector="saveDocument:" target="Ady-hI-5gd" id="teZ-XB-qJY"/>
+                                                <action selector="SaveFileFromMenu:" target="Ady-hI-5gd" id="f3t-Re-6Tv"/>
                                             </connections>
                                         </menuItem>
                                     </items>
@@ -105,20 +100,14 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="Edit" id="W48-6f-4Dl">
                                     <items>
-                                        <menuItem title="Clear" id="uRl-iY-unG">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                            <connections>
-                                                <action selector="cut:" target="Ady-hI-5gd" id="YJe-68-I9s"/>
-                                            </connections>
-                                        </menuItem>
                                         <menuItem title="Copy" keyEquivalent="c" id="x3v-GG-iWU">
                                             <connections>
-                                                <action selector="copy:" target="Ady-hI-5gd" id="G1f-GL-Joy"/>
+                                                <action selector="CopyImageToPasteboardFromMenu:" target="Ady-hI-5gd" id="NqB-qB-fVc"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Paste" keyEquivalent="v" id="gVA-U4-sdL">
                                             <connections>
-                                                <action selector="paste:" target="Ady-hI-5gd" id="UvS-8e-Qdg"/>
+                                                <action selector="PasteImageFromPasteboardFromMenu:" target="Ady-hI-5gd" id="p7P-or-Gen"/>
                                             </connections>
                                         </menuItem>
                                     </items>
@@ -128,18 +117,6 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="View" id="HyV-fh-RgO">
                                     <items>
-                                        <menuItem title="Show Toolbar" keyEquivalent="t" id="snW-S8-Cw5">
-                                            <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
-                                            <connections>
-                                                <action selector="toggleToolbarShown:" target="Ady-hI-5gd" id="BXY-wc-z0C"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Customize Toolbar…" id="1UK-8n-QPP">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                            <connections>
-                                                <action selector="runToolbarCustomizationPalette:" target="Ady-hI-5gd" id="pQI-g3-MTW"/>
-                                            </connections>
-                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="XRM-4g-4Yx"/>
                                         <menuItem title="Mode" id="wMO-0v-iE4">
                                             <modifierMask key="keyEquivalentModifierMask"/>
