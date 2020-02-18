@@ -52,6 +52,8 @@
 		1750ADBA23FB6F1300D4EBB0 /* NotoSansSymbols2-Regular.ttf in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1750ADB923FB6F1300D4EBB0 /* NotoSansSymbols2-Regular.ttf */; };
 		1750ADBC23FB6F3400D4EBB0 /* NotoSans-Bold.ttf in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1750ADBB23FB6F3400D4EBB0 /* NotoSans-Bold.ttf */; };
 		1750ADBE23FB6F5500D4EBB0 /* NotoSansCJKkr-Black.otf in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1750ADBD23FB6F5500D4EBB0 /* NotoSansCJKkr-Black.otf */; };
+		1750ADC023FB817600D4EBB0 /* Save.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1750ADBF23FB817600D4EBB0 /* Save.swift */; };
+		1750ADC223FB86A700D4EBB0 /* Open.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1750ADC123FB86A700D4EBB0 /* Open.swift */; };
 		17609FC923F64E8E00391FFB /* +StatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17609FC823F64E8E00391FFB /* +StatusView.swift */; };
 		17609FCB23F65D5100391FFB /* StatusProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17609FCA23F65D5100391FFB /* StatusProtocol.swift */; };
 		17609FCE23F6611700391FFB /* Shrinker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17609FCD23F6611700391FFB /* Shrinker.swift */; };
@@ -82,7 +84,6 @@
 		17897B8523E6A77300AFDA6A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17897B8423E6A77300AFDA6A /* ViewController.swift */; };
 		17897B8723E6A77500AFDA6A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 17897B8623E6A77500AFDA6A /* Assets.xcassets */; };
 		17897B8A23E6A77500AFDA6A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 17897B8823E6A77500AFDA6A /* Main.storyboard */; };
-		17897B9323E6C74000AFDA6A /* LiveViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17897B9223E6C74000AFDA6A /* LiveViewer.swift */; };
 		17897B9723E6EB1D00AFDA6A /* ViewControllerWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17897B9623E6EB1D00AFDA6A /* ViewControllerWindow.swift */; };
 		17A446F523E7F40100D3C571 /* ImageReduction.metal in Sources */ = {isa = PBXBuildFile; fileRef = 17A446F423E7F40100D3C571 /* ImageReduction.metal */; };
 		17B31D4D23EFF18D00C69257 /* Generator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B31D4C23EFF18D00C69257 /* Generator.swift */; };
@@ -159,6 +160,8 @@
 		1750ADB923FB6F1300D4EBB0 /* NotoSansSymbols2-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansSymbols2-Regular.ttf"; sourceTree = "<group>"; };
 		1750ADBB23FB6F3400D4EBB0 /* NotoSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSans-Bold.ttf"; sourceTree = "<group>"; };
 		1750ADBD23FB6F5500D4EBB0 /* NotoSansCJKkr-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansCJKkr-Black.otf"; sourceTree = "<group>"; };
+		1750ADBF23FB817600D4EBB0 /* Save.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Save.swift; sourceTree = "<group>"; };
+		1750ADC123FB86A700D4EBB0 /* Open.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Open.swift; sourceTree = "<group>"; };
 		17609FC823F64E8E00391FFB /* +StatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+StatusView.swift"; sourceTree = "<group>"; };
 		17609FCA23F65D5100391FFB /* StatusProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusProtocol.swift; sourceTree = "<group>"; };
 		17609FCD23F6611700391FFB /* Shrinker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shrinker.swift; sourceTree = "<group>"; };
@@ -192,7 +195,6 @@
 		17897B8923E6A77500AFDA6A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		17897B8B23E6A77500AFDA6A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		17897B8C23E6A77500AFDA6A /* DeskBlockCam.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DeskBlockCam.entitlements; sourceTree = "<group>"; };
-		17897B9223E6C74000AFDA6A /* LiveViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveViewer.swift; sourceTree = "<group>"; };
 		17897B9623E6EB1D00AFDA6A /* ViewControllerWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerWindow.swift; sourceTree = "<group>"; };
 		17A446F423E7F40100D3C571 /* ImageReduction.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = ImageReduction.metal; sourceTree = "<group>"; };
 		17B31D4C23EFF18D00C69257 /* Generator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Generator.swift; sourceTree = "<group>"; };
@@ -406,8 +408,9 @@
 				1750ADB423FB6C1800D4EBB0 /* ShapeManagers.swift */,
 				178828A723E90E310041C2D1 /* PSCNNode.swift */,
 				1717201023EBD23100636F3C /* Pixellator.swift */,
+				1750ADBF23FB817600D4EBB0 /* Save.swift */,
+				1750ADC123FB86A700D4EBB0 /* Open.swift */,
 				17609FCD23F6611700391FFB /* Shrinker.swift */,
-				17897B9223E6C74000AFDA6A /* LiveViewer.swift */,
 				176E565223EBB50E0001215A /* HistogramDisplay.swift */,
 				17897B8B23E6A77500AFDA6A /* Info.plist */,
 				17897B8C23E6A77500AFDA6A /* DeskBlockCam.entitlements */,
@@ -532,6 +535,7 @@
 				178041C223F3D605006E40C1 /* DebugControllerCode.swift in Sources */,
 				176B898123F9039500EC708B /* CurrentCategory.swift in Sources */,
 				176E565323EBB50E0001215A /* HistogramDisplay.swift in Sources */,
+				1750ADC223FB86A700D4EBB0 /* Open.swift in Sources */,
 				172C06E623ED300D00313C3E /* StarOptionsCode.swift in Sources */,
 				176B898723F9436400EC708B /* ShapeOptionsCode2.swift in Sources */,
 				17452EC523FA24AD004888EB /* ContainerController.swift in Sources */,
@@ -567,7 +571,6 @@
 				1740A3C723EBE5E500E29C75 /* ProcessingAttributes.swift in Sources */,
 				17B31D5623EFFAAF00C69257 /* Enums.swift in Sources */,
 				177BF06223EE52CD00670F40 /* ColorSwatchItem.swift in Sources */,
-				17897B9323E6C74000AFDA6A /* LiveViewer.swift in Sources */,
 				17897B9723E6EB1D00AFDA6A /* ViewControllerWindow.swift in Sources */,
 				178041BB23F3D0E6006E40C1 /* ErrorMessageHandling.swift in Sources */,
 				170A110023F103AF003D0C1D /* ProgramSettingsWindowController.swift in Sources */,
@@ -575,6 +578,7 @@
 				1740A3D223EBEE6800E29C75 /* EllipseOptionalParameters.swift in Sources */,
 				1717201623EBE2D900636F3C /* Processor.swift in Sources */,
 				1740A3CE23EBEC5300E29C75 /* CappedLineOptionalParameters.swift in Sources */,
+				1750ADC023FB817600D4EBB0 /* Save.swift in Sources */,
 				172C06EA23ED307000313C3E /* RadiatingLinesOptionsCode.swift in Sources */,
 				173C245423ED28CB00270760 /* NoOptionsCode.swift in Sources */,
 				172C06E423ED2FE200313C3E /* DiamondOptionsCode.swift in Sources */,
