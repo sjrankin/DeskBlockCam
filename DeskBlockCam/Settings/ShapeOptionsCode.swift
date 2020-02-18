@@ -68,10 +68,9 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
     
     var AllShapes: [ShapeTreeNode]!
     
-    func UpdateCurrent()
+    func UpdateCurrent(With Shape: Shapes)
     {
-        let CurrentShape = Settings.GetEnum(ForKey: .Shape, EnumType: Shapes.self, Default: Shapes.Blocks)
-        UpdateShapeSettings(With: CurrentShape)
+        UpdateShapeSettings(With: Shape)
         UpdateHeightSettings()
         UpdateLiveViewSettings()
         UpdateLightSettings()
