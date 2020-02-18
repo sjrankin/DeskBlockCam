@@ -63,6 +63,58 @@ class BlockView: SCNView
         #endif
     }
     
+    func ColorProminence(_ Color: NSColor) -> CGFloat
+    {
+        switch Settings.GetEnum(ForKey: .HeightDetermination, EnumType: HeightDeterminations.self,
+                                Default: HeightDeterminations.Brightness)
+        {
+            case .Hue:
+                return Color.hueComponent
+            
+            case .Saturation:
+                return Color.saturationComponent
+            
+            case .Brightness:
+                return Color.brightnessComponent
+            
+            case .Red:
+                return Color.redComponent
+            
+            case .Green:
+                return Color.greenComponent
+            
+            case .Blue:
+                return Color.blueComponent
+            
+            case .Cyan:
+                return Color.cyanComponent
+            
+            case .Magenta:
+                return Color.magentaComponent
+            
+            case .Yellow:
+                return Color.yellowComponent
+            
+            case .Black:
+                return Color.blackComponent
+            
+            case .YUV_Y:
+                return Color.YUV.Y
+            
+            case .YUV_U:
+                return Color.YUV.U
+            
+            case .YUV_V:
+                return Color.YUV.V
+            
+            case .Greatest:
+                return max(Color.redComponent, Color.greenComponent, Color.blueComponent)
+            
+            case .Least:
+                return min(Color.redComponent, Color.greenComponent, Color.blueComponent)
+        }
+    }
+    
     /// Process the passed image then display the result.
     /// - Parameter Image: The image to process.
     /// - Parameter Options: Determines how the image is processd.
@@ -417,9 +469,23 @@ class BlockView: SCNView
     /// Return a prominence value used to determine size and/or Z location of individual shapes.
     /// - Parameter Color: The color whose prominence will be returned.
     /// - Returns: A value to use for setting size and/or Z location of shapes.
-    func ColorProminence(_ Color: NSColor) -> CGFloat
+    func LiveViewColorProminence(_ Color: NSColor) -> CGFloat
     {
-        return Color.brightnessComponent
+        switch Settings.GetEnum(ForKey: .LiveViewHeight, EnumType: HeightDeterminations.self,
+                                Default: HeightDeterminations.Brightness)
+        {
+            case .Hue:
+                return Color.hueComponent
+            
+            case .Saturation:
+                return Color.saturationComponent
+            
+            case .Brightness:
+                return Color.brightnessComponent
+            
+            default:
+                return Color.brightnessComponent
+        }
     }
     
     /// Udpate existing nodes with new colors.
@@ -439,7 +505,7 @@ class BlockView: SCNView
                 {
                     let Node = SomeNode as! PSCNNode
                     let Color = Colors[Node.Y][Node.X]
-                    let Prominence = ColorProminence(Color)
+                    let Prominence = LiveViewColorProminence(Color)
                     Node.SetProminence(Double(Prominence))
                     switch CurrentLiveViewNodeShape
                     {
@@ -627,4 +693,32 @@ class BlockView: SCNView
     var CurrentLiveViewNodeShape = Shapes.NoShape
     /// The master node for live view mode.
     var LiveViewMasterNode: SCNNode? = nil
+}
+
+extension NSColor
+{
+    /// Returns the YUV equivalent of the instance color, in Y, U, V order.
+    /// - See
+    ///   - [YUV](https://en.wikipedia.org/wiki/YUV)
+    ///   - [FourCC YUV to RGB Conversion](http://www.fourcc.org/fccyvrgb.php)
+    var YUV: (Y: CGFloat, U: CGFloat, V: CGFloat)
+    {
+        get
+        {
+            let Wr: CGFloat = 0.299
+            let Wg: CGFloat = 0.587
+            let Wb: CGFloat = 0.114
+            let Umax: CGFloat = 0.436
+            let Vmax: CGFloat = 0.615
+            var Red: CGFloat = 0.0
+            var Green: CGFloat = 0.0
+            var Blue: CGFloat = 0.0
+            var Alpha: CGFloat = 0.0
+            self.getRed(&Red, green: &Green, blue: &Blue, alpha: &Alpha)
+            let Y = (Wr * Red) + (Wg * Green) + (Wb * Blue)
+            let U = Umax * ((Blue - Y) / (1.0 - Wb))
+            let V = Vmax * ((Red - Y) / (1.0 - Wr))
+            return (Y, U, V)
+        }
+    }
 }
