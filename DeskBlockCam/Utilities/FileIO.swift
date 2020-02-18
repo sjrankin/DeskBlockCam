@@ -93,6 +93,17 @@ class FileIO
         return Image.Write(To: FinalName)
     }
     
+    /// Save an image to the specified URL. If a file with the same name already exists, it will be
+    /// overwritten.
+    /// - Note: Images are saved in .png format.
+    /// - Parameter Image: The image to save.
+    /// - Parameter At: The URL of where to save the image.
+    /// - Returns: True on success, false on failure.
+    public static func SaveImage(_ Image: NSImage, At FileURL: URL) -> Bool
+    {
+        return Image.Write(To: FileURL.path)
+    }
+    
     /// Remove all items in the frames directory.
     /// - Returns: True on success, false on failure.
     @discardableResult public static func ClearFramesDirectory() -> Bool
