@@ -61,9 +61,6 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         {
             OpenOptionsWindow(self)
         }
-        #if false
-        OpenProcessedWindow()
-        #endif
         
         ResetStatus()
         
@@ -350,14 +347,14 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
             {
                 self.OriginalImageView.layerContentsPlacement = .scaleProportionallyToFill
                 self.OriginalImageView.layerContentsRedrawPolicy = .duringViewResize
-//                self.LiveView.layerContentsPlacement = .scaleProportionallyToFill
-//                self.LiveView.layerContentsRedrawPolicy = .duringViewResize
+                //                self.LiveView.layerContentsPlacement = .scaleProportionallyToFill
+                //                self.LiveView.layerContentsRedrawPolicy = .duringViewResize
                 self.VideoPreviewLayer = AVCaptureVideoPreviewLayer(session: self.CaptureSession)
                 self.VideoPreviewLayer.name = "VideoLayer"
                 self.VideoPreviewLayer.videoGravity = .resizeAspect
                 self.VideoPreviewLayer.connection?.videoOrientation = .portrait
                 self.OriginalImageView.layer?.addSublayer(self.VideoPreviewLayer)
-//                self.LiveView.layer?.addSublayer(self.VideoPreviewLayer)
+                //                self.LiveView.layer?.addSublayer(self.VideoPreviewLayer)
         }
         DispatchQueue.global(qos: .userInitiated).async
             {
@@ -421,11 +418,19 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
     }
     
     /// Capture a still image from the camera view.
+    /// - Note: For the duration of the save dialog existence, input processing will be paused.
     /// - Parameter sender: Not used.
     @IBAction func HandleCameraButton(_ sender: Any)
     {
         let Settings = AVCapturePhotoSettings(format: [AVVideoCodecKey: AVVideoCodecType.jpeg])
         StillImageOutput.capturePhoto(with: Settings, delegate: self)
+        let Image = ProcessedImage.Snapshot()
+        CameraIsPaused = true
+        if let SaveWhere = GetSaveImageLocation()
+        {
+            print ("File name is \(SaveWhere.path)")
+        }
+        CameraIsPaused = false
     }
     
     /// Holds the last frame time. This is used with a throttle value to ensure we don't overwhelm
@@ -450,6 +455,11 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
             LastFrameTime = Now
         }
         else
+        {
+            return
+        }
+        
+        if CameraIsPaused
         {
             return
         }
@@ -490,6 +500,8 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
                 }
         }
     }
+    
+    var CameraIsPaused = false
     
     /// Get the rolling mean for the processed view creation time per frame.
     /// - Returns: Rolling mean (as determined by `RollingWindow`) for the most recent set of
@@ -544,6 +556,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
     /// Clear the frames directory.
     func WillClose()
     {
+        StopCamera()
         if let Settings = SettingsWindow
         {
             Settings.CloseWindow()
@@ -605,6 +618,69 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         {
             WindowController.showWindow(nil)
             MainSettings = WindowController
+        }
+    }
+    
+    @IBAction func OpenFileFromMenu(_ sender: Any)
+    {
+        CameraIsPaused = true
+        if let ImageURL = GetImageFileToOpen()
+        {
+            print("Load image at \(ImageURL.path)")
+            StopCamera()
+        }
+        else
+        {
+            CameraIsPaused = false
+        }
+    }
+    
+    @IBAction func SaveFileFromMenu(_ sender: Any)
+    {
+        let SaveMe = ProcessedImage.Snapshot()
+        CameraIsPaused = true
+        if let SaveURL = GetSaveImageLocation()
+        {
+            let OK = FileIO.SaveImage(SaveMe, At: SaveURL)
+            if !OK
+            {
+                print("Error saving image at \(SaveURL.path)")
+            }
+        }
+        CameraIsPaused = false
+    }
+    
+    @IBAction func CopyImageToPasteboardFromMenu(_ sender: Any)
+    {
+        let PasteMe = ProcessedImage.Snapshot()
+        let Clipboard = NSPasteboard.general
+        Clipboard.clearContents()
+        let IData = PasteMe.tiffRepresentation
+        let CopiedOK = Clipboard.setData(IData, forType: NSPasteboard.PasteboardType.tiff)
+        //let CopiedOK = Clipboard.writeObjects([PasteMe])
+        if !CopiedOK
+        {
+            print("Error copying image.")
+        }
+        print("Clipboard count: \(Clipboard.pasteboardItems!.count)")
+    }
+    
+    @IBAction func PasteImageFromPasteboardFromMenu(_ sender: Any)
+    {
+        let Clipboard = NSPasteboard.general
+        let DataType = NSPasteboard.PasteboardType.tiff
+        guard let ImageData = Clipboard.data(forType: DataType) else
+        {
+            print("No image to copy from the pasteboard")
+            return
+        }
+        if let PastedImage = NSImage(data: ImageData)
+        {
+            print("Got image from pasteboard")
+        }
+        else
+        {
+            print("Bad image pasted.")
         }
     }
     
