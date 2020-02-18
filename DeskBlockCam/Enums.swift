@@ -143,9 +143,44 @@ enum LineThickenesses: String, CaseIterable
 
 enum CharacterSets: String, CaseIterable
 {
-    case Latin = "Latin"
+    /// Flower shapes.
+    case Flowers = "Flowers"
+    /// Snowflake (or snow-related) shapes.
+    case Snowflakes = "Snowflakes"
+    /// Arrow shapes.
+    case Arrows = "Arrows"
+    /// Small geometric figures.
+    case SmallGeometry = "Small Geometric Shapes"
+    /// Star and sun shapes.
+    case Stars = "Stars"
+    /// Ornamental characters.
+    case Ornamental = "Ornamental"
+    /// Miscellaneous things.
+    case Things = "Things"
+    /// Comptuer-related shapes.
+    case Computers = "Computer-Related"
+    /// Hiragana characters.
     case Hiragana = "Hiragana"
+    /// Katakana characters.
     case Katakana = "Katakana"
+    /// Grade school kanji.
+    case KyoikuKanji = "Grade School Kanji"//"Kyōiku Kanji"
+    /// Hangul characters.
+    case Hangul = "Hangul"
+    /// Bodoni ornaments.
+    case Bodoni = "Bodoni Ornaments"
+    /// Latin characters.
+    case Latin = "Latin Letters"
+    /// Greek characters.
+    case Greek = "Greek Letters"
+    /// Cyrillic characters.
+    case Cyrillic = "Cyrillic Letters"
+    /// Emoji charactes.
+    case Emoji = "Emoji"
+    /// Punctuation marks.
+    case Punctuation = "Punctuation"
+    /// Symbols used to draw boxes.
+    case BoxSymbols = "Box Symbols"
 }
 
 enum ConeTopSizes: String, CaseIterable
