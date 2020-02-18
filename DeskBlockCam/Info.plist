@@ -2,6 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSDocumentsFolderUsageDescription</key>
+	<string>BlockCam would like to store files in your Documents folder.</string>
+	<key>LSApplicationCategoryType</key>
+	<string>public.app-category.photography</string>
+	<key>CFBundleGetInfoString</key>
+	<string>Desktop version of BlockCam image processor.</string>
 	<key>ATSApplicationFontsPath</key>
 	<string>.</string>
 	<key>NSCameraUsageDescription</key>
