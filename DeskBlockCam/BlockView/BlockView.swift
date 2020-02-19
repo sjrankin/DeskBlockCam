@@ -139,10 +139,18 @@ class BlockView: SCNView
         }
     }
     
+    func ProcessImage(_ Image: NSImage, Options: ProcessingAttributes)
+    {
+        DispatchQueue.global(qos: .background).async
+            {
+                self.DoProcessImage(Image, Options: Options)
+        }
+    }
+    
     /// Process the passed image then display the result.
     /// - Parameter Image: The image to process.
     /// - Parameter Options: Determines how the image is processd.
-    func ProcessImage(_ Image: NSImage, Options: ProcessingAttributes)
+    func DoProcessImage(_ Image: NSImage, Options: ProcessingAttributes)
     {
         StatusDelegate?.UpdateStatus(With: .ResetStatus)
         let Start = CACurrentMediaTime()
@@ -212,10 +220,13 @@ class BlockView: SCNView
             Completed in
             if Completed
             {
+                DispatchQueue.main.async
+                    {
                 self.scene?.rootNode.addChildNode(self.MasterNode!)
                 self.StatusDelegate?.UpdateStatus(With: .AddingDone)
                 let AfterAdded = CACurrentMediaTime() - Start
                 self.StatusDelegate?.FinalizeDuration(WithDuration: AfterAdded)
+                }
             }
         }
     }
@@ -468,13 +479,21 @@ class BlockView: SCNView
     /// Lock for processing the live view.
     var CloseLock = NSObject()
     
+    public func ProcessLiveView(_ Source: CIImage, _ FrameIndex: Int)
+    {
+        DispatchQueue.global(qos: .background).async
+            {
+                self.DoProcessLiveView(Source, FrameIndex)
+        }
+    }
+    
     /// Process the passed image. This function works on the assumption the image is from a camera
     /// stream.
     /// - Note: Due to performance constrains when processing live views, only a small subset of
     ///         shapes are supported.
     /// - Parameter Source: The image to processed.
     /// - Parameter FrameIndex: Not currently used.
-    public func ProcessLiveView(_ Source: CIImage, _ FrameIndex: Int)
+    public func DoProcessLiveView(_ Source: CIImage, _ FrameIndex: Int)
     {
         objc_sync_enter(CloseLock)
         defer{ objc_sync_exit(CloseLock) }
