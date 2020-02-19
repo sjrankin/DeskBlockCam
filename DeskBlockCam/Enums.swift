@@ -276,3 +276,12 @@ enum BasicColors: String, CaseIterable
     case Brown2 = "Brown 2"
     case Teal = "Teal"
 }
+
+enum AntialiasingModes: String, CaseIterable
+{
+    case None = "None"
+    case x2 = "2x"
+    case x4 = "4x"
+    case x8 = "8x"
+    case x16 = "16x"
+}
