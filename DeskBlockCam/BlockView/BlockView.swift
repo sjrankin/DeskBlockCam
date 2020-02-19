@@ -115,6 +115,30 @@ class BlockView: SCNView
         }
     }
     
+    /// Sets the antialiasing mode for the view using stored user defaults.
+    func SetAntialiasing()
+    {
+        let AAMode = Settings.GetEnum(ForKey: .Antialiasing, EnumType: AntialiasingModes.self,
+                                      Default: AntialiasingModes.x4)
+        switch AAMode
+        {
+            case .None:
+                self.antialiasingMode = .none
+            
+            case .x2:
+                self.antialiasingMode = .multisampling2X
+            
+            case .x4:
+                self.antialiasingMode = .multisampling4X
+            
+            case .x8:
+                self.antialiasingMode = .multisampling8X
+            
+            case .x16:
+                self.antialiasingMode = .multisampling16X
+        }
+    }
+    
     /// Process the passed image then display the result.
     /// - Parameter Image: The image to process.
     /// - Parameter Options: Determines how the image is processd.
@@ -122,6 +146,7 @@ class BlockView: SCNView
     {
         StatusDelegate?.UpdateStatus(With: .ResetStatus)
         let Start = CACurrentMediaTime()
+         SetAntialiasing()
         StatusDelegate?.UpdateDuration(NewDuration: 0.0)
         StatusDelegate?.UpdateStatus(With: .PreparingImage)
         ClearScene()
