@@ -27,6 +27,10 @@ class StackedShapesOptionCode: NSViewController, NSTableViewDelegate,
     
     func InitializeTable()
     {
+        if CurrentShape == .NoShape
+        {
+            return
+        }
         var RawShapeList: String = ""
         switch CurrentShape
         {
@@ -162,6 +166,7 @@ class StackedShapesOptionCode: NSViewController, NSTableViewDelegate,
     func SetShape(_ Shape: Shapes)
     {
         CurrentShape = Shape
+        InitializeTable()
     }
     
     var CurrentShape: Shapes = .NoShape
