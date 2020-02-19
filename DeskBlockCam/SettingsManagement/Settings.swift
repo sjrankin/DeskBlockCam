@@ -63,6 +63,8 @@ class Settings
         UserDefaults.standard.set(LightingTypes.Omni.rawValue, forKey: SettingKeys.LightType.rawValue)
         UserDefaults.standard.set(LightIntensities.Normal.rawValue, forKey: SettingKeys.LightIntensity.rawValue)
         UserDefaults.standard.set(LightModels.Lambert.rawValue, forKey: SettingKeys.LightModel.rawValue)
+        UserDefaults.standard.set(AntialiasingModes.x4.rawValue, forKey: SettingKeys.Antialiasing.rawValue)
+        
         UserDefaults.standard.set(BlockChamferSizes.None.rawValue, forKey: SettingKeys.BlockChamfer.rawValue)
         UserDefaults.standard.set(Orientations.Horizontal.rawValue, forKey: SettingKeys.OvalOrientation.rawValue)
         UserDefaults.standard.set(Distances.Medium.rawValue, forKey: SettingKeys.OvalLength.rawValue)
@@ -92,6 +94,20 @@ class Settings
         UserDefaults.standard.set(SphereBehaviors.Size.rawValue, forKey: SettingKeys.SphereBehavior.rawValue)
         UserDefaults.standard.set(DonutHoleSizes.Medium.rawValue, forKey: SettingKeys.DonutHoleSize.rawValue)
         UserDefaults.standard.set(RingOrientations.Flat.rawValue, forKey: SettingKeys.RingOrientation.rawValue)
+        UserDefaults.standard.set(1, forKey: SettingKeys.NextSequentialInteger.rawValue)
+        UserDefaults.standard.set(9999, forKey: SettingKeys.LoopSequentialIntegerAfter.rawValue)
+        UserDefaults.standard.set(1, forKey: SettingKeys.StartSequentialIntegerAt.rawValue)
+        
+
+        #if DEBUG
+        UserDefaults.standard.set(true, forKey: SettingKeys.AddUserDataToExif.rawValue)
+        UserDefaults.standard.set("Stuart Rankin", forKey: SettingKeys.UserName.rawValue)
+        UserDefaults.standard.set("CC by Attribution", forKey: SettingKeys.UserCopyright.rawValue)
+        #else
+        UserDefaults.standard.set(false, forKey: SettingKeys.AddUserDataToExif.rawValue)
+        UserDefaults.standard.set("", forKey: SettingKeys.UserName.rawValue)
+        UserDefaults.standard.set("", forKey: SettingKeys.UserCopyright.rawValue)
+        #endif
     }
     
     /// Add a subscriber to the notification list. Each subscriber is called just before a setting is committed and just after
@@ -542,7 +558,8 @@ class Settings
             .ShowHistogram,
             .AutoOpenShapeSettings,
             .SwitchModesWithDroppedImages,
-            .AutoOpenProcessedView
+            .AutoOpenProcessedView,
+            .AddUserDataToExif
     ]
     
     /// Contains a list of all integer-type fields.
@@ -553,7 +570,10 @@ class Settings
             .LightColor,
             .StarApexCount,
             .LineCount,
-            .ShapeSize
+            .ShapeSize,
+            .NextSequentialInteger,
+            .LoopSequentialIntegerAfter,
+            .StartSequentialIntegerAt
     ]
     
     /// Contains a list of all string-type fields.
@@ -591,6 +611,9 @@ class Settings
             .CharacterSet,
             .DonutHoleSize,
             .RingOrientation,
+            .UserCopyright,
+            .UserName,
+            .Antialiasing
     ]
     
     /// Contains a list of all double-type fields.
@@ -729,6 +752,8 @@ enum SettingKeys: String, CaseIterable, Comparable, Hashable
     case LightIntensity = "LightIntensity"
     /// String/Enum: Light material model.
     case LightModel = "LightModel"
+    /// String/Enum: Holds the antialiasing mode.
+    case Antialiasing = "Antialiasing"
     
     //Live view settings.
     /// String/Enum. The shape to use for live views.
@@ -747,6 +772,22 @@ enum SettingKeys: String, CaseIterable, Comparable, Hashable
     case SwitchModesWithDroppedImages = "SwitchModesWithDroppedImages"
     /// Bool: Automatically open the processed view window when switching to live view.
     case AutoOpenProcessedView = "AutoOpenProcessedView"
+    
+    //Sequential integers.
+    /// Integer: The next available sequential integer.
+    case NextSequentialInteger = "NextSequentialInteger"
+    /// Integer: When to wrap around the set of sequential integers.
+    case LoopSequentialIntegerAfter = "LoopSequentialIntegerAfter"
+    /// Integer: Where to start sequential integers after wrapping around.
+    case StartSequentialIntegerAt = "StartSequentialIntegerAt"
+    
+    //EXIF and privacy settings.
+    /// Boolean: If true, user-related data is saved to images.
+    case AddUserDataToExif = "AddUserDataToExif"
+    /// String: User copyright information.
+    case UserCopyright = "UserCopyright"
+    /// String: User name.
+    case UserName = "UserName"
 }
 
 /// Types of setting data recognized by the SettingsManager.
