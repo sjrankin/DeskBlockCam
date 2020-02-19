@@ -285,17 +285,14 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="KJv-j4-dpv">
-                                <rect key="frame" x="18" y="193" width="236" height="16"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" title="Copyright © 2019, 2020 Stuart Rankin" id="Thi-hi-B3S">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="48r-EA-8eN">
-                                <rect key="frame" x="20" y="227" width="72" height="16"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" title="Version 0.9" id="x7Z-89-8BQ">
+                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="Wro-KE-WpN">
+                                <rect key="frame" x="18" y="75" width="462" height="157"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="157" id="2cE-TM-nVg"/>
+                                    <constraint firstAttribute="height" constant="157" id="CGC-BP-9is"/>
+                                    <constraint firstAttribute="width" constant="458" id="mbo-BM-aD5"/>
+                                </constraints>
+                                <textFieldCell key="cell" selectable="YES" title="Multiline Label" id="6As-w0-t5g">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -305,14 +302,16 @@
                         <constraints>
                             <constraint firstItem="cYj-An-tEk" firstAttribute="leading" secondItem="zew-PX-Iv3" secondAttribute="leading" constant="20" symbolic="YES" id="9Fq-ry-fTo"/>
                             <constraint firstAttribute="bottom" secondItem="d3W-dM-fGd" secondAttribute="bottom" constant="20" symbolic="YES" id="CDa-rL-c0D"/>
-                            <constraint firstItem="cYj-An-tEk" firstAttribute="leading" secondItem="KJv-j4-dpv" secondAttribute="leading" id="DmY-Gt-wGE"/>
+                            <constraint firstItem="Wro-KE-WpN" firstAttribute="centerX" secondItem="d3W-dM-fGd" secondAttribute="centerX" id="OqN-x4-XGr"/>
                             <constraint firstItem="d3W-dM-fGd" firstAttribute="centerX" secondItem="zew-PX-Iv3" secondAttribute="centerX" id="QuT-sR-7lz"/>
                             <constraint firstItem="cYj-An-tEk" firstAttribute="top" secondItem="zew-PX-Iv3" secondAttribute="top" constant="20" symbolic="YES" id="WQY-ox-9UL"/>
-                            <constraint firstItem="KJv-j4-dpv" firstAttribute="top" secondItem="48r-EA-8eN" secondAttribute="bottom" constant="18" id="b4a-tQ-EbW"/>
-                            <constraint firstItem="48r-EA-8eN" firstAttribute="leading" secondItem="zew-PX-Iv3" secondAttribute="leading" constant="22" id="tNk-uP-G9n"/>
-                            <constraint firstItem="48r-EA-8eN" firstAttribute="top" secondItem="cYj-An-tEk" secondAttribute="bottom" constant="8" symbolic="YES" id="uGE-DW-Trn"/>
+                            <constraint firstAttribute="trailing" secondItem="Wro-KE-WpN" secondAttribute="trailing" constant="20" symbolic="YES" id="cbw-M4-AwJ"/>
+                            <constraint firstItem="Wro-KE-WpN" firstAttribute="top" secondItem="cYj-An-tEk" secondAttribute="bottom" constant="19" id="jjB-lM-G9j"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="VersionBlock" destination="Wro-KE-WpN" id="IWP-JM-CuE"/>
+                    </connections>
                 </viewController>
                 <customObject id="Kiv-EK-hr8" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -736,6 +735,135 @@
                                             </constraints>
                                         </view>
                                     </tabViewItem>
+                                    <tabViewItem label="Privacy" identifier="" id="Jeg-Eq-7Pt">
+                                        <view key="view" id="QE7-wN-XIS">
+                                            <rect key="frame" x="10" y="33" width="687" height="274"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <subviews>
+                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5v6-Ob-CqF">
+                                                    <rect key="frame" x="15" y="255" width="255" height="18"/>
+                                                    <buttonCell key="cell" type="check" title="Save metadata with processed images" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="2Yb-xO-ffN">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                    <connections>
+                                                        <action selector="HandleSaveMetadataChanged:" target="2rF-AQ-BcH" id="xIA-dN-wJc"/>
+                                                    </connections>
+                                                </button>
+                                                <box boxType="custom" cornerRadius="4" title="Box" translatesAutoresizingMaskIntoConstraints="NO" id="TOt-Mf-jGg">
+                                                    <rect key="frame" x="464" y="17" width="215" height="254"/>
+                                                    <view key="contentView" id="PB3-tg-3O9">
+                                                        <rect key="frame" x="1" y="1" width="213" height="252"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                        <subviews>
+                                                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="X9a-T3-yNm">
+                                                                <rect key="frame" x="7" y="7" width="199" height="239"/>
+                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                <textFieldCell key="cell" selectable="YES" id="u1e-nx-FFV">
+                                                                    <font key="font" metaFont="system" size="16"/>
+                                                                    <string key="title">BlockCam will not transmit your personal information anywhere without your explicit consent, and only as metadata in saved images. If you disable saving metadata, no pesonal information is saved. You retain all copyrights of images you take and/or process with BlockCam.</string>
+                                                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                </textFieldCell>
+                                                            </textField>
+                                                        </subviews>
+                                                    </view>
+                                                </box>
+                                                <box title="User Name" translatesAutoresizingMaskIntoConstraints="NO" id="qM8-MK-0bT">
+                                                    <rect key="frame" x="14" y="150" width="433" height="88"/>
+                                                    <view key="contentView" id="ZQk-nW-hib">
+                                                        <rect key="frame" x="3" y="3" width="427" height="70"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                        <subviews>
+                                                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XNw-TV-dy6">
+                                                                <rect key="frame" x="11" y="48" width="330" height="18"/>
+                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                <buttonCell key="cell" type="check" title="Include your name with processed image metadata" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="6lt-B7-K7M">
+                                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                    <font key="font" metaFont="system"/>
+                                                                </buttonCell>
+                                                                <connections>
+                                                                    <action selector="HandleNameCheckChanged:" target="2rF-AQ-BcH" id="YRS-1a-Kg7"/>
+                                                                </connections>
+                                                            </button>
+                                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HwM-BU-6CR">
+                                                                <rect key="frame" x="13" y="20" width="40" height="16"/>
+                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                <textFieldCell key="cell" lineBreakMode="clipping" title="Name" id="hOL-SM-Y4a">
+                                                                    <font key="font" metaFont="system"/>
+                                                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                </textFieldCell>
+                                                            </textField>
+                                                            <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TMZ-Hh-9j2">
+                                                                <rect key="frame" x="59" y="17" width="358" height="21"/>
+                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="tQe-UR-kVC">
+                                                                    <font key="font" metaFont="system"/>
+                                                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                </textFieldCell>
+                                                            </textField>
+                                                        </subviews>
+                                                    </view>
+                                                </box>
+                                                <box title="Copyright" translatesAutoresizingMaskIntoConstraints="NO" id="UNK-8C-yeh">
+                                                    <rect key="frame" x="14" y="51" width="433" height="88"/>
+                                                    <view key="contentView" id="hAy-jb-bq2">
+                                                        <rect key="frame" x="3" y="3" width="427" height="70"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                        <subviews>
+                                                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fPA-PB-RT5">
+                                                                <rect key="frame" x="11" y="48" width="351" height="18"/>
+                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                <buttonCell key="cell" type="check" title="Include copyright text with processed image metadata" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="SvA-jl-NQ6">
+                                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                    <font key="font" metaFont="system"/>
+                                                                </buttonCell>
+                                                                <connections>
+                                                                    <action selector="HandleCopyrightCheckChanged:" target="2rF-AQ-BcH" id="LgB-aa-lJa"/>
+                                                                </connections>
+                                                            </button>
+                                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6i6-Es-jdA">
+                                                                <rect key="frame" x="13" y="20" width="64" height="16"/>
+                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                <textFieldCell key="cell" lineBreakMode="clipping" title="Copyright" id="b3N-ip-DWp">
+                                                                    <font key="font" metaFont="system"/>
+                                                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                </textFieldCell>
+                                                            </textField>
+                                                            <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lvo-97-Fbl">
+                                                                <rect key="frame" x="88" y="17" width="329" height="21"/>
+                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="Kk3-Nt-VjA">
+                                                                    <font key="font" metaFont="system"/>
+                                                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                </textFieldCell>
+                                                            </textField>
+                                                        </subviews>
+                                                    </view>
+                                                </box>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="TOt-Mf-jGg" firstAttribute="leading" secondItem="qM8-MK-0bT" secondAttribute="trailing" constant="20" symbolic="YES" id="7RA-sR-5LP"/>
+                                                <constraint firstItem="qM8-MK-0bT" firstAttribute="top" secondItem="5v6-Ob-CqF" secondAttribute="bottom" constant="19" id="9OF-kE-so1"/>
+                                                <constraint firstAttribute="bottom" secondItem="UNK-8C-yeh" secondAttribute="bottom" constant="55" id="BM0-q8-Gdm"/>
+                                                <constraint firstItem="5v6-Ob-CqF" firstAttribute="top" secondItem="QE7-wN-XIS" secondAttribute="top" constant="3" id="S2J-iZ-DS5"/>
+                                                <constraint firstItem="UNK-8C-yeh" firstAttribute="top" secondItem="QE7-wN-XIS" secondAttribute="top" constant="135" id="WuO-JL-PUA"/>
+                                                <constraint firstItem="5v6-Ob-CqF" firstAttribute="leading" secondItem="qM8-MK-0bT" secondAttribute="leading" id="ZX1-Fg-uxl"/>
+                                                <constraint firstItem="qM8-MK-0bT" firstAttribute="leading" secondItem="UNK-8C-yeh" secondAttribute="leading" id="aOt-QH-0EY"/>
+                                                <constraint firstItem="5v6-Ob-CqF" firstAttribute="top" secondItem="TOt-Mf-jGg" secondAttribute="top" id="aXQ-ZD-gpb"/>
+                                                <constraint firstItem="TOt-Mf-jGg" firstAttribute="leading" secondItem="UNK-8C-yeh" secondAttribute="trailing" constant="20" symbolic="YES" id="caf-He-KgL"/>
+                                                <constraint firstAttribute="trailing" secondItem="TOt-Mf-jGg" secondAttribute="trailing" constant="8" id="g6k-ym-P5M"/>
+                                                <constraint firstItem="UNK-8C-yeh" firstAttribute="top" secondItem="qM8-MK-0bT" secondAttribute="bottom" constant="15" id="g8d-E8-Dcr"/>
+                                                <constraint firstAttribute="bottom" secondItem="TOt-Mf-jGg" secondAttribute="bottom" constant="17" id="jmm-cS-toQ"/>
+                                                <constraint firstItem="5v6-Ob-CqF" firstAttribute="leading" secondItem="QE7-wN-XIS" secondAttribute="leading" constant="17" id="tG2-Ts-nZ0"/>
+                                                <constraint firstItem="TOt-Mf-jGg" firstAttribute="leading" secondItem="QE7-wN-XIS" secondAttribute="leading" constant="464" id="u8G-6N-gaZ"/>
+                                            </constraints>
+                                        </view>
+                                    </tabViewItem>
                                 </tabViewItems>
                             </tabView>
                         </subviews>
@@ -749,14 +877,19 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="CopyrightTextBox" destination="lvo-97-Fbl" id="FIc-CS-cIA"/>
+                        <outlet property="IncludeCopyrightCheck" destination="fPA-PB-RT5" id="v30-PX-n8f"/>
+                        <outlet property="IncludeNameCheck" destination="XNw-TV-dy6" id="lKe-zV-RUj"/>
+                        <outlet property="NameTextBox" destination="TMZ-Hh-9j2" id="m3n-5R-0B1"/>
                         <outlet property="OpenShapeOptionsCheck" destination="Y50-RI-ux1" id="0BX-PW-OtR"/>
+                        <outlet property="SaveMetadataCheck" destination="5v6-Ob-CqF" id="iEL-lx-yxN"/>
                         <outlet property="ShowHistogramCheck" destination="p82-0Q-dfB" id="z1l-sf-Knu"/>
                         <outlet property="SwitchOnDropCheck" destination="Hd4-ep-nKi" id="Ow6-6N-1Sp"/>
                     </connections>
                 </viewController>
                 <customObject id="G0G-m9-Sg3" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-165" y="2163"/>
+            <point key="canvasLocation" x="-165.5" y="2162.5"/>
         </scene>
     </scenes>
     <resources>
