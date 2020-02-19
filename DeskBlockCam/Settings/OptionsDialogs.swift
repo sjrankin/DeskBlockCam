@@ -29,9 +29,9 @@ extension ShapeOptionsCode
                 (OptionMap[Shapes.Blocks]!.Controller as? BlockOptionsCode)?.SetShape(.Blocks)
             
             case .BrightnessVarying:
-                (OptionMap[Shapes.StackedShapes]!.Controller as? StackedShapesOptionCode)?.SetShape(.BrightnessVarying)
-                (OptionMap[Shapes.StackedShapes]!.Controller as? StackedShapesOptionCode)?.SetAttributes(CurrentAttributes)
-                (OptionMap[Shapes.StackedShapes]!.Controller as? StackedShapesOptionCode)?.SetCaption("Sets the shape based on the brightness of the location of the shape. Shapes are distributed equally in the brightness range.")
+                (OptionMap[Shapes.BrightnessVarying]!.Controller as? StackedShapesOptionCode)?.SetShape(.BrightnessVarying)
+                (OptionMap[Shapes.BrightnessVarying]!.Controller as? StackedShapesOptionCode)?.SetAttributes(CurrentAttributes)
+                (OptionMap[Shapes.BrightnessVarying]!.Controller as? StackedShapesOptionCode)?.SetCaption("Sets the shape based on the brightness of the location of the shape. Shapes are distributed equally in the brightness range.")
             
             case .CappedLines:
                 (OptionMap[Shapes.CappedLines]!.Controller as? CappedLinesOptionsCode)?.SetShape(.CappedLines)
