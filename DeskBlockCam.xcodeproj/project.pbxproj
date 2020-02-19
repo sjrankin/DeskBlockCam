@@ -15,6 +15,9 @@
 		1717201123EBD23100636F3C /* Pixellator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1717201023EBD23100636F3C /* Pixellator.swift */; };
 		1717201323EBDF1600636F3C /* BlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1717201223EBDF1600636F3C /* BlockView.swift */; };
 		1717201623EBE2D900636F3C /* Processor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1717201523EBE2D900636F3C /* Processor.swift */; };
+		1721035F23FCC6140096F778 /* MetadataWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1721035E23FCC6140096F778 /* MetadataWriter.swift */; };
+		1721036123FCCC910096F778 /* Versioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1721036023FCCC910096F778 /* Versioning.swift */; };
+		1721036423FCD2250096F778 /* CurrentSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1721036323FCD2250096F778 /* CurrentSettings.swift */; };
 		172C06E223ED2F9000313C3E /* OvalOptionsCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172C06E123ED2F9000313C3E /* OvalOptionsCode.swift */; };
 		172C06E423ED2FE200313C3E /* DiamondOptionsCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172C06E323ED2FE200313C3E /* DiamondOptionsCode.swift */; };
 		172C06E623ED300D00313C3E /* StarOptionsCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172C06E523ED300D00313C3E /* StarOptionsCode.swift */; };
@@ -123,6 +126,9 @@
 		1717201023EBD23100636F3C /* Pixellator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pixellator.swift; sourceTree = "<group>"; };
 		1717201223EBDF1600636F3C /* BlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockView.swift; sourceTree = "<group>"; };
 		1717201523EBE2D900636F3C /* Processor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Processor.swift; sourceTree = "<group>"; };
+		1721035E23FCC6140096F778 /* MetadataWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetadataWriter.swift; sourceTree = "<group>"; };
+		1721036023FCCC910096F778 /* Versioning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Versioning.swift; sourceTree = "<group>"; };
+		1721036323FCD2250096F778 /* CurrentSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentSettings.swift; sourceTree = "<group>"; };
 		172C06E123ED2F9000313C3E /* OvalOptionsCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OvalOptionsCode.swift; sourceTree = "<group>"; };
 		172C06E323ED2FE200313C3E /* DiamondOptionsCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiamondOptionsCode.swift; sourceTree = "<group>"; };
 		172C06E523ED300D00313C3E /* StarOptionsCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarOptionsCode.swift; sourceTree = "<group>"; };
@@ -358,6 +364,7 @@
 			children = (
 				178041C923F3DAA1006E40C1 /* Utilities.swift */,
 				17EB900123E9829E00A4C09A /* FileIO.swift */,
+				1721035E23FCC6140096F778 /* MetadataWriter.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -410,6 +417,7 @@
 				1717201023EBD23100636F3C /* Pixellator.swift */,
 				1750ADBF23FB817600D4EBB0 /* Save.swift */,
 				1750ADC123FB86A700D4EBB0 /* Open.swift */,
+				1721036023FCCC910096F778 /* Versioning.swift */,
 				17609FCD23F6611700391FFB /* Shrinker.swift */,
 				176E565223EBB50E0001215A /* HistogramDisplay.swift */,
 				17897B8B23E6A77500AFDA6A /* Info.plist */,
@@ -441,6 +449,7 @@
 			children = (
 				17B31D4F23EFF5C800C69257 /* Settings.swift */,
 				17B31D5123EFF74600C69257 /* SettingChangedProtocol.swift */,
+				1721036323FCD2250096F778 /* CurrentSettings.swift */,
 			);
 			path = SettingsManagement;
 			sourceTree = "<group>";
@@ -461,6 +470,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 17897B8F23E6A77500AFDA6A /* Build configuration list for PBXNativeTarget "BlockCam" */;
 			buildPhases = (
+				1721036223FCCF440096F778 /* ShellScript */,
 				17897B7B23E6A77300AFDA6A /* Sources */,
 				17897B7C23E6A77300AFDA6A /* Frameworks */,
 				17897B7D23E6A77300AFDA6A /* Resources */,
@@ -525,6 +535,26 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		1721036223FCCF440096F778 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/Users/Stuart/Documents/GitHub/DeskBlockCam/DeskBlockCam/VersionUpdater/VersionUpdater \"/Users/Stuart/Documents/GitHub/DeskBlockCam/DeskBlockCam/DeskBlockCam/Versioning.swift\" \"/Users/Stuart/Documents/GitHub/DeskBlockCam/DeskBlockCam/README.md\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		17897B7B23E6A77300AFDA6A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -545,6 +575,7 @@
 				1740A3DC23EBFA4000E29C75 /* RadiatingLinesOptionalParameters.swift in Sources */,
 				170A110823F18FB8003D0C1D /* ViewControllerView.swift in Sources */,
 				170DF1E623F6C55F00DDB5D0 /* SphereOptionCode.swift in Sources */,
+				1721036123FCCC910096F778 /* Versioning.swift in Sources */,
 				172C06EE23ED30ED00313C3E /* CappedLinesOptionsCode.swift in Sources */,
 				1740A3DE23EBFB7500E29C75 /* HSBVaryingOptionalParameters.swift in Sources */,
 				17B31D5423EFF9AE00C69257 /* AttributeFactory.swift in Sources */,
@@ -554,6 +585,7 @@
 				1732797023F7E93800EE0213 /* RingOptionCode.swift in Sources */,
 				1732796C23F7E47C00EE0213 /* RingOptionalParameters.swift in Sources */,
 				17609FCE23F6611700391FFB /* Shrinker.swift in Sources */,
+				1721035F23FCC6140096F778 /* MetadataWriter.swift in Sources */,
 				1717201123EBD23100636F3C /* Pixellator.swift in Sources */,
 				17897B8523E6A77300AFDA6A /* ViewController.swift in Sources */,
 				1740A3D623EBF73000E29C75 /* ConeOptionalParameters.swift in Sources */,
@@ -576,6 +608,7 @@
 				170A110023F103AF003D0C1D /* ProgramSettingsWindowController.swift in Sources */,
 				178041C623F3D8AC006E40C1 /* AncillaryWindowProtocol.swift in Sources */,
 				1740A3D223EBEE6800E29C75 /* EllipseOptionalParameters.swift in Sources */,
+				1721036423FCD2250096F778 /* CurrentSettings.swift in Sources */,
 				1717201623EBE2D900636F3C /* Processor.swift in Sources */,
 				1740A3CE23EBEC5300E29C75 /* CappedLineOptionalParameters.swift in Sources */,
 				1750ADC023FB817600D4EBB0 /* Save.swift in Sources */,
