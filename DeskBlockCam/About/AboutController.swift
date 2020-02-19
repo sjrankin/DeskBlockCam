@@ -14,11 +14,13 @@ class AboutController: NSViewController
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        VersionBlock.stringValue = Versioning.MakeVersionBlock()
     }
-    
     
     @IBAction func HandleCloseButtonPressed(_ sender: Any)
     {
         self.view.window?.close()
     }
+    
+    @IBOutlet weak var VersionBlock: NSTextField!
 }
