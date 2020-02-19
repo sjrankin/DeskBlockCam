@@ -33,15 +33,6 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
         InitializeConditionalColors()
         InitializeSideBar()
         LastTouchedShape = Settings.GetEnum(ForKey: .Shape, EnumType: Shapes.self, Default: Shapes.Blocks)
-        if LastTouchedShape == .NoShape
-        {
-            CurrentShapeTitle.stringValue = ""
-        }
-        else
-        {
-            CurrentShapeTitle.stringValue = LastTouchedShape.rawValue
-            //DisplayShapeOptions(For: LastTouchedShape)
-        }
     }
     
     func SetAttributes(_ Attributes: ProcessingAttributes)
@@ -143,6 +134,8 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
         Current[5].ValueItems.append(ValueItem(Description: "Shape size", Value: "\(NodeSize)"))
         let ISize = Settings.GetInteger(ForKey: .MaximumLength)
         Current[5].ValueItems.append(ValueItem(Description: "Image size", Value: "\(ISize)"))
+        let AA = Settings.GetEnum(ForKey: .Antialiasing, EnumType: AntialiasingModes.self, Default: AntialiasingModes.x4)
+        Current[5].ValueItems.append(ValueItem(Description: "Antialiasing", Value: AA.rawValue))
         CurrentSettings.reloadData()
     }
     
@@ -315,7 +308,8 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
             CurrentCategory(Name: "Processing Settings", Icon: NSImage(named: "PerformanceIcon"),
                             Values: [
                                 ValueItem(Description: "Shape size", Value: "16"),
-                                ValueItem(Description: "Image size", Value: "1024")
+                                ValueItem(Description: "Image size", Value: "1024"),
+                                ValueItem(Description: "Antialiasing", Value: "4x")
             ]),
             CurrentCategory(Name: "Background Settings", Icon: NSImage(named: "PhotoIcon"),
                             Values: [
@@ -920,12 +914,9 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
     
     // MARK: - Shape options.
     
-    @IBOutlet weak var CurrentShapeTitle: NSTextField!
-    
     func WasSelected(_ Shape: Shapes)
     {
         Settings.SetEnum(LastTouchedShape, EnumType: Shapes.self, ForKey: .Shape)
-        CurrentShapeTitle.stringValue = "\(LastTouchedShape.rawValue)"
         UpdateShapeSettings(With: LastTouchedShape)
     }
     
@@ -1257,6 +1248,23 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
             default:
                 MaximumImageSizeSelector.selectedSegment = 5
         }
+        switch Settings.GetEnum(ForKey: .Antialiasing, EnumType: AntialiasingModes.self, Default: AntialiasingModes.x4)
+        {
+            case .None:
+                AntialiasingSegment.selectedSegment = 0
+            
+            case .x2:
+                            AntialiasingSegment.selectedSegment = 1
+            
+            case .x4:
+                            AntialiasingSegment.selectedSegment = 2
+            
+            case .x8:
+                            AntialiasingSegment.selectedSegment = 3
+            
+            case .x16:
+                            AntialiasingSegment.selectedSegment = 4
+        }
     }
     
     @IBAction func HandleShapeSizeChanged(_ sender: Any)
@@ -1324,6 +1332,37 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
         }
     }
     
+    @IBAction func HandleAntialiasingChanged(_ sender: Any)
+    {
+        if let Segment = sender as? NSSegmentedControl
+        {
+            var NewAA = AntialiasingModes.x4
+            let Index = Segment.selectedSegment
+            switch Index
+            {
+                case 0:
+                    NewAA = .None
+                
+                case 1:
+                    NewAA = .x2
+                
+                case 2:
+                    NewAA = .x4
+                
+                case 3:
+                    NewAA = .x8
+                
+                case 4:
+                    NewAA = .x16
+                
+                default:
+                    NewAA = .None
+            }
+            Settings.SetEnum(NewAA, EnumType: AntialiasingModes.self, ForKey: .Antialiasing)
+        }
+    }
+    
+    @IBOutlet weak var AntialiasingSegment: NSSegmentedControl!
     @IBOutlet weak var ShapeSizeSelector: NSSegmentedControl!
     @IBOutlet weak var MaximumImageSizeSelector: NSSegmentedControl!
     
