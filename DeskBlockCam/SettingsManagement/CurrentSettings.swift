@@ -70,7 +70,7 @@ class CurrentSettings
         Results.append(("Vertical exaggeration", Settings.GetString(ForKey: .VerticalExaggeration)!))
         Results.append(("Invert node height", "\(Settings.GetBoolean(ForKey: .InvertHeight))"))
         Results.append(("Antialiasing", "\(Settings.GetString(ForKey: .Antialiasing)!)"))
-        Results.append(("Light color", Settings.GetString(ForKey: .LightColor)!))
+        Results.append(("Light color", "\(Settings.GetInteger(ForKey: .LightColor))"))
         Results.append(("Light type", Settings.GetString(ForKey: .LightType)!))
         Results.append(("Light intensity", Settings.GetString(ForKey: .LightIntensity)!))
         Results.append(("Light model", Settings.GetString(ForKey: .LightModel)!))
