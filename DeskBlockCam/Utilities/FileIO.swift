@@ -16,6 +16,8 @@ class FileIO
     public static var BlockCamDirectory = "DeskBlockCam"
     /// Name of the Frames directory under `BlockCamDirectory`.
     public static var FramesDirectory = "DeskBlockCam/Frames"
+    /// Name of the scratch directory.
+    public static var ScratchDirectory = "DeskBlockCam/Scratch"
     
     /// Initialize `FileIO`.
     /// - Note: If not called, it is likely the app will crash.
@@ -51,7 +53,22 @@ class FileIO
                 return
             }
         }
-        print("Verified or created application directories.")
+        let ScratchURL = DocDirURL.appendingPathComponent(ScratchDirectory)
+        if !DirectoryExists(ScratchURL.path)
+        {
+            do
+            {
+                try FileManager.default.createDirectory(atPath: ScratchURL.path,
+                                                        withIntermediateDirectories: true,
+                                                        attributes: nil)
+            }
+            catch
+            {
+                print("Error creating \(ScratchDirectory) in Documents: \(error)")
+                return
+            }
+        }
+        print("Directory structure in place.")
     }
     
     /// Determines if the passed directory exists.
@@ -150,6 +167,48 @@ class FileIO
             
             case .Frames:
                 return DocURL.appendingPathComponent(FramesDirectory)
+            
+            case .Scratch:
+                return DocURL.appendingPathComponent(ScratchDirectory)
+        }
+    }
+    
+    /// Create a directory in the document directory.
+    /// - Parameter DirectoryName: Name of the directory to create.
+    /// - Returns: URL of the newly created directory on success, nil on error.
+    @discardableResult public static func CreateDirectory(DirectoryName: String) -> URL?
+    {
+        var CPath: URL!
+        do
+        {
+            CPath = GetDirectoryURL(.Scratch).appendingPathComponent(DirectoryName)
+            try FileManager.default.createDirectory(atPath: CPath!.path, withIntermediateDirectories: true, attributes: nil)
+        }
+        catch
+        {
+           print("Error creating directory \(CPath.path): \(error.localizedDescription)")
+            return nil
+        }
+        return CPath
+    }
+    
+    @discardableResult public static func SaveImageInScratch(_ Image: NSImage, _ Name: String) -> Bool
+    {
+        let Scratch = GetDirectoryURL(.Scratch).appendingPathComponent(Name)
+        return Image.Write(To: Scratch.path)
+    }
+    
+    /// Delete the specified file.
+    /// - Parameter FileURL: The URL of the file to delete.
+    public static func DeleteFile(_ FileURL: URL)
+    {
+        do
+        {
+            try FileManager.default.removeItem(at: FileURL)
+        }
+        catch
+        {
+            print("Error deleting \(FileURL.path): \(error.localizedDescription)")
         }
     }
 }
@@ -163,6 +222,8 @@ enum Directories
     case Frames
     /// The documents directory for the user.
     case Documents
+    /// The scratch directory.
+    case Scratch
 }
 
 /// Extension to add Png data exports and writing of images to `NSImage`. Found on the internet but
