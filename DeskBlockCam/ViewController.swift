@@ -425,12 +425,16 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         let Settings = AVCapturePhotoSettings(format: [AVVideoCodecKey: AVVideoCodecType.jpeg])
         StillImageOutput.capturePhoto(with: Settings, delegate: self)
         let Image = ProcessedImage.Snapshot()
+        #if true
+        DoSaveImage(Image)
+        #else
         CameraIsPaused = true
         if let SaveWhere = GetSaveImageLocation()
         {
             print ("File name is \(SaveWhere.path)")
         }
         CameraIsPaused = false
+        #endif
     }
     
     /// Holds the last frame time. This is used with a throttle value to ensure we don't overwhelm
@@ -635,19 +639,26 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         }
     }
     
-    @IBAction func SaveFileFromMenu(_ sender: Any)
+    func DoSaveImage(_ Image: NSImage)
     {
-        let SaveMe = ProcessedImage.Snapshot()
         CameraIsPaused = true
         if let SaveURL = GetSaveImageLocation()
         {
-            let OK = FileIO.SaveImage(SaveMe, At: SaveURL)
+            let Current = CurrentSettings.KVPs
+            let OK = FileIO.SaveImageWithMetaData(Image, KeyValueString: Current, SaveTo: SaveURL)
+            //let OK = FileIO.SaveImage(SaveMe, At: SaveURL)
             if !OK
             {
                 print("Error saving image at \(SaveURL.path)")
             }
         }
         CameraIsPaused = false
+    }
+    
+    @IBAction func SaveFileFromMenu(_ sender: Any)
+    {
+        let SaveMe = ProcessedImage.Snapshot()
+       DoSaveImage(SaveMe)
     }
     
     @IBAction func CopyImageToPasteboardFromMenu(_ sender: Any)
