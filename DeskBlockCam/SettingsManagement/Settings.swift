@@ -103,10 +103,14 @@ class Settings
         UserDefaults.standard.set(true, forKey: SettingKeys.AddUserDataToExif.rawValue)
         UserDefaults.standard.set("Stuart Rankin", forKey: SettingKeys.UserName.rawValue)
         UserDefaults.standard.set("CC by Attribution", forKey: SettingKeys.UserCopyright.rawValue)
+        UserDefaults.standard.set(true, forKey: SettingKeys.SaveUserName.rawValue)
+                UserDefaults.standard.set(true, forKey: SettingKeys.SaveUserCopyright.rawValue)
         #else
         UserDefaults.standard.set(false, forKey: SettingKeys.AddUserDataToExif.rawValue)
         UserDefaults.standard.set("", forKey: SettingKeys.UserName.rawValue)
         UserDefaults.standard.set("", forKey: SettingKeys.UserCopyright.rawValue)
+        UserDefaults.standard.set(false, forKey: SettingKeys.SaveUserName.rawValue)
+        UserDefaults.standard.set(false, forKey: SettingKeys.SaveUserCopyright.rawValue)
         #endif
     }
     
@@ -559,7 +563,9 @@ class Settings
             .AutoOpenShapeSettings,
             .SwitchModesWithDroppedImages,
             .AutoOpenProcessedView,
-            .AddUserDataToExif
+            .AddUserDataToExif,
+            .SaveUserName,
+            .SaveUserCopyright
     ]
     
     /// Contains a list of all integer-type fields.
@@ -788,6 +794,10 @@ enum SettingKeys: String, CaseIterable, Comparable, Hashable
     case UserCopyright = "UserCopyright"
     /// String: User name.
     case UserName = "UserName"
+    /// String: Determines if the user name is saved.
+    case SaveUserName = "SaveUserName"
+    /// String: Determines if the user copyright is saved.
+    case SaveUserCopyright = "SaveUserCopyright"
 }
 
 /// Types of setting data recognized by the SettingsManager.
