@@ -46,6 +46,8 @@ extension FileIO
         //SaveImageEx(ThisImage, WithName: FinalName, InDirectory: ScratchDirectory, AsJPG: true)
         let FileURL = GetDirectoryURL(.Scratch).appendingPathComponent(FinalName)
         let DestURL = GetDirectoryURL(.Scratch).appendingPathComponent(Utilities.MakeSequentialName("ImageEx", Extension: "jpg"))
+        print("FileURL=\(FileURL.path)")
+        print("DestURL=\(DestURL.path)")
         let Destination: CGImageDestination = CGImageDestinationCreateWithURL(DestURL as CFURL,
                                                                               kUTTypeJPEG, 1, nil)!
         
