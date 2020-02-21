@@ -31,8 +31,10 @@ enum HeightDeterminations: String, CaseIterable
     case YUV_Y = "YUV Y"
     case YUV_U = "YUV U"
     case YUV_V = "YUV V"
-    case Greatest = "Greatest Channel"
-    case Least = "Least Channel"
+    case GreatestRGB = "Greatest RGB Channel"
+    case LeastRGB = "Least RGB Channel"
+    case GreatestCMYK = "Greatest CMYK Channel"
+    case LeastCMYK = "Least CMYK Channel"
 }
 
 enum HSBChannels: String, CaseIterable
