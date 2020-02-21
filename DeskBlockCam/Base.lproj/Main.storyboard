@@ -122,23 +122,33 @@
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <menu key="submenu" title="Mode" id="gcQ-MZ-sjZ">
                                                 <items>
-                                                    <menuItem title="Live View" id="gnQ-te-1Ra">
-                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                    <menuItem title="Live View" keyEquivalent="l" id="gnQ-te-1Ra">
+                                                        <connections>
+                                                            <action selector="SelectLiveView:" target="Ady-hI-5gd" id="ArW-IK-L8d"/>
+                                                        </connections>
                                                     </menuItem>
-                                                    <menuItem title="Image View" id="DIE-fn-BYe">
+                                                    <menuItem title="Image View" keyEquivalent="i" id="DIE-fn-BYe">
+                                                        <connections>
+                                                            <action selector="SelectImageView:" target="Ady-hI-5gd" id="pDU-48-kg0"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Video View" enabled="NO" id="lJU-QM-Oz6">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="SelectVideoView:" target="Ady-hI-5gd" id="lt0-mU-Gaz"/>
+                                                        </connections>
                                                     </menuItem>
                                                 </items>
                                             </menu>
                                         </menuItem>
-                                        <menuItem title="Shape Options..." id="nMF-tF-eE4">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                        <menuItem title="Shape Options..." keyEquivalent="o" id="nMF-tF-eE4">
                                             <connections>
                                                 <action selector="OpenOptionsWindow:" target="Ady-hI-5gd" id="cxe-Po-ima"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="PNj-lV-pcW"/>
                                         <menuItem title="Debug Window" id="0cj-G1-eDO">
+                                            <attributedString key="attributedTitle"/>
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="ShowDebugWindow:" target="Ady-hI-5gd" id="lkR-06-xQ6"/>
@@ -509,9 +519,10 @@
                                             <constraint firstItem="ogX-jq-HQb" firstAttribute="top" secondItem="6iV-Jo-yuM" secondAttribute="top" id="Mjz-XK-LiT"/>
                                             <constraint firstAttribute="bottom" secondItem="ogX-jq-HQb" secondAttribute="bottom" id="N44-Kg-zyN"/>
                                             <constraint firstItem="EjG-RI-0P9" firstAttribute="top" secondItem="gyy-rc-Vs3" secondAttribute="bottom" constant="8" symbolic="YES" id="Omx-4Q-pph"/>
+                                            <constraint firstAttribute="trailing" secondItem="gyy-rc-Vs3" secondAttribute="trailing" constant="157" id="PdV-ow-oEe"/>
                                             <constraint firstItem="QvZ-d3-B1S" firstAttribute="leading" secondItem="ogX-jq-HQb" secondAttribute="trailing" constant="8" id="QV4-eV-1yg"/>
                                             <constraint firstItem="QvZ-d3-B1S" firstAttribute="centerX" secondItem="EjG-RI-0P9" secondAttribute="centerX" constant="-6" id="STc-7T-NFX"/>
-                                            <constraint firstItem="gyy-rc-Vs3" firstAttribute="leading" secondItem="ogX-jq-HQb" secondAttribute="trailing" constant="10" id="TlY-qg-lOa"/>
+                                            <constraint firstItem="gyy-rc-Vs3" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="ogX-jq-HQb" secondAttribute="trailing" symbolic="YES" id="TlY-qg-lOa"/>
                                             <constraint firstAttribute="trailing" secondItem="ogX-jq-HQb" secondAttribute="trailing" constant="250" id="c2v-yP-Bvb"/>
                                             <constraint firstAttribute="bottom" secondItem="ogX-jq-HQb" secondAttribute="bottom" id="ee3-8k-IO9"/>
                                             <constraint firstAttribute="trailing" secondItem="EjG-RI-0P9" secondAttribute="trailing" id="j4e-TH-9ac"/>
@@ -559,28 +570,22 @@
                                             <action selector="HandleProcessingSettingsButtonPressed:" target="XfG-lQ-9wD" id="NPg-0F-iA1"/>
                                         </connections>
                                     </button>
-                                    <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="LJe-NP-c5R">
-                                        <rect key="frame" x="18" y="22" width="169" height="24"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="164" id="vHR-zO-FYf"/>
-                                        </constraints>
-                                        <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="qEs-FJ-sES" id="m1r-TA-PaJ">
-                                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                    <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="A6d-Ym-ngP">
+                                        <rect key="frame" x="18" y="23" width="185" height="23"/>
+                                        <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="NmM-y7-ktI">
                                             <font key="font" metaFont="system"/>
-                                            <menu key="menu" id="0W8-t3-0Q2">
-                                                <items>
-                                                    <menuItem title="Item 1" state="on" id="qEs-FJ-sES"/>
-                                                    <menuItem title="Item 2" id="yad-7Z-22p"/>
-                                                    <menuItem title="Item 3" id="PeJ-va-STA"/>
-                                                </items>
-                                            </menu>
-                                        </popUpButtonCell>
+                                            <segments>
+                                                <segment label="Live" width="59" selected="YES"/>
+                                                <segment label="Image" width="59" tag="1"/>
+                                                <segment label="Video" width="59"/>
+                                            </segments>
+                                        </segmentedCell>
                                         <connections>
-                                            <action selector="HandleModeSelectorChanged:" target="XfG-lQ-9wD" id="skr-y5-fum"/>
+                                            <action selector="HandleModeChanged:" target="XfG-lQ-9wD" id="RgF-f4-bEQ"/>
                                         </connections>
-                                    </popUpButton>
+                                    </segmentedControl>
                                     <button translatesAutoresizingMaskIntoConstraints="NO" id="03K-Rc-K1X">
-                                        <rect key="frame" x="226" y="11" width="48" height="48"/>
+                                        <rect key="frame" x="244" y="11" width="48" height="48"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="48" id="9aD-el-GzI"/>
                                         </constraints>
@@ -594,21 +599,21 @@
                                     </button>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="LJe-NP-c5R" firstAttribute="centerY" secondItem="yfw-EC-nVV" secondAttribute="centerY" id="0VN-ap-nx3"/>
-                                    <constraint firstItem="LJe-NP-c5R" firstAttribute="top" secondItem="7Mz-J6-VDI" secondAttribute="top" constant="25" id="32R-bw-HFJ"/>
+                                    <constraint firstItem="A6d-Ym-ngP" firstAttribute="top" secondItem="7Mz-J6-VDI" secondAttribute="top" constant="25" id="1Ed-Hf-ZSb"/>
                                     <constraint firstItem="sD1-1P-Ylf" firstAttribute="top" secondItem="yfw-EC-nVV" secondAttribute="top" id="5YI-xt-Z9H"/>
+                                    <constraint firstItem="A6d-Ym-ngP" firstAttribute="leading" secondItem="7Mz-J6-VDI" secondAttribute="leading" constant="20" symbolic="YES" id="9bj-Zl-lRv"/>
                                     <constraint firstItem="sD1-1P-Ylf" firstAttribute="bottom" secondItem="yfw-EC-nVV" secondAttribute="bottom" id="H1S-vl-AlJ"/>
-                                    <constraint firstItem="03K-Rc-K1X" firstAttribute="leading" secondItem="LJe-NP-c5R" secondAttribute="trailing" constant="42" id="Hh8-GB-HgB"/>
                                     <constraint firstItem="2ff-IU-JmN" firstAttribute="bottom" secondItem="sD1-1P-Ylf" secondAttribute="bottom" id="IZH-Oy-6tl"/>
+                                    <constraint firstItem="A6d-Ym-ngP" firstAttribute="centerY" secondItem="03K-Rc-K1X" secondAttribute="centerY" id="IjT-U2-mHV"/>
                                     <constraint firstAttribute="trailing" secondItem="sD1-1P-Ylf" secondAttribute="trailing" constant="112" id="LjV-S7-vfa"/>
                                     <constraint firstItem="yfw-EC-nVV" firstAttribute="top" secondItem="7Mz-J6-VDI" secondAttribute="top" constant="11" id="MtR-c8-zYz"/>
                                     <constraint firstItem="03K-Rc-K1X" firstAttribute="top" secondItem="2ff-IU-JmN" secondAttribute="top" id="OTp-hG-hVW"/>
                                     <constraint firstItem="03K-Rc-K1X" firstAttribute="bottom" secondItem="2ff-IU-JmN" secondAttribute="bottom" id="Uox-hj-6Qf"/>
                                     <constraint firstAttribute="height" constant="70" id="VFO-fV-X2s"/>
+                                    <constraint firstItem="03K-Rc-K1X" firstAttribute="leading" secondItem="A6d-Ym-ngP" secondAttribute="trailing" constant="43" id="Was-jX-kuh"/>
                                     <constraint firstItem="yfw-EC-nVV" firstAttribute="centerX" secondItem="7Mz-J6-VDI" secondAttribute="centerX" id="agE-Ba-o19"/>
                                     <constraint firstItem="2ff-IU-JmN" firstAttribute="top" secondItem="sD1-1P-Ylf" secondAttribute="top" id="e46-Wt-Hkz"/>
                                     <constraint firstItem="2ff-IU-JmN" firstAttribute="leading" secondItem="sD1-1P-Ylf" secondAttribute="trailing" constant="44" id="hhG-Bo-w62"/>
-                                    <constraint firstItem="LJe-NP-c5R" firstAttribute="leading" secondItem="7Mz-J6-VDI" secondAttribute="leading" constant="20" symbolic="YES" id="mST-g7-hgH"/>
                                     <constraint firstAttribute="trailing" secondItem="2ff-IU-JmN" secondAttribute="trailing" constant="20" symbolic="YES" id="nM7-Mt-FrQ"/>
                                     <constraint firstItem="yfw-EC-nVV" firstAttribute="centerY" secondItem="7Mz-J6-VDI" secondAttribute="centerY" id="uRJ-kO-Zyf"/>
                                 </constraints>
@@ -638,7 +643,7 @@
                         <outlet property="DurationText" destination="LwL-SA-iDR" id="Z78-Qi-G6L"/>
                         <outlet property="DurationValue" destination="nRD-g8-SRQ" id="6OD-EC-p2N"/>
                         <outlet property="LiveHistogram" destination="sD1-1P-Ylf" id="MKZ-QP-h5W"/>
-                        <outlet property="ModeSelector" destination="LJe-NP-c5R" id="YMH-Tj-tdr"/>
+                        <outlet property="ModeSegment" destination="A6d-Ym-ngP" id="XfP-r9-G35"/>
                         <outlet property="OriginalImageView" destination="EjG-RI-0P9" id="O98-Vb-gyL"/>
                         <outlet property="ParsingImageDone" destination="16R-1n-N5f" id="JhT-yB-rjh"/>
                         <outlet property="ParsingImageIndicator" destination="4kg-FJ-bWu" id="wyS-SH-Ufk"/>
