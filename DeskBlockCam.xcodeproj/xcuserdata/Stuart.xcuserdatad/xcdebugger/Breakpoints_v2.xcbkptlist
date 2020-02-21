@@ -14,25 +14,9 @@
             filePath = "DeskBlockCam/ViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "688"
-            endingLineNumber = "688"
+            startingLineNumber = "710"
+            endingLineNumber = "710"
             landmarkName = "PasteImageFromPasteboardFromMenu(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "EBAB8FE0-05A2-4C98-825E-7318485FE0F5"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "DeskBlockCam/Utilities/MetadataWriter.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "62"
-            endingLineNumber = "62"
-            landmarkName = "SaveImageWithMetaData(_:KeyValueString:SaveTo:Completion:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
