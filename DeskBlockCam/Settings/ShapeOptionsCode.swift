@@ -514,6 +514,7 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
                         LastTouchedShape = SelectedShape
                         UpdateShapeSettings(With: SelectedShape)
                         DisplayShapeOptions(For: SelectedShape)
+                        Settings.SetEnum(LastTouchedShape, EnumType: Shapes.self, ForKey: .Shape)
                     }
             }
             
