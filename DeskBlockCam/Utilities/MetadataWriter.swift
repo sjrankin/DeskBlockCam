@@ -13,7 +13,7 @@ extension FileIO
 {
     /// Save an image with metadata. This is intended to be used to save processed images.
     /// - Note:
-    ///    - Some data is not saved unless the user explicitly tells BlockCam to save it. Specifically,
+    ///    - Some data is not saved unless the user explicitly tells BlockCam to save it. Specifically:
     ///      1. User name is not saved without explicit permission.
     ///      2. User copyright/legal is not saved without explicit permission.
     ///    - This function adds meta data with the following steps:
@@ -21,8 +21,7 @@ extension FileIO
     ///      2. Update the image file with metadata.
     ///      3. Save the updated image to the scratch directory.
     ///      4. Delete the original image.
-    ///      5. Move the updated image to the photo roll.
-    ///      6. Delete the updated image in the scratch directory.
+    ///      5. Move the updated image from the scratch directory to the final directory.
     ///    - See:
     ///      - [CGImageMetadata.swift](https://gist.github.com/lacyrhoades/09d8a367125b6225df5038aec68ed9e7)
     ///      - [Set an EXIF user comment.](https://gist.github.com/kwylez/a4b6ec261e52970e1fa5dd4ccfe8898f)
@@ -38,12 +37,12 @@ extension FileIO
                                                                 Completion: ((Bool) -> ())? = nil) -> Bool
     {
         let UserString = Utilities.ValidateKVPForASCIIOnly(KeyValueString, Separator: ";")
-//        let ImageData = ThisImage.jpegData(compressionQuality: 1.0)
-        let ImageData = ThisImage.tiffRepresentation
+        let cgi = ThisImage.cgImage(forProposedRect: nil, context: nil, hints: nil)
+        let bmpR = NSBitmapImageRep(cgImage: cgi!)
+        let ImageData = bmpR.representation(using: NSBitmapImageRep.FileType.jpeg, properties: [:])
         let ImageSource: CGImageSource = CGImageSourceCreateWithData(ImageData! as CFData, nil)!
         let FinalName = Utilities.MakeSequentialName("ImageSrc", Extension: "jpg")
         SaveImageInScratch(ThisImage, FinalName)
-        //SaveImageEx(ThisImage, WithName: FinalName, InDirectory: ScratchDirectory, AsJPG: true)
         let FileURL = GetDirectoryURL(.Scratch).appendingPathComponent(FinalName)
         let DestURL = GetDirectoryURL(.Scratch).appendingPathComponent(Utilities.MakeSequentialName("ImageEx", Extension: "jpg"))
         print("FileURL=\(FileURL.path)")
@@ -138,13 +137,16 @@ extension FileIO
         })
         if !CompletedOK
         {
+            print("CGImageDestinationCopyImageSource failed: error: \((error)!)")
             Completion?(false)
             return false
         }
         
         do
         {
-        try FileManager.default.moveItem(at: FileURL, to: SaveTo)
+            print("Moving \(FileURL.path) to \(SaveTo.path)")
+            DeleteFile(SaveTo)
+            try FileManager.default.moveItem(at: FileURL, to: SaveTo)
         }
         catch
         {
