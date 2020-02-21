@@ -425,15 +425,37 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         let Settings = AVCapturePhotoSettings(format: [AVVideoCodecKey: AVVideoCodecType.jpeg])
         StillImageOutput.capturePhoto(with: Settings, delegate: self)
         let Image = ProcessedImage.Snapshot()
-        #if true
         DoSaveImage(Image)
-        #else
-        CameraIsPaused = true
-        if let SaveWhere = GetSaveImageLocation()
+    }
+    
+    @IBAction func HandleAlignImageButton(_ sender: Any)
+    {
+        let Mode = Settings.GetEnum(ForKey: .CurrentMode, EnumType: MainModes.self, Default: .LiveView)
+        if Mode == .VideoView
         {
-            print ("File name is \(SaveWhere.path)")
+            return
         }
-        CameraIsPaused = false
+        #if true
+        /*
+        if let POV = ProcessedImage.pointOfView
+        {
+            print("POV position: \(POV.position)")
+            print("POV rotation: \(POV.rotation)")
+            print("POV orientation: \(POV.orientation)\n")
+        }
+ */
+        ProcessedImage.ResetCamera()
+        let NewHeight = ProcessedImage.MinimizeBezel(IsLiveView: Mode == .LiveView)
+        ProcessedImage.CameraNode?.position = SCNVector3(ProcessedImage.CameraNode!.position.x,
+                                                         ProcessedImage.CameraNode!.position.y,
+                                                         CGFloat(NewHeight))
+        #else
+        let NewHeight = ProcessedImage.MinimizeBezel(IsLiveView: Mode == .LiveView)
+        print("Camera orientation: \(ProcessedImage.CameraNode!.orientation)")
+        print("Camera euler angles: \(ProcessedImage.CameraNode!.eulerAngles)")
+        ProcessedImage.CameraNode?.position = SCNVector3(ProcessedImage.CameraNode!.position.x,
+                                                         ProcessedImage.CameraNode!.position.y,
+                                                         CGFloat(NewHeight))
         #endif
     }
     
@@ -726,6 +748,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
     @IBOutlet weak var LiveHistogram: HistogramDisplay!
     @IBOutlet weak var CameraButton: NSButton!
     @IBOutlet weak var BottomBar: NSView!
+    @IBOutlet weak var AlignImageButton: NSButton!
     
     // MARK: - Status controls
     
