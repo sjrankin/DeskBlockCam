@@ -444,7 +444,7 @@ class BlockView: SCNView
     /// - Returns: Recommended Z location of the camera to minimize wasted, empty space.
     func MinimizeBezel(IsLiveView: Bool = true) -> Double
     {
-        #if true
+        #if false
         return 15.0
         #else
         var OriginalZ: CGFloat = 15.0
