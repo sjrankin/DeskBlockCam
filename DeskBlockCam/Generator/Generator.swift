@@ -60,31 +60,37 @@ class Generator
                 Height = Color.blueComponent
             
             case .Cyan:
-                Height = Color.cyanComponent
+                Height = Color.CMYK.C
             
             case .Magenta:
-                Height = Color.magentaComponent
+                Height = Color.CMYK.M
             
             case .Yellow:
-                Height = Color.yellowComponent
+                Height = Color.CMYK.Y
             
             case .Black:
-                Height = Color.blackComponent
+                Height = Color.CMYK.K
             
             case .YUV_Y:
-                Height = 1.0
+                Height = Color.YUV.Y
             
             case .YUV_U:
-                Height = 1.0
+                Height = Color.YUV.U
             
             case .YUV_V:
-                Height = 1.0
+                Height = Color.YUV.V
             
-            case .Greatest:
+            case .GreatestRGB:
                 Height = max(Color.redComponent, Color.greenComponent, Color.blueComponent)
             
-            case .Least:
+            case .LeastRGB:
                 Height = min(Color.redComponent, Color.greenComponent, Color.blueComponent)
+            
+            case .GreatestCMYK:
+                Height = max(Color.CMYK.C, Color.CMYK.M, Color.CMYK.Y, Color.CMYK.K)
+            
+            case .LeastCMYK:
+                Height = min(Color.CMYK.C, Color.CMYK.M, Color.CMYK.Y, Color.CMYK.K)
         }
         return Height * Exaggerate
     }
@@ -96,7 +102,7 @@ class Generator
         switch CurrentShape
         {
             case .Blocks:
-                let BlockOptions = Attributes.GetOptionsFor(.Blocks) as? BlockOptionalParameters
+                //let BlockOptions = Attributes.GetOptionsFor(.Blocks) as? BlockOptionalParameters
                 let ChamferSetting = Settings.GetEnum(ForKey: .BlockChamfer, EnumType: BlockChamferSizes.self,
                                                       Default: BlockChamferSizes.None)
                 let Chamfer = BlockOptionalParameters.ChamferSize(From: ChamferSetting)
@@ -150,15 +156,7 @@ class Generator
     {
         autoreleasepool
             {
-                var FinalShape: Shapes = .Blocks
-                if Attributes.Shape == .NoShape
-                {
-                    FinalShape = .Blocks
-                }
-                else
-                {
-                    FinalShape = Attributes.Shape
-                }
+                let FinalShape = Settings.GetEnum(ForKey: .Shape, EnumType: Shapes.self, Default: Shapes.Blocks)
                 let Node = PSCNNode()
                 Node.name = "PixelNode"
                 Node.X = AtX
