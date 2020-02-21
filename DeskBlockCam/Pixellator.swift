@@ -28,13 +28,30 @@ class Pixellator
             Reduction.setDefaults()
             Reduction.setValue(Image, forKey: kCIInputImageKey)
             Reduction.setValue(16, forKey: kCIInputScaleKey)
-            if let Reduced: CIImage = (Reduction.value(forKey: kCIOutputImageKey) as? CIImage)
+            var Reduced: CIImage? = nil
+                    Reduced = (Reduction.value(forKey: kCIOutputImageKey) as? CIImage)
+            if Reduced != nil
             {
-                let Rep = NSCIImageRep(ciImage: Reduced)
+                let Rep = NSCIImageRep(ciImage: Reduced!)
                 let Pixellated: NSImage = NSImage(size: Rep.size)
                 Pixellated.addRepresentation(Rep)
                 return Pixellated
             }
+            /*
+            OperationQueue.main.addOperation
+                {
+
+                    if let Reduced: CIImage = (Reduction.value(forKey: kCIOutputImageKey) as? CIImage)
+                    {
+                        let Rep = NSCIImageRep(ciImage: Reduced)
+                        /*let Pixellated: NSImage = NSImage(size: Rep.size)*/
+                        Pixellated = NSImage(size: Rep.size)
+                        Pixellated.addRepresentation(Rep)
+                        //                return Pixellated
+                    }
+
+            }
+ */
         }
         return nil
     }
