@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="16085" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="534-uc-yCU">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="534-uc-yCU">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="16085"/>
-        <plugIn identifier="com.apple.SceneKitIBPlugin" version="16085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15705"/>
+        <plugIn identifier="com.apple.SceneKitIBPlugin" version="15705"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -148,7 +148,7 @@
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <gridView xPlacement="leading" yPlacement="bottom" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="SyQ-W4-GYF">
-                                                    <rect key="frame" x="17" y="301" width="443" height="66"/>
+                                                    <rect key="frame" x="17" y="298" width="443" height="66"/>
                                                     <rows>
                                                         <gridRow id="8AP-3U-9oz"/>
                                                         <gridRow id="o35-PD-Akr"/>
@@ -199,7 +199,7 @@
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" constant="129" id="y6k-sP-cct"/>
                                                                 </constraints>
-                                                                <textFieldCell key="cell" lineBreakMode="clipping" title="Vertical exaggeration" id="ADX-aP-ndn">
+                                                                <textFieldCell key="cell" lineBreakMode="clipping" title="Shape exaggeration" id="ADX-aP-ndn">
                                                                     <font key="font" metaFont="system"/>
                                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -262,7 +262,7 @@
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <gridView xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="cKr-63-7Pu">
-                                                    <rect key="frame" x="17" y="279" width="558" height="95"/>
+                                                    <rect key="frame" x="17" y="276" width="558" height="95"/>
                                                     <rows>
                                                         <gridRow yPlacement="center" id="zPm-p5-GZD"/>
                                                         <gridRow yPlacement="center" id="mu6-en-QAc"/>
@@ -383,16 +383,16 @@
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <box title="Color swatches" translatesAutoresizingMaskIntoConstraints="NO" id="kVn-RR-Kse">
-                                                    <rect key="frame" x="14" y="18" width="309" height="299"/>
+                                                    <rect key="frame" x="14" y="18" width="309" height="296"/>
                                                     <view key="contentView" id="XYr-sc-rlC">
-                                                        <rect key="frame" x="3" y="3" width="303" height="281"/>
+                                                        <rect key="frame" x="3" y="3" width="303" height="278"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <subviews>
                                                             <scrollView wantsLayer="YES" misplaced="YES" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0cw-sH-JTg">
-                                                                <rect key="frame" x="8" y="36" width="295" height="238"/>
+                                                                <rect key="frame" x="8" y="33" width="295" height="238"/>
                                                                 <clipView key="contentView" id="DTY-87-yDG">
                                                                     <rect key="frame" x="1" y="1" width="293" height="236"/>
-                                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                                    <autoresizingMask key="autoresizingMask"/>
                                                                     <subviews>
                                                                         <collectionView selectable="YES" allowsEmptySelection="NO" id="j25-dt-NK7">
                                                                             <rect key="frame" x="0.0" y="0.0" width="293" height="236"/>
@@ -429,16 +429,16 @@
                                                     </view>
                                                 </box>
                                                 <box title="Gradient swatches" translatesAutoresizingMaskIntoConstraints="NO" id="zom-BZ-aoT">
-                                                    <rect key="frame" x="343" y="18" width="356" height="299"/>
+                                                    <rect key="frame" x="343" y="18" width="356" height="296"/>
                                                     <view key="contentView" id="Gml-92-8ir">
-                                                        <rect key="frame" x="3" y="3" width="350" height="281"/>
+                                                        <rect key="frame" x="3" y="3" width="350" height="278"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <subviews>
                                                             <scrollView wantsLayer="YES" misplaced="YES" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vri-yw-6xK">
-                                                                <rect key="frame" x="6" y="39" width="338" height="235"/>
+                                                                <rect key="frame" x="6" y="36" width="338" height="235"/>
                                                                 <clipView key="contentView" id="KAP-vs-NQE">
                                                                     <rect key="frame" x="1" y="1" width="336" height="233"/>
-                                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                                    <autoresizingMask key="autoresizingMask"/>
                                                                     <subviews>
                                                                         <collectionView selectable="YES" allowsEmptySelection="NO" id="4wd-gB-d1F">
                                                                             <rect key="frame" x="0.0" y="0.0" width="336" height="233"/>
@@ -474,7 +474,7 @@
                                                     </view>
                                                 </box>
                                                 <gridView xPlacement="leading" yPlacement="bottom" rowAlignment="none" rowSpacing="8" columnSpacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="g5S-cb-9RI">
-                                                    <rect key="frame" x="17" y="352" width="437" height="21"/>
+                                                    <rect key="frame" x="17" y="349" width="437" height="21"/>
                                                     <rows>
                                                         <gridRow id="sIG-4c-8gg"/>
                                                     </rows>
@@ -532,13 +532,13 @@
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <sceneView preferredRenderingAPI="1" translatesAutoresizingMaskIntoConstraints="NO" id="FY8-ib-4IZ">
-                                                    <rect key="frame" x="543" y="188" width="145" height="174"/>
+                                                    <rect key="frame" x="543" y="185" width="145" height="174"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="174" id="dNj-7S-9C3"/>
                                                     </constraints>
                                                 </sceneView>
                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cBN-o2-bzJ">
-                                                    <rect key="frame" x="511" y="370" width="43" height="14"/>
+                                                    <rect key="frame" x="511" y="367" width="43" height="14"/>
                                                     <textFieldCell key="cell" lineBreakMode="clipping" title="Sample" id="qKy-F8-z9Y">
                                                         <font key="font" metaFont="message" size="11"/>
                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -546,7 +546,7 @@
                                                     </textFieldCell>
                                                 </textField>
                                                 <gridView xPlacement="leading" yPlacement="bottom" rowAlignment="none" rowSpacing="8" columnSpacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="oFJ-is-Uok">
-                                                    <rect key="frame" x="17" y="283" width="497" height="79"/>
+                                                    <rect key="frame" x="17" y="280" width="497" height="79"/>
                                                     <rows>
                                                         <gridRow id="QWJ-El-iTh"/>
                                                         <gridRow id="EBQ-iu-YF8"/>
@@ -643,19 +643,19 @@
                                                     </gridCells>
                                                 </gridView>
                                                 <box title="Light color swatches" translatesAutoresizingMaskIntoConstraints="NO" id="LlL-Ka-3Ct">
-                                                    <rect key="frame" x="14" y="10" width="412" height="265"/>
+                                                    <rect key="frame" x="14" y="10" width="412" height="262"/>
                                                     <view key="contentView" id="Zj7-Iv-BfT">
-                                                        <rect key="frame" x="3" y="3" width="406" height="247"/>
+                                                        <rect key="frame" x="3" y="3" width="406" height="244"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <subviews>
                                                             <scrollView wantsLayer="YES" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QCg-r4-0jJ">
-                                                                <rect key="frame" x="8" y="8" width="390" height="231"/>
+                                                                <rect key="frame" x="8" y="8" width="390" height="228"/>
                                                                 <clipView key="contentView" id="TP1-8j-PYF">
-                                                                    <rect key="frame" x="1" y="1" width="388" height="229"/>
-                                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                                    <rect key="frame" x="1" y="1" width="388" height="226"/>
+                                                                    <autoresizingMask key="autoresizingMask"/>
                                                                     <subviews>
                                                                         <collectionView selectable="YES" allowsEmptySelection="NO" id="1nk-aB-DVp">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="388" height="229"/>
+                                                                            <rect key="frame" x="0.0" y="0.0" width="388" height="226"/>
                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                                                             <collectionViewFlowLayout key="collectionViewLayout" minimumInteritemSpacing="10" minimumLineSpacing="10" id="bMH-Q9-VO6">
                                                                                 <size key="itemSize" width="85" height="55"/>
@@ -708,11 +708,11 @@
                                         </view>
                                     </tabViewItem>
                                     <tabViewItem label="Processing" identifier="" id="gUQ-w8-eLs">
-                                        <view key="view" id="kt9-mM-tKa">
+                                        <view key="view" misplaced="YES" id="kt9-mM-tKa">
                                             <rect key="frame" x="10" y="33" width="705" height="385"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
-                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="UBa-pN-oL4">
+                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UBa-pN-oL4">
                                                     <rect key="frame" x="7" y="278" width="683" height="48"/>
                                                     <textFieldCell key="cell" selectable="YES" id="66Y-09-wpv">
                                                         <font key="font" metaFont="system"/>
@@ -733,8 +733,8 @@
                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
                                                 </textField>
-                                                <gridView xPlacement="leading" yPlacement="bottom" rowAlignment="none" rowSpacing="8" columnSpacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="u4R-Cg-wuI">
-                                                    <rect key="frame" x="9" y="345" width="327" height="21"/>
+                                                <gridView ambiguous="YES" xPlacement="leading" yPlacement="bottom" rowAlignment="none" rowSpacing="8" columnSpacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="u4R-Cg-wuI">
+                                                    <rect key="frame" x="9" y="329" width="327" height="37"/>
                                                     <rows>
                                                         <gridRow id="29a-YF-zUm"/>
                                                     </rows>
@@ -744,8 +744,8 @@
                                                     </columns>
                                                     <gridCells>
                                                         <gridCell row="29a-YF-zUm" column="iYO-xY-Sti" yPlacement="center" id="QDu-Zp-97v">
-                                                            <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="SH5-iD-D76">
-                                                                <rect key="frame" x="-2" y="3" width="70" height="16"/>
+                                                            <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SH5-iD-D76">
+                                                                <rect key="frame" x="-2" y="11" width="70" height="16"/>
                                                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Shape size" id="qSZ-me-QEA">
                                                                     <font key="font" usesAppearanceFont="YES"/>
                                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -816,7 +816,7 @@
                                                         </gridCell>
                                                     </gridCells>
                                                 </gridView>
-                                                <gridView xPlacement="leading" yPlacement="bottom" rowAlignment="none" rowSpacing="8" columnSpacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="SGS-it-ODJ">
+                                                <gridView ambiguous="YES" xPlacement="leading" yPlacement="bottom" rowAlignment="none" rowSpacing="8" columnSpacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="SGS-it-ODJ">
                                                     <rect key="frame" x="9" y="210" width="589" height="21"/>
                                                     <rows>
                                                         <gridRow id="nW1-9f-PiH"/>
@@ -827,7 +827,7 @@
                                                     </columns>
                                                     <gridCells>
                                                         <gridCell row="nW1-9f-PiH" column="cRR-bw-jAy" yPlacement="center" id="Xra-HV-MI8">
-                                                            <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="uwL-e5-270">
+                                                            <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uwL-e5-270">
                                                                 <rect key="frame" x="-2" y="3" width="131" height="16"/>
                                                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Maximum image size" id="KR9-71-Pvb">
                                                                     <font key="font" metaFont="system"/>
@@ -895,7 +895,7 @@
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="I9k-a0-Vj3">
-                                                    <rect key="frame" x="17" y="341" width="671" height="44"/>
+                                                    <rect key="frame" x="17" y="338" width="671" height="44"/>
                                                     <textFieldCell key="cell" selectable="YES" borderStyle="border" title="Live view is restricted to fewer shapes and capabilites due to being rendered as quickly as possible." id="Duz-3q-oc6">
                                                         <font key="font" usesAppearanceFont="YES"/>
                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -903,7 +903,7 @@
                                                     </textFieldCell>
                                                 </textField>
                                                 <gridView xPlacement="leading" yPlacement="bottom" rowAlignment="none" rowSpacing="8" columnSpacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="q9t-OS-TEm">
-                                                    <rect key="frame" x="17" y="275" width="465" height="50"/>
+                                                    <rect key="frame" x="17" y="272" width="465" height="50"/>
                                                     <rows>
                                                         <gridRow id="5XK-GA-V5j"/>
                                                         <gridRow id="VAF-4I-Twq"/>
@@ -2479,6 +2479,7 @@
                                             <tableColumns>
                                                 <tableColumn identifier="ShapeColumn" width="195" minWidth="40" maxWidth="1000" id="EIV-gZ-3L5">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Shape">
+                                                        <font key="font" metaFont="message" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                     </tableHeaderCell>
