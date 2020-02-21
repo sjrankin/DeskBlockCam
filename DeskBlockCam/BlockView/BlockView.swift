@@ -13,6 +13,13 @@ import SceneKit
 /// Provides a block view in an `SCNView` control.
 class BlockView: SCNView
 {
+    /// Initial camera location.
+    public static var InitialCameraLocation = SCNVector3(0.0, 0.0, 15.0)
+    /// Initial camera orientation.
+    public static var InitialCameraOrientation = SCNVector4(0.0, 0.0, 0.0, 1.0)
+    /// Initial camera rotation.
+    public static var InitialCameraRotation = SCNVector4(0.0, 0.0, 0.0, 0.0)
+    
     /// Delegate for reporting processing status.
     public weak var StatusDelegate: StatusProtocol? = nil
     
@@ -32,17 +39,27 @@ class BlockView: SCNView
         Initialize()
     }
     
+    /// Deinitializer. Remove KVO on cameras.
+    deinit
+    {
+         PositionObservation = nil
+         OrientationObservation = nil
+         RotationObservation = nil
+    }
+    
     /// Clear the scene of any nodes.
     func ClearScene()
     {
         #if true
         if MasterNode != nil
         {
+            print("Removing master node from scene.")
             MasterNode?.removeFromParentNode()
             MasterNode = nil
         }
         if LiveViewMasterNode != nil
         {
+            print("Removing live view master node from scene.")
             LiveViewMasterNode?.removeFromParentNode()
             LiveViewMasterNode = nil
         }
@@ -65,54 +82,82 @@ class BlockView: SCNView
     
     func ColorProminence(_ Color: NSColor) -> CGFloat
     {
+        var Ex: CGFloat = 1.0
+        switch Settings.GetEnum(ForKey: .VerticalExaggeration, EnumType: VerticalExaggerations.self,
+                                Default: VerticalExaggerations.Small)
+        {
+            case .None:
+                Ex = 1.0
+            
+            case .Small:
+                Ex = 1.5
+            
+            case .Medium:
+                Ex = 2.2
+            
+            case .Large:
+                Ex = 3.5
+        }
+        var Height: CGFloat = 0.0
         switch Settings.GetEnum(ForKey: .HeightDetermination, EnumType: HeightDeterminations.self,
                                 Default: HeightDeterminations.Brightness)
         {
             case .Hue:
-                return Color.hueComponent
+                Height = Color.hueComponent
             
             case .Saturation:
-                return Color.saturationComponent
+                Height = Color.saturationComponent
             
             case .Brightness:
-                return Color.brightnessComponent
+                Height = Color.brightnessComponent
             
             case .Red:
-                return Color.redComponent
+                Height = Color.redComponent
             
             case .Green:
-                return Color.greenComponent
+                Height = Color.greenComponent
             
             case .Blue:
-                return Color.blueComponent
+                Height = Color.blueComponent
             
             case .Cyan:
-                return Color.cyanComponent
+                Height = Color.CMYK.C
             
             case .Magenta:
-                return Color.magentaComponent
+                Height = Color.CMYK.M
             
             case .Yellow:
-                return Color.yellowComponent
+                Height = Color.CMYK.Y
             
             case .Black:
-                return Color.blackComponent
+                Height = Color.CMYK.K
             
             case .YUV_Y:
-                return Color.YUV.Y
+                Height = Color.YUV.Y
             
             case .YUV_U:
-                return Color.YUV.U
+                Height = Color.YUV.U
             
             case .YUV_V:
-                return Color.YUV.V
+                Height = Color.YUV.V
             
-            case .Greatest:
-                return max(Color.redComponent, Color.greenComponent, Color.blueComponent)
+            case .GreatestRGB:
+                Height = max(Color.redComponent, Color.greenComponent, Color.blueComponent)
             
-            case .Least:
-                return min(Color.redComponent, Color.greenComponent, Color.blueComponent)
+            case .LeastRGB:
+                Height = min(Color.redComponent, Color.greenComponent, Color.blueComponent)
+            
+            case .GreatestCMYK:
+                Height = max(Color.CMYK.C, Color.CMYK.M, Color.CMYK.Y, Color.CMYK.K)
+
+            case .LeastCMYK:
+                Height = min(Color.CMYK.C, Color.CMYK.M, Color.CMYK.Y, Color.CMYK.K)
         }
+        if Settings.GetBoolean(ForKey: .InvertHeight)
+        {
+            Height = 1.0 - Height
+        }
+        return Height * Ex
     }
     
     /// Sets the antialiasing mode for the view using stored user defaults.
@@ -139,25 +184,26 @@ class BlockView: SCNView
         }
     }
     
-    func ProcessImage(_ Image: NSImage, Options: ProcessingAttributes)
+    func XProcessImage(_ Image: NSImage, Options: ProcessingAttributes)
     {
         DispatchQueue.global(qos: .background).async
             {
-                self.DoProcessImage(Image, Options: Options)
+                //self.DoProcessImage(Image, Options: Options)
         }
     }
     
     /// Process the passed image then display the result.
     /// - Parameter Image: The image to process.
     /// - Parameter Options: Determines how the image is processd.
-    func DoProcessImage(_ Image: NSImage, Options: ProcessingAttributes)
+    func ProcessImage(_ Image: NSImage, Options: ProcessingAttributes)
     {
         StatusDelegate?.UpdateStatus(With: .ResetStatus)
         let Start = CACurrentMediaTime()
+        Initialize()
          SetAntialiasing()
         StatusDelegate?.UpdateDuration(NewDuration: 0.0)
         StatusDelegate?.UpdateStatus(With: .PreparingImage)
-        ClearScene()
+//        ClearScene()
         let AfterClear = CACurrentMediaTime() - Start
         StatusDelegate?.UpdateDuration(NewDuration: AfterClear)
         if MasterNode == nil
@@ -214,22 +260,53 @@ class BlockView: SCNView
         let AfterShapes = CACurrentMediaTime() - Start
         StatusDelegate?.UpdateDuration(NewDuration: AfterShapes)
         
+        scene?.rootNode.addChildNode(MasterNode!)
+        #if false
         self.StatusDelegate?.UpdateStatus(With: .AddingShapes)
         prepare([MasterNode!])
         {
             Completed in
             if Completed
             {
-                DispatchQueue.main.async
-                    {
+                //DispatchQueue.main.async
+                //    {
                 self.scene?.rootNode.addChildNode(self.MasterNode!)
+                print("Added master node to scene.")
                 self.StatusDelegate?.UpdateStatus(With: .AddingDone)
                 let AfterAdded = CACurrentMediaTime() - Start
                 self.StatusDelegate?.FinalizeDuration(WithDuration: AfterAdded)
-                }
+                //}
             }
         }
+        #endif
+        #if false
+        if !AddedObserversCamera
+        {
+            if let CameraNode = self.pointOfView
+            {
+                DefaultCameraNode = CameraNode
+                PositionObservation = DefaultCameraNode?.observe(\.position, options: [.initial, .new])
+                {
+                    (camera, change) in
+                    print("camera position: \(camera.position)")
+                }
+                OrientationObservation = DefaultCameraNode?.observe(\.position, options: [.initial, .new])
+                {
+                    (camera, change) in
+                    print("camera orientation: \(camera.orientation)")
+                }
+                RotationObservation = DefaultCameraNode?.observe(\.position, options: [.initial, .new])
+                {
+                    (camera, change) in
+                    print("camera rotation: \(camera.rotation)")
+                }
+                AddedObserversCamera = true
+            }
+        }
+        #endif
     }
+    
+    var AddedObserversCamera = false
     
     func GetNodeAt(X: Int, Y: Int, From: SCNNode) -> PSCNNode?
     {
@@ -257,12 +334,34 @@ class BlockView: SCNView
     /// Common initialization.
     func Initialize()
     {
+        self.allowsCameraControl = true
         self.scene = SCNScene()
+        #if true
         AddCamera()
+//        DefaultCameraNode = self.pointOfView
+//        DefaultCameraNode!.addObserver(self, forKeyPath: "DefaultCameraNode.position",
+//                                       options: NSKeyValueObservingOptions.new,
+//                                       context: nil)
+        #else
+        AddCamera()
+        #endif
         AddLight()
         self.scene?.background.contents = NSColor.black
-        self.allowsCameraControl = true
+        #if DEBUG
         self.showsStatistics = true
+        #endif
+    }
+    
+    var PositionObservation: NSKeyValueObservation? = nil
+    var OrientationObservation: NSKeyValueObservation? = nil
+    var RotationObservation: NSKeyValueObservation? = nil
+    
+    var DefaultCameraNode: SCNNode? = nil
+    
+    func GetDefaultCamera() -> SCNCameraController
+    {
+        let DefaultCamera = defaultCameraController
+        return DefaultCamera
     }
     
     /// Add a camera to the scene.
@@ -277,6 +376,9 @@ class BlockView: SCNView
         self.scene?.rootNode.addChildNode(CameraNode!)
     }
     
+    /// The camera's node in the scene.
+    public var CameraNode: SCNNode? = nil
+    
     /// Add a light to the scene.
     func AddLight()
     {
@@ -288,11 +390,9 @@ class BlockView: SCNView
         LightNode!.position = SCNVector3(-10.0, 10.0, 15.0)
         self.scene?.rootNode.addChildNode(LightNode!)
     }
-    
-    /// The camera's node in the scene.
-    var CameraNode: SCNNode? = nil
+
     /// The light's node in the scene.
-    var LightNode: SCNNode? = nil
+    public var LightNode: SCNNode? = nil
     
     func Snapshot() -> NSImage
     {
@@ -301,6 +401,17 @@ class BlockView: SCNView
     
     /// Master node for still image processing.
     var MasterNode: SCNNode? = nil
+    
+    /// Resets the camera view to initial location, orientation, and rotation.
+    public func ResetCamera()
+    {
+        CameraNode?.position = BlockView.InitialCameraLocation
+        CameraNode?.orientation = BlockView.InitialCameraOrientation
+        CameraNode?.rotation = BlockView.InitialCameraRotation
+        self.pointOfView?.position = BlockView.InitialCameraLocation
+        self.pointOfView?.orientation = BlockView.InitialCameraOrientation
+        self.pointOfView?.rotation = BlockView.InitialCameraRotation
+    }
     
     /// Determines if all child nodes (including the node itself) are in the frustrum of the passed scene.
     /// - Note: See [How to know if a node is visible in scene or not in SceneKit?](https://stackoverflow.com/questions/47828491/how-to-know-if-node-is-visible-in-screen-or-not-in-scenekit)
@@ -333,6 +444,9 @@ class BlockView: SCNView
     /// - Returns: Recommended Z location of the camera to minimize wasted, empty space.
     func MinimizeBezel(IsLiveView: Bool = true) -> Double
     {
+        #if true
+        return 15.0
+        #else
         var OriginalZ: CGFloat = 15.0
         let POV = self.pointOfView
         if POV == nil
@@ -377,6 +491,7 @@ class BlockView: SCNView
         }
         
         return Double(OriginalZ)
+        #endif
     }
     
     /// Parses the pixellated image and returns a list of colors, one for each pixellated block.
@@ -479,11 +594,11 @@ class BlockView: SCNView
     /// Lock for processing the live view.
     var CloseLock = NSObject()
     
-    public func ProcessLiveView(_ Source: CIImage, _ FrameIndex: Int)
+    public func XProcessLiveView(_ Source: CIImage, _ FrameIndex: Int)
     {
         DispatchQueue.global(qos: .background).async
             {
-                self.DoProcessLiveView(Source, FrameIndex)
+                //self.DoProcessLiveView(Source, FrameIndex)
         }
     }
     
@@ -493,7 +608,7 @@ class BlockView: SCNView
     ///         shapes are supported.
     /// - Parameter Source: The image to processed.
     /// - Parameter FrameIndex: Not currently used.
-    public func DoProcessLiveView(_ Source: CIImage, _ FrameIndex: Int)
+    public func ProcessLiveView(_ Source: CIImage, _ FrameIndex: Int)
     {
         objc_sync_enter(CloseLock)
         defer{ objc_sync_exit(CloseLock) }
@@ -505,7 +620,33 @@ class BlockView: SCNView
             DispatchQueue.main.sync
                 {
                     DrawLiveViewNodes(Colors: Colors, HShapeCount: HBlocks, VShapeCount: VBlocks,
-                                      NodeShape: Settings.GetEnum(ForKey: .LiveViewShape, EnumType: Shapes.self, Default: Shapes.Blocks))
+                                      NodeShape: Settings.GetEnum(ForKey: .LiveViewShape, EnumType: Shapes.self,
+                                                                  Default: Shapes.Blocks))
+                    #if false
+                    if !self.AddedObserversCamera
+                    {
+                        if let CameraNode = self.pointOfView
+                        {
+                            self.DefaultCameraNode = CameraNode
+                            self.PositionObservation = self.DefaultCameraNode?.observe(\.position, options: [.initial, .new])
+                            {
+                                (camera, change) in
+                                print("camera position: \(camera.position)")
+                            }
+                            self.OrientationObservation = self.DefaultCameraNode?.observe(\.position, options: [.initial, .new])
+                            {
+                                (camera, change) in
+                                print("camera orientation: \(camera.orientation)")
+                            }
+                            self.RotationObservation = self.DefaultCameraNode?.observe(\.position, options: [.initial, .new])
+                            {
+                                (camera, change) in
+                                print("camera rotation: \(camera.rotation)")
+                            }
+                            self.AddedObserversCamera = true
+                        }
+                    }
+                    #endif
             }
         }
     }
@@ -515,21 +656,41 @@ class BlockView: SCNView
     /// - Returns: A value to use for setting size and/or Z location of shapes.
     func LiveViewColorProminence(_ Color: NSColor) -> CGFloat
     {
+        #if true
+        return ColorProminence(Color)
+        #else
+        var Ex: CGFloat = 1.0
+        switch Settings.GetEnum(ForKey: .VerticalExaggeration, EnumType: VerticalExaggerations.self,
+        Default: VerticalExaggerations.Small)
+        {
+            case .None:
+                Ex = 1.0
+            
+            case .Small:
+                Ex = 1.3
+            
+            case .Medium:
+                Ex = 1.9
+            
+            case .Large:
+                Ex = 2.5
+        }
         switch Settings.GetEnum(ForKey: .LiveViewHeight, EnumType: HeightDeterminations.self,
                                 Default: HeightDeterminations.Brightness)
         {
             case .Hue:
-                return Color.hueComponent
+                return Color.hueComponent * Ex
             
             case .Saturation:
-                return Color.saturationComponent
+                return Color.saturationComponent * Ex
             
             case .Brightness:
-                return Color.brightnessComponent
+                return Color.brightnessComponent * Ex
             
             default:
-                return Color.brightnessComponent
+                return Color.brightnessComponent * Ex
         }
+        #endif
     }
     
     /// Udpate existing nodes with new colors.
@@ -735,6 +896,7 @@ class BlockView: SCNView
     
     /// The current shape to use in live view mode.
     var CurrentLiveViewNodeShape = Shapes.NoShape
+    
     /// The master node for live view mode.
     var LiveViewMasterNode: SCNNode? = nil
 }
@@ -763,6 +925,191 @@ extension NSColor
             let U = Umax * ((Blue - Y) / (1.0 - Wb))
             let V = Vmax * ((Red - Y) / (1.0 - Wr))
             return (Y, U, V)
+        }
+    }
+    
+    /// Returns the CMYK equivalent of the instance color, in C, M, Y, K order.
+    var CMYK: (C: CGFloat, Y: CGFloat, M: CGFloat, K: CGFloat)
+    {
+        get
+        {
+            var Red: CGFloat = 0.0
+            var Green: CGFloat = 0.0
+            var Blue: CGFloat = 0.0
+            var Alpha: CGFloat = 0.0
+            self.getRed(&Red, green: &Green, blue: &Blue, alpha: &Alpha)
+            let K: CGFloat = 1.0 - max(Red, max(Green, Blue))
+            var C: CGFloat = 0.0
+            var M: CGFloat = 0.0
+            var Y: CGFloat = 0.0
+            if K == 1.0
+            {
+                C = 1.0
+            }
+            else
+            {
+                C = abs((1.0 - Red - K) / (1.0 - K))
+            }
+            if K == 1.0
+            {
+                M = 1.0
+            }
+            else
+            {
+                M = abs((1.0 - Green - K) / (1.0 - K))
+            }
+            if K == 1.0
+            {
+                Y = 1.0
+            }
+            else
+            {
+                Y = abs((1.0 - Blue - K) / (1.0 - K))
+            }
+            return (C, M, Y, K)
+        }
+    }
+    
+    /// Returns the CIE LAB equivalent of the instance color, in L, A, B order.
+    /// - Note: See (Color math and programming code examples)[http://www.easyrgb.com/en/math.php]
+    var LAB: (L: CGFloat, A: CGFloat, B: CGFloat)
+    {
+        get
+        {
+            let (X, Y, Z) = self.XYZ
+            var Xr = X / 111.144                //X referent is X10 incandescent/tungsten
+            var Yr = Y / 100.0                  //Y referent is X10 incandescent/tungsten
+            var Zr = Z / 35.2                   //Z referent is X10 incandescent/tungsten
+            if Xr > 0.008856
+            {
+                Xr = pow(Xr, (1.0 / 3.0))
+            }
+            else
+            {
+                Xr = (7.787 * Xr) + (16.0 / 116.0)
+            }
+            if Yr > 0.008856
+            {
+                Yr = pow(Yr, (1.0 / 3.0))
+            }
+            else
+            {
+                Yr = (7.787 * Yr) + (16.0 / 116.0)
+            }
+            if Zr > 0.008856
+            {
+                Zr = pow(Zr, (1.0 / 3.0))
+            }
+            else
+            {
+                Zr = (7.787 * Zr) + (16.0 / 116.0)
+            }
+            let L = (Xr * 116.0) - 16.0
+            let A = 500.0 * (Xr - Yr)
+            let B = 200.0 * (Yr - Zr)
+            return (L, A, B)
+        }
+    }
+    
+    /// Returns the XYZ equivalent of the instance color, in X, Y, Z order.
+    /// - Note: See (Color math and programming code examples)[http://www.easyrgb.com/en/math.php]
+    var XYZ: (X: CGFloat, Y: CGFloat, Z: CGFloat)
+    {
+        get
+        {
+            var Red: CGFloat = 0.0
+            var Green: CGFloat = 0.0
+            var Blue: CGFloat = 0.0
+            var Alpha: CGFloat = 0.0
+            self.getRed(&Red, green: &Green, blue: &Blue, alpha: &Alpha)
+            if Red > 0.04045
+            {
+                Red = pow(((Red + 0.055) / 1.055), 2.4)
+            }
+            else
+            {
+                Red = Red / 12.92
+            }
+            if Green > 0.04045
+            {
+                Green = pow(((Green + 0.055) / 1.055), 2.4)
+            }
+            else
+            {
+                Green = Green / 12.92
+            }
+            if Blue > 0.04045
+            {
+                Blue = pow(((Blue + 0.055) / 1.055), 2.4)
+            }
+            else
+            {
+                Blue = Blue / 12.92
+            }
+            Red = Red * 100.0
+            Green = Green * 100.0
+            Blue = Blue * 100.0
+            let X = (Red * 0.4124) + (Green * 0.3576) * (Blue * 0.1805)
+            let Y = (Red * 0.2126) + (Green * 0.7152) * (Blue * 0.0722)
+            let Z = (Red * 0.0193) + (Green * 0.1192) * (Blue * 0.9505)
+            return (X, Y, Z)
+        }
+    }
+    
+    /// Returns the HSL equivalent of the instance color, in H, S, L order.
+    /// - Note: See (Color math and programming code examples)[http://www.easyrgb.com/en/math.php]
+    var HSL: (H: CGFloat, S: CGFloat, L: CGFloat)
+    {
+        get
+        {
+            var Red: CGFloat = 0.0
+            var Green: CGFloat = 0.0
+            var Blue: CGFloat = 0.0
+            var Alpha: CGFloat = 0.0
+            self.getRed(&Red, green: &Green, blue: &Blue, alpha: &Alpha)
+            let Min = min(Red, Green, Blue)
+            let Max = max(Red, Green, Blue)
+            let Delta = Max - Min
+            let L: CGFloat = (Max + Min) / 2.0
+            var H: CGFloat = 0.0
+            var S: CGFloat = 0.0
+            if Delta != 0.0
+            {
+                if L < 0.5
+                {
+                    S = Max / (Max + Min)
+                }
+                else
+                {
+                    S = Max / (2.0 - Max - Min)
+                }
+                let DeltaR = (((Max - Red) / 6.0) + (Max / 2.0)) / Max
+                let DeltaG = (((Max - Green) / 6.0) + (Max / 2.0)) / Max
+                let DeltaB = (((Max - Blue) / 6.0) + (Max / 2.0)) / Max
+                if Red == Max
+                {
+                    H = DeltaB - DeltaG
+                }
+                else
+                    if Green == Max
+                    {
+                        H = (1.0 / 3.0) + (DeltaR - DeltaB)
+                    }
+                    else
+                        if Blue == Max
+                        {
+                            H = (2.0 / 3.0) + (DeltaG - DeltaR)
+                }
+                if H < 0.0
+                {
+                    H = H + 1.0
+                }
+                if H > 1.0
+                {
+                    H = H - 1.0
+                }
+            }
+            return (H, S, L)
         }
     }
 }
