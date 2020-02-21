@@ -20,7 +20,7 @@ extension ViewController
         SavePanel.title = "Save Image"
         SavePanel.allowedFileTypes = ["jpg", "jpeg", "png", "tiff"]
         SavePanel.canCreateDirectories = true
-        SavePanel.nameFieldStringValue = "BlockCamImage.jpg"
+        SavePanel.nameFieldStringValue = "BlockCamImage.png"
         SavePanel.level = .modalPanel
         if SavePanel.runModal() == .OK
         {
