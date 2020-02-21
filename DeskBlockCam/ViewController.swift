@@ -53,9 +53,6 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         FileIO.Initialize()
         FileIO.ClearFramesDirectory()
         
-        ModeSelector.removeAllItems()
-        ModeSelector.addItems(withTitles: ["Live View", "Still Image", "Videos"])
-        
         Started = true
         if Settings.GetBoolean(ForKey: .AutoOpenShapeSettings)
         {
@@ -79,7 +76,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
             case .ImageView:
                 if ChangeSelector
                 {
-                    ModeSelector.selectItem(at: 1)
+                    ModeSegment.selectedSegment = 1
                 }
                 StopCamera()
                 ProcessedImage.ClearScene()
@@ -87,7 +84,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
             case .LiveView:
                 if ChangeSelector
                 {
-                    ModeSelector.selectItem(at: 0)
+                    ModeSegment.selectedSegment = 0
                 }
                 StartCamera()
             
@@ -430,12 +427,23 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
     
     @IBAction func HandleAlignImageButton(_ sender: Any)
     {
-        let Mode = Settings.GetEnum(ForKey: .CurrentMode, EnumType: MainModes.self, Default: .LiveView)
+        var Mode = Settings.GetEnum(ForKey: .CurrentMode, EnumType: MainModes.self, Default: .LiveView)
         if Mode == .VideoView
         {
             return
         }
         #if true
+        switch ModeSegment.selectedSegment
+        {
+            case 0:
+                Mode = .LiveView
+            
+            case 1:
+                Mode = .ImageView
+            
+            default:
+            return
+        }
         /*
         if let POV = ProcessedImage.pointOfView
         {
@@ -606,25 +614,38 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
     
     var ShapeIndex: Int = 0
     
-    @IBAction func HandleModeSelectorChanged(_ sender: Any)
+    @IBAction func HandleModeChanged(_ sender: Any)
     {
-        if let Selector = sender as? NSPopUpButton
+        switch ModeSegment.selectedSegment
         {
-            let Index = Selector.indexOfSelectedItem
-            switch Index
-            {
-                case 0:
-                    Settings.SetEnum(MainModes.LiveView, EnumType: MainModes.self, ForKey: .CurrentMode)
-                    SetProgramMode()
-                
-                case 1:
-                    Settings.SetEnum(MainModes.ImageView, EnumType: MainModes.self, ForKey: .CurrentMode)
-                    SetProgramMode()
-                
-                default:
-                    return
-            }
+            case 0:
+                Settings.SetEnum(MainModes.LiveView, EnumType: MainModes.self, ForKey: .CurrentMode)
+            
+            case 1:
+                Settings.SetEnum(MainModes.ImageView, EnumType: MainModes.self, ForKey: .CurrentMode)
+            
+            default:
+            return
         }
+        SetProgramMode(ChangeSelector: false)
+    }
+    
+    @IBAction func SelectLiveView(_ sender: Any)
+    {
+        Settings.SetEnum(MainModes.LiveView, EnumType: MainModes.self, ForKey: .CurrentMode)
+        SetProgramMode(ChangeSelector: true)
+    }
+    
+    @IBAction func SelectImageView(_ sender: Any)
+    {
+        Settings.SetEnum(MainModes.ImageView, EnumType: MainModes.self, ForKey: .CurrentMode)
+                SetProgramMode(ChangeSelector: true)
+    }
+    
+    @IBAction func SelectVideoView(_ sender: Any)
+    {
+        Settings.SetEnum(MainModes.VideoView, EnumType: MainModes.self, ForKey: .CurrentMode)
+                SetProgramMode(ChangeSelector: true)
     }
     
     @IBAction func ShowAbout(_ sender: Any)
@@ -743,7 +764,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
     @IBOutlet weak var StillImageView: NSView!
     @IBOutlet weak var OriginalImageView: NSImageView!
     @IBOutlet var ControllerView: ViewControllerView!
-    @IBOutlet weak var ModeSelector: NSPopUpButton!
+    @IBOutlet weak var ModeSegment: NSSegmentedControl!
     @IBOutlet weak var ProcessedImage: BlockView!
     @IBOutlet weak var LiveHistogram: HistogramDisplay!
     @IBOutlet weak var CameraButton: NSButton!
