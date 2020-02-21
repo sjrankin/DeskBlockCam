@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="16085" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="16085"/>
-        <plugIn identifier="com.apple.SceneKitIBPlugin" version="16085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15705"/>
+        <plugIn identifier="com.apple.SceneKitIBPlugin" version="15705"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -322,20 +322,20 @@
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="ViewController" customModule="BlockCam" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="m2S-Jp-Qdl" customClass="ViewControllerView" customModule="BlockCam" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="0.0" width="1096" height="560"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1104" height="560"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="03m-l9-L2V">
-                                <rect key="frame" x="0.0" y="70" width="1096" height="490"/>
+                                <rect key="frame" x="0.0" y="70" width="1104" height="490"/>
                                 <subviews>
                                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="6iV-Jo-yuM">
-                                        <rect key="frame" x="0.0" y="0.0" width="1096" height="490"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="1104" height="490"/>
                                         <subviews>
                                             <sceneView preferredRenderingAPI="1" translatesAutoresizingMaskIntoConstraints="NO" id="ogX-jq-HQb" customClass="BlockView" customModule="BlockCam" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="846" height="490"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="854" height="490"/>
                                             </sceneView>
                                             <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="EjG-RI-0P9">
-                                                <rect key="frame" x="846" y="335" width="250" height="125"/>
+                                                <rect key="frame" x="854" y="335" width="250" height="125"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="125" id="1Nb-Qn-Qrp"/>
                                                     <constraint firstAttribute="width" constant="250" id="VdQ-co-bRN"/>
@@ -343,7 +343,7 @@
                                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" id="ewK-xz-HzI"/>
                                             </imageView>
                                             <box title="Processing Status" translatesAutoresizingMaskIntoConstraints="NO" id="QvZ-d3-B1S">
-                                                <rect key="frame" x="851" y="16" width="228" height="155"/>
+                                                <rect key="frame" x="859" y="16" width="228" height="155"/>
                                                 <view key="contentView" id="uDE-pI-Jxz">
                                                     <rect key="frame" x="3" y="3" width="222" height="137"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -494,7 +494,7 @@
                                                 </constraints>
                                             </box>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gyy-rc-Vs3">
-                                                <rect key="frame" x="854" y="468" width="87" height="16"/>
+                                                <rect key="frame" x="862" y="468" width="87" height="16"/>
                                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Source image" id="o4Y-0N-Ndh">
                                                     <font key="font" metaFont="system"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -528,10 +528,10 @@
                                 </constraints>
                             </customView>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="7Mz-J6-VDI">
-                                <rect key="frame" x="0.0" y="0.0" width="1096" height="70"/>
+                                <rect key="frame" x="0.0" y="0.0" width="1104" height="70"/>
                                 <subviews>
                                     <button translatesAutoresizingMaskIntoConstraints="NO" id="yfw-EC-nVV">
-                                        <rect key="frame" x="524" y="11" width="48" height="48"/>
+                                        <rect key="frame" x="528" y="11" width="48" height="48"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="48" id="LQm-CM-pKI"/>
                                         </constraints>
@@ -544,10 +544,13 @@
                                         </connections>
                                     </button>
                                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="sD1-1P-Ylf" customClass="HistogramDisplay" customModule="BlockCam" customModuleProvider="target">
-                                        <rect key="frame" x="692" y="11" width="292" height="48"/>
+                                        <rect key="frame" x="692" y="11" width="300" height="48"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="300" id="wPH-NV-hWd"/>
+                                        </constraints>
                                     </customView>
-                                    <button misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2ff-IU-JmN">
-                                        <rect key="frame" x="1014" y="13" width="48" height="48"/>
+                                    <button translatesAutoresizingMaskIntoConstraints="NO" id="2ff-IU-JmN">
+                                        <rect key="frame" x="1036" y="11" width="48" height="48"/>
                                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="BigGear" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="DTo-TD-iaw">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -556,8 +559,8 @@
                                             <action selector="HandleProcessingSettingsButtonPressed:" target="XfG-lQ-9wD" id="NPg-0F-iA1"/>
                                         </connections>
                                     </button>
-                                    <popUpButton verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LJe-NP-c5R">
-                                        <rect key="frame" x="18" y="21" width="169" height="25"/>
+                                    <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="LJe-NP-c5R">
+                                        <rect key="frame" x="18" y="22" width="169" height="24"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="164" id="vHR-zO-FYf"/>
                                         </constraints>
@@ -576,15 +579,31 @@
                                             <action selector="HandleModeSelectorChanged:" target="XfG-lQ-9wD" id="skr-y5-fum"/>
                                         </connections>
                                     </popUpButton>
+                                    <button translatesAutoresizingMaskIntoConstraints="NO" id="03K-Rc-K1X">
+                                        <rect key="frame" x="226" y="11" width="48" height="48"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="48" id="9aD-el-GzI"/>
+                                        </constraints>
+                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="AlignCenter" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="BGh-Hx-PMl">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="HandleAlignImageButton:" target="XfG-lQ-9wD" id="1fb-1H-AkH"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="LJe-NP-c5R" firstAttribute="centerY" secondItem="yfw-EC-nVV" secondAttribute="centerY" id="0VN-ap-nx3"/>
                                     <constraint firstItem="LJe-NP-c5R" firstAttribute="top" secondItem="7Mz-J6-VDI" secondAttribute="top" constant="25" id="32R-bw-HFJ"/>
                                     <constraint firstItem="sD1-1P-Ylf" firstAttribute="top" secondItem="yfw-EC-nVV" secondAttribute="top" id="5YI-xt-Z9H"/>
                                     <constraint firstItem="sD1-1P-Ylf" firstAttribute="bottom" secondItem="yfw-EC-nVV" secondAttribute="bottom" id="H1S-vl-AlJ"/>
+                                    <constraint firstItem="03K-Rc-K1X" firstAttribute="leading" secondItem="LJe-NP-c5R" secondAttribute="trailing" constant="42" id="Hh8-GB-HgB"/>
                                     <constraint firstItem="2ff-IU-JmN" firstAttribute="bottom" secondItem="sD1-1P-Ylf" secondAttribute="bottom" id="IZH-Oy-6tl"/>
                                     <constraint firstAttribute="trailing" secondItem="sD1-1P-Ylf" secondAttribute="trailing" constant="112" id="LjV-S7-vfa"/>
                                     <constraint firstItem="yfw-EC-nVV" firstAttribute="top" secondItem="7Mz-J6-VDI" secondAttribute="top" constant="11" id="MtR-c8-zYz"/>
+                                    <constraint firstItem="03K-Rc-K1X" firstAttribute="top" secondItem="2ff-IU-JmN" secondAttribute="top" id="OTp-hG-hVW"/>
+                                    <constraint firstItem="03K-Rc-K1X" firstAttribute="bottom" secondItem="2ff-IU-JmN" secondAttribute="bottom" id="Uox-hj-6Qf"/>
                                     <constraint firstAttribute="height" constant="70" id="VFO-fV-X2s"/>
                                     <constraint firstItem="yfw-EC-nVV" firstAttribute="centerX" secondItem="7Mz-J6-VDI" secondAttribute="centerX" id="agE-Ba-o19"/>
                                     <constraint firstItem="2ff-IU-JmN" firstAttribute="top" secondItem="sD1-1P-Ylf" secondAttribute="top" id="e46-Wt-Hkz"/>
@@ -592,7 +611,6 @@
                                     <constraint firstItem="LJe-NP-c5R" firstAttribute="leading" secondItem="7Mz-J6-VDI" secondAttribute="leading" constant="20" symbolic="YES" id="mST-g7-hgH"/>
                                     <constraint firstAttribute="trailing" secondItem="2ff-IU-JmN" secondAttribute="trailing" constant="20" symbolic="YES" id="nM7-Mt-FrQ"/>
                                     <constraint firstItem="yfw-EC-nVV" firstAttribute="centerY" secondItem="7Mz-J6-VDI" secondAttribute="centerY" id="uRJ-kO-Zyf"/>
-                                    <constraint firstItem="sD1-1P-Ylf" firstAttribute="leading" secondItem="7Mz-J6-VDI" secondAttribute="leading" constant="692" id="uuc-6I-H84"/>
                                 </constraints>
                             </customView>
                         </subviews>
@@ -610,6 +628,7 @@
                         <outlet property="AddingShapesDone" destination="2cM-2n-dtT" id="bAU-Og-qeV"/>
                         <outlet property="AddingShapesIndicator" destination="fmO-xe-N0J" id="buu-du-6SA"/>
                         <outlet property="AddingShapesText" destination="bdk-sH-3my" id="Y8I-SC-dba"/>
+                        <outlet property="AlignImageButton" destination="03K-Rc-K1X" id="7I4-v4-hdo"/>
                         <outlet property="BottomBar" destination="7Mz-J6-VDI" id="OLk-N4-NNU"/>
                         <outlet property="CameraButton" destination="yfw-EC-nVV" id="fiC-Ke-lar"/>
                         <outlet property="ControllerView" destination="m2S-Jp-Qdl" id="nFB-wN-KJG"/>
@@ -684,54 +703,59 @@
                                             <rect key="frame" x="10" y="33" width="687" height="274"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
-                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="p82-0Q-dfB">
-                                                    <rect key="frame" x="15" y="255" width="120" height="18"/>
-                                                    <buttonCell key="cell" type="check" title="Show histogram" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="tdg-21-8gr">
-                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                        <font key="font" metaFont="system"/>
-                                                    </buttonCell>
-                                                    <connections>
-                                                        <action selector="HandleShowHistogramChanged:" target="2rF-AQ-BcH" id="fl7-HP-QYB"/>
-                                                    </connections>
-                                                </button>
-                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Hd4-ep-nKi">
-                                                    <rect key="frame" x="15" y="224" width="310" height="18"/>
-                                                    <buttonCell key="cell" type="check" title="Switch to image view when image files dropped" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="te8-gI-BtV">
-                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                        <font key="font" metaFont="system"/>
-                                                    </buttonCell>
-                                                    <connections>
-                                                        <action selector="HandleSwitchOnDropCheckChanged:" target="2rF-AQ-BcH" id="Rbb-N8-Suf"/>
-                                                    </connections>
-                                                </button>
+                                                <gridView xPlacement="leading" yPlacement="bottom" rowAlignment="none" rowSpacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="9g2-pV-yPp">
+                                                    <rect key="frame" x="17" y="195" width="306" height="62"/>
+                                                    <rows>
+                                                        <gridRow id="xUR-9b-JZa"/>
+                                                        <gridRow id="bBz-21-hUt"/>
+                                                        <gridRow id="rsN-bK-LHd"/>
+                                                    </rows>
+                                                    <columns>
+                                                        <gridColumn id="QvE-dn-mSg"/>
+                                                    </columns>
+                                                    <gridCells>
+                                                        <gridCell row="xUR-9b-JZa" column="QvE-dn-mSg" id="Qu6-Dk-6f0">
+                                                            <button key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="p82-0Q-dfB">
+                                                                <rect key="frame" x="-2" y="46" width="120" height="18"/>
+                                                                <buttonCell key="cell" type="check" title="Show histogram" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="tdg-21-8gr">
+                                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                    <font key="font" metaFont="system"/>
+                                                                </buttonCell>
+                                                                <connections>
+                                                                    <action selector="HandleShowHistogramChanged:" target="2rF-AQ-BcH" id="fl7-HP-QYB"/>
+                                                                </connections>
+                                                            </button>
+                                                        </gridCell>
+                                                        <gridCell row="bBz-21-hUt" column="QvE-dn-mSg" id="q2h-3N-B6K">
+                                                            <button key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Y50-RI-ux1">
+                                                                <rect key="frame" x="-2" y="22" width="228" height="18"/>
+                                                                <buttonCell key="cell" type="check" title="Open shape options automatically" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="0li-jT-TOM">
+                                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                    <font key="font" metaFont="system"/>
+                                                                </buttonCell>
+                                                                <connections>
+                                                                    <action selector="HandleOpenShapeOptionsChanged:" target="2rF-AQ-BcH" id="9K9-4u-1pV"/>
+                                                                </connections>
+                                                            </button>
+                                                        </gridCell>
+                                                        <gridCell row="rsN-bK-LHd" column="QvE-dn-mSg" id="VCk-qp-fzz">
+                                                            <button key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Hd4-ep-nKi">
+                                                                <rect key="frame" x="-2" y="-2" width="310" height="18"/>
+                                                                <buttonCell key="cell" type="check" title="Switch to image view when image files dropped" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="te8-gI-BtV">
+                                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                    <font key="font" metaFont="system"/>
+                                                                </buttonCell>
+                                                                <connections>
+                                                                    <action selector="HandleSwitchOnDropCheckChanged:" target="2rF-AQ-BcH" id="Rbb-N8-Suf"/>
+                                                                </connections>
+                                                            </button>
+                                                        </gridCell>
+                                                    </gridCells>
+                                                </gridView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="p82-0Q-dfB" firstAttribute="leading" secondItem="Llg-AG-oAx" secondAttribute="leading" constant="17" id="RrB-gp-FPu"/>
-                                                <constraint firstItem="Hd4-ep-nKi" firstAttribute="leading" secondItem="p82-0Q-dfB" secondAttribute="leading" id="aDR-Jl-kMQ"/>
-                                                <constraint firstItem="p82-0Q-dfB" firstAttribute="top" secondItem="Llg-AG-oAx" secondAttribute="top" constant="3" id="o3Q-TF-bEu"/>
-                                                <constraint firstItem="Hd4-ep-nKi" firstAttribute="top" secondItem="p82-0Q-dfB" secondAttribute="bottom" constant="17" id="pog-1Y-PTk"/>
-                                            </constraints>
-                                        </view>
-                                    </tabViewItem>
-                                    <tabViewItem label="Secondary" identifier="" id="pA3-Sd-Hpq">
-                                        <view key="view" id="7g0-uP-0iW">
-                                            <rect key="frame" x="10" y="33" width="687" height="274"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                            <subviews>
-                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Y50-RI-ux1">
-                                                    <rect key="frame" x="15" y="248" width="228" height="18"/>
-                                                    <buttonCell key="cell" type="check" title="Open shape options automatically" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="0li-jT-TOM">
-                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                        <font key="font" metaFont="system"/>
-                                                    </buttonCell>
-                                                    <connections>
-                                                        <action selector="HandleOpenShapeOptionsChanged:" target="2rF-AQ-BcH" id="9K9-4u-1pV"/>
-                                                    </connections>
-                                                </button>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="Y50-RI-ux1" firstAttribute="leading" secondItem="7g0-uP-0iW" secondAttribute="leading" constant="17" id="ZrF-FT-RLQ"/>
-                                                <constraint firstItem="Y50-RI-ux1" firstAttribute="top" secondItem="7g0-uP-0iW" secondAttribute="top" constant="10" id="aMz-O1-G3v"/>
+                                                <constraint firstItem="9g2-pV-yPp" firstAttribute="top" secondItem="Llg-AG-oAx" secondAttribute="top" constant="17" id="LMX-pN-GMm"/>
+                                                <constraint firstItem="9g2-pV-yPp" firstAttribute="leading" secondItem="Llg-AG-oAx" secondAttribute="leading" constant="17" id="TqB-GD-OV9"/>
                                             </constraints>
                                         </view>
                                     </tabViewItem>
@@ -768,6 +792,7 @@
                                                             </textField>
                                                         </subviews>
                                                     </view>
+                                                    <color key="borderColor" name="systemBlueColor" catalog="System" colorSpace="catalog"/>
                                                 </box>
                                                 <box title="User Name" translatesAutoresizingMaskIntoConstraints="NO" id="qM8-MK-0bT">
                                                     <rect key="frame" x="14" y="150" width="433" height="88"/>
@@ -893,6 +918,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="AlignCenter" width="508" height="508"/>
         <image name="BigCamera" width="659" height="541"/>
         <image name="BigGear" width="640" height="630"/>
     </resources>
