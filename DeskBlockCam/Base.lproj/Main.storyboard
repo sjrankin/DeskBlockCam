@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="16092.1" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15705"/>
-        <plugIn identifier="com.apple.SceneKitIBPlugin" version="15705"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="16092.1"/>
+        <plugIn identifier="com.apple.SceneKitIBPlugin" version="16092.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -577,7 +577,7 @@
                                             <segments>
                                                 <segment label="Live" width="59" selected="YES"/>
                                                 <segment label="Image" width="59" tag="1"/>
-                                                <segment label="Video" width="59"/>
+                                                <segment label="Video" width="59" enabled="NO"/>
                                             </segments>
                                         </segmentedCell>
                                         <connections>
@@ -585,9 +585,9 @@
                                         </connections>
                                     </segmentedControl>
                                     <button translatesAutoresizingMaskIntoConstraints="NO" id="03K-Rc-K1X">
-                                        <rect key="frame" x="244" y="11" width="48" height="48"/>
+                                        <rect key="frame" x="244" y="11" width="45" height="45"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="48" id="9aD-el-GzI"/>
+                                            <constraint firstAttribute="width" constant="45" id="9aD-el-GzI"/>
                                         </constraints>
                                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="AlignCenter" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="BGh-Hx-PMl">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -604,10 +604,10 @@
                                     <constraint firstItem="A6d-Ym-ngP" firstAttribute="leading" secondItem="7Mz-J6-VDI" secondAttribute="leading" constant="20" symbolic="YES" id="9bj-Zl-lRv"/>
                                     <constraint firstItem="sD1-1P-Ylf" firstAttribute="bottom" secondItem="yfw-EC-nVV" secondAttribute="bottom" id="H1S-vl-AlJ"/>
                                     <constraint firstItem="2ff-IU-JmN" firstAttribute="bottom" secondItem="sD1-1P-Ylf" secondAttribute="bottom" id="IZH-Oy-6tl"/>
-                                    <constraint firstItem="A6d-Ym-ngP" firstAttribute="centerY" secondItem="03K-Rc-K1X" secondAttribute="centerY" id="IjT-U2-mHV"/>
+                                    <constraint firstItem="A6d-Ym-ngP" firstAttribute="centerY" secondItem="03K-Rc-K1X" secondAttribute="centerY" constant="-1.5" id="IjT-U2-mHV"/>
                                     <constraint firstAttribute="trailing" secondItem="sD1-1P-Ylf" secondAttribute="trailing" constant="112" id="LjV-S7-vfa"/>
                                     <constraint firstItem="yfw-EC-nVV" firstAttribute="top" secondItem="7Mz-J6-VDI" secondAttribute="top" constant="11" id="MtR-c8-zYz"/>
-                                    <constraint firstItem="03K-Rc-K1X" firstAttribute="top" secondItem="2ff-IU-JmN" secondAttribute="top" id="OTp-hG-hVW"/>
+                                    <constraint firstItem="03K-Rc-K1X" firstAttribute="top" secondItem="2ff-IU-JmN" secondAttribute="top" constant="3" id="OTp-hG-hVW"/>
                                     <constraint firstItem="03K-Rc-K1X" firstAttribute="bottom" secondItem="2ff-IU-JmN" secondAttribute="bottom" id="Uox-hj-6Qf"/>
                                     <constraint firstAttribute="height" constant="70" id="VFO-fV-X2s"/>
                                     <constraint firstItem="03K-Rc-K1X" firstAttribute="leading" secondItem="A6d-Ym-ngP" secondAttribute="trailing" constant="43" id="Was-jX-kuh"/>
