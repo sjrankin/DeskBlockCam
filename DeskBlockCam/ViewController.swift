@@ -62,7 +62,8 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         ResetStatus()
         
         LiveHistogram.isHidden = !Settings.GetBoolean(ForKey: .ShowHistogram)
-        
+        ProcessedImage.InLiveViewMode = Settings.GetEnum(ForKey: .CurrentMode, EnumType: ProgramModes.self,
+                                                         Default: ProgramModes.LiveView) == .LiveView
         ControllerView.DragDelegate = self
         view.registerForDraggedTypes(NSFilePromiseReceiver.readableDraggedTypes.map {NSPasteboard.PasteboardType($0)})
         view.registerForDraggedTypes([NSPasteboard.PasteboardType.fileURL])
@@ -79,6 +80,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
                     ModeSegment.selectedSegment = 1
                 }
                 StopCamera()
+                ProcessedImage.InLiveViewMode = false
                 ProcessedImage.ClearScene()
             
             case .LiveView:
@@ -87,6 +89,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
                     ModeSegment.selectedSegment = 0
                 }
                 StartCamera()
+                            ProcessedImage.InLiveViewMode = true
             
             case .VideoView:
                 break
@@ -473,12 +476,22 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
     
     /// Capture the output of a frame of data from the live view. For now, the data is sent to the
     /// processed view window for conversion to 3D and display.
+    /// - Note: If either the image processor or main program are not in live view mode, control
+    ///         returns immediately.
     /// - Parameter output: Not used.
     /// - Parameter didOutput: The buffer from the live view.
     /// - Parameter from: The conection that sent the data.
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer,
                        from connection: AVCaptureConnection)
     {
+        if Settings.GetEnum(ForKey: .CurrentMode, EnumType: ProgramModes.self, Default: ProgramModes.LiveView) != .LiveView
+        {
+            return
+        }
+        if !ProcessedImage.InLiveViewMode
+        {
+            return
+        }
         //Set up the throttle.
         let Throttle = 1.0
         AddStat(ForItem: .ThrottleValue, NewValue: "\(Throttle) s")
@@ -512,7 +525,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
                     
                     let Start = CACurrentMediaTime()
                     AddStat(ForItem: .CurrentFrame, NewValue: "\(FrameCount)")
-                    ProcessedImage.ProcessLiveView(CIImg, FrameCount)
+                    ProcessedImage.ProcessLiveView(CIImg)
                     let TotalEnd = CACurrentMediaTime() - Start
                     Durations.append(TotalEnd)
                     if let RollingMean = RollingDurationMean()
