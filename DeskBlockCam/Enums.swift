@@ -217,11 +217,11 @@ enum MainModes: String, CaseIterable
 enum ProgramModes: String, CaseIterable
 {
     /// Video/live view.
-    case Video = "Video"
+    case LiveView = "Live View"
     /// Live view/snapshot.
-    case Snapshot = "Snapshot"
+    case VideoView = "Video View"
     /// Still image (drag/drop or file operations).
-    case StillImage = "StillImage"
+    case ImageView = "Image View"
 }
 
 /// Rows for stat table.
