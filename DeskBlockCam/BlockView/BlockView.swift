@@ -47,6 +47,21 @@ class BlockView: SCNView
          RotationObservation = nil
     }
     
+    /// Mode of the view.
+    private var _InLiveViewMode: Bool = true
+    /// Get or set the view's mode.
+    public var InLiveViewMode: Bool
+    {
+        get
+        {
+            return _InLiveViewMode
+        }
+        set
+        {
+            _InLiveViewMode = newValue
+        }
+    }
+    
     /// Clear the scene of any nodes.
     func ClearScene()
     {
@@ -80,6 +95,11 @@ class BlockView: SCNView
         #endif
     }
     
+    /// Return a prominence value (used to determine either extrusion or size depending on the shape)
+    /// for the passed color.
+    /// - Note: The vertical exaggeration setting is also used to define the final prominence value.
+    /// - Parameter Color: The base color used to determine prominence.
+    /// - Returns: Prominence value for the passed color.
     func ColorProminence(_ Color: NSColor) -> CGFloat
     {
         var Ex: CGFloat = 1.0
@@ -197,6 +217,10 @@ class BlockView: SCNView
     /// - Parameter Options: Determines how the image is processd.
     func ProcessImage(_ Image: NSImage, Options: ProcessingAttributes)
     {
+        if InLiveViewMode
+        {
+            return
+        }
         StatusDelegate?.UpdateStatus(With: .ResetStatus)
         let Start = CACurrentMediaTime()
         Initialize()
@@ -594,22 +618,35 @@ class BlockView: SCNView
     /// Lock for processing the live view.
     var CloseLock = NSObject()
     
-    public func XProcessLiveView(_ Source: CIImage, _ FrameIndex: Int)
+    public func ProcessLiveView(_ Source: CIImage)
     {
         DispatchQueue.global(qos: .background).async
             {
-                //self.DoProcessLiveView(Source, FrameIndex)
+                self.DoProcessLiveView(Source)
         }
     }
+    
+    var LiveViewBusy = false
+    var DropCount = 0
     
     /// Process the passed image. This function works on the assumption the image is from a camera
     /// stream.
     /// - Note: Due to performance constrains when processing live views, only a small subset of
     ///         shapes are supported.
     /// - Parameter Source: The image to processed.
-    /// - Parameter FrameIndex: Not currently used.
-    public func ProcessLiveView(_ Source: CIImage, _ FrameIndex: Int)
+    public func DoProcessLiveView(_ Source: CIImage)
     {
+        if !InLiveViewMode
+        {
+            return
+        }
+        if LiveViewBusy
+        {
+            DropCount = DropCount + 1
+            print("Dropped live view frame: \(DropCount)")
+            return
+        }
+        LiveViewBusy = true
         objc_sync_enter(CloseLock)
         defer{ objc_sync_exit(CloseLock) }
         if let Reduced = Pixellator.Pixellate(Source)
@@ -617,11 +654,12 @@ class BlockView: SCNView
             var HBlocks: Int = 0
             var VBlocks: Int = 0
             let Colors = ParseImage(Reduced, BlockSize: 16, HBlocks: &HBlocks, VBlocks: &VBlocks)
-            DispatchQueue.main.sync
+            DispatchQueue.main.async
                 {
-                    DrawLiveViewNodes(Colors: Colors, HShapeCount: HBlocks, VShapeCount: VBlocks,
+                    self.DrawLiveViewNodes(Colors: Colors, HShapeCount: HBlocks, VShapeCount: VBlocks,
                                       NodeShape: Settings.GetEnum(ForKey: .LiveViewShape, EnumType: Shapes.self,
                                                                   Default: Shapes.Blocks))
+                    self.LiveViewBusy = false
                     #if false
                     if !self.AddedObserversCamera
                     {
@@ -771,7 +809,7 @@ class BlockView: SCNView
         }
         #if false
         let PImage = ProcessedImage.snapshot()
-        Delegate?.ImageForDebug(PImage, ImageType: .Snapshot)
+        Delegate?.ImageForDebug(PImage, ImageType: .VideoView)
         let DHistogram = HistogramDisplay(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
         DHistogram.DisplayHistogram(For: PImage, RemoveFirst: 5)
         let HImage = NSImage(data: DHistogram.dataWithPDF(inside: DHistogram.bounds))
