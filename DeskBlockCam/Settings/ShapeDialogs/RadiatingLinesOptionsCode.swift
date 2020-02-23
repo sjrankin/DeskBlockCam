@@ -20,7 +20,7 @@ class RadiatingLinesOptionsCode: NSViewController, ToOptionsDialogProtocol
         {
             Caption.stringValue = NewCaption
         }
-        let Thick = Settings.GetEnum(ForKey: .LineThickness, EnumType: LineThickenesses.self, Default: .Medium)
+        let Thick = Settings.GetEnum(ForKey: .RadialLineThickness, EnumType: LineThickenesses.self, Default: .Medium)
         let Count = Settings.GetInteger(ForKey: .LineCount)
         switch Thick
         {
@@ -93,16 +93,16 @@ class RadiatingLinesOptionsCode: NSViewController, ToOptionsDialogProtocol
         switch LineThickSegments.selectedSegment
         {
             case 0:
-                Settings.SetEnum(.Thin, EnumType: LineThickenesses.self, ForKey: .LineThickness)
+                Settings.SetEnum(.Thin, EnumType: LineThickenesses.self, ForKey: .RadialLineThickness)
             
             case 1:
-                Settings.SetEnum(.Medium, EnumType: LineThickenesses.self, ForKey: .LineThickness)
+                Settings.SetEnum(.Medium, EnumType: LineThickenesses.self, ForKey: .RadialLineThickness)
             
             case 2:
-                Settings.SetEnum(.Thick, EnumType: LineThickenesses.self, ForKey: .LineThickness)
+                Settings.SetEnum(.Thick, EnumType: LineThickenesses.self, ForKey: .RadialLineThickness)
             
             default:
-                Settings.SetEnum(.Thin, EnumType: LineThickenesses.self, ForKey: .LineThickness)
+                Settings.SetEnum(.Thin, EnumType: LineThickenesses.self, ForKey: .RadialLineThickness)
         }
         Delegate?.UpdateCurrent(With: CurrentShape)
     }
