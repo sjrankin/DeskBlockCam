@@ -65,8 +65,7 @@ class StackedShapesOptionCode: NSViewController, NSTableViewDelegate,
         ShapeCombo.addItems(withObjectValues:
             [Shapes.Blocks.rawValue, Shapes.CappedLines.rawValue, Shapes.Characters.rawValue,
              Shapes.Circles.rawValue, Shapes.Cones.rawValue, Shapes.Cylinders.rawValue,
-             Shapes.Hexagons.rawValue, Shapes.Hexagons2D.rawValue, Shapes.Octagons.rawValue,
-             Shapes.Octagons2D.rawValue, Shapes.Pentagons.rawValue, Shapes.Pentagons2D.rawValue,
+             Shapes.Polygons.rawValue, Shapes.Polygons2D.rawValue,
              Shapes.Pyramids.rawValue, Shapes.Spheres.rawValue, Shapes.Stars.rawValue,
              Shapes.Stars2D.rawValue, Shapes.Squares.rawValue, Shapes.Triangles.rawValue,
              Shapes.Triangles2D.rawValue, Shapes.Tubes.rawValue])
