@@ -19,6 +19,8 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
     private let ShapesOutlineTag = 100
     private let SideBarTag = 200
     
+    public weak var ApplyDelegate: RedrawProtocol? = nil
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -511,10 +513,11 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
                 {
                     if let SelectedShape = Shapes(rawValue: ShapeName)
                     {
+                        print("Selected shape \(SelectedShape.rawValue)")
                         LastTouchedShape = SelectedShape
                         UpdateShapeSettings(With: SelectedShape)
                         DisplayShapeOptions(For: SelectedShape)
-                        Settings.SetEnum(LastTouchedShape, EnumType: Shapes.self, ForKey: .Shape)
+                        Settings.SetEnum(SelectedShape, EnumType: Shapes.self, ForKey: .Shape)
                     }
             }
             
@@ -736,6 +739,7 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
     
     @IBAction func HandleApplyPressed(_ sender: Any)
     {
+        ApplyDelegate?.RedrawImage()
     }
     
     // MARK: - Handle tab view events.
