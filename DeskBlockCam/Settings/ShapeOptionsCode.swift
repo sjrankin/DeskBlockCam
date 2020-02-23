@@ -204,6 +204,14 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
                 let Chamfer = Settings.GetEnum(ForKey: .BlockChamfer, EnumType: BlockChamferSizes.self, Default: BlockChamferSizes.None)
                 Current[1].ValueItems.append(ValueItem(Description: "Chamfer", Value: Chamfer.rawValue))
             
+            case .Polygons:
+                let SideCount = Settings.GetInteger(ForKey: .PolygonSideCount)
+                Current[1].ValueItems.append(ValueItem(Description: "Sides", Value: "\(SideCount)"))
+            
+            case .Polygons2D:
+                let SideCount = Settings.GetInteger(ForKey: .Polygon2DSideCount)
+                Current[1].ValueItems.append(ValueItem(Description: "Sides", Value: "\(SideCount)"))
+            
             case .BrightnessVarying:
                 let Shapes = Settings.GetString(ForKey: .BrightnessShapes)
                 Current[1].ValueItems.append(ValueItem(Description: "Shapes", Value: Shapes!))
@@ -248,7 +256,7 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
             
             case .RadiatingLines:
                 let LineCount = Settings.GetInteger(ForKey: .LineCount)
-                let Thickness = Settings.GetEnum(ForKey: .LineThickness, EnumType: LineThickenesses.self, Default: LineThickenesses.Thin)
+                let Thickness = Settings.GetEnum(ForKey: .RadialLineThickness, EnumType: LineThickenesses.self, Default: LineThickenesses.Thin)
                 Current[1].ValueItems.append(ValueItem(Description: "Line count", Value: "\(LineCount)"))
                 Current[1].ValueItems.append(ValueItem(Description: "Thickness", Value: Thickness.rawValue))
             
@@ -332,18 +340,19 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
             ShapeCategory(Name: "Standard", Shapes: [Shapes.Blocks.rawValue, Shapes.Spheres.rawValue, Shapes.Cones.rawValue,
                                                      Shapes.Rings.rawValue, Shapes.Tubes.rawValue, Shapes.Cylinders.rawValue,
                                                      Shapes.Pyramids.rawValue]),
-            ShapeCategory(Name: "Non-Standard", Shapes: [Shapes.Triangles.rawValue, Shapes.Pentagons.rawValue,
-                                                         Shapes.Hexagons.rawValue, Shapes.Octagons.rawValue,
+            ShapeCategory(Name: "Non-Standard", Shapes: [Shapes.Triangles.rawValue, Shapes.Polygons.rawValue,
                                                          Shapes.Stars.rawValue, Shapes.Diamonds.rawValue,
-                                                         Shapes.Ovals.rawValue]),
-            ShapeCategory(Name: "2D Shapes", Shapes: [Shapes.Squares.rawValue, Shapes.Circles.rawValue, Shapes.Triangles2D.rawValue,
-                                                      Shapes.Pentagons2D.rawValue, Shapes.Hexagons2D.rawValue,
-                                                      Shapes.Octagons2D.rawValue, Shapes.Stars2D.rawValue]),
+                                                         Shapes.Ovals.rawValue, Shapes.Characters.rawValue,
+                                                         Shapes.Lines.rawValue]),
+            ShapeCategory(Name: "2D Shapes", Shapes: [Shapes.Squares.rawValue, Shapes.Rectangles.rawValue,
+                                                      Shapes.Circles.rawValue, Shapes.Triangles2D.rawValue,
+                                                      Shapes.Oval2D.rawValue, Shapes.Diamond2D.rawValue,
+                                                      Shapes.Polygons2D.rawValue, Shapes.Stars2D.rawValue]),
             ShapeCategory(Name: "Combined", Shapes: [Shapes.CappedLines.rawValue, Shapes.StackedShapes.rawValue,
                                                      Shapes.PerpendicularSquares.rawValue, Shapes.PerpendicularCircles.rawValue,
                                                      Shapes.HueVarying.rawValue, Shapes.SaturationVarying.rawValue,
-                                                     Shapes.BrightnessVarying.rawValue]),
-            ShapeCategory(Name: "Complex", Shapes: [Shapes.HueTriangles.rawValue, Shapes.Characters.rawValue, Shapes.RadiatingLines.rawValue])
+                                                     Shapes.BrightnessVarying.rawValue, Shapes.RadiatingLines.rawValue]),
+            ShapeCategory(Name: "Complex", Shapes: [Shapes.HueTriangles.rawValue])
     ]
     
     func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: Any?) -> Any
@@ -1396,6 +1405,9 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
             case .Tubes:
                 LiveViewShapeSegment.selectedSegment = 5
             
+            case .Pyramids:
+                LiveViewShapeSegment.selectedSegment = 6
+            
             default:
                 LiveViewShapeSegment.selectedSegment = 0
         }
@@ -1465,6 +1477,9 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
                 
                 case 5:
                     Settings.SetEnum(Shapes.Tubes, EnumType: Shapes.self, ForKey: .LiveViewShape)
+                
+                case 6:
+                    Settings.SetEnum(Shapes.Pyramids, EnumType: Shapes.self, ForKey: .LiveViewShape)
                 
                 default:
                     Settings.SetEnum(Shapes.Blocks, EnumType: Shapes.self, ForKey: .LiveViewShape)
