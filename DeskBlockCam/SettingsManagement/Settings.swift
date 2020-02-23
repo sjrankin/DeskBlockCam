@@ -64,6 +64,11 @@ class Settings
         UserDefaults.standard.set(LightIntensities.Normal.rawValue, forKey: SettingKeys.LightIntensity.rawValue)
         UserDefaults.standard.set(LightModels.Lambert.rawValue, forKey: SettingKeys.LightModel.rawValue)
         UserDefaults.standard.set(AntialiasingModes.x4.rawValue, forKey: SettingKeys.Antialiasing.rawValue)
+        UserDefaults.standard.set(6, forKey: SettingKeys.PolygonSideCount.rawValue)
+        UserDefaults.standard.set(6, forKey: SettingKeys.Polygon2DSideCount.rawValue)
+        UserDefaults.standard.set(true, forKey: SettingKeys.FullyExtrudeLetters.rawValue)
+        UserDefaults.standard.set(36, forKey: SettingKeys.FontSize.rawValue)
+        UserDefaults.standard.set(LetterSmoothnesses.Smooth.rawValue, forKey: SettingKeys.LetterSmoothness.rawValue)
         
         UserDefaults.standard.set(BlockChamferSizes.None.rawValue, forKey: SettingKeys.BlockChamfer.rawValue)
         UserDefaults.standard.set(Orientations.Horizontal.rawValue, forKey: SettingKeys.OvalOrientation.rawValue)
@@ -78,7 +83,7 @@ class Settings
         UserDefaults.standard.set(CapLocations.Top.rawValue, forKey: SettingKeys.CapLocation.rawValue)
         UserDefaults.standard.set(5, forKey: SettingKeys.StarApexCount.rawValue)
         UserDefaults.standard.set(true, forKey: SettingKeys.ApexesIncrease.rawValue)
-        UserDefaults.standard.set(LineThickenesses.Thin.rawValue, forKey: SettingKeys.LineThickness.rawValue)
+        UserDefaults.standard.set(LineThickenesses.Thin.rawValue, forKey: SettingKeys.RadialLineThickness.rawValue)
         UserDefaults.standard.set(4, forKey: SettingKeys.LineCount.rawValue)
         UserDefaults.standard.set(CharacterSets.Latin.rawValue, forKey: SettingKeys.CharacterSet.rawValue)
         UserDefaults.standard.set(ConeTopSizes.Zero.rawValue, forKey: SettingKeys.ConeTopSize.rawValue)
@@ -97,7 +102,8 @@ class Settings
         UserDefaults.standard.set(1, forKey: SettingKeys.NextSequentialInteger.rawValue)
         UserDefaults.standard.set(9999, forKey: SettingKeys.LoopSequentialIntegerAfter.rawValue)
         UserDefaults.standard.set(1, forKey: SettingKeys.StartSequentialIntegerAt.rawValue)
-        
+        UserDefaults.standard.set(90.0, forKey: SettingKeys.LineZAngle.rawValue)
+        UserDefaults.standard.set(LineThickenesses.Thin, forKey: SettingKeys.LineThickness.rawValue)
 
         #if DEBUG
         UserDefaults.standard.set(true, forKey: SettingKeys.AddUserDataToExif.rawValue)
@@ -565,7 +571,8 @@ class Settings
             .AutoOpenProcessedView,
             .AddUserDataToExif,
             .SaveUserName,
-            .SaveUserCopyright
+            .SaveUserCopyright,
+            .FullyExtrudeLetters
     ]
     
     /// Contains a list of all integer-type fields.
@@ -579,7 +586,10 @@ class Settings
             .ShapeSize,
             .NextSequentialInteger,
             .LoopSequentialIntegerAfter,
-            .StartSequentialIntegerAt
+            .StartSequentialIntegerAt,
+            .PolygonSideCount,
+            .Polygon2DSideCount,
+            .FontSize,
     ]
     
     /// Contains a list of all string-type fields.
@@ -607,7 +617,7 @@ class Settings
             .BrightnessShapes,
             .CapShape,
             .CapLocation,
-            .LineThickness,
+            .RadialLineThickness,
             .ConeTopSize,
             .ConeBottomSize,
             .LiveViewShape,
@@ -619,13 +629,16 @@ class Settings
             .RingOrientation,
             .UserCopyright,
             .UserName,
-            .Antialiasing
+            .Antialiasing,
+            .LineThickness,
+            .LetterSmoothness,
     ]
     
     /// Contains a list of all double-type fields.
     public static let DoubleFields: [SettingKeys] =
         [
-            .Side
+            .Side,
+            .LineZAngle,
     ]
 }
 
@@ -661,10 +674,16 @@ enum SettingKeys: String, CaseIterable, Comparable, Hashable
     /// Boolean: Invert the conditional color threshold comparison.
     case InvertConditionalColor = "InvertConditionalColor"
     
-    //Optional settings.
+    //Individual shape settings.
     //Block optional settings.
     /// String/Enum: Holds the chamfer value for blocks.
     case BlockChamfer = "BlockChamfer"
+
+    //Polygon optional settings.
+    /// Integer: Holds the number of sides for a polygon.
+    case PolygonSideCount = "PolygonSideCount"
+    /// Integer: Holds the number of sides for a 2D polygon.
+    case Polygon2DSideCount = "Polygon2DSideCount"
     
     //Oval optional settings.
     /// String/Enum: Holds the orientation of oval shapes.
@@ -714,13 +733,25 @@ enum SettingKeys: String, CaseIterable, Comparable, Hashable
     
     //Radial lines settings.
     /// String/Enum: Thickness of radial lines.
-    case LineThickness = "LineThickness"
+    case RadialLineThickness = "RadialLineThickness"
     /// Int: Number of radial lines.
     case LineCount = "LineCount"
+    
+    //Lines settings.
+    /// String/Enum: Thickness of non-radial lines.
+    case LineThickness = "LineThickness"
+    /// Double: Line angle away from perpendicular to the viewing plane.
+    case LineZAngle = "LineZAngle"
     
     //Character set settings.
     /// String/Enum: The character set from which to draw random characters.
     case CharacterSet = "CharacterSet"
+    /// String/Enum: Smoothness of letters.
+    case LetterSmoothness = "LetterSmoothness"
+    /// Boolean: Determines if letters are fully extruded.
+    case FullyExtrudeLetters = "FullyExtrudeLetters"
+    /// Integer: Font size for extruded characters.
+    case FontSize = "FontSize"
     
     //Cone settings.
     /// String/Enum: Determines the size of the top of the cone.
