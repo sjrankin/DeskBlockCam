@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="534-uc-yCU">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="16092.1" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="534-uc-yCU">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15705"/>
-        <plugIn identifier="com.apple.SceneKitIBPlugin" version="15705"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="16092.1"/>
+        <plugIn identifier="com.apple.SceneKitIBPlugin" version="16092.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -1022,7 +1022,7 @@
                                                     </textFieldCell>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView identifier="IconlessHeader" id="DHV-U8-y8Y">
+                                                        <tableCellView identifier="Cell9" id="DHV-U8-y8Y">
                                                             <rect key="frame" x="1" y="1" width="208" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
@@ -1044,7 +1044,7 @@
                                                                 <outlet property="textField" destination="T00-GO-FM9" id="c4N-U5-iJK"/>
                                                             </connections>
                                                         </tableCellView>
-                                                        <tableCellView identifier="CurrentCell" id="Tua-Kk-h5V">
+                                                        <tableCellView identifier="Cell0" id="Tua-Kk-h5V">
                                                             <rect key="frame" x="1" y="20" width="208" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
@@ -1078,7 +1078,7 @@
                                                                 <outlet property="textField" destination="m4l-S5-S2K" id="w0b-JL-f8q"/>
                                                             </connections>
                                                         </tableCellView>
-                                                        <tableCellView identifier="DataCell" id="c0e-ya-xcy">
+                                                        <tableCellView identifier="Cell1" id="c0e-ya-xcy">
                                                             <rect key="frame" x="1" y="39" width="208" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
@@ -1112,7 +1112,7 @@
                                                                 <outlet property="textField" destination="Cr6-fB-s2U" id="4c9-Lr-PEb"/>
                                                             </connections>
                                                         </tableCellView>
-                                                        <tableCellView identifier="DataCell" id="NXg-GO-Bkb">
+                                                        <tableCellView identifier="Cell2" id="NXg-GO-Bkb">
                                                             <rect key="frame" x="1" y="58" width="208" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
@@ -1146,7 +1146,7 @@
                                                                 <outlet property="textField" destination="PDx-xD-yiO" id="Ym2-dx-Ldm"/>
                                                             </connections>
                                                         </tableCellView>
-                                                        <tableCellView identifier="DataCell" id="zed-vs-yiv">
+                                                        <tableCellView identifier="Cell3" id="zed-vs-yiv">
                                                             <rect key="frame" x="1" y="77" width="208" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
@@ -1180,7 +1180,7 @@
                                                                 <outlet property="textField" destination="mka-Wh-0Yz" id="RSf-zg-plH"/>
                                                             </connections>
                                                         </tableCellView>
-                                                        <tableCellView identifier="DataCell" id="P7z-ZH-KYK">
+                                                        <tableCellView identifier="Cell5" id="P7z-ZH-KYK">
                                                             <rect key="frame" x="1" y="96" width="208" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
@@ -1214,7 +1214,7 @@
                                                                 <outlet property="textField" destination="Fg0-eu-GrM" id="rCf-dS-Xg8"/>
                                                             </connections>
                                                         </tableCellView>
-                                                        <tableCellView identifier="DataCell" id="SpG-ib-DLx">
+                                                        <tableCellView identifier="Cell6" id="SpG-ib-DLx">
                                                             <rect key="frame" x="1" y="115" width="208" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
@@ -1248,7 +1248,7 @@
                                                                 <outlet property="textField" destination="kvt-8R-Yeq" id="8MX-Qm-Ige"/>
                                                             </connections>
                                                         </tableCellView>
-                                                        <tableCellView identifier="HeaderCell" id="ECN-MF-IZ6">
+                                                        <tableCellView identifier="Cell7" id="ECN-MF-IZ6">
                                                             <rect key="frame" x="1" y="134" width="208" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
@@ -1270,7 +1270,7 @@
                                                                 <outlet property="textField" destination="HBb-tB-2Mk" id="uL1-Db-Xty"/>
                                                             </connections>
                                                         </tableCellView>
-                                                        <tableCellView identifier="DataCell" id="eOr-re-TBW">
+                                                        <tableCellView identifier="Cell8" id="eOr-re-TBW">
                                                             <rect key="frame" x="1" y="153" width="208" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
@@ -2479,7 +2479,6 @@
                                             <tableColumns>
                                                 <tableColumn identifier="ShapeColumn" width="195" minWidth="40" maxWidth="1000" id="EIV-gZ-3L5">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Shape">
-                                                        <font key="font" metaFont="message" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                     </tableHeaderCell>
@@ -2566,7 +2565,7 @@
                                 <gridCells>
                                     <gridCell row="VoT-A9-sVc" column="DeZ-o7-2J0" yPlacement="center" id="ziW-Ya-KJw">
                                         <button key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zYI-pr-QYT">
-                                            <rect key="frame" x="-6" y="33" width="65" height="32"/>
+                                            <rect key="frame" x="-6" y="44" width="65" height="32"/>
                                             <buttonCell key="cell" type="push" title="Add" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="fri-Hg-0M3">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
@@ -2578,7 +2577,7 @@
                                     </gridCell>
                                     <gridCell row="VoT-A9-sVc" column="kKC-Mh-d0t" yPlacement="center" id="lJH-9M-wtf">
                                         <comboBox key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dyk-60-HBR">
-                                            <rect key="frame" x="82" y="37" width="164" height="25"/>
+                                            <rect key="frame" x="82" y="48" width="164" height="25"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="161" id="SPs-AT-9NA"/>
                                             </constraints>
@@ -2596,7 +2595,7 @@
                                     </gridCell>
                                     <gridCell row="FKP-ZN-iQm" column="DeZ-o7-2J0" yPlacement="center" id="90b-Ej-1Kr">
                                         <button key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BD0-WF-m4u">
-                                            <rect key="frame" x="-6" y="-7" width="89" height="32"/>
+                                            <rect key="frame" x="-6" y="4" width="89" height="32"/>
                                             <buttonCell key="cell" type="push" title="Remove" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="swa-bA-WGe">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
@@ -2608,7 +2607,7 @@
                                     </gridCell>
                                     <gridCell row="FKP-ZN-iQm" column="kKC-Mh-d0t" yPlacement="center" id="i79-9k-laR">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="b9M-Ur-o1k">
-                                            <rect key="frame" x="80" y="4" width="129" height="14"/>
+                                            <rect key="frame" x="80" y="15" width="129" height="14"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Remove selected shape" id="d3i-N1-5nK">
                                                 <font key="font" metaFont="message" size="11"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
