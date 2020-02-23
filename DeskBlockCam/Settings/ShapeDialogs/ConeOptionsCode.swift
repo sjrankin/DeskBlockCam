@@ -22,13 +22,24 @@ class ConeOptionsCode: NSViewController, ToOptionsDialogProtocol
         }
         SwapTopBottomCheck.state = Settings.GetBoolean(ForKey: .ConeSwapTopBottom) ? .on : .off
         TopSizeCombo.removeAllItems()
-        TopSizeCombo.addItems(withObjectValues: ConeTopSizes.allCases)
+        var TopSizes = [String]()
+        for Top in ConeTopSizes.allCases
+        {
+            TopSizes.append(Top.rawValue)
+        }
+        TopSizeCombo.addItems(withObjectValues: TopSizes)
         let TopSize = Settings.GetEnum(ForKey: .ConeTopSize, EnumType: ConeTopSizes.self, Default: .Zero)
-        TopSizeCombo.selectItem(withObjectValue: TopSize)
+        TopSizeCombo.selectItem(withObjectValue: TopSize.rawValue)
+        
         BottomSizeCombo.removeAllItems()
-        BottomSizeCombo.addItems(withObjectValues: ConeBottomSizes.allCases)
+        var BottomSizes = [String]()
+        for Bottom in ConeBottomSizes.allCases
+        {
+            BottomSizes.append(Bottom.rawValue)
+        }
+        BottomSizeCombo.addItems(withObjectValues: BottomSizes)
         let BottomSize = Settings.GetEnum(ForKey: .ConeBottomSize, EnumType: ConeBottomSizes.self, Default: .Side)
-        BottomSizeCombo.selectItem(withObjectValue: BottomSize)
+        BottomSizeCombo.selectItem(withObjectValue: BottomSize.rawValue)
     }
     
     var NewCaption: String = ""
