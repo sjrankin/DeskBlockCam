@@ -50,7 +50,7 @@
 		17452EC523FA24AD004888EB /* ContainerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17452EC423FA24AD004888EB /* ContainerController.swift */; };
 		17452EC823FA8612004888EB /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17452EC723FA8612004888EB /* Colors.swift */; };
 		17452ECA23FA864E004888EB /* ColorDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17452EC923FA864E004888EB /* ColorDescription.swift */; };
-		1750ADB523FB6C1800D4EBB0 /* ShapeManagers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1750ADB423FB6C1800D4EBB0 /* ShapeManagers.swift */; };
+		1750ADB523FB6C1800D4EBB0 /* ShapeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1750ADB423FB6C1800D4EBB0 /* ShapeManager.swift */; };
 		1750ADB823FB6ED900D4EBB0 /* NotoEmoji-Regular.ttf in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1750ADB723FB6ED800D4EBB0 /* NotoEmoji-Regular.ttf */; };
 		1750ADBA23FB6F1300D4EBB0 /* NotoSansSymbols2-Regular.ttf in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1750ADB923FB6F1300D4EBB0 /* NotoSansSymbols2-Regular.ttf */; };
 		1750ADBC23FB6F3400D4EBB0 /* NotoSans-Bold.ttf in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1750ADBB23FB6F3400D4EBB0 /* NotoSans-Bold.ttf */; };
@@ -66,6 +66,18 @@
 		176B898523F9094E00EC708B /* CurrentTreeNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176B898423F9094E00EC708B /* CurrentTreeNode.swift */; };
 		176B898723F9436400EC708B /* ShapeOptionsCode2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176B898623F9436400EC708B /* ShapeOptionsCode2.swift */; };
 		176E565323EBB50E0001215A /* HistogramDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176E565223EBB50E0001215A /* HistogramDisplay.swift */; };
+		177BA8C124022EFE00ED9095 /* SCNTetrahedron.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177BA8C024022EFE00ED9095 /* SCNTetrahedron.swift */; };
+		177BA8C324022FAF00ED9095 /* SCNPolygon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177BA8C224022FAF00ED9095 /* SCNPolygon.swift */; };
+		177BA8C52402320500ED9095 /* SCNTriangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177BA8C42402320500ED9095 /* SCNTriangle.swift */; };
+		177BA8C72402325E00ED9095 /* SCNEllipse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177BA8C62402325E00ED9095 /* SCNEllipse.swift */; };
+		177BA8CB240232B100ED9095 /* SCNDiamond.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177BA8CA240232B100ED9095 /* SCNDiamond.swift */; };
+		177BA8CD2402334A00ED9095 /* SCNCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177BA8CC2402334A00ED9095 /* SCNCircle.swift */; };
+		177BA8D0240233CB00ED9095 /* SCNStar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177BA8CF240233CB00ED9095 /* SCNStar.swift */; };
+		177BA8D2240234D600ED9095 /* SCNArrowHead.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177BA8D1240234D500ED9095 /* SCNArrowHead.swift */; };
+		177BA8D4240238E500ED9095 /* PolygonOptionsCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177BA8D3240238E500ED9095 /* PolygonOptionsCode.swift */; };
+		177BA8D62402469900ED9095 /* LinesOptionsCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177BA8D52402469900ED9095 /* LinesOptionsCode.swift */; };
+		177BA8D824025A3700ED9095 /* CharacterGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177BA8D724025A3700ED9095 /* CharacterGenerator.swift */; };
+		177BA8DA2402645900ED9095 /* Generator2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177BA8D92402645900ED9095 /* Generator2D.swift */; };
 		177BF06223EE52CD00670F40 /* ColorSwatchItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177BF06023EE52CD00670F40 /* ColorSwatchItem.swift */; };
 		177BF06323EE52CD00670F40 /* ColorSwatchItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = 177BF06123EE52CD00670F40 /* ColorSwatchItem.xib */; };
 		177BF06623EE735000670F40 /* GradientSwatchItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177BF06423EE735000670F40 /* GradientSwatchItem.swift */; };
@@ -162,7 +174,7 @@
 		17452EC423FA24AD004888EB /* ContainerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerController.swift; sourceTree = "<group>"; };
 		17452EC723FA8612004888EB /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		17452EC923FA864E004888EB /* ColorDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorDescription.swift; sourceTree = "<group>"; };
-		1750ADB423FB6C1800D4EBB0 /* ShapeManagers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeManagers.swift; sourceTree = "<group>"; };
+		1750ADB423FB6C1800D4EBB0 /* ShapeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeManager.swift; sourceTree = "<group>"; };
 		1750ADB723FB6ED800D4EBB0 /* NotoEmoji-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoEmoji-Regular.ttf"; sourceTree = "<group>"; };
 		1750ADB923FB6F1300D4EBB0 /* NotoSansSymbols2-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansSymbols2-Regular.ttf"; sourceTree = "<group>"; };
 		1750ADBB23FB6F3400D4EBB0 /* NotoSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSans-Bold.ttf"; sourceTree = "<group>"; };
@@ -178,6 +190,18 @@
 		176B898423F9094E00EC708B /* CurrentTreeNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentTreeNode.swift; sourceTree = "<group>"; };
 		176B898623F9436400EC708B /* ShapeOptionsCode2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeOptionsCode2.swift; sourceTree = "<group>"; };
 		176E565223EBB50E0001215A /* HistogramDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistogramDisplay.swift; sourceTree = "<group>"; };
+		177BA8C024022EFE00ED9095 /* SCNTetrahedron.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNTetrahedron.swift; sourceTree = "<group>"; };
+		177BA8C224022FAF00ED9095 /* SCNPolygon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNPolygon.swift; sourceTree = "<group>"; };
+		177BA8C42402320500ED9095 /* SCNTriangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNTriangle.swift; sourceTree = "<group>"; };
+		177BA8C62402325E00ED9095 /* SCNEllipse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNEllipse.swift; sourceTree = "<group>"; };
+		177BA8CA240232B100ED9095 /* SCNDiamond.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNDiamond.swift; sourceTree = "<group>"; };
+		177BA8CC2402334A00ED9095 /* SCNCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNCircle.swift; sourceTree = "<group>"; };
+		177BA8CF240233CB00ED9095 /* SCNStar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNStar.swift; sourceTree = "<group>"; };
+		177BA8D1240234D500ED9095 /* SCNArrowHead.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNArrowHead.swift; sourceTree = "<group>"; };
+		177BA8D3240238E500ED9095 /* PolygonOptionsCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolygonOptionsCode.swift; sourceTree = "<group>"; };
+		177BA8D52402469900ED9095 /* LinesOptionsCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinesOptionsCode.swift; sourceTree = "<group>"; };
+		177BA8D724025A3700ED9095 /* CharacterGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterGenerator.swift; sourceTree = "<group>"; };
+		177BA8D92402645900ED9095 /* Generator2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Generator2D.swift; sourceTree = "<group>"; };
 		177BF06023EE52CD00670F40 /* ColorSwatchItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSwatchItem.swift; sourceTree = "<group>"; };
 		177BF06123EE52CD00670F40 /* ColorSwatchItem.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ColorSwatchItem.xib; sourceTree = "<group>"; };
 		177BF06423EE735000670F40 /* GradientSwatchItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientSwatchItem.swift; sourceTree = "<group>"; };
@@ -259,6 +283,7 @@
 				172C06E123ED2F9000313C3E /* OvalOptionsCode.swift */,
 				172C06E323ED2FE200313C3E /* DiamondOptionsCode.swift */,
 				172C06E523ED300D00313C3E /* StarOptionsCode.swift */,
+				177BA8D3240238E500ED9095 /* PolygonOptionsCode.swift */,
 				170DF1E523F6C55F00DDB5D0 /* SphereOptionCode.swift */,
 				1732796F23F7E93800EE0213 /* RingOptionCode.swift */,
 				172C06E723ED303E00313C3E /* ConeOptionsCode.swift */,
@@ -267,6 +292,7 @@
 				172C06ED23ED30ED00313C3E /* CappedLinesOptionsCode.swift */,
 				172C06EF23ED318000313C3E /* StackedShapesOptionsCode.swift */,
 				17452EC423FA24AD004888EB /* ContainerController.swift */,
+				177BA8D52402469900ED9095 /* LinesOptionsCode.swift */,
 			);
 			path = ShapeDialogs;
 			sourceTree = "<group>";
@@ -337,6 +363,21 @@
 				176B898423F9094E00EC708B /* CurrentTreeNode.swift */,
 			);
 			path = CurrentSettings;
+			sourceTree = "<group>";
+		};
+		177BA8BF24022EE400ED9095 /* CustomNodes */ = {
+			isa = PBXGroup;
+			children = (
+				177BA8C024022EFE00ED9095 /* SCNTetrahedron.swift */,
+				177BA8C224022FAF00ED9095 /* SCNPolygon.swift */,
+				177BA8C42402320500ED9095 /* SCNTriangle.swift */,
+				177BA8C62402325E00ED9095 /* SCNEllipse.swift */,
+				177BA8CA240232B100ED9095 /* SCNDiamond.swift */,
+				177BA8CC2402334A00ED9095 /* SCNCircle.swift */,
+				177BA8CF240233CB00ED9095 /* SCNStar.swift */,
+				177BA8D1240234D500ED9095 /* SCNArrowHead.swift */,
+			);
+			path = CustomNodes;
 			sourceTree = "<group>";
 		};
 		178041B323F3CF05006E40C1 /* ErrorMessageView */ = {
@@ -415,7 +456,7 @@
 				170A110723F18FB8003D0C1D /* ViewControllerView.swift */,
 				17897B8823E6A77500AFDA6A /* Main.storyboard */,
 				17B31D5523EFFAAF00C69257 /* Enums.swift */,
-				1750ADB423FB6C1800D4EBB0 /* ShapeManagers.swift */,
+				1750ADB423FB6C1800D4EBB0 /* ShapeManager.swift */,
 				178828A723E90E310041C2D1 /* PSCNNode.swift */,
 				1717201023EBD23100636F3C /* Pixellator.swift */,
 				1750ADBF23FB817600D4EBB0 /* Save.swift */,
@@ -442,7 +483,10 @@
 		17B31D4B23EFF17C00C69257 /* Generator */ = {
 			isa = PBXGroup;
 			children = (
+				177BA8BF24022EE400ED9095 /* CustomNodes */,
 				17B31D4C23EFF18D00C69257 /* Generator.swift */,
+				177BA8D724025A3700ED9095 /* CharacterGenerator.swift */,
+				177BA8D92402645900ED9095 /* Generator2D.swift */,
 			);
 			path = Generator;
 			sourceTree = "<group>";
@@ -564,14 +608,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				170A110223F103E8003D0C1D /* ProgramSettingsCode.swift in Sources */,
+				177BA8C72402325E00ED9095 /* SCNEllipse.swift in Sources */,
 				178041C023F3D5C3006E40C1 /* DebugWindowCode.swift in Sources */,
 				178041C223F3D605006E40C1 /* DebugControllerCode.swift in Sources */,
 				176B898123F9039500EC708B /* CurrentCategory.swift in Sources */,
 				176E565323EBB50E0001215A /* HistogramDisplay.swift in Sources */,
+				177BA8D2240234D600ED9095 /* SCNArrowHead.swift in Sources */,
 				1750ADC223FB86A700D4EBB0 /* Open.swift in Sources */,
 				172C06E623ED300D00313C3E /* StarOptionsCode.swift in Sources */,
 				176B898723F9436400EC708B /* ShapeOptionsCode2.swift in Sources */,
 				17452EC523FA24AD004888EB /* ContainerController.swift in Sources */,
+				177BA8D62402469900ED9095 /* LinesOptionsCode.swift in Sources */,
 				172C06F223ED31DC00313C3E /* OptionsDialogs.swift in Sources */,
 				1717201323EBDF1600636F3C /* BlockView.swift in Sources */,
 				172C06EC23ED309800313C3E /* CharacterSetOptionsCode.swift in Sources */,
@@ -580,6 +627,7 @@
 				170DF1E623F6C55F00DDB5D0 /* SphereOptionCode.swift in Sources */,
 				1721036123FCCC910096F778 /* Versioning.swift in Sources */,
 				172C06EE23ED30ED00313C3E /* CappedLinesOptionsCode.swift in Sources */,
+				177BA8CB240232B100ED9095 /* SCNDiamond.swift in Sources */,
 				1740A3DE23EBFB7500E29C75 /* HSBVaryingOptionalParameters.swift in Sources */,
 				17B31D5423EFF9AE00C69257 /* AttributeFactory.swift in Sources */,
 				178041C823F3D959006E40C1 /* AncillaryWindowManagement.swift in Sources */,
@@ -596,7 +644,7 @@
 				177BF06623EE735000670F40 /* GradientSwatchItem.swift in Sources */,
 				173C245A23ED29DC00270760 /* OptionsProtocol.swift in Sources */,
 				1740A3D023EBED8500E29C75 /* CharactersOptionalParameters.swift in Sources */,
-				1750ADB523FB6C1800D4EBB0 /* ShapeManagers.swift in Sources */,
+				1750ADB523FB6C1800D4EBB0 /* ShapeManager.swift in Sources */,
 				170DF1E423F6C3E700DDB5D0 /* SphereOptionalParameters.swift in Sources */,
 				17452EC823FA8612004888EB /* Colors.swift in Sources */,
 				178041CA23F3DAA1006E40C1 /* Utilities.swift in Sources */,
@@ -606,6 +654,7 @@
 				1740A3C723EBE5E500E29C75 /* ProcessingAttributes.swift in Sources */,
 				17B31D5623EFFAAF00C69257 /* Enums.swift in Sources */,
 				177BF06223EE52CD00670F40 /* ColorSwatchItem.swift in Sources */,
+				177BA8C124022EFE00ED9095 /* SCNTetrahedron.swift in Sources */,
 				17897B9723E6EB1D00AFDA6A /* ViewControllerWindow.swift in Sources */,
 				175E031F2401055E00FA8388 /* RedrawProtocol.swift in Sources */,
 				178041BB23F3D0E6006E40C1 /* ErrorMessageHandling.swift in Sources */,
@@ -615,14 +664,17 @@
 				1721036423FCD2250096F778 /* CurrentSettings.swift in Sources */,
 				1717201623EBE2D900636F3C /* Processor.swift in Sources */,
 				1740A3CE23EBEC5300E29C75 /* CappedLineOptionalParameters.swift in Sources */,
+				177BA8DA2402645900ED9095 /* Generator2D.swift in Sources */,
 				1750ADC023FB817600D4EBB0 /* Save.swift in Sources */,
 				172C06EA23ED307000313C3E /* RadiatingLinesOptionsCode.swift in Sources */,
+				177BA8C52402320500ED9095 /* SCNTriangle.swift in Sources */,
 				173C245423ED28CB00270760 /* NoOptionsCode.swift in Sources */,
 				172C06E423ED2FE200313C3E /* DiamondOptionsCode.swift in Sources */,
 				17A446F523E7F40100D3C571 /* ImageReduction.metal in Sources */,
 				1740A3D423EBEF5C00E29C75 /* DiamondOptionalParameters.swift in Sources */,
 				178041B923F3D000006E40C1 /* ErrorMessageController.swift in Sources */,
 				172C06E823ED303E00313C3E /* ConeOptionsCode.swift in Sources */,
+				177BA8CD2402334A00ED9095 /* SCNCircle.swift in Sources */,
 				1740A3E323EC01AA00E29C75 /* ShapeOptionsWindowCode.swift in Sources */,
 				17897B8323E6A77300AFDA6A /* AppDelegate.swift in Sources */,
 				17EB8FFE23E961C600A4C09A /* ImageDelta.metal in Sources */,
@@ -637,12 +689,16 @@
 				1740A3DA23EBF96600E29C75 /* StackedShapesOptionalParameters.swift in Sources */,
 				17B31D5023EFF5C800C69257 /* Settings.swift in Sources */,
 				172C06E223ED2F9000313C3E /* OvalOptionsCode.swift in Sources */,
+				177BA8D4240238E500ED9095 /* PolygonOptionsCode.swift in Sources */,
+				177BA8C324022FAF00ED9095 /* SCNPolygon.swift in Sources */,
 				17452ECA23FA864E004888EB /* ColorDescription.swift in Sources */,
 				17609FCB23F65D5100391FFB /* StatusProtocol.swift in Sources */,
 				177BF06B23EE923E00670F40 /* +Lighting.swift in Sources */,
 				1740A3C923EBEB6400E29C75 /* OptionalParameters.swift in Sources */,
+				177BA8D0240233CB00ED9095 /* SCNStar.swift in Sources */,
 				178041C423F3D7FD006E40C1 /* DebugUIHandling.swift in Sources */,
 				17B31D4D23EFF18D00C69257 /* Generator.swift in Sources */,
+				177BA8D824025A3700ED9095 /* CharacterGenerator.swift in Sources */,
 				1740A3D823EBF8A900E29C75 /* StarOptionalParameters.swift in Sources */,
 				17D5AD2923F3BEA1006C295F /* AboutWindow.swift in Sources */,
 			);
