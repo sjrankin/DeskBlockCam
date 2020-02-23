@@ -28,6 +28,20 @@ extension ShapeOptionsCode
                 (OptionMap[Shapes.Blocks]!.Controller as? BlockOptionsCode)?.SetAttributes(CurrentAttributes)
                 (OptionMap[Shapes.Blocks]!.Controller as? BlockOptionsCode)?.SetShape(.Blocks)
             
+            case .Lines:
+                (OptionMap[Shapes.Lines]!.Controller as? LinesOptionsCode)?.SetAttributes(CurrentAttributes)
+                (OptionMap[Shapes.Lines]!.Controller as? LinesOptionsCode)?.SetShape(.Lines)
+            
+            case .Polygons:
+                (OptionMap[Shapes.Polygons]!.Controller as? PolygonOptionsCode)?.SetAttributes(CurrentAttributes)
+                (OptionMap[Shapes.Polygons]!.Controller as? PolygonOptionsCode)?.SetShape(.Polygons)
+                (OptionMap[Shapes.Polygons]!.Controller as? PolygonOptionsCode)?.SetCaption("Creates a regular polygon in 3D space with the number of sides you specify.")
+            
+            case .Polygons2D:
+                (OptionMap[Shapes.Polygons2D]!.Controller as? PolygonOptionsCode)?.SetAttributes(CurrentAttributes)
+                (OptionMap[Shapes.Polygons2D]!.Controller as? PolygonOptionsCode)?.SetShape(.Polygons2D)
+                (OptionMap[Shapes.Polygons2D]!.Controller as? PolygonOptionsCode)?.SetCaption("Creates a regular 2D polygon with the number of sides you specify.")
+            
             case .BrightnessVarying:
                 (OptionMap[Shapes.BrightnessVarying]!.Controller as? StackedShapesOptionCode)?.SetShape(.BrightnessVarying)
                 (OptionMap[Shapes.BrightnessVarying]!.Controller as? StackedShapesOptionCode)?.SetAttributes(CurrentAttributes)
@@ -54,16 +68,14 @@ extension ShapeOptionsCode
                 (OptionMap[Shapes.Cylinders]!.Controller as? NoOptionsCode)?.SetCaption("Extruded 3D cylinders. No options available.")
             
             case .Diamonds:
+                (OptionMap[Shapes.Diamonds]!.Controller as? DiamondOptionsCode)?.SetCaption("Extruded diamond (parallelogram) shapes.")
                 (OptionMap[Shapes.Diamonds]!.Controller as? DiamondOptionsCode)?.SetShape(.Diamonds)
                 (OptionMap[Shapes.Diamonds]!.Controller as? DiamondOptionsCode)?.SetAttributes(CurrentAttributes)
             
-            case .Hexagons:
-                (OptionMap[Shapes.Hexagons]!.Controller as? NoOptionsCode)?.SetShape(.Hexagons)
-                (OptionMap[Shapes.Hexagons]!.Controller as? NoOptionsCode)?.SetCaption("Extruded 3D hexagons. No options available.")
-            
-            case .Hexagons2D:
-                (OptionMap[Shapes.Hexagons2D]!.Controller as? NoOptionsCode)?.SetShape(.Hexagons2D)
-                (OptionMap[Shapes.Hexagons2D]!.Controller as? NoOptionsCode)?.SetCaption("Two-dimensional hexagons. No options available.")
+            case .Diamond2D:
+                (OptionMap[Shapes.Diamond2D]!.Controller as? DiamondOptionsCode)?.SetCaption("Flat diamond (parallelogram) shapes.")
+                (OptionMap[Shapes.Diamond2D]!.Controller as? DiamondOptionsCode)?.SetShape(.Diamond2D)
+                (OptionMap[Shapes.Diamond2D]!.Controller as? DiamondOptionsCode)?.SetAttributes(CurrentAttributes)
             
             case .HueTriangles:
                 (OptionMap[Shapes.HueTriangles]!.Controller as? NoOptionsCode)?.SetShape(.HueTriangles)
@@ -74,25 +86,15 @@ extension ShapeOptionsCode
                 (OptionMap[Shapes.HueVarying]!.Controller as? StackedShapesOptionCode)?.SetAttributes(CurrentAttributes)
                 (OptionMap[Shapes.HueVarying]!.Controller as? StackedShapesOptionCode)?.SetCaption("Sets the shape based on the hue of the location of the shape. Shapes are distributed equally in the hue range.")
             
-            case .Octagons:
-                (OptionMap[Shapes.Octagons]!.Controller as? NoOptionsCode)?.SetShape(.Octagons)
-                (OptionMap[Shapes.Octagons]!.Controller as? NoOptionsCode)?.SetCaption("Extruded 3D octagons. No options available.")
-            
-            case .Octagons2D:
-                (OptionMap[Shapes.Octagons2D]!.Controller as? NoOptionsCode)?.SetShape(.Octagons2D)
-                (OptionMap[Shapes.Octagons2D]!.Controller as? NoOptionsCode)?.SetCaption("Two-dimensional octagons. No options available.")
-            
             case .Ovals:
+                (OptionMap[Shapes.Ovals]!.Controller as? OvalOptionsCode)?.SetCaption("Extruded oval shapes.")
                 (OptionMap[Shapes.Ovals]!.Controller as? OvalOptionsCode)?.SetShape(.Ovals)
                 (OptionMap[Shapes.Ovals]!.Controller as? OvalOptionsCode)?.SetAttributes(CurrentAttributes)
             
-            case .Pentagons:
-                (OptionMap[Shapes.Pentagons]!.Controller as? NoOptionsCode)?.SetShape(.Pentagons)
-                (OptionMap[Shapes.Pentagons]!.Controller as? NoOptionsCode)?.SetCaption("Extruded 3D pentagons. No options available.")
-            
-            case .Pentagons2D:
-                (OptionMap[Shapes.Pentagons2D]!.Controller as? NoOptionsCode)?.SetShape(.Pentagons2D)
-                (OptionMap[Shapes.Pentagons2D]!.Controller as? NoOptionsCode)?.SetCaption("Two-dimensional pentagons. No options available.")
+            case .Oval2D:
+                                (OptionMap[Shapes.Oval2D]!.Controller as? OvalOptionsCode)?.SetCaption("Flat oval shapes.")
+                (OptionMap[Shapes.Oval2D]!.Controller as? OvalOptionsCode)?.SetShape(.Oval2D)
+                (OptionMap[Shapes.Oval2D]!.Controller as? OvalOptionsCode)?.SetAttributes(CurrentAttributes)
             
             case .PerpendicularCircles:
                 (OptionMap[Shapes.PerpendicularCircles]!.Controller as? NoOptionsCode)?.SetShape(.PerpendicularCircles)
@@ -128,6 +130,10 @@ extension ShapeOptionsCode
             case .Squares:
                 (OptionMap[Shapes.Squares]!.Controller as? NoOptionsCode)?.SetShape(.Squares)
                 (OptionMap[Shapes.Squares]!.Controller as? NoOptionsCode)?.SetCaption("Two-dimensional squares. No options available.")
+            
+            case .Rectangles:
+                (OptionMap[Shapes.Rectangles]!.Controller as? NoOptionsCode)?.SetShape(.Rectangles)
+                (OptionMap[Shapes.Rectangles]!.Controller as? NoOptionsCode)?.SetCaption("Two-dimensional rectangles. No options available.")
             
             case .StackedShapes:
                 (OptionMap[Shapes.StackedShapes]!.Controller as? StackedShapesOptionCode)?.SetShape(.StackedShapes)
@@ -169,6 +175,22 @@ extension ShapeOptionsCode
         self.addChild(OptionMap[Shapes.NoShape]!.Controller!)
         (OptionMap[Shapes.NoShape]!.Controller as? NoOptionsCode)?.Delegate = self
         
+        OptionMap[Shapes.Lines] = OptionEntry(CreateOptionDialog("LineOptions"))
+        self.addChild(OptionMap[Shapes.Lines]!.Controller!)
+        (OptionMap[Shapes.Lines]!.Controller as? LinesOptionsCode)?.Delegate = self
+        
+        OptionMap[Shapes.Polygons] = OptionEntry(CreateOptionDialog("PolygonOptions"))
+        self.addChild(OptionMap[Shapes.Polygons]!.Controller!)
+        (OptionMap[Shapes.Polygons]!.Controller as? PolygonOptionsCode)?.Delegate = self
+        
+        OptionMap[Shapes.Polygons2D] = OptionEntry(CreateOptionDialog("PolygonOptions"))
+        self.addChild(OptionMap[Shapes.Polygons2D]!.Controller!)
+        (OptionMap[Shapes.Polygons2D]!.Controller as? PolygonOptionsCode)?.Delegate = self
+        
+        OptionMap[Shapes.Rectangles] = OptionEntry(CreateOptionDialog("NoOptions"))
+        self.addChild(OptionMap[Shapes.Rectangles]!.Controller!)
+        (OptionMap[Shapes.Rectangles]!.Controller as? NoOptionsCode)?.Delegate = self
+        
         OptionMap[Shapes.Circles] = OptionEntry(CreateOptionDialog("NoOptions"))
         self.addChild(OptionMap[Shapes.Circles]!.Controller!)
         (OptionMap[Shapes.Circles]!.Controller as? NoOptionsCode)?.Delegate = self
@@ -177,33 +199,9 @@ extension ShapeOptionsCode
         self.addChild(OptionMap[Shapes.Cylinders]!.Controller!)
         (OptionMap[Shapes.Cylinders]!.Controller as? NoOptionsCode)?.Delegate = self
         
-        OptionMap[Shapes.Hexagons] = OptionEntry(CreateOptionDialog("NoOptions"))
-        self.addChild(OptionMap[Shapes.Hexagons]!.Controller!)
-        (OptionMap[Shapes.Hexagons]!.Controller as? NoOptionsCode)?.Delegate = self
-        
-        OptionMap[Shapes.Hexagons2D] = OptionEntry(CreateOptionDialog("NoOptions"))
-        self.addChild(OptionMap[Shapes.Hexagons2D]!.Controller!)
-        (OptionMap[Shapes.Hexagons2D]!.Controller as? NoOptionsCode)?.Delegate = self
-        
         OptionMap[Shapes.HueTriangles] = OptionEntry(CreateOptionDialog("NoOptions"))
         self.addChild(OptionMap[Shapes.HueTriangles]!.Controller!)
         (OptionMap[Shapes.HueTriangles]!.Controller as? NoOptionsCode)?.Delegate = self
-        
-        OptionMap[Shapes.Octagons] = OptionEntry(CreateOptionDialog("NoOptions"))
-        self.addChild(OptionMap[Shapes.Octagons]!.Controller!)
-        (OptionMap[Shapes.Octagons]!.Controller as? NoOptionsCode)?.Delegate = self
-        
-        OptionMap[Shapes.Octagons2D] = OptionEntry(CreateOptionDialog("NoOptions"))
-        self.addChild(OptionMap[Shapes.Octagons2D]!.Controller!)
-        (OptionMap[Shapes.Octagons2D]!.Controller as? NoOptionsCode)?.Delegate = self
-        
-        OptionMap[Shapes.Pentagons] = OptionEntry(CreateOptionDialog("NoOptions"))
-        self.addChild(OptionMap[Shapes.Pentagons]!.Controller!)
-        (OptionMap[Shapes.Pentagons]!.Controller as? NoOptionsCode)?.Delegate = self
-        
-        OptionMap[Shapes.Pentagons2D] = OptionEntry(CreateOptionDialog("NoOptions"))
-        self.addChild(OptionMap[Shapes.Pentagons2D]!.Controller!)
-        (OptionMap[Shapes.Pentagons2D]!.Controller as? NoOptionsCode)?.Delegate = self
         
         OptionMap[Shapes.Tubes] = OptionEntry(CreateOptionDialog("NoOptions"))
         self.addChild(OptionMap[Shapes.Tubes]!.Controller!)
@@ -249,9 +247,17 @@ extension ShapeOptionsCode
         self.addChild(OptionMap[Shapes.Ovals]!.Controller!)
         (OptionMap[Shapes.Ovals]!.Controller as? OvalOptionsCode)?.Delegate = self
         
+        OptionMap[Shapes.Oval2D] = OptionEntry(CreateOptionDialog("OvalOptions"))
+        self.addChild(OptionMap[Shapes.Oval2D]!.Controller!)
+        (OptionMap[Shapes.Oval2D]!.Controller as? OvalOptionsCode)?.Delegate = self
+        
         OptionMap[Shapes.Diamonds] = OptionEntry(CreateOptionDialog("DiamondOptions"))
         self.addChild(OptionMap[Shapes.Diamonds]!.Controller!)
         (OptionMap[Shapes.Diamonds]!.Controller as? DiamondOptionsCode)?.Delegate = self
+        
+        OptionMap[Shapes.Diamond2D] = OptionEntry(CreateOptionDialog("DiamondOptions"))
+        self.addChild(OptionMap[Shapes.Diamond2D]!.Controller!)
+        (OptionMap[Shapes.Diamond2D]!.Controller as? DiamondOptionsCode)?.Delegate = self
         
         OptionMap[Shapes.Cones] = OptionEntry(CreateOptionDialog("ConeOptions"))
         self.addChild(OptionMap[Shapes.Cones]!.Controller!)
