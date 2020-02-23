@@ -17,7 +17,8 @@ class Generator
     /// - Parameter With: Attributes used to determine which part of the color to use and any extra
     ///                   modifications to the height.
     /// - Returns: Height for the shape.
-    public static func HeightFor(Color: NSColor, With Attributes: ProcessingAttributes) -> CGFloat
+    //public static func HeightFor(Color: NSColor, With Attributes: ProcessingAttributes) -> CGFloat
+    public static func HeightFor(Color: NSColor) -> CGFloat
     {
         let Exaggeration = Settings.GetEnum(ForKey: .VerticalExaggeration, EnumType: VerticalExaggerations.self,
                                             Default: VerticalExaggerations.Medium)
@@ -95,9 +96,10 @@ class Generator
         return Height * Exaggerate
     }
     
-    public static func MakeSimpleShape(With Attributes: ProcessingAttributes, AtX: Int, AtY: Int, Height: CGFloat) -> SCNGeometry?
+//    public static func MakeSimpleShape(With Attributes: ProcessingAttributes, AtX: Int, AtY: Int, Height: CGFloat) -> SCNGeometry?
+    public static func MakeSimpleShape(Side: CGFloat, AtX: Int, AtY: Int, Height: CGFloat) -> SCNGeometry?
     {
-        let Side = Attributes.Side
+        //let Side = Attributes.Side
         let CurrentShape = Settings.GetEnum(ForKey: .Shape, EnumType: Shapes.self, Default: Shapes.Blocks)
         switch CurrentShape
         {
@@ -152,7 +154,8 @@ class Generator
     /// - Parameter AtX: Horizontal shape location.
     /// - Parameter AtY: Vertical shape location.
     /// - Returns: New shape node.
-    public static func MakeShape(With Attributes: ProcessingAttributes, AtX: Int, AtY: Int) -> PSCNNode
+    //public static func MakeShape(With Attributes: ProcessingAttributes, AtX: Int, AtY: Int) -> PSCNNode
+    public static func MakeShape(With Colors: [[NSColor]], AtX: Int, AtY: Int) -> PSCNNode
     {
         autoreleasepool
             {
@@ -161,7 +164,8 @@ class Generator
                 Node.name = "PixelNode"
                 Node.X = AtX
                 Node.Y = AtY
-                let Height = HeightFor(Color: Attributes.Colors[AtY][AtX], With: Attributes)
+//                let Height = HeightFor(Color: Attributes.Colors[AtY][AtX], With: Attributes)
+                let Height = HeightFor(Color: Colors[AtY][AtX])
                 Node.Prominence = Height
                 var Model = SCNMaterial.LightingModel.lambert
                 let LightModel = Settings.GetEnum(ForKey: .LightModel, EnumType: LightModels.self, Default: LightModels.Lambert)
@@ -183,16 +187,20 @@ class Generator
                         Model = .physicallyBased
                 }
                 
+                let Side = Settings.GetDouble(ForKey: .Side)
                 switch FinalShape
                 {
                     case .Blocks, .Spheres, .Tubes, .Pyramids, .Cylinders, .Rings:
-                        let Geo = MakeSimpleShape(With: Attributes, AtX: AtX, AtY: AtY, Height: Height)
-                        Geo?.firstMaterial?.diffuse.contents = Attributes.Colors[AtY][AtX]
+                        let Geo = MakeSimpleShape(Side: CGFloat(Side), AtX: AtX, AtY: AtY, Height: Height)
+//                        let Geo = MakeSimpleShape(With: Attributes, AtX: AtX, AtY: AtY, Height: Height)
+                        Geo?.firstMaterial?.diffuse.contents = Colors[AtY][AtX]
+//                        Geo?.firstMaterial?.diffuse.contents = Colors[AtY][AtX]//Attributes.Colors[AtY][AtX]
                         Geo?.firstMaterial?.specular.contents = NSColor.white
                         Geo?.firstMaterial?.lightingModel = Model
                         Node.geometry = Geo
-                        NeedsOrientationChange(Node, Attributes.Colors[AtY][AtX], Attributes)
-                        {
+//                        NeedsOrientationChange(Node, Attributes.Colors[AtY][AtX], Attributes)
+NeedsOrientationChange(Node, FinalShape, Colors[AtY][AtX])
+                            {
                             NeedsToRotate, EulerAngles in
                             if NeedsToRotate
                             {
@@ -219,12 +227,15 @@ class Generator
     ///                       false if not. The second parameter (`SCNVector3`) contains the Euler angles to use
     ///                       to rotate the node **if** the first parameter is `true`. If the first parameter is
     ///                       `false`, the second parameter will also be `false`.
-    public static func NeedsOrientationChange(_ Node: PSCNNode, _ Color: NSColor, _ Options: ProcessingAttributes,
+    //public static func NeedsOrientationChange(_ Node: PSCNNode, _ Color: NSColor, _ Options: ProcessingAttributes,
+    //                                          DoesNeed: ((Bool, SCNVector3?) -> ())?)
+    public static func NeedsOrientationChange(_ Node: PSCNNode, _ Shape: Shapes, _ Color: NSColor,
                                               DoesNeed: ((Bool, SCNVector3?) -> ())?)
     {
         var NeedsToRotate = false
         var EulerAngles: SCNVector3? = nil
-        switch Options.Shape
+            //        switch Options.Shape
+            switch Shape
         {
             case .Rings:
                 let RingOrientation = Settings.GetEnum(ForKey: .RingOrientation, EnumType: RingOrientations.self,
@@ -246,23 +257,33 @@ class Generator
     ///                         color data.
     /// - Parameter UIUpdate: Status update protocol to call for updating the UI.
     /// - Returns: Array of shape nodes.
-    public static func MakeNodesFor(Attributes: ProcessingAttributes, UIUpdate: StatusProtocol? = nil) -> [PSCNNode]
+//    public static func MakeNodesFor(Attributes: ProcessingAttributes, UIUpdate: StatusProtocol? = nil) -> [PSCNNode]
+    public static func MakeNodesFor(Colors: [[NSColor]], UIUpdate: StatusProtocol? = nil) -> [PSCNNode]
     {
         var Results = [PSCNNode]()
+        /*
         if Attributes.Colors.count < 1
         {
             return Results
         }
+ */
         
         var Count = 0
+        /*
         let Total = Double(Attributes.Colors.count * Attributes.Colors[0].count)
         for Y in 0 ..< Attributes.Colors.count
         {
             for X in 0 ..< Attributes.Colors[Y].count
+ */
+        let Total = Double(Colors.count * Colors[0].count)
+        for Y in 0 ..< Colors.count
+        {
+            for X in 0 ..< Colors[Y].count
             {
                 autoreleasepool
                     {
-                        Results.append(MakeShape(With: Attributes, AtX: X, AtY: Y))
+                        Results.append(MakeShape(With: Colors, AtX: X, AtY: Y))
+//                        Results.append(MakeShape(With: Attributes, AtX: X, AtY: Y))
                         Count = Count + 1
                         let Percent = 100.0 * Double(Count) / Total
                         UIUpdate?.UpdateStatus(With: .CreatingPercentUpdate, PercentComplete: Percent)
@@ -276,11 +297,13 @@ class Generator
     /// Process the image as defined in the passed attribute. Results placed in the passed scene.
     /// - Parameter Attributes: Defines how to create the image.
     /// - Parameter UIUpdate: Status update protocol for updating the UI.
-    public static func Process(Attributes: ProcessingAttributes,
+    //public static func Process(Attributes: ProcessingAttributes,
+    public static func Process(Colors: [[NSColor]],
                                UIUpdate: StatusProtocol? = nil) -> [PSCNNode]
     {
         UIUpdate?.UpdateStatus(With: .CreatingShapes)
-        let NodeList = MakeNodesFor(Attributes: Attributes, UIUpdate: UIUpdate)
+        let NodeList = MakeNodesFor(Colors: Colors, UIUpdate: UIUpdate)
+//        let NodeList = MakeNodesFor(Attributes: Attributes, UIUpdate: UIUpdate)
         UIUpdate?.UpdateStatus(With: .CreatingDone)
         return NodeList
     }
