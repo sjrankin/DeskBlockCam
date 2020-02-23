@@ -659,7 +659,7 @@ class BlockView: SCNView
         if LiveViewBusy
         {
             DropCount = DropCount + 1
-            print("Dropped live view frame: \(DropCount)")
+            print("Dropped live view frame. Total count = \(DropCount)")
             return
         }
         LiveViewBusy = true
@@ -705,48 +705,6 @@ class BlockView: SCNView
         }
     }
     
-    /// Return a prominence value used to determine size and/or Z location of individual shapes.
-    /// - Parameter Color: The color whose prominence will be returned.
-    /// - Returns: A value to use for setting size and/or Z location of shapes.
-    func LiveViewColorProminence(_ Color: NSColor) -> CGFloat
-    {
-        #if true
-        return ColorProminence(Color)
-        #else
-        var Ex: CGFloat = 1.0
-        switch Settings.GetEnum(ForKey: .VerticalExaggeration, EnumType: VerticalExaggerations.self,
-        Default: VerticalExaggerations.Small)
-        {
-            case .None:
-                Ex = 1.0
-            
-            case .Small:
-                Ex = 1.3
-            
-            case .Medium:
-                Ex = 1.9
-            
-            case .Large:
-                Ex = 2.5
-        }
-        switch Settings.GetEnum(ForKey: .LiveViewHeight, EnumType: HeightDeterminations.self,
-                                Default: HeightDeterminations.Brightness)
-        {
-            case .Hue:
-                return Color.hueComponent * Ex
-            
-            case .Saturation:
-                return Color.saturationComponent * Ex
-            
-            case .Brightness:
-                return Color.brightnessComponent * Ex
-            
-            default:
-                return Color.brightnessComponent * Ex
-        }
-        #endif
-    }
-    
     /// Udpate existing nodes with new colors.
     /// - Note: This function uses nodes already in the scene rather than recreate nodes, which is
     ///         very expensive in terms of performance. Any time a base shape changes, `CreateNode`
@@ -764,7 +722,7 @@ class BlockView: SCNView
                 {
                     let Node = SomeNode as! PSCNNode
                     let Color = Colors[Node.Y][Node.X]
-                    let Prominence = LiveViewColorProminence(Color)
+                    let Prominence = ColorProminence(Color)
                     Node.SetProminence(Double(Prominence))
                     switch CurrentLiveViewNodeShape
                     {
@@ -801,6 +759,16 @@ class BlockView: SCNView
                         case .Squares:
                             //Floating squares
                             if let Geo = Node.geometry as? SCNPlane
+                            {
+                                Geo.width = Side + (Prominence * 0.2)
+                                Geo.height = Side + (Prominence * 0.2)
+                                let OldPos = Node.position
+                                Node.position = SCNVector3(OldPos.x, OldPos.y, Prominence * 2.0 * PMul)
+                        }
+                        
+                        case .Pyramids:
+                        //Pyramids
+                            if let Geo = Node.geometry as? SCNPyramid
                             {
                                 Geo.width = Side + (Prominence * 0.2)
                                 Geo.height = Side + (Prominence * 0.2)
@@ -874,6 +842,11 @@ class BlockView: SCNView
                 //cone
                 Node = PSCNNode(geometry: SCNCone(topRadius: 0.0, bottomRadius: Prominence, height: Prominence),
                                 X: AtX, Y: AtY)
+                Node.rotation = SCNVector4(1.0, 0.0, 0.0, 90.0 * CGFloat.pi / 180.0)
+            
+            case .Pyramids:
+            //pyramid
+                Node = PSCNNode(geometry: SCNPyramid(width: Side, height: Side, length: Prominence), X: AtX, Y: AtY)
                 Node.rotation = SCNVector4(1.0, 0.0, 0.0, 90.0 * CGFloat.pi / 180.0)
             
             case .Squares:
