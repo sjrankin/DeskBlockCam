@@ -14,50 +14,50 @@ class ShapeManager
 {
     /// Map between character lists and the font to use to display the characters.
     public static let FontMap: [CharacterLists: String] =
-    [
-        .Arrows: "NotoSansSymbols2-Regular",
-        .BoxSymbols: "NotoSans-Bold",
-        .Flowers: "NotoSansSymbols2-Regular",
-        .Bodoni: "BodoniOrnamentsITCTT",
-        .Ornamental: "NotoSansSymbols2-Regular",
-        .Things: "NotoSansSymbols2-Regular",
-        .Computers: "NotoSansSymbols2-Regular",
-        .Hiragana: "HiraginoSans-W6",
-        .Katakana: "HiraginoSans-W6",
-        .KyoikuKanji: "HiraginoSans-W6",
-        .Hangul: "NotoSansCJKkr-Black",
-        .Greek: "Times-Bold",
-        .Cyrillic: "Times-Bold",
-        .Emoji: "NotoEmoji",
-        .Latin: "NotoSans-Bold",
-        .Punctuation: "NotoSans-Bold",
-        .SmallGeometry: "NotoSansSymbols2-Regular",
-        .Snowflakes: "NotoSansSymbols2-Regular",
-        .Stars: "NotoSansSymbols2-Regular",
+        [
+            .Arrows: "NotoSansSymbols2-Regular",
+            .BoxSymbols: "NotoSans-Bold",
+            .Flowers: "NotoSansSymbols2-Regular",
+            .Bodoni: "BodoniOrnamentsITCTT",
+            .Ornamental: "NotoSansSymbols2-Regular",
+            .Things: "NotoSansSymbols2-Regular",
+            .Computers: "NotoSansSymbols2-Regular",
+            .Hiragana: "HiraginoSans-W6",
+            .Katakana: "HiraginoSans-W6",
+            .KyoikuKanji: "HiraginoSans-W6",
+            .Hangul: "NotoSansCJKkr-Black",
+            .Greek: "Times-Bold",
+            .Cyrillic: "Times-Bold",
+            .Emoji: "NotoEmoji",
+            .Latin: "NotoSans-Bold",
+            .Punctuation: "NotoSans-Bold",
+            .SmallGeometry: "NotoSansSymbols2-Regular",
+            .Snowflakes: "NotoSansSymbols2-Regular",
+            .Stars: "NotoSansSymbols2-Regular",
     ]
     
     /// Map betwen the `CharacterSets` enum and the `CharacterLists` enum.
     public static let CharacterSetMap: [CharacterSets: CharacterLists] =
-    [
-        .Arrows: .Arrows,
-        .Bodoni: .Bodoni,
-        .BoxSymbols: .BoxSymbols,
-        .Computers: .Computers,
-        .Cyrillic: .Cyrillic,
-        .Emoji: .Emoji,
-        .Flowers: .Flowers,
-        .Greek: .Greek,
-        .Hangul: .Hangul,
-        .Hiragana: .Hiragana,
-        .Katakana: .Katakana,
-        .KyoikuKanji: .KyoikuKanji,
-        .Latin: .Latin,
-        .Ornamental: .Ornamental,
-        .Punctuation: .Punctuation,
-        .SmallGeometry: .SmallGeometry,
-        .Snowflakes: .Snowflakes,
-        .Stars: .Stars,
-        .Things: .Things
+        [
+            .Arrows: .Arrows,
+            .Bodoni: .Bodoni,
+            .BoxSymbols: .BoxSymbols,
+            .Computers: .Computers,
+            .Cyrillic: .Cyrillic,
+            .Emoji: .Emoji,
+            .Flowers: .Flowers,
+            .Greek: .Greek,
+            .Hangul: .Hangul,
+            .Hiragana: .Hiragana,
+            .Katakana: .Katakana,
+            .KyoikuKanji: .KyoikuKanji,
+            .Latin: .Latin,
+            .Ornamental: .Ornamental,
+            .Punctuation: .Punctuation,
+            .SmallGeometry: .SmallGeometry,
+            .Snowflakes: .Snowflakes,
+            .Stars: .Stars,
+            .Things: .Things
     ]
     
     /// Return information for a given character set.
@@ -142,4 +142,53 @@ enum CharacterLists: String, CaseIterable
     case BoxSymbols = """
     ○◦◘─│┌┐└┘├┤┴┬╒┼║╖╗╘╚╞╦╕╙╟╛╜╠◙═╓╔╝╡╢╣╤╪╬╥╩╫╨╧▀▄█░▐▌▒▓■□◌●
     """
+}
+
+
+/// Shapes the program supports.
+enum Shapes: String, CaseIterable
+{
+    //Built-in 3D shapes.
+    case Blocks = "Blocks"
+    case Spheres = "Spheres"
+    case Cones = "Cones"
+    case Rings = "Rings"
+    case Tubes = "Tubes"
+    case Cylinders = "Cylinders"
+    case Pyramids = "Pyramids"
+    
+    //Non-standard extruded shapes.
+    case Triangles = "Triangles"
+    case Polygons = "Polygons"
+    case Stars = "Stars"
+    case Diamonds = "Diamonds"
+    case Ovals = "Ovals"
+    case Lines = "Lines"
+    
+    //Built-in or slightly modified 3D shapes as 2D shapes.
+    case Squares = "Squares"
+    case Rectangles = "Rectangles"
+    case Circles = "Circles"
+    case Triangles2D = "2D Triangles"
+    case Polygons2D = "2D Polygons"
+    case Stars2D = "2D Stars"
+    case Oval2D = "2D Ovals"
+    case Diamond2D = "2D Diamonds"
+    
+    //Combined shapes.
+    case CappedLines = "Capped Lines"
+    case StackedShapes = "Stacked Shapes"
+    case PerpendicularSquares = "Perpendicular Squares"
+    case PerpendicularCircles = "Perpendicular Circles"
+    case HueVarying = "Hue Varying"
+    case SaturationVarying = "Saturation Varying"
+    case BrightnessVarying = "Brightness Varying"
+    case RadiatingLines = "Radiating Lines"
+    
+    //Complex shapes.
+    case HueTriangles = "Hue Triangles"
+    case Characters = "Characters"
+    
+    //Special case for no shape.
+    case NoShape = "NoShape"
 }
