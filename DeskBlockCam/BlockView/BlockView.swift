@@ -204,23 +204,37 @@ class BlockView: SCNView
         }
     }
     
-    func XProcessImage(_ Image: NSImage, Options: ProcessingAttributes)
+    func ReprocessImage()
+    {
+        if PreviouslyProcessedImage == nil
+        {
+            return
+        }
+        let Shape = Settings.GetEnum(ForKey: .Shape, EnumType: Shapes.self, Default: Shapes.Blocks)
+        print("Reprocessing image with \(Shape.rawValue)")
+        ProcessImage(PreviouslyProcessedImage!)
+    }
+    
+    private var PreviouslyProcessedImage: NSImage? = nil
+    
+    func XProcessImage(_ Image: NSImage)
     {
         DispatchQueue.global(qos: .background).async
             {
-                //self.DoProcessImage(Image, Options: Options)
+                //self.DoProcessImage(Image)
         }
     }
     
     /// Process the passed image then display the result.
     /// - Parameter Image: The image to process.
     /// - Parameter Options: Determines how the image is processd.
-    func ProcessImage(_ Image: NSImage, Options: ProcessingAttributes)
+    func ProcessImage(_ Image: NSImage)
     {
         if InLiveViewMode
         {
             return
         }
+        PreviouslyProcessedImage = Image
         StatusDelegate?.UpdateStatus(With: .ResetStatus)
         let Start = CACurrentMediaTime()
         Initialize()
@@ -250,13 +264,14 @@ class BlockView: SCNView
                                 IsLiveView: false)
         let AfterParsing = CACurrentMediaTime() - Start
         StatusDelegate?.UpdateDuration(NewDuration: AfterParsing)
-        Options.Colors = Colors
-        Options.HorizontalBlocks = HBlocks
-        Options.VerticalBlocks = VBlocks
+        //Options.Colors = Colors
+        //Options.HorizontalBlocks = HBlocks
+        //Options.VerticalBlocks = VBlocks
         
         StatusDelegate?.UpdateStatus(With: .CreatingShapes)
         let Total = Double(VBlocks * HBlocks)
         var Count: Double = 0.0
+        let Side = Settings.GetDouble(ForKey: .Side)
         for Y in 0 ... VBlocks - 1
         {
             for X in 0 ... HBlocks - 1
@@ -268,11 +283,17 @@ class BlockView: SCNView
                         let XLocation: Float = Float(X - (HBlocks / 2))
                         let YLocation: Float = Float(Y - (VBlocks / 2))
                         var ZLocation = (Prominence * PMul) * PMul
-                        let ShapeNode = Generator.MakeShape(With: Options, AtX: X, AtY: Y)
+                        let ShapeNode = Generator.MakeShape(With: Colors, AtX: X, AtY: Y)
+//                        let ShapeNode = Generator.MakeShape(With: Options, AtX: X, AtY: Y)
                         ShapeNode.SetProminence(Double(Prominence))
+                        ShapeNode.position = SCNVector3(XLocation * Float(Side),
+                        YLocation * Float(Side),
+                        Float(ZLocation))
+                        /*
                         ShapeNode.position = SCNVector3(XLocation * Float(Options.Side),
                                                         YLocation * Float(Options.Side),
                                                         Float(ZLocation))
+ */
                         MasterNode?.addChildNode(ShapeNode)
                         Count = Count + 1.0
                         let Percent = 100.0 * (Count / Total)
@@ -345,14 +366,6 @@ class BlockView: SCNView
             }
         }
         return nil
-    }
-    
-    /// Process the passed image then display the result. Current attributes from user settings are used.
-    /// - Parameter Image: The image to process.
-    func ProcessImage(_ Image: NSImage)
-    {
-        let Options = ProcessingAttributes.Create()
-        ProcessImage(Image, Options: Options)
     }
     
     /// Common initialization.
@@ -465,12 +478,11 @@ class BlockView: SCNView
     ///         original location when done.
     /// - Parameter IsLiveView: If true, the live view is being processed. Otherwise, a still image is
     ///                         being processed.
+    /// - Parameter FinalOffset: Value to add to the final Z location for adjustment purposes. Defaults
+    ///                          to `1.4`.
     /// - Returns: Recommended Z location of the camera to minimize wasted, empty space.
-    func MinimizeBezel(IsLiveView: Bool = true) -> Double
+    func MinimizeBezel(IsLiveView: Bool = true, FinalOffset: Double = 1.4) -> Double
     {
-        #if false
-        return 15.0
-        #else
         var OriginalZ: CGFloat = 15.0
         let POV = self.pointOfView
         if POV == nil
@@ -494,7 +506,7 @@ class BlockView: SCNView
                             CameraNode.position = SCNVector3(CameraNode.position.x,
                                                              CameraNode.position.y,
                                                              OriginalZ)
-                            return CameraHeight + 1.4
+                            return CameraHeight + FinalOffset
                         }
                     }
                     else
@@ -504,10 +516,11 @@ class BlockView: SCNView
                             CameraNode.position = SCNVector3(CameraNode.position.x,
                                                              CameraNode.position.y,
                                                              OriginalZ)
-                            return CameraHeight + 1.4
+                            return CameraHeight + FinalOffset
                         }
                     }
                 }
+                //Restore the camera.
                 CameraNode.position = SCNVector3(CameraNode.position.x,
                                                  CameraNode.position.y,
                                                  OriginalZ)
@@ -515,7 +528,6 @@ class BlockView: SCNView
         }
         
         return Double(OriginalZ)
-        #endif
     }
     
     /// Parses the pixellated image and returns a list of colors, one for each pixellated block.
@@ -618,6 +630,10 @@ class BlockView: SCNView
     /// Lock for processing the live view.
     var CloseLock = NSObject()
     
+    /// Process the passed image. This function assumes the image is from a live view stream and restricts
+    /// the image processing to help increase performance.
+    /// - Note: Processing occurs on a background thread.
+    /// - Parameter Source: The image to process.
     public func ProcessLiveView(_ Source: CIImage)
     {
         DispatchQueue.global(qos: .background).async
@@ -657,8 +673,8 @@ class BlockView: SCNView
             DispatchQueue.main.async
                 {
                     self.DrawLiveViewNodes(Colors: Colors, HShapeCount: HBlocks, VShapeCount: VBlocks,
-                                      NodeShape: Settings.GetEnum(ForKey: .LiveViewShape, EnumType: Shapes.self,
-                                                                  Default: Shapes.Blocks))
+                                           NodeShape: Settings.GetEnum(ForKey: .LiveViewShape, EnumType: Shapes.self,
+                                                                       Default: Shapes.Blocks))
                     self.LiveViewBusy = false
                     #if false
                     if !self.AddedObserversCamera
