@@ -59,7 +59,7 @@ class CurrentSettings
             
             case Shapes.RadiatingLines.rawValue:
                 Results.append(("Radiating line count","\(Settings.GetInteger(ForKey: .LineCount))"))
-                Results.append(("Radiating line thickness", Settings.GetString(ForKey: .LineThickness)!))
+                Results.append(("Radiating line thickness", Settings.GetString(ForKey: .RadialLineThickness)!))
             
             default:
                 break
