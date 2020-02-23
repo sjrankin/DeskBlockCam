@@ -18,6 +18,7 @@ import CoreGraphics
 class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCaptureVideoDataOutputSampleBufferDelegate,
     NSFilePromiseProviderDelegate,
     SettingChangedProtocol,
+    RedrawProtocol,
     DragDropDelegate
 {
     /// Load and set up the UI.
@@ -235,6 +236,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
             WindowController.showWindow(nil)
             SettingsWindow = WindowController
             SettingsControl = WindowController.contentViewController as? ShapeOptionsCode
+            SettingsControl?.ApplyDelegate = self
         }
     }
     
@@ -474,7 +476,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
     /// the API with too much data.
     var LastFrameTime = CACurrentMediaTime()
     
-    /// Capture the output of a frame of data from the live view. For now, the data is sent to the
+    /// Capture the output of a frame of data from the live view. The data is sent to the
     /// processed view window for conversion to 3D and display.
     /// - Note: If either the image processor or main program are not in live view mode, control
     ///         returns immediately.
@@ -769,6 +771,14 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
     func ImageForDebug(_ Image: NSImage, ImageType: DebugImageTypes)
     {
         AddImage(Type: ImageType, Image)
+    }
+    
+    func RedrawImage()
+    {
+        if Settings.GetEnum(ForKey: .CurrentMode, EnumType: ProgramModes.self, Default: ProgramModes.LiveView) == .ImageView
+        {
+            ProcessedImage.ReprocessImage()
+        }
     }
     
     var DebugWindow: DebugWindowCode? = nil
