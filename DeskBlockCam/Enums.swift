@@ -287,3 +287,12 @@ enum AntialiasingModes: String, CaseIterable
     case x8 = "8x"
     case x16 = "16x"
 }
+
+enum LetterSmoothnesses: String, CaseIterable
+{
+    case Smoothest = "Smoothest"
+    case Smooth = "Smooth"
+    case Medium = "Medium"
+    case Rough = "Rough"
+    case Roughest = "Roughest"
+}
