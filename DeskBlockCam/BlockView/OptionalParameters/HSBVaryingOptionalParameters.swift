@@ -51,7 +51,7 @@ class HSBVaryingOptionalParameters: OptionalParameters
     
     private let InvalidShapes: [Shapes] = [.HueVarying, .SaturationVarying, .BrightnessVarying, .StackedShapes]
     
-    private var _ShapeList: [Shapes] = [.Blocks, .Spheres, .Cylinders, .Hexagons, .Stars]
+    private var _ShapeList: [Shapes] = [.Blocks, .Spheres, .Cylinders, .Polygons, .Stars]
     {
         didSet
         {
