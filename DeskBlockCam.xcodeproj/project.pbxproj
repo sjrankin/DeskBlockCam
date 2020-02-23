@@ -57,6 +57,7 @@
 		1750ADBE23FB6F5500D4EBB0 /* NotoSansCJKkr-Black.otf in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1750ADBD23FB6F5500D4EBB0 /* NotoSansCJKkr-Black.otf */; };
 		1750ADC023FB817600D4EBB0 /* Save.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1750ADBF23FB817600D4EBB0 /* Save.swift */; };
 		1750ADC223FB86A700D4EBB0 /* Open.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1750ADC123FB86A700D4EBB0 /* Open.swift */; };
+		175E031F2401055E00FA8388 /* RedrawProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175E031E2401055E00FA8388 /* RedrawProtocol.swift */; };
 		17609FC923F64E8E00391FFB /* +StatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17609FC823F64E8E00391FFB /* +StatusView.swift */; };
 		17609FCB23F65D5100391FFB /* StatusProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17609FCA23F65D5100391FFB /* StatusProtocol.swift */; };
 		17609FCE23F6611700391FFB /* Shrinker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17609FCD23F6611700391FFB /* Shrinker.swift */; };
@@ -168,6 +169,7 @@
 		1750ADBD23FB6F5500D4EBB0 /* NotoSansCJKkr-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansCJKkr-Black.otf"; sourceTree = "<group>"; };
 		1750ADBF23FB817600D4EBB0 /* Save.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Save.swift; sourceTree = "<group>"; };
 		1750ADC123FB86A700D4EBB0 /* Open.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Open.swift; sourceTree = "<group>"; };
+		175E031E2401055E00FA8388 /* RedrawProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedrawProtocol.swift; sourceTree = "<group>"; };
 		17609FC823F64E8E00391FFB /* +StatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+StatusView.swift"; sourceTree = "<group>"; };
 		17609FCA23F65D5100391FFB /* StatusProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusProtocol.swift; sourceTree = "<group>"; };
 		17609FCD23F6611700391FFB /* Shrinker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shrinker.swift; sourceTree = "<group>"; };
@@ -406,6 +408,7 @@
 				170A10FE23F10394003D0C1D /* ProgramSettings */,
 				17897B8623E6A77500AFDA6A /* Assets.xcassets */,
 				17897B8223E6A77300AFDA6A /* AppDelegate.swift */,
+				175E031E2401055E00FA8388 /* RedrawProtocol.swift */,
 				17897B8423E6A77300AFDA6A /* ViewController.swift */,
 				17609FC823F64E8E00391FFB /* +StatusView.swift */,
 				17897B9623E6EB1D00AFDA6A /* ViewControllerWindow.swift */,
@@ -604,6 +607,7 @@
 				17B31D5623EFFAAF00C69257 /* Enums.swift in Sources */,
 				177BF06223EE52CD00670F40 /* ColorSwatchItem.swift in Sources */,
 				17897B9723E6EB1D00AFDA6A /* ViewControllerWindow.swift in Sources */,
+				175E031F2401055E00FA8388 /* RedrawProtocol.swift in Sources */,
 				178041BB23F3D0E6006E40C1 /* ErrorMessageHandling.swift in Sources */,
 				170A110023F103AF003D0C1D /* ProgramSettingsWindowController.swift in Sources */,
 				178041C623F3D8AC006E40C1 /* AncillaryWindowProtocol.swift in Sources */,
