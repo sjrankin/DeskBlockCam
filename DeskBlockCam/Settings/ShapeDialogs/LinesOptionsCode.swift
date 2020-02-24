@@ -20,7 +20,7 @@ class LinesOptionsCode: NSViewController, ToOptionsDialogProtocol
         {
             Caption.stringValue = NewCaption
         }
-        let Thick = Settings.GetEnum(ForKey: .LineThickness, EnumType: LineThickenesses.self, Default: .Medium)
+        let Thick = Settings.GetEnum(ForKey: .LineThickness, EnumType: LineThicknesses.self, Default: .Medium)
         switch Thick
         {
             case .Thin:
@@ -77,16 +77,16 @@ class LinesOptionsCode: NSViewController, ToOptionsDialogProtocol
         switch LineThickSegments.selectedSegment
         {
             case 0:
-                Settings.SetEnum(.Thin, EnumType: LineThickenesses.self, ForKey: .LineThickness)
+                Settings.SetEnum(.Thin, EnumType: LineThicknesses.self, ForKey: .LineThickness)
             
             case 1:
-                Settings.SetEnum(.Medium, EnumType: LineThickenesses.self, ForKey: .LineThickness)
+                Settings.SetEnum(.Medium, EnumType: LineThicknesses.self, ForKey: .LineThickness)
             
             case 2:
-                Settings.SetEnum(.Thick, EnumType: LineThickenesses.self, ForKey: .LineThickness)
+                Settings.SetEnum(.Thick, EnumType: LineThicknesses.self, ForKey: .LineThickness)
             
             default:
-                Settings.SetEnum(.Thin, EnumType: LineThickenesses.self, ForKey: .LineThickness)
+                Settings.SetEnum(.Thin, EnumType: LineThicknesses.self, ForKey: .LineThickness)
         }
         Delegate?.UpdateCurrent(With: CurrentShape)
     }
