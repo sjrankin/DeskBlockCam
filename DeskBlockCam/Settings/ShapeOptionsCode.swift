@@ -187,6 +187,9 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
         Current[8].ValueItems.removeAll()
         let Shape = Settings.GetEnum(ForKey: .LiveViewShape, EnumType: Shapes.self, Default: Shapes.Blocks)
         Current[8].ValueItems.append(ValueItem(Description: "Shape", Value: Shape.rawValue))
+        let LiveViewSize = Settings.GetEnum(ForKey: .LiveViewImageSize, EnumType: LiveViewImageSizes.self,
+                                            Default: LiveViewImageSizes.Medium)
+        Current[8].ValueItems.append(ValueItem(Description: "Stream size", Value: LiveViewSize.rawValue))
         CurrentSettings.reloadData()
     }
     
@@ -212,17 +215,44 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
                 let SideCount = Settings.GetInteger(ForKey: .Polygon2DSideCount)
                 Current[1].ValueItems.append(ValueItem(Description: "Sides", Value: "\(SideCount)"))
             
-            case .BrightnessVarying:
-                let Shapes = Settings.GetString(ForKey: .BrightnessShapes)
-                Current[1].ValueItems.append(ValueItem(Description: "Shapes", Value: Shapes!))
-            
-            case .HueVarying:
-                let Shapes = Settings.GetString(ForKey: .HueShapes)
-                Current[1].ValueItems.append(ValueItem(Description: "Shapes", Value: Shapes!))
-            
-            case .SaturationVarying:
-                let Shapes = Settings.GetString(ForKey: .SaturationShapes)
-                Current[1].ValueItems.append(ValueItem(Description: "Shapes", Value: Shapes!))
+            case .ComponentVariable:
+                let Component = Settings.GetEnum(ForKey: .VaryingComponent, EnumType: VaryingComponents.self,
+                                                 Default: VaryingComponents.Hue)
+                Current[1].ValueItems.append(ValueItem(Description: "Component", Value: Component.rawValue))
+            var SList = ""
+            switch Component
+            {
+                case .Hue:
+                    SList = Settings.GetString(ForKey: .HueShapes, Shapes.Blocks.rawValue)
+                
+                case .Saturation:
+                    SList = Settings.GetString(ForKey: .SaturationShapes, Shapes.Blocks.rawValue)
+                
+                case .Brightness:
+                    SList = Settings.GetString(ForKey: .BrightnessShapes, Shapes.Blocks.rawValue)
+                
+                case .Red:
+                    SList = Settings.GetString(ForKey: .RedShapes, Shapes.Blocks.rawValue)
+                
+                case .Green:
+                    SList = Settings.GetString(ForKey: .GreenShapes, Shapes.Blocks.rawValue)
+                
+                case .Blue:
+                    SList = Settings.GetString(ForKey: .BlueShapes, Shapes.Blocks.rawValue)
+                
+                case .Cyan:
+                    SList = Settings.GetString(ForKey: .CyanShapes, Shapes.Blocks.rawValue)
+                
+                case .Magenta:
+                    SList = Settings.GetString(ForKey: .MagentaShapes, Shapes.Blocks.rawValue)
+                
+                case .Yellow:
+                    SList = Settings.GetString(ForKey: .YellowShapes, Shapes.Blocks.rawValue)
+                
+                case .Black:
+                    SList = Settings.GetString(ForKey: .BlackShapes, Shapes.Blocks.rawValue)
+            }
+                Current[1].ValueItems.append(ValueItem(Description: "Shapes", Value: SList))
             
             case .CappedLines:
                 let Location = Settings.GetEnum(ForKey: .CapLocation, EnumType: CapLocations.self, Default: CapLocations.Top)
@@ -256,7 +286,7 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
             
             case .RadiatingLines:
                 let LineCount = Settings.GetInteger(ForKey: .LineCount)
-                let Thickness = Settings.GetEnum(ForKey: .RadialLineThickness, EnumType: LineThickenesses.self, Default: LineThickenesses.Thin)
+                let Thickness = Settings.GetEnum(ForKey: .RadialLineThickness, EnumType: LineThicknesses.self, Default: LineThicknesses.Thin)
                 Current[1].ValueItems.append(ValueItem(Description: "Line count", Value: "\(LineCount)"))
                 Current[1].ValueItems.append(ValueItem(Description: "Thickness", Value: Thickness.rawValue))
             
@@ -335,11 +365,14 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
     ]
     
     //https://qtsoftware.co.uk/programming/swift/solved-how-to-use-outline-views-in-swift-4/
+    #if true
+    let Categories = ShapeManager.Categories
+    #else
     let Categories =
         [
             ShapeCategory(Name: "Standard", Shapes: [Shapes.Blocks.rawValue, Shapes.Spheres.rawValue, Shapes.Cones.rawValue,
                                                      Shapes.Rings.rawValue, Shapes.Tubes.rawValue, Shapes.Cylinders.rawValue,
-                                                     Shapes.Pyramids.rawValue]),
+                                                     Shapes.Pyramids.rawValue, Shapes.Capsules.rawValue]),
             ShapeCategory(Name: "Non-Standard", Shapes: [Shapes.Triangles.rawValue, Shapes.Polygons.rawValue,
                                                          Shapes.Stars.rawValue, Shapes.Diamonds.rawValue,
                                                          Shapes.Ovals.rawValue, Shapes.Characters.rawValue,
@@ -350,10 +383,10 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
                                                       Shapes.Polygons2D.rawValue, Shapes.Stars2D.rawValue]),
             ShapeCategory(Name: "Combined", Shapes: [Shapes.CappedLines.rawValue, Shapes.StackedShapes.rawValue,
                                                      Shapes.PerpendicularSquares.rawValue, Shapes.PerpendicularCircles.rawValue,
-                                                     Shapes.HueVarying.rawValue, Shapes.SaturationVarying.rawValue,
-                                                     Shapes.BrightnessVarying.rawValue, Shapes.RadiatingLines.rawValue]),
+                                                     Shapes.ComponentVariable.rawValue, Shapes.RadiatingLines.rawValue]),
             ShapeCategory(Name: "Complex", Shapes: [Shapes.HueTriangles.rawValue])
     ]
+    #endif
     
     func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: Any?) -> Any
     {
@@ -1411,48 +1444,56 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
             default:
                 LiveViewShapeSegment.selectedSegment = 0
         }
-        let LVHeight = Settings.GetEnum(ForKey: .LiveViewHeight, EnumType: HeightDeterminations.self,
-                                        Default: HeightDeterminations.Brightness)
-        switch LVHeight
+        switch Settings.GetEnum(ForKey: .LiveViewImageSize, EnumType: LiveViewImageSizes.self,
+        Default: LiveViewImageSizes.Medium)
         {
-            case .Hue:
-                LiveViewHeightSegment.selectedSegment = 0
+            case .Native:
+                LiveViewImageSizeSegment.selectedSegment = 3
             
-            case .Saturation:
-                LiveViewHeightSegment.selectedSegment = 1
+            case .Small:
+                            LiveViewImageSizeSegment.selectedSegment = 0
             
-            case .Brightness:
-                LiveViewHeightSegment.selectedSegment = 2
+            case .Medium:
+                LiveViewImageSizeSegment.selectedSegment = 1
             
-            default:
-                LiveViewHeightSegment.selectedSegment = 0
+            case .Large:
+                LiveViewImageSizeSegment.selectedSegment = 2
         }
     }
     
-    @IBOutlet weak var LiveViewHeightSegment: NSSegmentedControl!
-    @IBOutlet weak var LiveViewShapeSegment: NSSegmentedControl!
-    
-    @IBAction func LiveViewHeightChanged(_ sender: Any)
+    @IBAction func LiveViewImageSizeChanged(_ sender: Any)
     {
         if let Segment = sender as? NSSegmentedControl
         {
             switch Segment.selectedSegment
             {
                 case 0:
-                    Settings.SetEnum(.Hue, EnumType: HeightDeterminations.self, ForKey: .LiveViewHeight)
+                    Settings.SetEnum(.Small, EnumType: LiveViewImageSizes.self,
+                                     ForKey: .LiveViewImageSize)
                 
                 case 1:
-                    Settings.SetEnum(.Saturation, EnumType: HeightDeterminations.self, ForKey: .LiveViewHeight)
+                    Settings.SetEnum(.Medium, EnumType: LiveViewImageSizes.self,
+                                     ForKey: .LiveViewImageSize)
                 
                 case 2:
-                    Settings.SetEnum(.Brightness, EnumType: HeightDeterminations.self, ForKey: .LiveViewHeight)
+                    Settings.SetEnum(.Large, EnumType: LiveViewImageSizes.self,
+                                     ForKey: .LiveViewImageSize)
+                
+                case 3:
+                    Settings.SetEnum(.Native, EnumType: LiveViewImageSizes.self,
+                                     ForKey: .LiveViewImageSize)
                 
                 default:
-                    Settings.SetEnum(.Brightness, EnumType: HeightDeterminations.self, ForKey: .LiveViewHeight)
+                    Settings.SetEnum(.Medium, EnumType: LiveViewImageSizes.self,
+                                     ForKey: .LiveViewImageSize)
             }
             UpdateLiveViewSettings()
+            ApplyDelegate?.ResetLiveView()
         }
     }
+    
+    @IBOutlet weak var LiveViewShapeSegment: NSSegmentedControl!
+    @IBOutlet weak var LiveViewImageSizeSegment: NSSegmentedControl!
     
     @IBAction func LiveViewShapeSegmentChanged(_ sender: Any)
     {
