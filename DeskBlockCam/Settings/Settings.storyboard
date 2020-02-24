@@ -903,7 +903,7 @@
                                                     </textFieldCell>
                                                 </textField>
                                                 <gridView xPlacement="leading" yPlacement="bottom" rowAlignment="none" rowSpacing="8" columnSpacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="q9t-OS-TEm">
-                                                    <rect key="frame" x="17" y="272" width="536" height="50"/>
+                                                    <rect key="frame" x="17" y="272" width="556" height="50"/>
                                                     <rows>
                                                         <gridRow id="5XK-GA-V5j"/>
                                                         <gridRow id="VAF-4I-Twq"/>
@@ -945,8 +945,8 @@
                                                         </gridCell>
                                                         <gridCell row="VAF-4I-Twq" column="AV5-TC-7Hm" yPlacement="center" id="Z5P-vv-wcP">
                                                             <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cvO-gf-8TD">
-                                                                <rect key="frame" x="-2" y="3" width="45" height="16"/>
-                                                                <textFieldCell key="cell" lineBreakMode="clipping" title="Height" id="wfO-W4-2Mf">
+                                                                <rect key="frame" x="-2" y="3" width="69" height="16"/>
+                                                                <textFieldCell key="cell" lineBreakMode="clipping" title="Image size" id="wfO-W4-2Mf">
                                                                     <font key="font" usesAppearanceFont="YES"/>
                                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -955,17 +955,18 @@
                                                         </gridCell>
                                                         <gridCell row="VAF-4I-Twq" column="gWJ-DP-sLJ" id="M4O-Oj-V0u">
                                                             <segmentedControl key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="d32-Lj-s1L">
-                                                                <rect key="frame" x="108" y="-2" width="338" height="24"/>
-                                                                <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="wos-fO-j1W">
+                                                                <rect key="frame" x="108" y="-2" width="450" height="24"/>
+                                                                <segmentedCell key="cell" borderStyle="border" alignment="left" segmentDistribution="fillEqually" style="rounded" trackingMode="selectOne" id="wos-fO-j1W">
                                                                     <font key="font" metaFont="system"/>
                                                                     <segments>
-                                                                        <segment label="Hue" width="110"/>
-                                                                        <segment label="Saturation" width="110" selected="YES" tag="1"/>
-                                                                        <segment label="Brightness" width="110"/>
+                                                                        <segment label="Small" width="110"/>
+                                                                        <segment label="Medium" width="110" tag="1"/>
+                                                                        <segment label="Large" width="110"/>
+                                                                        <segment label="Native" selected="YES"/>
                                                                     </segments>
                                                                 </segmentedCell>
                                                                 <connections>
-                                                                    <action selector="LiveViewHeightChanged:" target="Qjr-ah-SSu" id="eA8-hs-WDv"/>
+                                                                    <action selector="LiveViewImageSizeChanged:" target="Qjr-ah-SSu" id="05P-hb-OWO"/>
                                                                 </connections>
                                                             </segmentedControl>
                                                         </gridCell>
@@ -1144,7 +1145,7 @@
                         <outlet property="LightModelSegment" destination="Zw7-gG-dKk" id="43S-mj-vm2"/>
                         <outlet property="LightTypeSegment" destination="6AQ-yj-vg7" id="nMx-Ad-fcd"/>
                         <outlet property="LightingSample" destination="FY8-ib-4IZ" id="Doo-NC-YdN"/>
-                        <outlet property="LiveViewHeightSegment" destination="d32-Lj-s1L" id="nY9-kT-qzb"/>
+                        <outlet property="LiveViewImageSizeSegment" destination="d32-Lj-s1L" id="nrp-Pt-EFs"/>
                         <outlet property="LiveViewShapeSegment" destination="Frj-CE-eaD" id="8s5-Tj-va9"/>
                         <outlet property="MaximumImageSizeSelector" destination="z2J-2M-Euc" id="w3D-Ug-tOz"/>
                         <outlet property="OptionsContainer" destination="FKI-xp-bXG" id="ocF-dV-caY"/>
@@ -2136,11 +2137,35 @@
                                     </gridCell>
                                 </gridCells>
                             </gridView>
+                            <box title="Sample" translatesAutoresizingMaskIntoConstraints="NO" id="qft-MD-lw9">
+                                <rect key="frame" x="103" y="11" width="246" height="144"/>
+                                <view key="contentView" id="QjK-9x-E9m">
+                                    <rect key="frame" x="3" y="3" width="240" height="126"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <sceneView translatesAutoresizingMaskIntoConstraints="NO" id="GKT-gT-sc2">
+                                            <rect key="frame" x="10" y="7" width="221" height="113"/>
+                                        </sceneView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="GKT-gT-sc2" firstAttribute="leading" secondItem="QjK-9x-E9m" secondAttribute="leading" constant="10" id="6f3-rB-VPi"/>
+                                        <constraint firstItem="GKT-gT-sc2" firstAttribute="top" secondItem="QjK-9x-E9m" secondAttribute="top" constant="6" id="igB-iX-30h"/>
+                                        <constraint firstAttribute="trailing" secondItem="GKT-gT-sc2" secondAttribute="trailing" constant="9" id="mEa-h5-VW7"/>
+                                        <constraint firstAttribute="bottom" secondItem="GKT-gT-sc2" secondAttribute="bottom" constant="7" id="tHP-SI-EDI"/>
+                                    </constraints>
+                                </view>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="140" id="zII-BB-dcw"/>
+                                    <constraint firstAttribute="width" constant="240" id="zZb-Az-siS"/>
+                                </constraints>
+                            </box>
                         </subviews>
                         <constraints>
                             <constraint firstItem="sPy-mj-G1n" firstAttribute="leading" secondItem="08B-52-vvk" secondAttribute="leading" constant="8" id="31i-mS-Aqb"/>
+                            <constraint firstItem="qft-MD-lw9" firstAttribute="top" secondItem="vdN-RH-Lmc" secondAttribute="bottom" constant="8" symbolic="YES" id="7yy-ih-X9Z"/>
                             <constraint firstItem="sPy-mj-G1n" firstAttribute="top" secondItem="08B-52-vvk" secondAttribute="top" constant="9" id="C7a-GR-oYS"/>
                             <constraint firstItem="vdN-RH-Lmc" firstAttribute="leading" secondItem="sPy-mj-G1n" secondAttribute="leading" id="T8O-GS-xkW"/>
+                            <constraint firstItem="qft-MD-lw9" firstAttribute="centerX" secondItem="sPy-mj-G1n" secondAttribute="centerX" id="UM9-Xf-8YT"/>
                             <constraint firstItem="vdN-RH-Lmc" firstAttribute="top" secondItem="sPy-mj-G1n" secondAttribute="bottom" constant="21" id="nWC-fF-NKg"/>
                             <constraint firstAttribute="trailing" secondItem="sPy-mj-G1n" secondAttribute="trailing" constant="6" id="s34-dI-rdb"/>
                         </constraints>
@@ -2148,6 +2173,7 @@
                     <connections>
                         <outlet property="Caption" destination="sPy-mj-G1n" id="SIo-0R-iJq"/>
                         <outlet property="LineCountSegment" destination="RdC-ga-bRC" id="5BD-Nv-LA8"/>
+                        <outlet property="LineSample" destination="GKT-gT-sc2" id="zvR-73-eca"/>
                         <outlet property="LineThickSegments" destination="LNQ-sq-afE" id="905-FQ-TRl"/>
                     </connections>
                 </viewController>
@@ -2359,6 +2385,11 @@
                             </textField>
                             <gridView xPlacement="leading" yPlacement="bottom" rowAlignment="none" rowSpacing="8" columnSpacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="nEL-id-Qeq">
                                 <rect key="frame" x="223" y="82" width="243" height="72"/>
+                                <constraints>
+                                    <constraint firstItem="b9M-Ur-o1k" firstAttribute="top" secondItem="dyk-60-HBR" secondAttribute="bottom" constant="23" id="Zly-ua-cGG"/>
+                                    <constraint firstItem="zYI-pr-QYT" firstAttribute="baseline" secondItem="dyk-60-HBR" secondAttribute="baseline" id="bcl-bz-ZjF"/>
+                                    <constraint firstItem="dyk-60-HBR" firstAttribute="top" secondItem="nEL-id-Qeq" secondAttribute="top" constant="1" id="fOQ-KK-E4t"/>
+                                </constraints>
                                 <rows>
                                     <gridRow id="VoT-A9-sVc"/>
                                     <gridRow id="FKP-ZN-iQm"/>
@@ -2369,8 +2400,8 @@
                                 </columns>
                                 <gridCells>
                                     <gridCell row="VoT-A9-sVc" column="DeZ-o7-2J0" yPlacement="center" id="ziW-Ya-KJw">
-                                        <button key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zYI-pr-QYT">
-                                            <rect key="frame" x="-6" y="33" width="65" height="32"/>
+                                        <button key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zYI-pr-QYT">
+                                            <rect key="frame" x="-6" y="44" width="65" height="32"/>
                                             <buttonCell key="cell" type="push" title="Add" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="fri-Hg-0M3">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
@@ -2381,8 +2412,8 @@
                                         </button>
                                     </gridCell>
                                     <gridCell row="VoT-A9-sVc" column="kKC-Mh-d0t" yPlacement="center" id="lJH-9M-wtf">
-                                        <comboBox key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dyk-60-HBR">
-                                            <rect key="frame" x="82" y="37" width="164" height="25"/>
+                                        <comboBox key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dyk-60-HBR">
+                                            <rect key="frame" x="82" y="48" width="164" height="25"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="161" id="SPs-AT-9NA"/>
                                             </constraints>
@@ -2399,8 +2430,8 @@
                                         </comboBox>
                                     </gridCell>
                                     <gridCell row="FKP-ZN-iQm" column="DeZ-o7-2J0" yPlacement="center" id="90b-Ej-1Kr">
-                                        <button key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BD0-WF-m4u">
-                                            <rect key="frame" x="-6" y="-7" width="89" height="32"/>
+                                        <button key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="BD0-WF-m4u">
+                                            <rect key="frame" x="-6" y="4" width="89" height="32"/>
                                             <buttonCell key="cell" type="push" title="Remove" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="swa-bA-WGe">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
@@ -2411,8 +2442,8 @@
                                         </button>
                                     </gridCell>
                                     <gridCell row="FKP-ZN-iQm" column="kKC-Mh-d0t" yPlacement="center" id="i79-9k-laR">
-                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="b9M-Ur-o1k">
-                                            <rect key="frame" x="80" y="4" width="129" height="14"/>
+                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="b9M-Ur-o1k">
+                                            <rect key="frame" x="80" y="14" width="129" height="15"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Remove selected shape" id="d3i-N1-5nK">
                                                 <font key="font" metaFont="message" size="11"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -2636,7 +2667,7 @@
                 </viewController>
                 <customObject id="EBq-ap-XR5" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2078.5" y="3346"/>
+            <point key="canvasLocation" x="2079" y="3353"/>
         </scene>
         <!--Sphere Option Code-->
         <scene sceneID="C5v-qV-VnT">
@@ -3037,6 +3068,224 @@
                 </viewController>
             </objects>
             <point key="canvasLocation" x="1071" y="3320"/>
+        </scene>
+        <!--Component Option Code-->
+        <scene sceneID="Ng1-RS-qnV">
+            <objects>
+                <viewController storyboardIdentifier="ComponentOptions" id="67r-k8-56E" customClass="ComponentOptionCode" customModule="BlockCam" sceneMemberID="viewController">
+                    <view key="view" id="ZYm-W0-udB">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="366"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <subviews>
+                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="aWh-Kz-ci5">
+                                <rect key="frame" x="8" y="300" width="434" height="57"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="57" id="5wG-fT-cin"/>
+                                </constraints>
+                                <textFieldCell key="cell" selectable="YES" borderStyle="border" alignment="left" title="Creates a shape dependent on the color component you select." drawsBackground="YES" id="Qc6-J8-rYM">
+                                    <font key="font" usesAppearanceFont="YES"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" red="0.15000000599999999" green="0.15000000599999999" blue="0.15000000599999999" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                </textFieldCell>
+                            </textField>
+                            <gridView xPlacement="leading" yPlacement="bottom" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="aFh-kE-9l9">
+                                <rect key="frame" x="8" y="263" width="230" height="19"/>
+                                <rows>
+                                    <gridRow id="AB1-V3-ee1"/>
+                                </rows>
+                                <columns>
+                                    <gridColumn id="RLW-8i-4Ny"/>
+                                    <gridColumn width="153" id="kZR-hV-mE4"/>
+                                </columns>
+                                <gridCells>
+                                    <gridCell row="AB1-V3-ee1" column="RLW-8i-4Ny" yPlacement="center" id="r1B-x4-BkA">
+                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="s4a-Ic-2yV">
+                                            <rect key="frame" x="-2" y="2" width="75" height="16"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Component" id="1ji-Si-OaW">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                    </gridCell>
+                                    <gridCell row="AB1-V3-ee1" column="kZR-hV-mE4" xPlacement="leading" yPlacement="center" id="bux-Gk-WHL">
+                                        <comboBox key="contentView" verticalHuggingPriority="750" ambiguous="YES" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wdm-nV-KCr">
+                                            <rect key="frame" x="77" y="-4" width="103" height="25"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="155" id="9er-Vn-Swf"/>
+                                            </constraints>
+                                            <comboBoxCell key="cell" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="ZgJ-mf-e8Z">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                <objectValues>
+                                                    <string>Item 1</string>
+                                                    <string>Item 2</string>
+                                                    <string>Item 3</string>
+                                                    <string>Item</string>
+                                                </objectValues>
+                                            </comboBoxCell>
+                                            <connections>
+                                                <action selector="HandleComponentChanged:" target="67r-k8-56E" id="xKg-nT-jn5"/>
+                                            </connections>
+                                        </comboBox>
+                                    </gridCell>
+                                </gridCells>
+                            </gridView>
+                            <scrollView identifier="ShapeCell" autohidesScrollers="YES" horizontalLineScroll="69" horizontalPageScroll="10" verticalLineScroll="69" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4g1-4V-QRN">
+                                <rect key="frame" x="20" y="35" width="200" height="196"/>
+                                <clipView key="contentView" ambiguous="YES" id="IAM-81-1nT">
+                                    <rect key="frame" x="1" y="0.0" width="198" height="195"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <tableView verticalHuggingPriority="750" ambiguous="YES" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="67" rowSizeStyle="automatic" headerView="wzg-9r-1Zi" viewBased="YES" id="08f-ja-XDV">
+                                            <rect key="frame" x="0.0" y="0.0" width="198" height="170"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <size key="intercellSpacing" width="3" height="2"/>
+                                            <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
+                                            <tableColumns>
+                                                <tableColumn identifier="ShapeColumn" width="195" minWidth="40" maxWidth="1000" id="Qtt-dO-TjB">
+                                                    <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Shape">
+                                                        <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
+                                                    </tableHeaderCell>
+                                                    <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" title="Text Cell" id="q9b-r7-dVg">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                    <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                                    <prototypeCellViews>
+                                                        <tableCellView id="M6l-eS-Koz">
+                                                            <rect key="frame" x="1" y="1" width="195" height="67"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                            <subviews>
+                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="KNb-nv-V13">
+                                                                    <rect key="frame" x="0.0" y="25" width="195" height="17"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="height" constant="17" id="We8-AJ-Kir"/>
+                                                                    </constraints>
+                                                                    <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="qsJ-Po-XjQ">
+                                                                        <font key="font" metaFont="system"/>
+                                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                    </textFieldCell>
+                                                                </textField>
+                                                            </subviews>
+                                                            <constraints>
+                                                                <constraint firstItem="KNb-nv-V13" firstAttribute="leading" secondItem="M6l-eS-Koz" secondAttribute="leading" constant="2" id="57U-yn-rHS"/>
+                                                                <constraint firstItem="KNb-nv-V13" firstAttribute="centerX" secondItem="M6l-eS-Koz" secondAttribute="centerX" id="DMq-sn-U2i"/>
+                                                                <constraint firstItem="KNb-nv-V13" firstAttribute="centerY" secondItem="M6l-eS-Koz" secondAttribute="centerY" id="t47-05-2BD"/>
+                                                            </constraints>
+                                                            <connections>
+                                                                <outlet property="textField" destination="KNb-nv-V13" id="GmV-yR-Xsf"/>
+                                                            </connections>
+                                                        </tableCellView>
+                                                    </prototypeCellViews>
+                                                </tableColumn>
+                                            </tableColumns>
+                                            <connections>
+                                                <outlet property="dataSource" destination="67r-k8-56E" id="pUa-YF-qfv"/>
+                                                <outlet property="delegate" destination="67r-k8-56E" id="VrT-eI-VxD"/>
+                                            </connections>
+                                        </tableView>
+                                    </subviews>
+                                </clipView>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="0sZ-HT-NfQ"/>
+                                    <constraint firstAttribute="height" constant="196" id="T1d-nu-lAd"/>
+                                </constraints>
+                                <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="lHD-Q4-Nds">
+                                    <rect key="frame" x="1" y="119" width="223" height="15"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                                <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="fFY-2b-aKk">
+                                    <rect key="frame" x="224" y="17" width="15" height="102"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                                <tableHeaderView key="headerView" id="wzg-9r-1Zi">
+                                    <rect key="frame" x="0.0" y="0.0" width="198" height="25"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableHeaderView>
+                            </scrollView>
+                            <gridView xPlacement="leading" yPlacement="bottom" rowAlignment="none" rowSpacing="8" columnSpacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="KWm-fT-Ng4">
+                                <rect key="frame" x="236" y="108" width="187" height="50"/>
+                                <rows>
+                                    <gridRow id="VXe-Da-kAs"/>
+                                    <gridRow id="fJv-S2-8xY"/>
+                                </rows>
+                                <columns>
+                                    <gridColumn id="j4C-sR-ZXU"/>
+                                    <gridColumn width="105" id="Omw-Ya-alT"/>
+                                </columns>
+                                <gridCells>
+                                    <gridCell row="VXe-Da-kAs" column="j4C-sR-ZXU" yPlacement="center" id="uxl-o7-HXw">
+                                        <button key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="NOM-en-hAj">
+                                            <rect key="frame" x="-6" y="22" width="65" height="32"/>
+                                            <buttonCell key="cell" type="push" title="Add" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Sut-sV-dxv">
+                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="HandleAddButtonPressed:" target="67r-k8-56E" id="obk-Bh-cj0"/>
+                                            </connections>
+                                        </button>
+                                    </gridCell>
+                                    <gridCell row="VXe-Da-kAs" column="Omw-Ya-alT" yPlacement="center" id="qvC-zh-yOl">
+                                        <comboBox key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="a01-iG-U1S">
+                                            <rect key="frame" x="82" y="26" width="28" height="25"/>
+                                            <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="ATu-9I-3o6">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                <objectValues>
+                                                    <string>Item 1</string>
+                                                    <string>Item 2</string>
+                                                    <string>Item 3</string>
+                                                </objectValues>
+                                            </comboBoxCell>
+                                        </comboBox>
+                                    </gridCell>
+                                    <gridCell row="fJv-S2-8xY" column="j4C-sR-ZXU" yPlacement="center" id="gqK-Dh-Gqf">
+                                        <button key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rSz-6E-Odb">
+                                            <rect key="frame" x="-6" y="-7" width="89" height="32"/>
+                                            <buttonCell key="cell" type="push" title="Remove" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="C5q-Zn-rfL">
+                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="HandleRemoveButtonPressed:" target="67r-k8-56E" id="tol-xd-032"/>
+                                            </connections>
+                                        </button>
+                                    </gridCell>
+                                    <gridCell row="fJv-S2-8xY" column="Omw-Ya-alT" yPlacement="center" id="6nh-aa-4RM"/>
+                                </gridCells>
+                            </gridView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="aWh-Kz-ci5" secondAttribute="trailing" constant="8" id="30m-eQ-8nM"/>
+                            <constraint firstItem="aWh-Kz-ci5" firstAttribute="top" secondItem="ZYm-W0-udB" secondAttribute="top" constant="9" id="4rl-Wf-vMj"/>
+                            <constraint firstItem="4g1-4V-QRN" firstAttribute="leading" secondItem="ZYm-W0-udB" secondAttribute="leading" constant="20" symbolic="YES" id="AqR-l2-LD8"/>
+                            <constraint firstItem="KWm-fT-Ng4" firstAttribute="centerY" secondItem="4g1-4V-QRN" secondAttribute="centerY" id="OQU-bw-12g"/>
+                            <constraint firstItem="aFh-kE-9l9" firstAttribute="top" secondItem="aWh-Kz-ci5" secondAttribute="bottom" constant="18" id="Ocf-uG-4Mh"/>
+                            <constraint firstItem="4g1-4V-QRN" firstAttribute="top" secondItem="aFh-kE-9l9" secondAttribute="bottom" constant="32" id="Pbs-e8-OUi"/>
+                            <constraint firstItem="aWh-Kz-ci5" firstAttribute="centerX" secondItem="ZYm-W0-udB" secondAttribute="centerX" id="axd-jf-beM"/>
+                            <constraint firstItem="aFh-kE-9l9" firstAttribute="leading" secondItem="aWh-Kz-ci5" secondAttribute="leading" id="b0k-HY-qfS"/>
+                            <constraint firstItem="KWm-fT-Ng4" firstAttribute="leading" secondItem="4g1-4V-QRN" secondAttribute="trailing" constant="16" id="eKs-6z-f3n"/>
+                            <constraint firstItem="aWh-Kz-ci5" firstAttribute="leading" secondItem="ZYm-W0-udB" secondAttribute="leading" constant="8" id="p7A-zq-rA4"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="Caption" destination="aWh-Kz-ci5" id="YkA-OC-28J"/>
+                        <outlet property="ComponentCombo" destination="wdm-nV-KCr" id="dkh-MR-iiD"/>
+                        <outlet property="ShapeCombo" destination="a01-iG-U1S" id="LcU-Ry-BXS"/>
+                        <outlet property="ShapeTable" destination="08f-ja-XDV" id="koV-Da-hdz"/>
+                    </connections>
+                </viewController>
+                <customObject id="AId-Le-vrH" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1539" y="3353"/>
         </scene>
     </scenes>
     <resources>
