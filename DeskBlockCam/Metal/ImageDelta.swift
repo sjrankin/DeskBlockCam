@@ -142,17 +142,4 @@ class ImageDelta
         return Final
     }
 }
-
-extension UInt8
-{
-    func SizeOf() -> Int
-    {
-        return MemoryLayout.size(ofValue: self)
-    }
-    
-    static func SizeOf() -> Int
-    {
-        return MemoryLayout.size(ofValue: UInt(0))
-    }
-}
 #endif
