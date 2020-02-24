@@ -12,6 +12,122 @@ import SceneKit
 
 class Generator
 {
+    /// Get the dimensions of a cone given the pixel's color and side.
+    /// - Parameter From: The pixel color.
+    /// - Parameter Side: The calculated side value.
+    /// - Returns: Tuple of the top and bottom sizes of the cone.
+    public static func GetConeDimensions(From: NSColor, Side: CGFloat) -> (Top: CGFloat, Base: CGFloat)
+    {
+        let DoInvert = Settings.GetBoolean(ForKey: .ConeSwapTopBottom)
+        let TopSize = Settings.GetEnum(ForKey: .ConeTopSize, EnumType: ConeTopSizes.self, Default: ConeTopSizes.Zero)
+        let BaseSize = Settings.GetEnum(ForKey: .ConeBottomSize, EnumType: ConeBottomSizes.self, Default: ConeBottomSizes.Side)
+        var Hue: CGFloat = 0.0
+        var Saturation: CGFloat = 0.0
+        var Brightness: CGFloat = 0.0
+        var Alpha: CGFloat = 0.0
+        From.getHue(&Hue, saturation: &Saturation, brightness: &Brightness, alpha: &Alpha)
+        var TopRadius: CGFloat = 0.0
+        var TopSet = true
+        switch TopSize
+        {
+            case .Zero:
+                TopRadius = 0.0
+            
+            case .Hue:
+                TopRadius = Side * Hue
+            
+            case .Saturation:
+                TopRadius = Side * Saturation
+            
+            case .Side:
+                TopRadius = Side
+            
+            case .Side10:
+                TopRadius = Side * 0.1
+            
+            case .Side50:
+                TopRadius = Side * 0.5
+            
+            default:
+                TopSet = false
+        }
+        
+        var BottomRadius: CGFloat = 0.0
+        var BaseSet = true
+        switch BaseSize
+        {
+            case .Zero: 
+                BottomRadius = 0.0
+            
+            case .Hue:
+                BottomRadius = Side * Hue
+            
+            case .Saturation:
+                BottomRadius = Side * Saturation
+            
+            case .Side:
+                BottomRadius = Side
+            
+            case .Side10:
+                BottomRadius = Side * 0.1
+            
+            case .Side50:
+                BottomRadius = Side * 0.25
+            
+            default:
+                BaseSet = false
+        }
+        
+        switch (TopSet, BaseSet)
+        {
+            case (false, false):
+                BottomRadius = Side
+                TopRadius = 0.0
+            
+            case (true, false):
+                switch BaseSize
+                {
+                    case .Side10:
+                        BottomRadius = TopRadius * 0.1
+                    
+                    case .Side50:
+                        BottomRadius = TopRadius * 0.5
+                    
+                    default:
+                        break
+            }
+            
+            case (false, true):
+                switch TopSize
+                {
+                    case .TenPercent:
+                        TopRadius = BottomRadius * 0.1
+                    
+                    case .FiftyPercent:
+                        TopRadius = BottomRadius * 0.5
+                    
+                    default:
+                        break
+            }
+            
+            case (true, true):
+                if BottomRadius == 0.0 && TopRadius == 0.0
+                {
+                    BottomRadius = Side
+                    TopRadius = 0.0
+            }
+        }
+        
+        if DoInvert
+        {
+            return (BottomRadius, TopRadius)
+        }
+        else
+        {
+            return (TopRadius, BottomRadius)
+        }
+    }
+    
     /// Return the height/size for the shape given the color and attributes.
     /// - Parameter Color: The color used to determine the base height.
     /// - Parameter With: Attributes used to determine which part of the color to use and any extra
@@ -95,9 +211,10 @@ class Generator
         return Height * Exaggerate
     }
     
-    public static func MakeSimpleShape(Side: CGFloat, AtX: Int, AtY: Int, Height: CGFloat) -> SCNGeometry?
+    public static func MakeSimpleShape(Shape: Shapes, Side: CGFloat, AtX: Int, AtY: Int,
+                                       Height: CGFloat, Color: NSColor) -> SCNGeometry?
     {
-        let CurrentShape = Settings.GetEnum(ForKey: .Shape, EnumType: Shapes.self, Default: Shapes.Blocks)
+        let CurrentShape = Shape
         switch CurrentShape
         {
             case .Blocks:
@@ -110,6 +227,10 @@ class Generator
             case .Spheres:
                 let SphereGeo = SCNSphere(radius: Side / 2.0 * Height)
                 return SphereGeo
+            
+            case .Capsules:
+                let CapGeo = SCNCapsule(capRadius: Side / 5.0, height: Height)
+                return CapGeo
             
             case .Tubes:
                 let TubeGeo = SCNTube(innerRadius: Side * Height * 0.05, outerRadius: Side * Height * 0.1, height: Height)
@@ -141,6 +262,11 @@ class Generator
                 let RingGeo = SCNTorus(ringRadius: Height, pipeRadius: Height * HoleSize)
                 return RingGeo
             
+            case .Cones:
+          let (Top, Bottom) = GetConeDimensions(From: Color, Side: Side)
+          let ConeGeo = SCNCone(topRadius: Top, bottomRadius: Bottom, height: Height * 2.0)
+            return ConeGeo
+            
             default:
                 return nil
         }
@@ -163,9 +289,9 @@ class Generator
         }
     }
     
-    public static func MakeNonStandardShape(Side: CGFloat, AtX: Int, AtY: Int, Height: CGFloat) -> SCNGeometry?
+    public static func MakeNonStandardShape(Shape: Shapes, Side: CGFloat, AtX: Int, AtY: Int, Height: CGFloat) -> SCNGeometry?
     {
-        let CurrentShape = Settings.GetEnum(ForKey: .Shape, EnumType: Shapes.self, Default: Shapes.Blocks)
+        let CurrentShape = Shape
         switch CurrentShape
         {
             case .Circles:
@@ -217,7 +343,7 @@ class Generator
             
             case .Lines:
                 var Width: CGFloat = 0.1
-                switch Settings.GetEnum(ForKey: .LineThickness, EnumType: LineThickenesses.self, Default: LineThickenesses.Thin)
+                switch Settings.GetEnum(ForKey: .LineThickness, EnumType: LineThicknesses.self, Default: LineThicknesses.Thin)
                 {
                     case .Thick:
                         Width = 0.15
@@ -236,10 +362,10 @@ class Generator
         }
     }
     
-    public static func MakeComplexShape(Side: CGFloat, AtX: Int, AtY: Int, Height: CGFloat,
+    public static func MakeComplexShape(Shape: Shapes, Side: CGFloat, AtX: Int, AtY: Int, Height: CGFloat,
                                         Color: NSColor, Model: SCNMaterial.LightingModel) -> PSCNNode?
     {
-        let CurrentShape = Settings.GetEnum(ForKey: .Shape, EnumType: Shapes.self, Default: Shapes.Blocks)
+        let CurrentShape = Shape
         switch CurrentShape
         {
             case .HueTriangles:
@@ -311,25 +437,39 @@ class Generator
                 switch FinalShape
                 {
                     //Variable shapes.
-                    case .HueVarying, .SaturationVarying, .BrightnessVarying:
-                    break
+                    case .ComponentVariable:
+                        break
                     
                     //2D shapes
                     case .Squares, .Circles, .Rectangles, .Stars2D, .Triangles2D,
                          .Polygons2D, .Oval2D, .Diamond2D:
                         var ZLocation: CGFloat = 0.0
-                        let Node = Make2DShape(Side: CGFloat(Side), AtX: AtX, AtY: AtY, Height: Height,
-                                              Color: Colors[AtY][AtX], ZLocation: &ZLocation)
+                        let Node = Make2DShape(Shape: FinalShape, Side: CGFloat(Side), AtX: AtX, AtY: AtY, Height: Height,
+                                               Color: Colors[AtY][AtX], ZLocation: &ZLocation)
                         return Node!
                     
                     //Combined shapes.
                     case .CappedLines, .StackedShapes, .RadiatingLines, .PerpendicularCircles,
                          .PerpendicularSquares:
-                    break
+                        let Node = MakeCombinedShape(Shape: FinalShape, Side: CGFloat(Side), AtX: AtX, AtY: AtY,
+                                                     Height: Height, Color: Colors[AtY][AtX],
+                                                     Model: Model)
+                        NeedsOrientationChange(Node!, FinalShape, Colors[AtY][AtX])
+                        {
+                            NeedsToRotate, EulerAngles in
+                            if NeedsToRotate
+                            {
+                                if let Euler = EulerAngles
+                                {
+                                    Node?.eulerAngles = Euler
+                                }
+                            }
+                        }
+                        return Node!
                     
                     //Complex shapes.
                     case .HueTriangles:
-                        let Node = MakeComplexShape(Side: CGFloat(Side), AtX: AtX, AtY: AtY,
+                        let Node = MakeComplexShape(Shape: FinalShape, Side: CGFloat(Side), AtX: AtX, AtY: AtY,
                                                     Height: Height, Color: Colors[AtY][AtX],
                                                     Model: Model)
                         return Node!
@@ -353,12 +493,13 @@ class Generator
                                     Node.eulerAngles = Euler
                                 }
                             }
-                    }
+                        }
+                        return Node
                     
                     //Non-standard shapes.
-                    case .Circles, .Squares, .Triangles, .Triangles2D, .Ovals, .Diamonds,
-                         .Stars, .Polygons, .Lines:
-                        let Geo = MakeNonStandardShape(Side: CGFloat(Side), AtX: AtX, AtY: AtY, Height: Height)
+                    case .Triangles, .Ovals, .Diamonds, .Stars, .Polygons, .Lines:
+                        let Geo = MakeNonStandardShape(Shape: FinalShape, Side: CGFloat(Side),
+                                                       AtX: AtX, AtY: AtY, Height: Height)
                         Geo?.firstMaterial?.diffuse.contents = Colors[AtY][AtX]
                         Geo?.firstMaterial?.specular.contents = NSColor.white
                         Geo?.firstMaterial?.lightingModel = Model
@@ -373,11 +514,13 @@ class Generator
                                     Node.eulerAngles = Euler
                                 }
                             }
-                    }
+                        }
+                        return Node
                     
                     //Standard shapes.
-                    case .Blocks, .Spheres, .Tubes, .Pyramids, .Cylinders, .Rings:
-                        let Geo = MakeSimpleShape(Side: CGFloat(Side), AtX: AtX, AtY: AtY, Height: Height)
+                    case .Blocks, .Spheres, .Tubes, .Pyramids, .Cylinders, .Rings, .Capsules, .Cones:
+                        let Geo = MakeSimpleShape(Shape: FinalShape, Side: CGFloat(Side), AtX: AtX,
+                                                  AtY: AtY, Height: Height, Color: Colors[AtY][AtX])
                         Geo?.firstMaterial?.diffuse.contents = Colors[AtY][AtX]
                         Geo?.firstMaterial?.specular.contents = NSColor.white
                         Geo?.firstMaterial?.lightingModel = Model
@@ -392,7 +535,8 @@ class Generator
                                     Node.eulerAngles = Euler
                                 }
                             }
-                    }
+                        }
+                        return Node
                     
                     default:
                         break
@@ -425,6 +569,10 @@ class Generator
                     NeedsToRotate = true
                     EulerAngles = SCNVector3(90.0 * CGFloat.pi / 180.0, 0.0, 0.0)
             }
+            
+            case .Tubes, .Cones, .Capsules, .CappedLines:
+                NeedsToRotate = true
+                EulerAngles = SCNVector3(90.0 * CGFloat.pi / 180.0, 0.0, 0.0)
             
             default:
                 break
