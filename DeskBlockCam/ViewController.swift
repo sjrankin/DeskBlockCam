@@ -622,6 +622,10 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         {
             DebugW.CloseWindow()
         }
+        if let SListWin = ShapeListWindow
+        {
+            SListWin.CloseWindow()
+        }
         FileIO.ClearFramesDirectory()
     }
     
@@ -768,6 +772,18 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         Settings.AddDefaultSettings()
     }
     
+    @IBAction func ShowShapeList(_ sender: Any)
+    {
+        let Storyboard = NSStoryboard(name: "ShapeListUI", bundle: nil)
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "ShapeListUIWindow") as? ShapeListUIWindow
+        {
+            WindowController.showWindow(nil)
+            ShapeListWindow = WindowController
+        }
+    }
+    
+    var ShapeListWindow: ShapeListUIWindow? = nil
+    
     func ImageForDebug(_ Image: NSImage, ImageType: DebugImageTypes)
     {
         AddImage(Type: ImageType, Image)
@@ -778,6 +794,14 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         if Settings.GetEnum(ForKey: .CurrentMode, EnumType: ProgramModes.self, Default: ProgramModes.LiveView) == .ImageView
         {
             ProcessedImage.ReprocessImage()
+        }
+    }
+    
+    func ResetLiveView()
+    {
+        if Settings.GetEnum(ForKey: .CurrentMode, EnumType: ProgramModes.self, Default: ProgramModes.LiveView) == .LiveView
+        {
+        ProcessedImage.ResetLiveView()
         }
     }
     
