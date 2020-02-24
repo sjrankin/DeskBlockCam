@@ -11,6 +11,7 @@ import AppKit
 
 class HSBVaryingOptionalParameters: OptionalParameters
 {
+    /*
     init(WithChannel: HSBChannels)
     {
          ActualShape = Shapes.HueVarying
@@ -111,5 +112,6 @@ class HSBVaryingOptionalParameters: OptionalParameters
         let AsString = ProcessingAttributes.MakeShapeString(From: ShapeList)
         Settings.SetString(AsString, ForKey: KeyName)
     }
+ */
 }
 
