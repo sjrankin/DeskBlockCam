@@ -27,6 +27,9 @@
 		172C06EE23ED30ED00313C3E /* CappedLinesOptionsCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172C06ED23ED30ED00313C3E /* CappedLinesOptionsCode.swift */; };
 		172C06F023ED318000313C3E /* StackedShapesOptionsCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172C06EF23ED318000313C3E /* StackedShapesOptionsCode.swift */; };
 		172C06F223ED31DC00313C3E /* OptionsDialogs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172C06F123ED31DC00313C3E /* OptionsDialogs.swift */; };
+		172F1E5D24035DC500D87987 /* ComponentOptionCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172F1E5C24035DC500D87987 /* ComponentOptionCode.swift */; };
+		172F1E5F2403718A00D87987 /* SampleGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172F1E5E2403718A00D87987 /* SampleGenerator.swift */; };
+		172F1E62240378C300D87987 /* Combined.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172F1E61240378C300D87987 /* Combined.swift */; };
 		1732796C23F7E47C00EE0213 /* RingOptionalParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1732796B23F7E47C00EE0213 /* RingOptionalParameters.swift */; };
 		1732796E23F7E6D800EE0213 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1732796D23F7E6D800EE0213 /* Settings.storyboard */; };
 		1732797023F7E93800EE0213 /* RingOptionCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1732796F23F7E93800EE0213 /* RingOptionCode.swift */; };
@@ -66,6 +69,10 @@
 		176B898523F9094E00EC708B /* CurrentTreeNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176B898423F9094E00EC708B /* CurrentTreeNode.swift */; };
 		176B898723F9436400EC708B /* ShapeOptionsCode2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176B898623F9436400EC708B /* ShapeOptionsCode2.swift */; };
 		176E565323EBB50E0001215A /* HistogramDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176E565223EBB50E0001215A /* HistogramDisplay.swift */; };
+		1770BDB224038CA6005ED1A6 /* ShapeListUI.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1770BDB124038CA6005ED1A6 /* ShapeListUI.storyboard */; };
+		1770BDB424038D98005ED1A6 /* ShapeListUICode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1770BDB324038D98005ED1A6 /* ShapeListUICode.swift */; };
+		1770BDB624038DC8005ED1A6 /* ShapeListUIWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1770BDB524038DC8005ED1A6 /* ShapeListUIWindow.swift */; };
+		1770BDB82403C1C9005ED1A6 /* TypeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1770BDB72403C1C9005ED1A6 /* TypeExtensions.swift */; };
 		177BA8C124022EFE00ED9095 /* SCNTetrahedron.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177BA8C024022EFE00ED9095 /* SCNTetrahedron.swift */; };
 		177BA8C324022FAF00ED9095 /* SCNPolygon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177BA8C224022FAF00ED9095 /* SCNPolygon.swift */; };
 		177BA8C52402320500ED9095 /* SCNTriangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177BA8C42402320500ED9095 /* SCNTriangle.swift */; };
@@ -151,6 +158,9 @@
 		172C06ED23ED30ED00313C3E /* CappedLinesOptionsCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CappedLinesOptionsCode.swift; sourceTree = "<group>"; };
 		172C06EF23ED318000313C3E /* StackedShapesOptionsCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackedShapesOptionsCode.swift; sourceTree = "<group>"; };
 		172C06F123ED31DC00313C3E /* OptionsDialogs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsDialogs.swift; sourceTree = "<group>"; };
+		172F1E5C24035DC500D87987 /* ComponentOptionCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentOptionCode.swift; sourceTree = "<group>"; };
+		172F1E5E2403718A00D87987 /* SampleGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleGenerator.swift; sourceTree = "<group>"; };
+		172F1E61240378C300D87987 /* Combined.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Combined.swift; sourceTree = "<group>"; };
 		1732796B23F7E47C00EE0213 /* RingOptionalParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingOptionalParameters.swift; sourceTree = "<group>"; };
 		1732796D23F7E6D800EE0213 /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
 		1732796F23F7E93800EE0213 /* RingOptionCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingOptionCode.swift; sourceTree = "<group>"; };
@@ -190,6 +200,10 @@
 		176B898423F9094E00EC708B /* CurrentTreeNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentTreeNode.swift; sourceTree = "<group>"; };
 		176B898623F9436400EC708B /* ShapeOptionsCode2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeOptionsCode2.swift; sourceTree = "<group>"; };
 		176E565223EBB50E0001215A /* HistogramDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistogramDisplay.swift; sourceTree = "<group>"; };
+		1770BDB124038CA6005ED1A6 /* ShapeListUI.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ShapeListUI.storyboard; sourceTree = "<group>"; };
+		1770BDB324038D98005ED1A6 /* ShapeListUICode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeListUICode.swift; sourceTree = "<group>"; };
+		1770BDB524038DC8005ED1A6 /* ShapeListUIWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeListUIWindow.swift; sourceTree = "<group>"; };
+		1770BDB72403C1C9005ED1A6 /* TypeExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeExtensions.swift; sourceTree = "<group>"; };
 		177BA8C024022EFE00ED9095 /* SCNTetrahedron.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNTetrahedron.swift; sourceTree = "<group>"; };
 		177BA8C224022FAF00ED9095 /* SCNPolygon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNPolygon.swift; sourceTree = "<group>"; };
 		177BA8C42402320500ED9095 /* SCNTriangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNTriangle.swift; sourceTree = "<group>"; };
@@ -274,6 +288,17 @@
 			path = BlockView;
 			sourceTree = "<group>";
 		};
+		172F1E60240378A600D87987 /* GeneratorExtensions */ = {
+			isa = PBXGroup;
+			children = (
+				177BA8D92402645900ED9095 /* Generator2D.swift */,
+				177BA8D724025A3700ED9095 /* CharacterGenerator.swift */,
+				172F1E5E2403718A00D87987 /* SampleGenerator.swift */,
+				172F1E61240378C300D87987 /* Combined.swift */,
+			);
+			path = GeneratorExtensions;
+			sourceTree = "<group>";
+		};
 		173C245223ED28AD00270760 /* ShapeDialogs */ = {
 			isa = PBXGroup;
 			children = (
@@ -291,6 +316,7 @@
 				172C06EB23ED309800313C3E /* CharacterSetOptionsCode.swift */,
 				172C06ED23ED30ED00313C3E /* CappedLinesOptionsCode.swift */,
 				172C06EF23ED318000313C3E /* StackedShapesOptionsCode.swift */,
+				172F1E5C24035DC500D87987 /* ComponentOptionCode.swift */,
 				17452EC423FA24AD004888EB /* ContainerController.swift */,
 				177BA8D52402469900ED9095 /* LinesOptionsCode.swift */,
 			);
@@ -365,6 +391,16 @@
 			path = CurrentSettings;
 			sourceTree = "<group>";
 		};
+		1770BDB024038C8E005ED1A6 /* ShapeListUI */ = {
+			isa = PBXGroup;
+			children = (
+				1770BDB124038CA6005ED1A6 /* ShapeListUI.storyboard */,
+				1770BDB324038D98005ED1A6 /* ShapeListUICode.swift */,
+				1770BDB524038DC8005ED1A6 /* ShapeListUIWindow.swift */,
+			);
+			path = ShapeListUI;
+			sourceTree = "<group>";
+		};
 		177BA8BF24022EE400ED9095 /* CustomNodes */ = {
 			isa = PBXGroup;
 			children = (
@@ -408,6 +444,7 @@
 				178041C923F3DAA1006E40C1 /* Utilities.swift */,
 				17EB900123E9829E00A4C09A /* FileIO.swift */,
 				1721035E23FCC6140096F778 /* MetadataWriter.swift */,
+				1770BDB72403C1C9005ED1A6 /* TypeExtensions.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -447,6 +484,7 @@
 				1740A3DF23EC016C00E29C75 /* Settings */,
 				17609FCC23F660C900391FFB /* AncillaryWindows */,
 				170A10FE23F10394003D0C1D /* ProgramSettings */,
+				1770BDB024038C8E005ED1A6 /* ShapeListUI */,
 				17897B8623E6A77500AFDA6A /* Assets.xcassets */,
 				17897B8223E6A77300AFDA6A /* AppDelegate.swift */,
 				175E031E2401055E00FA8388 /* RedrawProtocol.swift */,
@@ -485,8 +523,7 @@
 			children = (
 				177BA8BF24022EE400ED9095 /* CustomNodes */,
 				17B31D4C23EFF18D00C69257 /* Generator.swift */,
-				177BA8D724025A3700ED9095 /* CharacterGenerator.swift */,
-				177BA8D92402645900ED9095 /* Generator2D.swift */,
+				172F1E60240378A600D87987 /* GeneratorExtensions */,
 			);
 			path = Generator;
 			sourceTree = "<group>";
@@ -570,6 +607,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1770BDB224038CA6005ED1A6 /* ShapeListUI.storyboard in Resources */,
 				177BF06323EE52CD00670F40 /* ColorSwatchItem.xib in Resources */,
 				17897B8723E6A77500AFDA6A /* Assets.xcassets in Resources */,
 				178041BE23F3D4A6006E40C1 /* DebugWindow.storyboard in Resources */,
@@ -629,6 +667,7 @@
 				172C06EE23ED30ED00313C3E /* CappedLinesOptionsCode.swift in Sources */,
 				177BA8CB240232B100ED9095 /* SCNDiamond.swift in Sources */,
 				1740A3DE23EBFB7500E29C75 /* HSBVaryingOptionalParameters.swift in Sources */,
+				172F1E5D24035DC500D87987 /* ComponentOptionCode.swift in Sources */,
 				17B31D5423EFF9AE00C69257 /* AttributeFactory.swift in Sources */,
 				178041C823F3D959006E40C1 /* AncillaryWindowManagement.swift in Sources */,
 				17EB900023E9639D00A4C09A /* ImageDelta.swift in Sources */,
@@ -640,6 +679,8 @@
 				1717201123EBD23100636F3C /* Pixellator.swift in Sources */,
 				17897B8523E6A77300AFDA6A /* ViewController.swift in Sources */,
 				1740A3D623EBF73000E29C75 /* ConeOptionalParameters.swift in Sources */,
+				1770BDB624038DC8005ED1A6 /* ShapeListUIWindow.swift in Sources */,
+				1770BDB424038D98005ED1A6 /* ShapeListUICode.swift in Sources */,
 				178041B723F3CF48006E40C1 /* ErrorMessageWindowCode.swift in Sources */,
 				177BF06623EE735000670F40 /* GradientSwatchItem.swift in Sources */,
 				173C245A23ED29DC00270760 /* OptionsProtocol.swift in Sources */,
@@ -695,8 +736,11 @@
 				17609FCB23F65D5100391FFB /* StatusProtocol.swift in Sources */,
 				177BF06B23EE923E00670F40 /* +Lighting.swift in Sources */,
 				1740A3C923EBEB6400E29C75 /* OptionalParameters.swift in Sources */,
+				172F1E5F2403718A00D87987 /* SampleGenerator.swift in Sources */,
 				177BA8D0240233CB00ED9095 /* SCNStar.swift in Sources */,
+				172F1E62240378C300D87987 /* Combined.swift in Sources */,
 				178041C423F3D7FD006E40C1 /* DebugUIHandling.swift in Sources */,
+				1770BDB82403C1C9005ED1A6 /* TypeExtensions.swift in Sources */,
 				17B31D4D23EFF18D00C69257 /* Generator.swift in Sources */,
 				177BA8D824025A3700ED9095 /* CharacterGenerator.swift in Sources */,
 				1740A3D823EBF8A900E29C75 /* StarOptionalParameters.swift in Sources */,
