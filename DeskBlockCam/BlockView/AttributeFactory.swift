@@ -66,9 +66,11 @@ extension ProcessingAttributes
         Attr.ShapeOptions!.append(EllipseOptionalParameters())
         Attr.ShapeOptions!.append(DiamondOptionalParameters())
         Attr.ShapeOptions!.append(ConeOptionalParameters())
+        /*
         Attr.ShapeOptions!.append(HSBVaryingOptionalParameters(WithChannel: .HSB_Hue))
         Attr.ShapeOptions!.append(HSBVaryingOptionalParameters(WithChannel: .HSB_Saturation))
         Attr.ShapeOptions!.append(HSBVaryingOptionalParameters(WithChannel: .HSB_Brightness))
+ */
         Attr.ShapeOptions!.append(SphereOptionalParameters())
         Attr.ShapeOptions!.append(RingOptionalParameters())
         return Attr
@@ -152,75 +154,4 @@ extension ProcessingAttributes
     }
 }
 
-/// NSColor extension to create a color from an integer.
-extension NSColor
-{
-    /// Create an NSColor from the passed integer.
-    /// - Parameter With: The integer value of the color.
-    /// - Parameter ForceAlpha1: If true, alpha is forced to 1.0 in the final color. Otherwise, the
-    ///                          value in `With` is used.
-    static func MakeColor(With Value: Int, ForceAlpha1: Bool = true) -> NSColor
-    {
-        let Alpha = (Value & 0xff000000) >> 24
-        let Red = (Value & 0x00ff0000) >> 16
-        let Green = (Value & 0x0000ff00) >> 8
-        let Blue = (Value * 0x000000ff)
-        let Color = NSColor(red: CGFloat(Red) / 255.0, green: CGFloat(Green) / 255.0, blue: CGFloat(Blue) / 255.0,
-                            alpha: ForceAlpha1 ? 1.0 : CGFloat(Alpha) / 255.0)
-        return Color
-    }
-    
-    /// Converts the passed color to an integer value.
-    /// - Parameter Value: The color to convert.
-    /// - Returns: Integer equivalent of the passed color.
-    static func AsInt(_ Value: NSColor) -> Int
-    {
-        var Red: CGFloat = 0.0
-        var Green: CGFloat = 0.0
-        var Blue: CGFloat = 0.0
-        var Alpha: CGFloat = 0.0
-        Value.getRed(&Red, green: &Green, blue: &Blue, alpha: &Alpha)
-        let Final: Int = Int(Alpha * 255.0) << 24 +
-            Int(Red * 255.0) << 16 +
-            Int(Green * 255.0) << 8 +
-            Int(Blue * 255.0)
-        return Final
-    }
-    
-    /// Given a color, return its name. If no name is known, return its hex value.
-    /// - Parameter NameFor: The color whose name will be returned.
-    /// - Returns: Name of the color if available, hex string of the value of the color if not.
-    static func NameFor(Color: NSColor) -> String
-    {
-        switch NSColor.AsInt(Color)
-        {
-            case 0xff000000:
-            return "Black"
-            
-            case 0xffffffff:
-            return "White"
-            
-            case 0xffff0000:
-            return "Red"
-            
-            case 0xff00ff00:
-            return "Green"
-            
-            case 0xff0000ff:
-            return "Blue"
-            
-            case 0xff00ffff:
-            return "Cyan"
-            
-            case 0xffff00ff:
-            return "Magenta"
-            
-            case 0xffffff00:
-            return "Yellow"
-            
-            default:
-                let Converted = String(NSColor.AsInt(Color), radix: 16, uppercase: false)
-            return "0x\(Converted)"
-        }
-    }
-}
+
