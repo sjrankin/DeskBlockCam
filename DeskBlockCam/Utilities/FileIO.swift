@@ -226,36 +226,3 @@ enum Directories
     case Scratch
 }
 
-/// Extension to add Png data exports and writing of images to `NSImage`. Found on the internet but
-/// forgot to save the link.
-extension NSImage
-{
-    /// Returns the image data in the instance as a Png representation.
-    var Png: Data?
-    {
-        guard let Tiff = tiffRepresentation,
-            let BImage = NSBitmapImageRep(data: Tiff) else
-        {
-            return nil
-        }
-        return BImage.representation(using: .png, properties: [:])
-    }
-    
-    /// Write the instance data to the path in `To` as a Png file.
-    /// - Parameter To: The path where the image will be written.
-    /// - Parameter Options: Data writing options. Defaults to `.atomic`.
-    /// - Returns: True on success, false on failure.
-    func Write(To: String, Options: Data.WritingOptions = .atomic) -> Bool
-    {
-        do
-        {
-            try Png?.write(to: URL(fileURLWithPath: To), options: Options)
-            return true
-        }
-        catch
-        {
-            print("Error writing image to \(To): \(error)")
-            return false
-        }
-    }
-}
