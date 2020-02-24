@@ -12,10 +12,9 @@ import SceneKit
 
 extension Generator
 {
-    public static func Make2DShape(Side: CGFloat, AtX: Int, AtY: Int, Height: CGFloat, Color: NSColor,
+    public static func Make2DShape(Shape: Shapes, Side: CGFloat, AtX: Int, AtY: Int, Height: CGFloat, Color: NSColor,
                                    ZLocation: inout CGFloat) -> PSCNNode?
     {
-        let Shape = Settings.GetEnum(ForKey: .Shape, EnumType: Shapes.self, Default: Shapes.Blocks)
         var Node = PSCNNode()
         switch Shape
         {
