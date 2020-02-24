@@ -28,6 +28,10 @@ extension ShapeOptionsCode
                 (OptionMap[Shapes.Blocks]!.Controller as? BlockOptionsCode)?.SetAttributes(CurrentAttributes)
                 (OptionMap[Shapes.Blocks]!.Controller as? BlockOptionsCode)?.SetShape(.Blocks)
             
+            case .ComponentVariable:
+                (OptionMap[Shapes.ComponentVariable]!.Controller as? ComponentOptionCode)?.SetShape(.ComponentVariable)
+                (OptionMap[Shapes.ComponentVariable]!.Controller as? ComponentOptionCode)?.SetAttributes(CurrentAttributes) 
+            
             case .Lines:
                 (OptionMap[Shapes.Lines]!.Controller as? LinesOptionsCode)?.SetAttributes(CurrentAttributes)
                 (OptionMap[Shapes.Lines]!.Controller as? LinesOptionsCode)?.SetShape(.Lines)
@@ -41,11 +45,6 @@ extension ShapeOptionsCode
                 (OptionMap[Shapes.Polygons2D]!.Controller as? PolygonOptionsCode)?.SetAttributes(CurrentAttributes)
                 (OptionMap[Shapes.Polygons2D]!.Controller as? PolygonOptionsCode)?.SetShape(.Polygons2D)
                 (OptionMap[Shapes.Polygons2D]!.Controller as? PolygonOptionsCode)?.SetCaption("Creates a regular 2D polygon with the number of sides you specify.")
-            
-            case .BrightnessVarying:
-                (OptionMap[Shapes.BrightnessVarying]!.Controller as? StackedShapesOptionCode)?.SetShape(.BrightnessVarying)
-                (OptionMap[Shapes.BrightnessVarying]!.Controller as? StackedShapesOptionCode)?.SetAttributes(CurrentAttributes)
-                (OptionMap[Shapes.BrightnessVarying]!.Controller as? StackedShapesOptionCode)?.SetCaption("Sets the shape based on the brightness of the location of the shape. Shapes are distributed equally in the brightness range.")
             
             case .CappedLines:
                 (OptionMap[Shapes.CappedLines]!.Controller as? CappedLinesOptionsCode)?.SetShape(.CappedLines)
@@ -80,12 +79,7 @@ extension ShapeOptionsCode
             case .HueTriangles:
                 (OptionMap[Shapes.HueTriangles]!.Controller as? NoOptionsCode)?.SetShape(.HueTriangles)
                 (OptionMap[Shapes.HueTriangles]!.Controller as? NoOptionsCode)?.SetCaption("Extruded arrow shapes that point to the hue of the pixellated color. No options available.")
-            
-            case .HueVarying:
-                (OptionMap[Shapes.HueVarying]!.Controller as? StackedShapesOptionCode)?.SetShape(.HueVarying)
-                (OptionMap[Shapes.HueVarying]!.Controller as? StackedShapesOptionCode)?.SetAttributes(CurrentAttributes)
-                (OptionMap[Shapes.HueVarying]!.Controller as? StackedShapesOptionCode)?.SetCaption("Sets the shape based on the hue of the location of the shape. Shapes are distributed equally in the hue range.")
-            
+ 
             case .Ovals:
                 (OptionMap[Shapes.Ovals]!.Controller as? OvalOptionsCode)?.SetCaption("Extruded oval shapes.")
                 (OptionMap[Shapes.Ovals]!.Controller as? OvalOptionsCode)?.SetShape(.Ovals)
@@ -116,12 +110,7 @@ extension ShapeOptionsCode
                 (OptionMap[Shapes.Rings]!.Controller as? RingOptionCode)?.SetShape(.Rings)
                 (OptionMap[Shapes.Rings]!.Controller as? RingOptionCode)?.SetCaption("Creates a rounded ring (or donut, or torus) shape whose size and position is determined by the base color.")
                 (OptionMap[Shapes.Rings]!.Controller as? RingOptionCode)?.SetAttributes(CurrentAttributes)
-            
-            case .SaturationVarying:
-                (OptionMap[Shapes.SaturationVarying]!.Controller as? StackedShapesOptionCode)?.SetShape(.SaturationVarying)
-                (OptionMap[Shapes.SaturationVarying]!.Controller as? StackedShapesOptionCode)?.SetAttributes(CurrentAttributes)
-                (OptionMap[Shapes.SaturationVarying]!.Controller as? StackedShapesOptionCode)?.SetCaption("Sets the shape based on the saturation of the location of the shape. Shapes are distributed equally in the saturation range.")
-            
+ 
             case .Spheres:
                 (OptionMap[Shapes.Spheres]!.Controller as? SphereOptionCode)?.SetShape(.Spheres)
                 (OptionMap[Shapes.Spheres]!.Controller as? SphereOptionCode)?.SetAttributes(CurrentAttributes)
@@ -160,6 +149,10 @@ extension ShapeOptionsCode
                 (OptionMap[Shapes.Tubes]!.Controller as? NoOptionsCode)?.SetShape(.Tubes)
                 (OptionMap[Shapes.Tubes]!.Controller as? NoOptionsCode)?.SetCaption("Tube shaped nodes. No options available.")
             
+            case .Capsules:
+                (OptionMap[Shapes.Capsules]!.Controller as? NoOptionsCode)?.SetShape(.Capsules)
+                (OptionMap[Shapes.Capsules]!.Controller as? NoOptionsCode)?.SetCaption("Capsule shapes. No options available.")
+            
             case .NoShape:
                 break
         }
@@ -174,6 +167,10 @@ extension ShapeOptionsCode
         OptionMap[Shapes.NoShape] = OptionEntry(CreateOptionDialog("NoOptions"))
         self.addChild(OptionMap[Shapes.NoShape]!.Controller!)
         (OptionMap[Shapes.NoShape]!.Controller as? NoOptionsCode)?.Delegate = self
+        
+        OptionMap[Shapes.Capsules] = OptionEntry(CreateOptionDialog("NoOptions"))
+        self.addChild(OptionMap[Shapes.Capsules]!.Controller!)
+        (OptionMap[Shapes.Capsules]!.Controller as? NoOptionsCode)?.Delegate = self
         
         OptionMap[Shapes.Lines] = OptionEntry(CreateOptionDialog("LineOptions"))
         self.addChild(OptionMap[Shapes.Lines]!.Controller!)
@@ -291,17 +288,9 @@ extension ShapeOptionsCode
         self.addChild(OptionMap[Shapes.Rings]!.Controller!)
         (OptionMap[Shapes.Rings]!.Controller as? RingOptionCode)?.Delegate = self
         
-        OptionMap[Shapes.HueVarying] = OptionEntry(CreateOptionDialog("StackedShapeOptions"))
-        self.addChild(OptionMap[Shapes.HueVarying]!.Controller!)
-        (OptionMap[Shapes.HueVarying]!.Controller as? StackedShapesOptionCode)?.Delegate = self
-        
-        OptionMap[Shapes.BrightnessVarying] = OptionEntry(CreateOptionDialog("StackedShapeOptions"))
-        self.addChild(OptionMap[Shapes.BrightnessVarying]!.Controller!)
-        (OptionMap[Shapes.BrightnessVarying]!.Controller as? StackedShapesOptionCode)?.Delegate = self
-        
-        OptionMap[Shapes.SaturationVarying] = OptionEntry(CreateOptionDialog("StackedShapeOptions"))
-        self.addChild(OptionMap[Shapes.SaturationVarying]!.Controller!)
-        (OptionMap[Shapes.SaturationVarying]!.Controller as? StackedShapesOptionCode)?.Delegate = self
+        OptionMap[Shapes.ComponentVariable] = OptionEntry(CreateOptionDialog("ComponentOptions"))
+        self.addChild(OptionMap[Shapes.ComponentVariable]!.Controller!)
+        (OptionMap[Shapes.ComponentVariable]!.Controller as? ComponentOptionCode)?.Delegate = self
     }
     
     /// Create the optional settings view.
