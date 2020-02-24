@@ -79,18 +79,27 @@ class Settings
         UserDefaults.standard.set(Shapes.Blocks.rawValue, forKey: SettingKeys.HueShapes.rawValue)
         UserDefaults.standard.set(Shapes.Blocks.rawValue, forKey: SettingKeys.SaturationShapes.rawValue)
         UserDefaults.standard.set(Shapes.Blocks.rawValue, forKey: SettingKeys.BrightnessShapes.rawValue)
+                UserDefaults.standard.set(Shapes.Blocks.rawValue, forKey: SettingKeys.RedShapes.rawValue)
+                UserDefaults.standard.set(Shapes.Blocks.rawValue, forKey: SettingKeys.GreenShapes.rawValue)
+                UserDefaults.standard.set(Shapes.Blocks.rawValue, forKey: SettingKeys.BlueShapes.rawValue)
+                UserDefaults.standard.set(Shapes.Blocks.rawValue, forKey: SettingKeys.CyanShapes.rawValue)
+                UserDefaults.standard.set(Shapes.Blocks.rawValue, forKey: SettingKeys.MagentaShapes.rawValue)
+                UserDefaults.standard.set(Shapes.Blocks.rawValue, forKey: SettingKeys.YellowShapes.rawValue)
+                UserDefaults.standard.set(Shapes.Blocks.rawValue, forKey: SettingKeys.BlackShapes.rawValue)
+        UserDefaults.standard.set(VaryingComponents.Hue.rawValue, forKey: SettingKeys.VaryingComponent.rawValue)
         UserDefaults.standard.set(Shapes.Spheres.rawValue, forKey: SettingKeys.CapShape.rawValue)
         UserDefaults.standard.set(CapLocations.Top.rawValue, forKey: SettingKeys.CapLocation.rawValue)
+        UserDefaults.standard.set(CappedLineLineColors.Same.rawValue, forKey: SettingKeys.CappedLineLineColor.rawValue)
         UserDefaults.standard.set(5, forKey: SettingKeys.StarApexCount.rawValue)
         UserDefaults.standard.set(true, forKey: SettingKeys.ApexesIncrease.rawValue)
-        UserDefaults.standard.set(LineThickenesses.Thin.rawValue, forKey: SettingKeys.RadialLineThickness.rawValue)
+        UserDefaults.standard.set(LineThicknesses.Thin.rawValue, forKey: SettingKeys.RadialLineThickness.rawValue)
         UserDefaults.standard.set(4, forKey: SettingKeys.LineCount.rawValue)
         UserDefaults.standard.set(CharacterSets.Latin.rawValue, forKey: SettingKeys.CharacterSet.rawValue)
         UserDefaults.standard.set(ConeTopSizes.Zero.rawValue, forKey: SettingKeys.ConeTopSize.rawValue)
         UserDefaults.standard.set(ConeBottomSizes.Side.rawValue, forKey: SettingKeys.ConeBottomSize.rawValue)
         UserDefaults.standard.set(false, forKey: SettingKeys.ConeSwapTopBottom.rawValue)
         UserDefaults.standard.set(Shapes.Blocks.rawValue, forKey: SettingKeys.LiveViewShape.rawValue)
-        UserDefaults.standard.set(HeightDeterminations.Brightness.rawValue, forKey: SettingKeys.LiveViewHeight.rawValue)
+        UserDefaults.standard.set(LiveViewImageSizes.Native.rawValue, forKey: SettingKeys.LiveViewImageSize.rawValue)
         UserDefaults.standard.set(MainModes.LiveView.rawValue, forKey: SettingKeys.CurrentMode.rawValue)
         UserDefaults.standard.set(true, forKey: SettingKeys.ShowHistogram.rawValue)
         UserDefaults.standard.set(true, forKey: SettingKeys.AutoOpenShapeSettings.rawValue)
@@ -103,7 +112,7 @@ class Settings
         UserDefaults.standard.set(9999, forKey: SettingKeys.LoopSequentialIntegerAfter.rawValue)
         UserDefaults.standard.set(1, forKey: SettingKeys.StartSequentialIntegerAt.rawValue)
         UserDefaults.standard.set(90.0, forKey: SettingKeys.LineZAngle.rawValue)
-        UserDefaults.standard.set(LineThickenesses.Thin, forKey: SettingKeys.LineThickness.rawValue)
+        UserDefaults.standard.set(LineThicknesses.Thin, forKey: SettingKeys.LineThickness.rawValue)
 
         #if DEBUG
         UserDefaults.standard.set(true, forKey: SettingKeys.AddUserDataToExif.rawValue)
@@ -615,13 +624,20 @@ class Settings
             .HueShapes,
             .SaturationShapes,
             .BrightnessShapes,
+            .RedShapes,
+            .GreenShapes,
+            .BlueShapes,
+            .CyanShapes,
+            .MagentaShapes,
+            .YellowShapes,
+            .BlackShapes,
             .CapShape,
             .CapLocation,
             .RadialLineThickness,
             .ConeTopSize,
             .ConeBottomSize,
             .LiveViewShape,
-            .LiveViewHeight,
+            .LiveViewImageSize,
             .CurrentMode,
             .SphereBehavior,
             .CharacterSet,
@@ -632,6 +648,8 @@ class Settings
             .Antialiasing,
             .LineThickness,
             .LetterSmoothness,
+            .VaryingComponent,
+            .CappedLineLineColor,
     ]
     
     /// Contains a list of all double-type fields.
@@ -708,18 +726,36 @@ enum SettingKeys: String, CaseIterable, Comparable, Hashable
     case RingOrientation = "RingOrientation"
     
     //Channel-varying shapes optional settings.
+    /// String/Enum: Which component is used to determine shape.
+    case VaryingComponent = "VaryingComponent"
     /// String: List of shapes for hue varying shapes.
     case HueShapes = "HueShapes"
     /// String: List of shapes for saturation varying shapes.
     case SaturationShapes = "SaturationShapes"
     /// String: List of shapes for brightness varying shapes.
     case BrightnessShapes = "BrightnessShapes"
+    /// String: List of shapes for the red component.
+    case RedShapes = "RedShapes"
+        /// String: List of shapes for the green component.
+    case GreenShapes = "GreenShapes"
+        /// String: List of shapes for the blue component.
+    case BlueShapes = "BlueShapes"
+        /// String: List of shapes for the cyan component.
+    case CyanShapes = "CyanShapes"
+        /// String: List of shapes for the magenta component.
+    case MagentaShapes = "MagentaShapes"
+        /// String: List of shapes for the yellow component.
+    case YellowShapes = "YellowShapes"
+        /// String: List of shapes for the black component.
+    case BlackShapes = "BlackShapes"
     
     //Capped-line shape optional settings.
     /// String/Enum: The shape of the cap for the capped-line.
     case CapShape = "CapShape"
     /// String/Enum: The location of the cap for the capped-line.
     case CapLocation = "CapLocation"
+    /// String/Enum: Determines the line color for capped lines.
+    case CappedLineLineColor = "CappedLineLineColor"
     
     //Sphere optional settings.
     /// String/Enum: How the sphere behaves in terms of prominence.
@@ -795,8 +831,8 @@ enum SettingKeys: String, CaseIterable, Comparable, Hashable
     //Live view settings.
     /// String/Enum. The shape to use for live views.
     case LiveViewShape = "LiveViewShape"
-    /// String/Enum. The color component from which height is derived.
-    case LiveViewHeight = "LiveViewHeight"
+    /// String/Enum. The resize value for live view image streams.
+    case LiveViewImageSize = "LiveViewImageSize"
     
     //Main view settings.
     /// String/Enum. The current mode for the main view.
