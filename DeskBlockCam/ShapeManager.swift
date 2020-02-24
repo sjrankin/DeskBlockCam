@@ -12,6 +12,26 @@ import AppKit
 /// Manages shapes and character sets.
 class ShapeManager
 {
+    /// Shapes in categories.
+    public static let Categories =
+        [
+            ShapeCategory(Name: "Standard", Shapes: [Shapes.Blocks.rawValue, Shapes.Spheres.rawValue, Shapes.Cones.rawValue,
+                                                     Shapes.Rings.rawValue, Shapes.Tubes.rawValue, Shapes.Cylinders.rawValue,
+                                                     Shapes.Pyramids.rawValue, Shapes.Capsules.rawValue]),
+            ShapeCategory(Name: "Non-Standard", Shapes: [Shapes.Triangles.rawValue, Shapes.Polygons.rawValue,
+                                                         Shapes.Stars.rawValue, Shapes.Diamonds.rawValue,
+                                                         Shapes.Ovals.rawValue, Shapes.Characters.rawValue,
+                                                         Shapes.Lines.rawValue]),
+            ShapeCategory(Name: "2D Shapes", Shapes: [Shapes.Squares.rawValue, Shapes.Rectangles.rawValue,
+                                                      Shapes.Circles.rawValue, Shapes.Triangles2D.rawValue,
+                                                      Shapes.Oval2D.rawValue, Shapes.Diamond2D.rawValue,
+                                                      Shapes.Polygons2D.rawValue, Shapes.Stars2D.rawValue]),
+            ShapeCategory(Name: "Combined", Shapes: [Shapes.CappedLines.rawValue, Shapes.StackedShapes.rawValue,
+                                                     Shapes.PerpendicularSquares.rawValue, Shapes.PerpendicularCircles.rawValue,
+                                                     Shapes.ComponentVariable.rawValue, Shapes.RadiatingLines.rawValue]),
+            ShapeCategory(Name: "Complex", Shapes: [Shapes.HueTriangles.rawValue])
+    ]
+    
     /// Map between character lists and the font to use to display the characters.
     public static let FontMap: [CharacterLists: String] =
         [
@@ -156,6 +176,7 @@ enum Shapes: String, CaseIterable
     case Tubes = "Tubes"
     case Cylinders = "Cylinders"
     case Pyramids = "Pyramids"
+    case Capsules = "Capsules"
     
     //Non-standard extruded shapes.
     case Triangles = "Triangles"
@@ -180,11 +201,11 @@ enum Shapes: String, CaseIterable
     case StackedShapes = "Stacked Shapes"
     case PerpendicularSquares = "Perpendicular Squares"
     case PerpendicularCircles = "Perpendicular Circles"
-    case HueVarying = "Hue Varying"
-    case SaturationVarying = "Saturation Varying"
-    case BrightnessVarying = "Brightness Varying"
-    case RadiatingLines = "Radiating Lines"
+        case RadiatingLines = "Radiating Lines"
     
+    //Variable shapes.
+    case ComponentVariable = "Component Varying"
+ 
     //Complex shapes.
     case HueTriangles = "Hue Triangles"
     case Characters = "Characters"
