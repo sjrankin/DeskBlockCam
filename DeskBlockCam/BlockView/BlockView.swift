@@ -42,9 +42,9 @@ class BlockView: SCNView
     /// Deinitializer. Remove KVO on cameras.
     deinit
     {
-         PositionObservation = nil
-         OrientationObservation = nil
-         RotationObservation = nil
+        PositionObservation = nil
+        OrientationObservation = nil
+        RotationObservation = nil
     }
     
     /// Mode of the view.
@@ -169,7 +169,7 @@ class BlockView: SCNView
             
             case .GreatestCMYK:
                 Height = max(Color.CMYK.C, Color.CMYK.M, Color.CMYK.Y, Color.CMYK.K)
-
+            
             case .LeastCMYK:
                 Height = min(Color.CMYK.C, Color.CMYK.M, Color.CMYK.Y, Color.CMYK.K)
         }
@@ -238,10 +238,10 @@ class BlockView: SCNView
         StatusDelegate?.UpdateStatus(With: .ResetStatus)
         let Start = CACurrentMediaTime()
         Initialize()
-         SetAntialiasing()
+        SetAntialiasing()
         StatusDelegate?.UpdateDuration(NewDuration: 0.0)
         StatusDelegate?.UpdateStatus(With: .PreparingImage)
-//        ClearScene()
+        //        ClearScene()
         let AfterClear = CACurrentMediaTime() - Start
         StatusDelegate?.UpdateDuration(NewDuration: AfterClear)
         if MasterNode == nil
@@ -284,16 +284,16 @@ class BlockView: SCNView
                         let YLocation: Float = Float(Y - (VBlocks / 2))
                         var ZLocation = (Prominence * PMul) * PMul
                         let ShapeNode = Generator.MakeShape(With: Colors, AtX: X, AtY: Y)
-//                        let ShapeNode = Generator.MakeShape(With: Options, AtX: X, AtY: Y)
+                        //                        let ShapeNode = Generator.MakeShape(With: Options, AtX: X, AtY: Y)
                         ShapeNode.SetProminence(Double(Prominence))
                         ShapeNode.position = SCNVector3(XLocation * Float(Side),
-                        YLocation * Float(Side),
-                        Float(ZLocation))
-                        /*
-                        ShapeNode.position = SCNVector3(XLocation * Float(Options.Side),
-                                                        YLocation * Float(Options.Side),
+                                                        YLocation * Float(Side),
                                                         Float(ZLocation))
- */
+                        /*
+                         ShapeNode.position = SCNVector3(XLocation * Float(Options.Side),
+                         YLocation * Float(Options.Side),
+                         Float(ZLocation))
+                         */
                         MasterNode?.addChildNode(ShapeNode)
                         Count = Count + 1.0
                         let Percent = 100.0 * (Count / Total)
@@ -375,10 +375,10 @@ class BlockView: SCNView
         self.scene = SCNScene()
         #if true
         AddCamera()
-//        DefaultCameraNode = self.pointOfView
-//        DefaultCameraNode!.addObserver(self, forKeyPath: "DefaultCameraNode.position",
-//                                       options: NSKeyValueObservingOptions.new,
-//                                       context: nil)
+        //        DefaultCameraNode = self.pointOfView
+        //        DefaultCameraNode!.addObserver(self, forKeyPath: "DefaultCameraNode.position",
+        //                                       options: NSKeyValueObservingOptions.new,
+        //                                       context: nil)
         #else
         AddCamera()
         #endif
@@ -427,7 +427,7 @@ class BlockView: SCNView
         LightNode!.position = SCNVector3(-10.0, 10.0, 15.0)
         self.scene?.rootNode.addChildNode(LightNode!)
     }
-
+    
     /// The light's node in the scene.
     public var LightNode: SCNNode? = nil
     
@@ -665,7 +665,38 @@ class BlockView: SCNView
         LiveViewBusy = true
         objc_sync_enter(CloseLock)
         defer{ objc_sync_exit(CloseLock) }
-        if let Reduced = Pixellator.Pixellate(Source)
+        let ResizeTo = Settings.GetEnum(ForKey: .LiveViewImageSize, EnumType: LiveViewImageSizes.self, Default: LiveViewImageSizes.Medium)
+        var NextImage: CIImage = Source
+        //print("Stream image size: \(NSCIImageRep(ciImage: Source).size)")
+        if ResizeTo != .Native
+        {
+            let Rep = NSCIImageRep(ciImage: Source)
+            var ResizeMe = NSImage(size: Rep.size)
+            ResizeMe.addRepresentation(Rep)
+            var NewSize: CGFloat = 0.0
+            switch ResizeTo
+            {
+                case .Small:
+                    NewSize = 512.0
+                
+                case .Medium:
+                    NewSize = 1024.0
+                
+                case .Large:
+                    NewSize = 2048.0
+                
+                default:
+                    NewSize = 1024.0
+            }
+            if NewSize < max(Rep.size.width, Rep.size.height)
+            {
+                ResizeMe = Shrinker.ResizeImage(Image: ResizeMe, Longest: NewSize)
+                let ResizeData = ResizeMe.tiffRepresentation!
+                NextImage = CIImage(data: ResizeData)!
+                print("New image size: \(NSCIImageRep(ciImage: NextImage).size)")
+            }
+        }
+        if let Reduced = Pixellator.Pixellate(NextImage)
         {
             var HBlocks: Int = 0
             var VBlocks: Int = 0
@@ -705,6 +736,15 @@ class BlockView: SCNView
         }
     }
     
+    /// Call to reset the live view mode. This happens when the user changes the maximum size of other
+    /// attribute of the live view such that existing nodes can no longer be used.
+    public func ResetLiveView()
+    {
+        LiveViewMasterNode?.removeAllActions()
+        LiveViewMasterNode?.removeFromParentNode()
+        LiveViewMasterNode = nil
+    }
+    
     /// Udpate existing nodes with new colors.
     /// - Note: This function uses nodes already in the scene rather than recreate nodes, which is
     ///         very expensive in terms of performance. Any time a base shape changes, `CreateNode`
@@ -716,6 +756,8 @@ class BlockView: SCNView
     /// - Parameter Side: Base shape side length.
     func UpdateNodes(With Colors: [[NSColor]], HShapeCount: Int, VShapeCount: Int, Side: CGFloat)
     {
+        let ColorCount = Colors.count * Colors[0].count
+        //print("UpdateNodes: X=\(Colors[0].count), Y=\(Colors.count), Total=\(ColorCount)")
         for SomeNode in LiveViewMasterNode!.childNodes
         {
             autoreleasepool
@@ -767,7 +809,7 @@ class BlockView: SCNView
                         }
                         
                         case .Pyramids:
-                        //Pyramids
+                            //Pyramids
                             if let Geo = Node.geometry as? SCNPyramid
                             {
                                 Geo.width = Side + (Prominence * 0.2)
@@ -845,7 +887,7 @@ class BlockView: SCNView
                 Node.rotation = SCNVector4(1.0, 0.0, 0.0, 90.0 * CGFloat.pi / 180.0)
             
             case .Pyramids:
-            //pyramid
+                //pyramid
                 Node = PSCNNode(geometry: SCNPyramid(width: Side, height: Side, length: Prominence), X: AtX, Y: AtY)
                 Node.rotation = SCNVector4(1.0, 0.0, 0.0, 90.0 * CGFloat.pi / 180.0)
             
@@ -928,215 +970,3 @@ class BlockView: SCNView
     var LiveViewMasterNode: SCNNode? = nil
 }
 
-extension NSColor
-{
-    /// Returns the YUV equivalent of the instance color, in Y, U, V order.
-    /// - See
-    ///   - [YUV](https://en.wikipedia.org/wiki/YUV)
-    ///   - [FourCC YUV to RGB Conversion](http://www.fourcc.org/fccyvrgb.php)
-    var YUV: (Y: CGFloat, U: CGFloat, V: CGFloat)
-    {
-        get
-        {
-            let Wr: CGFloat = 0.299
-            let Wg: CGFloat = 0.587
-            let Wb: CGFloat = 0.114
-            let Umax: CGFloat = 0.436
-            let Vmax: CGFloat = 0.615
-            var Red: CGFloat = 0.0
-            var Green: CGFloat = 0.0
-            var Blue: CGFloat = 0.0
-            var Alpha: CGFloat = 0.0
-            self.getRed(&Red, green: &Green, blue: &Blue, alpha: &Alpha)
-            let Y = (Wr * Red) + (Wg * Green) + (Wb * Blue)
-            let U = Umax * ((Blue - Y) / (1.0 - Wb))
-            let V = Vmax * ((Red - Y) / (1.0 - Wr))
-            return (Y, U, V)
-        }
-    }
-    
-    /// Returns the CMYK equivalent of the instance color, in C, M, Y, K order.
-    var CMYK: (C: CGFloat, Y: CGFloat, M: CGFloat, K: CGFloat)
-    {
-        get
-        {
-            var Red: CGFloat = 0.0
-            var Green: CGFloat = 0.0
-            var Blue: CGFloat = 0.0
-            var Alpha: CGFloat = 0.0
-            self.getRed(&Red, green: &Green, blue: &Blue, alpha: &Alpha)
-            let K: CGFloat = 1.0 - max(Red, max(Green, Blue))
-            var C: CGFloat = 0.0
-            var M: CGFloat = 0.0
-            var Y: CGFloat = 0.0
-            if K == 1.0
-            {
-                C = 1.0
-            }
-            else
-            {
-                C = abs((1.0 - Red - K) / (1.0 - K))
-            }
-            if K == 1.0
-            {
-                M = 1.0
-            }
-            else
-            {
-                M = abs((1.0 - Green - K) / (1.0 - K))
-            }
-            if K == 1.0
-            {
-                Y = 1.0
-            }
-            else
-            {
-                Y = abs((1.0 - Blue - K) / (1.0 - K))
-            }
-            return (C, M, Y, K)
-        }
-    }
-    
-    /// Returns the CIE LAB equivalent of the instance color, in L, A, B order.
-    /// - Note: See (Color math and programming code examples)[http://www.easyrgb.com/en/math.php]
-    var LAB: (L: CGFloat, A: CGFloat, B: CGFloat)
-    {
-        get
-        {
-            let (X, Y, Z) = self.XYZ
-            var Xr = X / 111.144                //X referent is X10 incandescent/tungsten
-            var Yr = Y / 100.0                  //Y referent is X10 incandescent/tungsten
-            var Zr = Z / 35.2                   //Z referent is X10 incandescent/tungsten
-            if Xr > 0.008856
-            {
-                Xr = pow(Xr, (1.0 / 3.0))
-            }
-            else
-            {
-                Xr = (7.787 * Xr) + (16.0 / 116.0)
-            }
-            if Yr > 0.008856
-            {
-                Yr = pow(Yr, (1.0 / 3.0))
-            }
-            else
-            {
-                Yr = (7.787 * Yr) + (16.0 / 116.0)
-            }
-            if Zr > 0.008856
-            {
-                Zr = pow(Zr, (1.0 / 3.0))
-            }
-            else
-            {
-                Zr = (7.787 * Zr) + (16.0 / 116.0)
-            }
-            let L = (Xr * 116.0) - 16.0
-            let A = 500.0 * (Xr - Yr)
-            let B = 200.0 * (Yr - Zr)
-            return (L, A, B)
-        }
-    }
-    
-    /// Returns the XYZ equivalent of the instance color, in X, Y, Z order.
-    /// - Note: See (Color math and programming code examples)[http://www.easyrgb.com/en/math.php]
-    var XYZ: (X: CGFloat, Y: CGFloat, Z: CGFloat)
-    {
-        get
-        {
-            var Red: CGFloat = 0.0
-            var Green: CGFloat = 0.0
-            var Blue: CGFloat = 0.0
-            var Alpha: CGFloat = 0.0
-            self.getRed(&Red, green: &Green, blue: &Blue, alpha: &Alpha)
-            if Red > 0.04045
-            {
-                Red = pow(((Red + 0.055) / 1.055), 2.4)
-            }
-            else
-            {
-                Red = Red / 12.92
-            }
-            if Green > 0.04045
-            {
-                Green = pow(((Green + 0.055) / 1.055), 2.4)
-            }
-            else
-            {
-                Green = Green / 12.92
-            }
-            if Blue > 0.04045
-            {
-                Blue = pow(((Blue + 0.055) / 1.055), 2.4)
-            }
-            else
-            {
-                Blue = Blue / 12.92
-            }
-            Red = Red * 100.0
-            Green = Green * 100.0
-            Blue = Blue * 100.0
-            let X = (Red * 0.4124) + (Green * 0.3576) * (Blue * 0.1805)
-            let Y = (Red * 0.2126) + (Green * 0.7152) * (Blue * 0.0722)
-            let Z = (Red * 0.0193) + (Green * 0.1192) * (Blue * 0.9505)
-            return (X, Y, Z)
-        }
-    }
-    
-    /// Returns the HSL equivalent of the instance color, in H, S, L order.
-    /// - Note: See (Color math and programming code examples)[http://www.easyrgb.com/en/math.php]
-    var HSL: (H: CGFloat, S: CGFloat, L: CGFloat)
-    {
-        get
-        {
-            var Red: CGFloat = 0.0
-            var Green: CGFloat = 0.0
-            var Blue: CGFloat = 0.0
-            var Alpha: CGFloat = 0.0
-            self.getRed(&Red, green: &Green, blue: &Blue, alpha: &Alpha)
-            let Min = min(Red, Green, Blue)
-            let Max = max(Red, Green, Blue)
-            let Delta = Max - Min
-            let L: CGFloat = (Max + Min) / 2.0
-            var H: CGFloat = 0.0
-            var S: CGFloat = 0.0
-            if Delta != 0.0
-            {
-                if L < 0.5
-                {
-                    S = Max / (Max + Min)
-                }
-                else
-                {
-                    S = Max / (2.0 - Max - Min)
-                }
-                let DeltaR = (((Max - Red) / 6.0) + (Max / 2.0)) / Max
-                let DeltaG = (((Max - Green) / 6.0) + (Max / 2.0)) / Max
-                let DeltaB = (((Max - Blue) / 6.0) + (Max / 2.0)) / Max
-                if Red == Max
-                {
-                    H = DeltaB - DeltaG
-                }
-                else
-                    if Green == Max
-                    {
-                        H = (1.0 / 3.0) + (DeltaR - DeltaB)
-                    }
-                    else
-                        if Blue == Max
-                        {
-                            H = (2.0 / 3.0) + (DeltaG - DeltaR)
-                }
-                if H < 0.0
-                {
-                    H = H + 1.0
-                }
-                if H > 1.0
-                {
-                    H = H - 1.0
-                }
-            }
-            return (H, S, L)
-        }
-    }
-}
