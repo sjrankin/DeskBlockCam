@@ -31,24 +31,7 @@ class StackedShapesOptionCode: NSViewController, NSTableViewDelegate,
         {
             return
         }
-        var RawShapeList: String = ""
-        switch CurrentShape
-        {
-            case .StackedShapes:
-                RawShapeList = Settings.GetString(ForKey: .StackedShapeList, Shapes.Blocks.rawValue)
-            
-            case .HueVarying:
-                RawShapeList = Settings.GetString(ForKey: .HueShapes, Shapes.Blocks.rawValue)
-            
-            case .SaturationVarying:
-                RawShapeList = Settings.GetString(ForKey: .SaturationShapes, Shapes.Blocks.rawValue)
-            
-            case .BrightnessVarying:
-                RawShapeList = Settings.GetString(ForKey: .BrightnessShapes, Shapes.Blocks.rawValue)
-            
-            default:
-                fatalError("Found unexpected shape: \(CurrentShape.rawValue)")
-        }
+        let RawShapeList: String = Settings.GetString(ForKey: .StackedShapeList, Shapes.Blocks.rawValue)
         let Parts = RawShapeList.split(separator: ",", omittingEmptySubsequences: true)
         for Part in Parts
         {
@@ -140,25 +123,7 @@ class StackedShapesOptionCode: NSViewController, NSTableViewDelegate,
             Final.append(",")
         }
         Final.removeLast(1)
-        var Key: SettingKeys!
-        switch CurrentShape
-        {
-            case .StackedShapes:
-                Key = SettingKeys.StackedShapeList
-            
-            case .HueVarying:
-                Key = SettingKeys.HueShapes
-            
-            case .SaturationVarying:
-                Key = SettingKeys.SaturationShapes
-            
-            case .BrightnessVarying:
-                Key = SettingKeys.BrightnessShapes
-            
-            default:
-                fatalError("Found unexpected shape: \(CurrentShape.rawValue)")
-        }
-        Settings.SetString(Final, ForKey: Key)
+        Settings.SetString(Final, ForKey: .StackedShapeList)
         Delegate?.UpdateCurrent(With: CurrentShape)
     }
     
