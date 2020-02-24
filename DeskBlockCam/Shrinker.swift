@@ -12,20 +12,20 @@ import CoreImage
 
 class Shrinker
 {
-    /// Resizes an NSImage such that the longest dimension of the returned image is `Longest`.
+    /// Resizes an NSImage such that the longest dimension of the returned image is `Longest`. If the
+    /// image is smaller than `Longest`, it is *not* resized.
     /// - Parameter Image: The image to resize.
     /// - Parameter Longest: The new longest dimension.
     /// - Returns: Resized image. If the longest dimension of the original image is less than `Longest`, the
     ///            original image is returned unchanged.
     public static func ResizeImage(Image: NSImage, Longest: CGFloat) -> NSImage
     {
-        #if true
         let ImageMax = max(Image.size.width, Image.size.height)
-        let Ratio = Longest / ImageMax
-        if Ratio >= 1.0
+        if ImageMax <= Longest
         {
             return Image
         }
+        let Ratio = Longest / ImageMax
         let NewSize = NSSize(width: Image.size.width * Ratio, height: Image.size.height * Ratio)
         let NewImage = NSImage(size: NewSize)
         NewImage.lockFocus()
@@ -36,20 +36,5 @@ class Shrinker
         NewImage.unlockFocus()
         NewImage.size = NewSize
         return NewImage
-        #else
-        let ImageMax = max(Image.size.width, Image.size.height)
-        let Ratio = Longest / ImageMax
-        if Ratio >= 1.0
-        {
-            return Image
-        }
-        let NewSize = CGSize(width: Image.size.width * Ratio, height: Image.size.height * Ratio)
-        let Rect = CGRect(x: 0, y: 0, width: NewSize.width, height: NewSize.height)
-        UIGraphicsBeginImageContextWithOptions(NewSize, false, 1.0)
-        Image.draw(in: Rect)
-        let NewImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return NewImage!
-        #endif
     }
 }
