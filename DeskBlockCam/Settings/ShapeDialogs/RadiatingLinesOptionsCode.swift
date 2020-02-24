@@ -8,6 +8,7 @@
 
 import Foundation
 import AppKit
+import SceneKit
 
 class RadiatingLinesOptionsCode: NSViewController, ToOptionsDialogProtocol
 {
@@ -20,7 +21,7 @@ class RadiatingLinesOptionsCode: NSViewController, ToOptionsDialogProtocol
         {
             Caption.stringValue = NewCaption
         }
-        let Thick = Settings.GetEnum(ForKey: .RadialLineThickness, EnumType: LineThickenesses.self, Default: .Medium)
+        let Thick = Settings.GetEnum(ForKey: .RadialLineThickness, EnumType: LineThicknesses.self, Default: .Medium)
         let Count = Settings.GetInteger(ForKey: .LineCount)
         switch Thick
         {
@@ -47,6 +48,7 @@ class RadiatingLinesOptionsCode: NSViewController, ToOptionsDialogProtocol
             default:
                 LineCountSegment.selectedSegment = 0
         }
+        ShowSample(WithCount: Count)
     }
     
     var NewCaption: String = ""
@@ -86,6 +88,7 @@ class RadiatingLinesOptionsCode: NSViewController, ToOptionsDialogProtocol
                 Settings.SetInteger(4, ForKey: .LineCount)
         }
         Delegate?.UpdateCurrent(With: CurrentShape)
+        ShowSample(WithCount: Settings.GetInteger(ForKey: .LineCount))
     }
     
     @IBAction func HandleLineThicknessChanged(_ sender: Any)
@@ -93,22 +96,59 @@ class RadiatingLinesOptionsCode: NSViewController, ToOptionsDialogProtocol
         switch LineThickSegments.selectedSegment
         {
             case 0:
-                Settings.SetEnum(.Thin, EnumType: LineThickenesses.self, ForKey: .RadialLineThickness)
+                Settings.SetEnum(.Thin, EnumType: LineThicknesses.self, ForKey: .RadialLineThickness)
             
             case 1:
-                Settings.SetEnum(.Medium, EnumType: LineThickenesses.self, ForKey: .RadialLineThickness)
+                Settings.SetEnum(.Medium, EnumType: LineThicknesses.self, ForKey: .RadialLineThickness)
             
             case 2:
-                Settings.SetEnum(.Thick, EnumType: LineThickenesses.self, ForKey: .RadialLineThickness)
+                Settings.SetEnum(.Thick, EnumType: LineThicknesses.self, ForKey: .RadialLineThickness)
             
             default:
-                Settings.SetEnum(.Thin, EnumType: LineThickenesses.self, ForKey: .RadialLineThickness)
+                Settings.SetEnum(.Thin, EnumType: LineThicknesses.self, ForKey: .RadialLineThickness)
         }
         Delegate?.UpdateCurrent(With: CurrentShape)
+         ShowSample(WithCount: Settings.GetInteger(ForKey: .LineCount))
     }
+    
+    var SampleInitialized = false
+    
+    func ShowSample(WithCount: Int)
+    {
+        if !SampleInitialized
+        {
+            SampleInitialized = true
+            LineSample.scene = SCNScene()
+            LineSample.scene?.background.contents = NSColor.black
+            let Light = SCNLight()
+            Light.color = NSColor.white
+            Light.type = .omni
+            let LightNode = SCNNode()
+            LightNode.light = Light
+            LightNode.position = SCNVector3(-4.0, 4.0, 15.0)
+            LineSample.scene?.rootNode.addChildNode(LightNode)
+            let Camera = SCNCamera()
+            Camera.fieldOfView = 90.0
+            let CameraNode = SCNNode()
+            CameraNode.camera = Camera
+            CameraNode.position = SCNVector3(1.0, 1.0, 15.0)
+            LineSample.scene?.rootNode.addChildNode(CameraNode)
+        }
+        if SampleLine != nil
+        {
+            SampleLine?.removeFromParentNode()
+            SampleLine = nil
+        }
+        SampleLine = Generator.SingleShape(.RadiatingLines, Color: NSColor.yellow, Side: 2.0)
+        SampleLine?.position = SCNVector3(0.0, 0.0, 0.0)
+        LineSample.scene?.rootNode.addChildNode(SampleLine!)
+    }
+    
+    var SampleLine: PSCNNode? = nil
     
     var CurrentShape: Shapes = .NoShape
     
+    @IBOutlet weak var LineSample: SCNView!
     @IBOutlet weak var LineCountSegment: NSSegmentedControl!
     @IBOutlet weak var LineThickSegments: NSSegmentedControl!
     @IBOutlet weak var Caption: NSTextField!
