@@ -136,7 +136,7 @@ enum CapLocations: String, CaseIterable
     case Bottom = "Bottom"
 }
 
-enum LineThickenesses: String, CaseIterable
+enum LineThicknesses: String, CaseIterable
 {
     case Thin = "Thin"
     case Medium = "Medium"
@@ -199,6 +199,7 @@ enum ConeTopSizes: String, CaseIterable
 
 enum ConeBottomSizes: String, CaseIterable
 {
+    case Zero = "Zero"
     case Side = "Side value"
     case Saturation = "Saturation"
     case Hue = "Hue"
@@ -295,4 +296,60 @@ enum LetterSmoothnesses: String, CaseIterable
     case Medium = "Medium"
     case Rough = "Rough"
     case Roughest = "Roughest"
+}
+
+enum VaryingComponents: String, CaseIterable
+{
+    case Hue = "Hue"
+    case Saturation = "Saturation"
+    case Brightness = "Brightness"
+    case Red = "Red"
+    case Green = "Green"
+    case Blue = "Blue"
+    case Cyan = "Cyan"
+    case Magenta = "Magenta"
+    case Yellow = "Yellow"
+    case Black = "Black"
+}
+
+/// How to determine the color of the line for capped-line shapes.
+enum CappedLineLineColors: String, CaseIterable
+{
+    /// Same color as the sphere.
+    case Same = "Same"
+    /// Darker than the sphere.
+    case Darker = "Darker"
+    /// Ligher than the sphere.
+    case Lighter = "Lighter"
+    /// Black.
+    case Black = "Black"
+    /// White.
+    case White = "White"
+}
+
+enum LiveViewImageSizes: String, CaseIterable
+{
+    case Native = "Native"
+    case Small = "Small"
+    case Medium = "Medium"
+    case Large = "Large"
+}
+
+/// Orders in which the histogram display can be shown.
+enum HistogramOrders: String, CaseIterable
+{
+    /// Red, green, blue order.
+    case RGB = "RGB"
+    /// Red, blue, green order.
+    case RBG = "RBG"
+    /// Green, red, blue order.
+    case GRB = "GRB"
+    /// Green, blue, red order.
+    case GBR = "GBR"
+    /// Blue, red, green order.
+    case BRG = "BRG"
+    /// Blue, green, red order.
+    case BGR = "BGR"
+    /// Grayscale (showing synthetic brightness).
+    case Gray = "Gray"
 }
