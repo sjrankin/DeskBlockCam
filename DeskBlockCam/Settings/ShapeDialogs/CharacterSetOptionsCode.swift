@@ -172,8 +172,11 @@ class CharacterSetOptionsCode: NSViewController, ToOptionsDialogProtocol
         var Scale: Double = 1.0
         let Geo = Generator.GenerateCharacterFromSet(Prominence: 2.0, FinalScale: &Scale)
         CharNode = SCNNode(geometry: Geo)
-        CharNode?.position = SCNVector3(-3.0, -6.0, 0.0)
         CharNode?.scale = SCNVector3(0.6, 0.6, 0.6)
+        let (Min, Max) = CharNode!.boundingBox
+        let FinalX = (Min.x - Max.x) / 2.0
+        let FinalY = (Min.y - Max.y) / 2.0
+        CharNode?.position = SCNVector3(FinalX, FinalY, 0.0)
         CharNode?.geometry?.firstMaterial?.diffuse.contents = NSColor.systemYellow
         CharNode?.geometry?.firstMaterial?.specular.contents = NSColor.white
         CharNode?.geometry?.firstMaterial?.lightingModel = Generator.GetLightModel()
