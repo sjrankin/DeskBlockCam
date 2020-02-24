@@ -45,15 +45,6 @@ class CurrentSettings
                 Results.append(("Diamond orientation", "\(Settings.GetString(ForKey: .DiamondOrientation)!)"))
                 Results.append(("Diamond length", "\(Settings.GetString(ForKey: .DiamondLength)!)"))
             
-            case Shapes.HueVarying.rawValue:
-                Results.append(("Hue shape list", "\(Settings.GetString(ForKey: .HueShapes)!)"))
-            
-            case Shapes.SaturationVarying.rawValue:
-                Results.append(("Saturation shape list", "\(Settings.GetString(ForKey: .SaturationShapes)!)"))
-            
-            case Shapes.BrightnessVarying.rawValue:
-                Results.append(("Brightness shape list", "\(Settings.GetString(ForKey: .BrightnessShapes)!)"))
-            
             case Shapes.Characters.rawValue:
                 Results.append(("Character set", "\(Settings.GetString(ForKey: .CharacterSet)!)"))
             
