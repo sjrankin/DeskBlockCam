@@ -237,6 +237,12 @@ class BlockView: SCNView
         PreviouslyProcessedImage = Image
         StatusDelegate?.UpdateStatus(With: .ResetStatus)
         let Start = CACurrentMediaTime()
+        if MasterNode != nil
+        {
+            MasterNode?.removeAllActions()
+            MasterNode?.removeFromParentNode()
+            MasterNode = nil
+        }
         Initialize()
         SetAntialiasing()
         StatusDelegate?.UpdateDuration(NewDuration: 0.0)
