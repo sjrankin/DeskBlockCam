@@ -450,7 +450,7 @@ class Generator
                     
                     //Combined shapes.
                     case .CappedLines, .StackedShapes, .RadiatingLines, .PerpendicularCircles,
-                         .PerpendicularSquares, .BlockBases:
+                         .PerpendicularSquares, .BlockBases, .SphereBases:
                         let Node = MakeCombinedShape(Shape: FinalShape, Side: CGFloat(Side), AtX: AtX, AtY: AtY,
                                                      Height: Height, Color: Colors[AtY][AtX],
                                                      Model: Model)
