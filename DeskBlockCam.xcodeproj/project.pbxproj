@@ -115,6 +115,7 @@
 		17B31D5223EFF74600C69257 /* SettingChangedProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B31D5123EFF74600C69257 /* SettingChangedProtocol.swift */; };
 		17B31D5423EFF9AE00C69257 /* AttributeFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B31D5323EFF9AE00C69257 /* AttributeFactory.swift */; };
 		17B31D5623EFFAAF00C69257 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B31D5523EFFAAF00C69257 /* Enums.swift */; };
+		17C9D40F240513B300EF3CAD /* SpheresWithOptionsCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C9D40E240513B300EF3CAD /* SpheresWithOptionsCode.swift */; };
 		17D5AD2723F3BE39006C295F /* AboutController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D5AD2623F3BE39006C295F /* AboutController.swift */; };
 		17D5AD2923F3BEA1006C295F /* AboutWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D5AD2823F3BEA1006C295F /* AboutWindow.swift */; };
 		17EB8FFE23E961C600A4C09A /* ImageDelta.metal in Sources */ = {isa = PBXBuildFile; fileRef = 17EB8FFD23E961C600A4C09A /* ImageDelta.metal */; };
@@ -250,6 +251,7 @@
 		17B31D5123EFF74600C69257 /* SettingChangedProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingChangedProtocol.swift; sourceTree = "<group>"; };
 		17B31D5323EFF9AE00C69257 /* AttributeFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributeFactory.swift; sourceTree = "<group>"; };
 		17B31D5523EFFAAF00C69257 /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
+		17C9D40E240513B300EF3CAD /* SpheresWithOptionsCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpheresWithOptionsCode.swift; sourceTree = "<group>"; };
 		17D5AD2623F3BE39006C295F /* AboutController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutController.swift; sourceTree = "<group>"; };
 		17D5AD2823F3BEA1006C295F /* AboutWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutWindow.swift; sourceTree = "<group>"; };
 		17EB8FFD23E961C600A4C09A /* ImageDelta.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = ImageDelta.metal; sourceTree = "<group>"; };
@@ -315,6 +317,7 @@
 				1732796F23F7E93800EE0213 /* RingOptionCode.swift */,
 				172C06E723ED303E00313C3E /* ConeOptionsCode.swift */,
 				1761DAB82404ADAA001DE9F9 /* BlocksWithOptionsCode.swift */,
+				17C9D40E240513B300EF3CAD /* SpheresWithOptionsCode.swift */,
 				172C06E923ED307000313C3E /* RadiatingLinesOptionsCode.swift */,
 				172C06EB23ED309800313C3E /* CharacterSetOptionsCode.swift */,
 				172C06ED23ED30ED00313C3E /* CappedLinesOptionsCode.swift */,
@@ -700,6 +703,7 @@
 				17B31D5623EFFAAF00C69257 /* Enums.swift in Sources */,
 				177BF06223EE52CD00670F40 /* ColorSwatchItem.swift in Sources */,
 				177BA8C124022EFE00ED9095 /* SCNTetrahedron.swift in Sources */,
+				17C9D40F240513B300EF3CAD /* SpheresWithOptionsCode.swift in Sources */,
 				17897B9723E6EB1D00AFDA6A /* ViewControllerWindow.swift in Sources */,
 				175E031F2401055E00FA8388 /* RedrawProtocol.swift in Sources */,
 				178041BB23F3D0E6006E40C1 /* ErrorMessageHandling.swift in Sources */,
