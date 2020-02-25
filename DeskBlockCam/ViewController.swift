@@ -90,7 +90,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
                     ModeSegment.selectedSegment = 0
                 }
                 StartCamera()
-                            ProcessedImage.InLiveViewMode = true
+                ProcessedImage.InLiveViewMode = true
             
             case .VideoView:
                 break
@@ -447,16 +447,16 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
                 Mode = .ImageView
             
             default:
-            return
+                return
         }
         /*
-        if let POV = ProcessedImage.pointOfView
-        {
-            print("POV position: \(POV.position)")
-            print("POV rotation: \(POV.rotation)")
-            print("POV orientation: \(POV.orientation)\n")
-        }
- */
+         if let POV = ProcessedImage.pointOfView
+         {
+         print("POV position: \(POV.position)")
+         print("POV rotation: \(POV.rotation)")
+         print("POV orientation: \(POV.orientation)\n")
+         }
+         */
         ProcessedImage.ResetCamera()
         let NewHeight = ProcessedImage.MinimizeBezel(IsLiveView: Mode == .LiveView)
         ProcessedImage.CameraNode?.position = SCNVector3(ProcessedImage.CameraNode!.position.x,
@@ -644,7 +644,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
                 Settings.SetEnum(MainModes.ImageView, EnumType: MainModes.self, ForKey: .CurrentMode)
             
             default:
-            return
+                return
         }
         SetProgramMode(ChangeSelector: false)
     }
@@ -658,13 +658,13 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
     @IBAction func SelectImageView(_ sender: Any)
     {
         Settings.SetEnum(MainModes.ImageView, EnumType: MainModes.self, ForKey: .CurrentMode)
-                SetProgramMode(ChangeSelector: true)
+        SetProgramMode(ChangeSelector: true)
     }
     
     @IBAction func SelectVideoView(_ sender: Any)
     {
         Settings.SetEnum(MainModes.VideoView, EnumType: MainModes.self, ForKey: .CurrentMode)
-                SetProgramMode(ChangeSelector: true)
+        SetProgramMode(ChangeSelector: true)
     }
     
     @IBAction func ShowAbout(_ sender: Any)
@@ -720,7 +720,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
     @IBAction func SaveFileFromMenu(_ sender: Any)
     {
         let SaveMe = ProcessedImage.Snapshot()
-       DoSaveImage(SaveMe)
+        DoSaveImage(SaveMe)
     }
     
     @IBAction func CopyImageToPasteboardFromMenu(_ sender: Any)
@@ -801,7 +801,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
     {
         if Settings.GetEnum(ForKey: .CurrentMode, EnumType: ProgramModes.self, Default: ProgramModes.LiveView) == .LiveView
         {
-        ProcessedImage.ResetLiveView()
+            ProcessedImage.ResetLiveView()
         }
     }
     
