@@ -310,6 +310,10 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
                 Current[1].ValueItems.append(ValueItem(Description: "Apex count", Value: "\(Apexes)"))
                 Current[1].ValueItems.append(ValueItem(Description: "Variable apexes", Value: "\(Intensity)"))
             
+            case .BlockBases:
+                let ExShape = Settings.GetEnum(ForKey: .BlockWithShape, EnumType: Shapes.self, Default: Shapes.Cones)
+                Current[1].ValueItems.append(ValueItem(Description: "Extruded shape", Value: ExShape.rawValue))
+            
             default:
                 break
         }
@@ -364,29 +368,7 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
             ])
     ]
     
-    //https://qtsoftware.co.uk/programming/swift/solved-how-to-use-outline-views-in-swift-4/
-    #if true
     let Categories = ShapeManager.Categories
-    #else
-    let Categories =
-        [
-            ShapeCategory(Name: "Standard", Shapes: [Shapes.Blocks.rawValue, Shapes.Spheres.rawValue, Shapes.Cones.rawValue,
-                                                     Shapes.Rings.rawValue, Shapes.Tubes.rawValue, Shapes.Cylinders.rawValue,
-                                                     Shapes.Pyramids.rawValue, Shapes.Capsules.rawValue]),
-            ShapeCategory(Name: "Non-Standard", Shapes: [Shapes.Triangles.rawValue, Shapes.Polygons.rawValue,
-                                                         Shapes.Stars.rawValue, Shapes.Diamonds.rawValue,
-                                                         Shapes.Ovals.rawValue, Shapes.Characters.rawValue,
-                                                         Shapes.Lines.rawValue]),
-            ShapeCategory(Name: "2D Shapes", Shapes: [Shapes.Squares.rawValue, Shapes.Rectangles.rawValue,
-                                                      Shapes.Circles.rawValue, Shapes.Triangles2D.rawValue,
-                                                      Shapes.Oval2D.rawValue, Shapes.Diamond2D.rawValue,
-                                                      Shapes.Polygons2D.rawValue, Shapes.Stars2D.rawValue]),
-            ShapeCategory(Name: "Combined", Shapes: [Shapes.CappedLines.rawValue, Shapes.StackedShapes.rawValue,
-                                                     Shapes.PerpendicularSquares.rawValue, Shapes.PerpendicularCircles.rawValue,
-                                                     Shapes.ComponentVariable.rawValue, Shapes.RadiatingLines.rawValue]),
-            ShapeCategory(Name: "Complex", Shapes: [Shapes.HueTriangles.rawValue])
-    ]
-    #endif
     
     func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: Any?) -> Any
     {
