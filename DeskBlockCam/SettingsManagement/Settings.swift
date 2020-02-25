@@ -88,6 +88,7 @@ class Settings
                 UserDefaults.standard.set(Shapes.Blocks.rawValue, forKey: SettingKeys.BlackShapes.rawValue)
         UserDefaults.standard.set(VaryingComponents.Hue.rawValue, forKey: SettingKeys.VaryingComponent.rawValue)
         UserDefaults.standard.set(Shapes.Cones.rawValue, forKey: SettingKeys.BlockWithShape.rawValue)
+        UserDefaults.standard.set(Shapes.Cones.rawValue, forKey: SettingKeys.SphereWithShape.rawValue)
         UserDefaults.standard.set(Shapes.Spheres.rawValue, forKey: SettingKeys.CapShape.rawValue)
         UserDefaults.standard.set(CapLocations.Top.rawValue, forKey: SettingKeys.CapLocation.rawValue)
         UserDefaults.standard.set(CappedLineLineColors.Same.rawValue, forKey: SettingKeys.CappedLineLineColor.rawValue)
@@ -652,6 +653,7 @@ class Settings
             .VaryingComponent,
             .CappedLineLineColor,
             .BlockWithShape,
+            .SphereWithShape,
     ]
     
     /// Contains a list of all double-type fields.
@@ -730,6 +732,10 @@ enum SettingKeys: String, CaseIterable, Comparable, Hashable
     //Blocks+ shape settings.
     /// String/Enum: Extra shape with a block.
     case BlockWithShape = "BlockWithShape"
+    
+    //Spheres+ shape settings.
+    /// String/Enum: Extra shape with a sphere.
+    case SphereWithShape = "SphereWithShape"
     
     //Channel-varying shapes optional settings.
     /// String/Enum: Which component is used to determine shape.
