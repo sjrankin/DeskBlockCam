@@ -3287,6 +3287,86 @@
             </objects>
             <point key="canvasLocation" x="1539" y="3353"/>
         </scene>
+        <!--Blocks With Options Code-->
+        <scene sceneID="NBM-dG-FTR">
+            <objects>
+                <customObject id="kTj-BJ-nSn" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <viewController storyboardIdentifier="BlocksWithOptions" id="9NQ-Bh-opf" customClass="BlocksWithOptionsCode" customModule="BlockCam" sceneMemberID="viewController">
+                    <view key="view" id="Fw5-QZ-xRW">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <subviews>
+                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="qqz-P2-kB0">
+                                <rect key="frame" x="8" y="234" width="436" height="57"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="57" id="Veg-U9-gz0"/>
+                                </constraints>
+                                <textFieldCell key="cell" selectable="YES" borderStyle="border" alignment="left" title="Shapes composed of blocks with another shape extruded from the top of the block." drawsBackground="YES" id="aDk-Zw-Y4f">
+                                    <font key="font" usesAppearanceFont="YES"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" red="0.15000000599999999" green="0.15000000599999999" blue="0.15000000599999999" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                </textFieldCell>
+                            </textField>
+                            <gridView xPlacement="leading" yPlacement="center" rowAlignment="none" rowSpacing="8" columnSpacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="wYV-Yx-pHC">
+                                <rect key="frame" x="8" y="194" width="286" height="19"/>
+                                <rows>
+                                    <gridRow id="855-1g-Dsd"/>
+                                </rows>
+                                <columns>
+                                    <gridColumn id="6th-x0-fY1"/>
+                                    <gridColumn width="186" id="Y1q-ZR-UrU"/>
+                                </columns>
+                                <gridCells>
+                                    <gridCell row="855-1g-Dsd" column="6th-x0-fY1" id="k3g-Nt-1QK">
+                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bZm-gr-hLv">
+                                            <rect key="frame" x="-2" y="2" width="99" height="16"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Extruded shape" id="xfG-FK-C63">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                    </gridCell>
+                                    <gridCell row="855-1g-Dsd" column="Y1q-ZR-UrU" id="1UI-Dv-Upa">
+                                        <comboBox key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="0WM-86-MuQ">
+                                            <rect key="frame" x="100" y="-4" width="173" height="25"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="170" id="rkC-8v-vld"/>
+                                            </constraints>
+                                            <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="lYa-Km-Oki">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                <objectValues>
+                                                    <string>Item 1</string>
+                                                    <string>Item 2</string>
+                                                    <string>Item 3</string>
+                                                </objectValues>
+                                                <connections>
+                                                    <action selector="HandleNewShape:" target="9NQ-Bh-opf" id="t2E-id-hAF"/>
+                                                </connections>
+                                            </comboBoxCell>
+                                        </comboBox>
+                                    </gridCell>
+                                </gridCells>
+                            </gridView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="wYV-Yx-pHC" firstAttribute="top" secondItem="qqz-P2-kB0" secondAttribute="bottom" constant="21" id="VeH-KE-J4l"/>
+                            <constraint firstItem="wYV-Yx-pHC" firstAttribute="leading" secondItem="qqz-P2-kB0" secondAttribute="leading" id="WOU-4u-VlX"/>
+                            <constraint firstAttribute="trailing" secondItem="qqz-P2-kB0" secondAttribute="trailing" constant="6" id="f1v-rJ-jVs"/>
+                            <constraint firstItem="qqz-P2-kB0" firstAttribute="leading" secondItem="Fw5-QZ-xRW" secondAttribute="leading" constant="8" id="mVk-XE-aze"/>
+                            <constraint firstItem="qqz-P2-kB0" firstAttribute="top" secondItem="Fw5-QZ-xRW" secondAttribute="top" constant="9" id="qJb-fy-mbB"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="Caption" destination="qqz-P2-kB0" id="6oA-eg-K7b"/>
+                        <outlet property="ShapeCombo" destination="lYa-Km-Oki" id="SQP-Fn-ZZW"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="1539" y="3751"/>
+        </scene>
     </scenes>
     <resources>
         <image name="ShapeIcon" width="20" height="20"/>
