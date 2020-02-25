@@ -34,6 +34,10 @@ extension Generator
                 Geo?.firstMaterial?.lightingModel = GetLightModel()
                 Sample = PSCNNode(geometry: Geo!, X: 0, Y: 0)
             
+            case .BlockBases:
+                Sample = MakeBlockWithOtherShape(Shape: .BlockBases, Side: Side, AtX: 0, AtY: 0,
+                                                 Height: Height, Color: Color, Model: GetLightModel())
+            
             case .Characters:
                 var FinalScale: Double = 0.0
                 let Geo = GenerateCharacterFromSet(Prominence: Height, FinalScale: &FinalScale)
