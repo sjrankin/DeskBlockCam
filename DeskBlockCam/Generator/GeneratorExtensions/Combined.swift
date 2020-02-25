@@ -332,6 +332,57 @@ extension Generator
         return Node
     }
     
+    public static func MakeSphereWithOtherShape(Shape: Shapes, Side: CGFloat, AtX: Int, AtY: Int,
+                                               Height: CGFloat, Color: NSColor, Model: SCNMaterial.LightingModel) -> PSCNNode?
+    {
+        let SGeo = SCNSphere(radius: Side / 2.0)
+        SGeo.firstMaterial?.diffuse.contents = Color
+        SGeo.firstMaterial?.specular.contents = NSColor.white
+        SGeo.firstMaterial?.lightingModel = Model
+        let Node = PSCNNode()
+        Node.X = AtX
+        Node.Y = AtY
+        Node.addChildNode(SCNNode(geometry: SGeo))
+        var Geo: SCNGeometry? = nil
+        var NeedsRotation = true
+        let HeightMultiplier: CGFloat = 1.5
+                let Other = Settings.GetEnum(ForKey: .SphereWithShape, EnumType: Shapes.self, Default: Shapes.Cones)
+        switch Other
+        {
+            case .Blocks:
+                Geo = SCNBox(width: Side / 2.5, height: Side / 2.5, length: Side / 2.5, chamferRadius: 0.0)
+            NeedsRotation = false
+            
+            case .Cones:
+                Geo = SCNCone(topRadius: 0.0, bottomRadius: Side * 0.8, height: Height * HeightMultiplier)
+            
+            case .Pyramids:
+                Geo = SCNPyramid(width: Side * 0.8, height: Side * 0.8, length: Height * HeightMultiplier)
+                NeedsRotation = false
+            
+            case .Lines:
+                Geo = SCNBox(width: 0.08, height: 0.08, length: Height * HeightMultiplier, chamferRadius: 0.0)
+                NeedsRotation = false
+            
+            case .Capsules:
+                Geo = SCNCapsule(capRadius: Side * 0.1, height: Height * HeightMultiplier)
+            
+            default:
+                fatalError("Unexpected shape found in MakeSphereWithOtherShape.")
+        }
+        Geo?.firstMaterial?.specular.contents = NSColor.white
+        Geo?.firstMaterial?.diffuse.contents = Color
+        Geo?.firstMaterial?.lightingModel = Model
+        let OtherNode = SCNNode(geometry: Geo)
+        if NeedsRotation
+        {
+            OtherNode.eulerAngles = SCNVector3(90.0 * CGFloat.pi / 180.0, 0.0, 0.0)
+        }
+        Node.addChildNode(OtherNode)
+        
+        return Node
+    }
+    
     public static func MakeCombinedShape(Shape: Shapes, Side: CGFloat, AtX: Int, AtY: Int,
                                          Height: CGFloat, Color: NSColor, Model: SCNMaterial.LightingModel) -> PSCNNode?
     {
@@ -362,6 +413,11 @@ extension Generator
             
             case .BlockBases:
                 Parent.addChildNode(MakeBlockWithOtherShape(Shape: .BlockBases, Side: Side,
+                                                            AtX: AtX, AtY: AtY, Height: Height,
+                                                            Color: Color, Model: Model)!)
+            
+            case .SphereBases:
+                Parent.addChildNode(MakeSphereWithOtherShape(Shape: .BlockBases, Side: Side,
                                                             AtX: AtX, AtY: AtY, Height: Height,
                                                             Color: Color, Model: Model)!)
             
