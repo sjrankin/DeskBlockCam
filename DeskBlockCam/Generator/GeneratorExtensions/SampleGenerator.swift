@@ -247,7 +247,8 @@ extension Generator
             }
             
             case .RadiatingLines:
-                break
+                Sample = MakeCombinedShape(Shape: .RadiatingLines, Side: Side, AtX: 0, AtY: 0,
+                                           Height: Height, Color: Color, Model: GetLightModel())
             
             case .Rectangles:
                 Sample = Make2DShape(Shape: .Rectangles, Side: Side, AtX: 0, AtY: 0, Height: Height,
@@ -285,6 +286,8 @@ extension Generator
                                      Color: Color, ZLocation: &ZLocation)
             
             case .StackedShapes:
+                Sample = MakeCombinedShape(Shape: .StackedShapes, Side: Side, AtX: 0, AtY: 0,
+                                           Height: Height, Color: Color, Model: GetLightModel())
                 break
             
             case .Stars:
