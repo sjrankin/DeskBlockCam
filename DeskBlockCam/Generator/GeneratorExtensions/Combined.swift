@@ -274,6 +274,64 @@ extension Generator
         return Node
     }
     
+    public static func MakeBlockWithOtherShape(Shape: Shapes, Side: CGFloat, AtX: Int, AtY: Int,
+                                               Height: CGFloat, Color: NSColor, Model: SCNMaterial.LightingModel) -> PSCNNode?
+    {
+        let Other = Settings.GetEnum(ForKey: .BlockWithShape, EnumType: Shapes.self, Default: Shapes.Cones)
+        let ChamferSetting = Settings.GetEnum(ForKey: .BlockChamfer, EnumType: BlockChamferSizes.self,
+                                              Default: BlockChamferSizes.None)
+        let Chamfer = BlockOptionalParameters.ChamferSize(From: ChamferSetting)
+        let BlockGeo = SCNBox(width: Side, height: Side, length: Height, chamferRadius: Chamfer)
+        BlockGeo.firstMaterial?.diffuse.contents = Color
+        BlockGeo.firstMaterial?.specular.contents = NSColor.white
+        BlockGeo.firstMaterial?.lightingModel = Model
+        let Node = PSCNNode()
+        Node.X = AtX
+        Node.Y = AtY
+        Node.addChildNode(SCNNode(geometry: BlockGeo))
+        var Geo: SCNGeometry? = nil
+        var NeedsRotation = true
+        var OtherPosition = SCNVector3(0.0, 0.0, 0.0)
+        let HeightMultiplier: CGFloat = 1.5
+        switch Other
+        {
+            case .Cones:
+                Geo = SCNCone(topRadius: 0.0, bottomRadius: Side * 0.8, height: Height * HeightMultiplier)
+            
+            case .Pyramids:
+                Geo = SCNPyramid(width: Side * 0.8, height: Side * 0.8, length: Height * HeightMultiplier)
+                NeedsRotation = false
+            
+            case .Lines:
+                Geo = SCNBox(width: 0.08, height: 0.08, length: Height * HeightMultiplier, chamferRadius: 0.0)
+                NeedsRotation = false
+            
+            case .Spheres:
+                let SphereRadiusMultiplier: CGFloat = 0.4
+                Geo = SCNSphere(radius: Side * SphereRadiusMultiplier)
+                NeedsRotation = false
+                OtherPosition = SCNVector3(0.0, 0.0, Height - Side * 1.5)
+            
+            case .Capsules:
+                Geo = SCNCapsule(capRadius: Side * 0.1, height: Height * HeightMultiplier)
+            
+            default:
+                fatalError("Unexpected shape found in MakeBlockWithOtherShape.")
+        }
+        Geo?.firstMaterial?.specular.contents = NSColor.white
+        Geo?.firstMaterial?.diffuse.contents = Color
+        Geo?.firstMaterial?.lightingModel = Model
+        let OtherNode = SCNNode(geometry: Geo)
+        if NeedsRotation
+        {
+            OtherNode.eulerAngles = SCNVector3(90.0 * CGFloat.pi / 180.0, 0.0, 0.0)
+        }
+        OtherNode.position = OtherPosition
+        Node.addChildNode(OtherNode)
+        
+        return Node
+    }
+    
     public static func MakeCombinedShape(Shape: Shapes, Side: CGFloat, AtX: Int, AtY: Int,
                                          Height: CGFloat, Color: NSColor, Model: SCNMaterial.LightingModel) -> PSCNNode?
     {
@@ -293,12 +351,19 @@ extension Generator
                 Parent.addChildNode(MakeRadiatingLines(Side: Side, Color: Color, Model: Model)!)
             
             case .PerpendicularCircles:
-                Parent.addChildNode(MakePerpendicularShape(Shape: .PerpendicularCircles, Side: Side, AtX: AtX, AtY: AtY,
+                Parent.addChildNode(MakePerpendicularShape(Shape: .PerpendicularCircles, Side: Side,
+                                                           AtX: AtX, AtY: AtY,
                                                            Height: Height, Color: Color, Model: Model)!)
             
             case .PerpendicularSquares:
-                Parent.addChildNode(MakePerpendicularShape(Shape: .PerpendicularSquares, Side: Side, AtX: AtX, AtY: AtY,
+                Parent.addChildNode(MakePerpendicularShape(Shape: .PerpendicularSquares, Side: Side,
+                                                           AtX: AtX, AtY: AtY,
                                                            Height: Height, Color: Color, Model: Model)!)
+            
+            case .BlockBases:
+                Parent.addChildNode(MakeBlockWithOtherShape(Shape: .BlockBases, Side: Side,
+                                                            AtX: AtX, AtY: AtY, Height: Height,
+                                                            Color: Color, Model: Model)!)
             
             default:
                 return nil
