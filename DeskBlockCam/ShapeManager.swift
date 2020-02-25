@@ -28,7 +28,8 @@ class ShapeManager
                                                       Shapes.Polygons2D.rawValue, Shapes.Stars2D.rawValue]),
             ShapeCategory(Name: "Combined", Shapes: [Shapes.CappedLines.rawValue, Shapes.StackedShapes.rawValue,
                                                      Shapes.PerpendicularSquares.rawValue, Shapes.PerpendicularCircles.rawValue,
-                                                     Shapes.ComponentVariable.rawValue, Shapes.RadiatingLines.rawValue]),
+                                                     Shapes.ComponentVariable.rawValue, Shapes.RadiatingLines.rawValue,
+                                                     Shapes.BlockBases.rawValue]),
             ShapeCategory(Name: "Complex", Shapes: [Shapes.HueTriangles.rawValue])
     ]
     
@@ -202,6 +203,7 @@ enum Shapes: String, CaseIterable
     case PerpendicularSquares = "Perpendicular Squares"
     case PerpendicularCircles = "Perpendicular Circles"
         case RadiatingLines = "Radiating Lines"
+    case BlockBases = "Blocks+"
     
     //Variable shapes.
     case ComponentVariable = "Component Varying"
