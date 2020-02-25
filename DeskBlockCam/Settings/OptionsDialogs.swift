@@ -156,6 +156,9 @@ extension ShapeOptionsCode
             case .BlockBases:
                 (OptionMap[Shapes.BlockBases]!.Controller as? BlocksWithOptionsCode)?.SetShape(.BlockBases)
             
+            case .SphereBases:
+                (OptionMap[Shapes.SphereBases]!.Controller as? SpheresWithOptionsCode)?.SetShape(.SphereBases)
+            
             case .NoShape:
                 break
         }
@@ -174,6 +177,10 @@ extension ShapeOptionsCode
         OptionMap[Shapes.BlockBases] = OptionEntry(CreateOptionDialog("BlocksWithOptions"))
         self.addChild(OptionMap[Shapes.BlockBases]!.Controller!)
         (OptionMap[Shapes.BlockBases]!.Controller as? BlocksWithOptionsCode)?.Delegate = self
+        
+        OptionMap[Shapes.SphereBases] = OptionEntry(CreateOptionDialog("SpheresWithOptions"))
+        self.addChild(OptionMap[Shapes.SphereBases]!.Controller!)
+        (OptionMap[Shapes.SphereBases]!.Controller as? SpheresWithOptionsCode)?.Delegate = self
         
         OptionMap[Shapes.Capsules] = OptionEntry(CreateOptionDialog("NoOptions"))
         self.addChild(OptionMap[Shapes.Capsules]!.Controller!)
