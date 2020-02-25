@@ -29,7 +29,7 @@ class ShapeManager
             ShapeCategory(Name: "Combined", Shapes: [Shapes.CappedLines.rawValue, Shapes.StackedShapes.rawValue,
                                                      Shapes.PerpendicularSquares.rawValue, Shapes.PerpendicularCircles.rawValue,
                                                      Shapes.ComponentVariable.rawValue, Shapes.RadiatingLines.rawValue,
-                                                     Shapes.BlockBases.rawValue]),
+                                                     Shapes.BlockBases.rawValue, Shapes.SphereBases.rawValue]),
             ShapeCategory(Name: "Complex", Shapes: [Shapes.HueTriangles.rawValue])
     ]
     
@@ -204,6 +204,7 @@ enum Shapes: String, CaseIterable
     case PerpendicularCircles = "Perpendicular Circles"
         case RadiatingLines = "Radiating Lines"
     case BlockBases = "Blocks+"
+    case SphereBases = "Spheres+"
     
     //Variable shapes.
     case ComponentVariable = "Component Varying"
