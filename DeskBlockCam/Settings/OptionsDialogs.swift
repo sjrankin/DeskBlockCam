@@ -153,6 +153,9 @@ extension ShapeOptionsCode
                 (OptionMap[Shapes.Capsules]!.Controller as? NoOptionsCode)?.SetShape(.Capsules)
                 (OptionMap[Shapes.Capsules]!.Controller as? NoOptionsCode)?.SetCaption("Capsule shapes. No options available.")
             
+            case .BlockBases:
+                (OptionMap[Shapes.BlockBases]!.Controller as? BlocksWithOptionsCode)?.SetShape(.BlockBases)
+            
             case .NoShape:
                 break
         }
@@ -167,6 +170,10 @@ extension ShapeOptionsCode
         OptionMap[Shapes.NoShape] = OptionEntry(CreateOptionDialog("NoOptions"))
         self.addChild(OptionMap[Shapes.NoShape]!.Controller!)
         (OptionMap[Shapes.NoShape]!.Controller as? NoOptionsCode)?.Delegate = self
+        
+        OptionMap[Shapes.BlockBases] = OptionEntry(CreateOptionDialog("BlocksWithOptions"))
+        self.addChild(OptionMap[Shapes.BlockBases]!.Controller!)
+        (OptionMap[Shapes.BlockBases]!.Controller as? BlocksWithOptionsCode)?.Delegate = self
         
         OptionMap[Shapes.Capsules] = OptionEntry(CreateOptionDialog("NoOptions"))
         self.addChild(OptionMap[Shapes.Capsules]!.Controller!)
