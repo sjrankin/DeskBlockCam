@@ -77,7 +77,7 @@ extension Generator
     
     public static func MakeCappedLines(Side: CGFloat, Color: NSColor, Height: CGFloat, Model: SCNMaterial.LightingModel) -> PSCNNode?
     {
-        var CapLocation = Settings.GetEnum(ForKey: .CapLocation, EnumType: CapLocations.self,
+        let CapLocation = Settings.GetEnum(ForKey: .CapLocation, EnumType: CapLocations.self,
                                            Default: CapLocations.Top)
         let Node = PSCNNode()
         let Shape1 = SCNCylinder(radius: 0.1, height: Height * 2.0)
@@ -194,6 +194,44 @@ extension Generator
         return Node
     }
     
+    public static func MakeTouchingTriangles(Shape: Shapes, Side: CGFloat, AtX: Int, AtY: Int,
+                                             Height: CGFloat, Color: NSColor,
+                                             Model: SCNMaterial.LightingModel) -> PSCNNode?
+    {
+        let Node = PSCNNode()
+        Node.X = AtX
+        Node.Y = AtY
+        
+        let T1Geo = SCNTriangle.Geometry(A: 0.05, B: 0.05, C: 0.05, Scale: 1.0)
+        T1Geo.firstMaterial?.diffuse.contents = Color
+        T1Geo.firstMaterial?.specular.contents = NSColor.white
+        T1Geo.firstMaterial?.lightingModel = Model
+        let T1 = SCNNode(geometry: T1Geo)
+        T1.position = SCNVector3(0.0, 0.0, 0.0)
+        T1.eulerAngles = SCNVector3(0.0, 0.0, 90.0 * CGFloat.pi / 180.0)
+        
+        let T2Geo = SCNTriangle.Geometry(A: 0.05, B: 0.05, C: 0.05, Scale: 1.0)
+        T2Geo.firstMaterial?.diffuse.contents = Color
+        T2Geo.firstMaterial?.specular.contents = NSColor.white
+        T2Geo.firstMaterial?.lightingModel = Model
+        let T2 = SCNNode(geometry: T2Geo)
+        T2.position = SCNVector3(0.0, 0.0, 0.0)
+        T2.eulerAngles = SCNVector3(120.0 * CGFloat.pi / 180.0, 0.0, 90 * CGFloat.pi / 120.0)
+        
+        let T3Geo = SCNTriangle.Geometry(A: 0.05, B: 0.05, C: 0.05, Scale: 1.0)
+        T3Geo.firstMaterial?.diffuse.contents = Color
+        T3Geo.firstMaterial?.specular.contents = NSColor.white
+        T3Geo.firstMaterial?.lightingModel = Model
+        let T3 = SCNNode(geometry: T3Geo)
+        T3.position = SCNVector3(0.0, 0.0, 0.0)
+        T3.eulerAngles = SCNVector3(240.0 * CGFloat.pi / 180.0, 0.0, 90 * CGFloat.pi / 240.0)
+        
+        Node.addChildNode(T1)
+        Node.addChildNode(T2)
+        Node.addChildNode(T3)
+        return Node
+    }
+    
     public static func MakePerpendicularShape(Shape: Shapes, Side: CGFloat, AtX: Int, AtY: Int,
                                               Height: CGFloat, Color: NSColor, Model: SCNMaterial.LightingModel) -> PSCNNode?
     {
@@ -202,15 +240,17 @@ extension Generator
         Node.Y = AtY
         var Shape1: SCNGeometry? = nil
         var Shape2: SCNGeometry? = nil
+        var RotateSecondShape = false
         switch Shape
         {
             case .PerpendicularCircles:
                 Shape1 = SCNCylinder(radius: 0.25, height: 0.05)
                 Shape2 = SCNCylinder(radius: 0.25, height: 0.05)
+                RotateSecondShape = true
             
             case .PerpendicularSquares:
                 Shape1 = SCNBox(width: 0.25 * 2.0, height: 0.05, length: 0.25 * 2.0, chamferRadius: 0.0)
-                Shape2 = SCNBox(width: 0.25 * 2.0, height: 0.05, length: 0.25 * 2.0, chamferRadius: 0.0)
+                Shape2 = SCNBox(width: 0.25 * 2.0, height: 0.25 * 2.0, length: 0.05, chamferRadius: 0.0)
             
             default:
                 return nil
@@ -226,6 +266,10 @@ extension Generator
         Shape2?.firstMaterial?.lightingModel = GetLightModel()
         let Node2 = SCNNode(geometry: Shape2)
         Node2.position = SCNVector3(0.0, 0.0, 0.0)
+        if RotateSecondShape
+        {
+            Node2.eulerAngles = SCNVector3(90.0 * CGFloat.pi / 180.0, 0.0, 0.0)
+        }
         Node.addChildNode(Node1)
         Node.addChildNode(Node2)
         Node.rotation = SCNVector4(0.0, 1.0, 0.0, 90.0 * CGFloat.pi / 180.0)
@@ -299,8 +343,7 @@ extension Generator
                 Geo = SCNCone(topRadius: 0.0, bottomRadius: Side * 0.8, height: Height * HeightMultiplier)
             
             case .Pyramids:
-                Geo = SCNPyramid(width: Side * 0.8, height: Side * 0.8, length: Height * HeightMultiplier)
-                NeedsRotation = false
+                Geo = SCNPyramid(width: Side * 0.8, height: Height * HeightMultiplier, length: Side * 0.8)
             
             case .Lines:
                 Geo = SCNBox(width: 0.08, height: 0.08, length: Height * HeightMultiplier, chamferRadius: 0.0)
@@ -333,7 +376,7 @@ extension Generator
     }
     
     public static func MakeSphereWithOtherShape(Shape: Shapes, Side: CGFloat, AtX: Int, AtY: Int,
-                                               Height: CGFloat, Color: NSColor, Model: SCNMaterial.LightingModel) -> PSCNNode?
+                                                Height: CGFloat, Color: NSColor, Model: SCNMaterial.LightingModel) -> PSCNNode?
     {
         let SGeo = SCNSphere(radius: Side / 2.0)
         SGeo.firstMaterial?.diffuse.contents = Color
@@ -343,29 +386,35 @@ extension Generator
         Node.X = AtX
         Node.Y = AtY
         Node.addChildNode(SCNNode(geometry: SGeo))
+        let BaseZ: CGFloat = 0.0
+        Node.position = SCNVector3(0.0, 0.0, BaseZ)
         var Geo: SCNGeometry? = nil
         var NeedsRotation = true
-        let HeightMultiplier: CGFloat = 1.5
-                let Other = Settings.GetEnum(ForKey: .SphereWithShape, EnumType: Shapes.self, Default: Shapes.Cones)
+        var Position = SCNVector3(0.0, 0.0, 0.0)
+        let Other = Settings.GetEnum(ForKey: .SphereWithShape, EnumType: Shapes.self, Default: Shapes.Cones)
         switch Other
         {
             case .Blocks:
                 Geo = SCNBox(width: Side / 2.5, height: Side / 2.5, length: Side / 2.5, chamferRadius: 0.0)
-            NeedsRotation = false
+                NeedsRotation = false
+                Position = SCNVector3(0.0, 0.0, Side * 0.55 + BaseZ)
             
             case .Cones:
-                Geo = SCNCone(topRadius: 0.0, bottomRadius: Side * 0.8, height: Height * HeightMultiplier)
+                Geo = SCNCone(topRadius: 0.0, bottomRadius: Side * 0.4, height: Side * 2.0)
+                Position = SCNVector3(0.0, 0.0, Side + BaseZ)
             
             case .Pyramids:
-                Geo = SCNPyramid(width: Side * 0.8, height: Side * 0.8, length: Height * HeightMultiplier)
-                NeedsRotation = false
+                Geo = SCNPyramid(width: Side * 0.4, height: Side * 2.0, length: Side * 0.4)
+                Position = SCNVector3(0.0, 0.0, Side + BaseZ)
             
             case .Lines:
-                Geo = SCNBox(width: 0.08, height: 0.08, length: Height * HeightMultiplier, chamferRadius: 0.0)
+                Geo = SCNBox(width: 0.08, height: 0.08, length: Side * 2.0, chamferRadius: 0.0)
                 NeedsRotation = false
+                Position = SCNVector3(0.0, 0.0, Side + BaseZ)
             
             case .Capsules:
-                Geo = SCNCapsule(capRadius: Side * 0.1, height: Height * HeightMultiplier)
+                Geo = SCNCapsule(capRadius: Side * 0.35, height: Side * 2.0)
+                Position = SCNVector3(0.0, 0.0, Side + BaseZ)
             
             default:
                 fatalError("Unexpected shape found in MakeSphereWithOtherShape.")
@@ -374,6 +423,7 @@ extension Generator
         Geo?.firstMaterial?.diffuse.contents = Color
         Geo?.firstMaterial?.lightingModel = Model
         let OtherNode = SCNNode(geometry: Geo)
+        OtherNode.position = Position
         if NeedsRotation
         {
             OtherNode.eulerAngles = SCNVector3(90.0 * CGFloat.pi / 180.0, 0.0, 0.0)
@@ -411,6 +461,11 @@ extension Generator
                                                            AtX: AtX, AtY: AtY,
                                                            Height: Height, Color: Color, Model: Model)!)
             
+            case .ThreeTriangles:
+                Parent.addChildNode(MakeTouchingTriangles(Shape: .ThreeTriangles, Side: Side,
+                                                          AtX: AtX, AtY: AtY, Height: Height,
+                                                          Color: Color, Model: Model)!)
+            
             case .BlockBases:
                 Parent.addChildNode(MakeBlockWithOtherShape(Shape: .BlockBases, Side: Side,
                                                             AtX: AtX, AtY: AtY, Height: Height,
@@ -418,8 +473,8 @@ extension Generator
             
             case .SphereBases:
                 Parent.addChildNode(MakeSphereWithOtherShape(Shape: .BlockBases, Side: Side,
-                                                            AtX: AtX, AtY: AtY, Height: Height,
-                                                            Color: Color, Model: Model)!)
+                                                             AtX: AtX, AtY: AtY, Height: Height,
+                                                             Color: Color, Model: Model)!)
             
             default:
                 return nil
