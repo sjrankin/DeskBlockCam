@@ -30,6 +30,10 @@ extension Generator
                 let Geo = SCNCylinder(radius: Side * 0.85, height: 0.05)
                 Node = PSCNNode(geometry: Geo, X: AtX, Y: AtY)
             
+            case .Triangles2D:
+                let Geo = SCNTriangle.Geometry(A: 0.05, B: 0.05, C: 0.05, Scale: 1.0)
+                Node = PSCNNode(geometry: Geo, X: AtX, Y: AtY)
+            
             case .Stars2D:
                 let Dim = Double(Side * 1.5)
                 var ApexCount = Settings.GetInteger(ForKey: .StarApexCount)
