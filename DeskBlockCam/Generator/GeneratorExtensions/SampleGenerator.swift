@@ -38,6 +38,10 @@ extension Generator
                 Sample = MakeBlockWithOtherShape(Shape: .BlockBases, Side: Side, AtX: 0, AtY: 0,
                                                  Height: Height, Color: Color, Model: GetLightModel())
             
+            case .SphereBases:
+                Sample = MakeSphereWithOtherShape(Shape: .SphereBases, Side: Side, AtX: 0, AtY: 0,
+                                                  Height: Height, Color: Color, Model: GetLightModel())
+            
             case .Characters:
                 var FinalScale: Double = 0.0
                 let Geo = GenerateCharacterFromSet(Prominence: Height, FinalScale: &FinalScale)
@@ -312,6 +316,10 @@ extension Generator
             case .Stars2D:
                 Sample = Make2DShape(Shape: .Stars2D, Side: Side, AtX: 0, AtY: 0, Height: Height,
                                      Color: Color, ZLocation: &ZLocation)
+            
+            case .ThreeTriangles:
+                Sample = MakeTouchingTriangles(Shape: .ThreeTriangles, Side: Side, AtX: 0, AtY: 0,
+                                               Height: Height, Color: Color, Model: GetLightModel())
             
             case .Triangles:
                 let Geo = MakeNonStandardShape(Shape: .Triangles, Side: Side, AtX: 0, AtY: 0,
