@@ -257,8 +257,10 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
             case .CappedLines:
                 let Location = Settings.GetEnum(ForKey: .CapLocation, EnumType: CapLocations.self, Default: CapLocations.Top)
                 let CapShape = Settings.GetEnum(ForKey: .CapShape, EnumType: Shapes.self, Default: Shapes.Spheres)
+                let LineColor = Settings.GetEnum(ForKey: .CappedLineLineColor, EnumType: CappedLineLineColors.self, Default: CappedLineLineColors.Same)
                 Current[1].ValueItems.append(ValueItem(Description: "Location", Value: Location.rawValue))
                 Current[1].ValueItems.append(ValueItem(Description: "Shape", Value: CapShape.rawValue))
+                Current[1].ValueItems.append(ValueItem(Description: "Line color", Value: LineColor.rawValue))
             
             case .Characters:
                 let CharSet = Settings.GetEnum(ForKey: .CharacterSet, EnumType: CharacterSets.self, Default: CharacterSets.Latin)
@@ -312,6 +314,10 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
             
             case .BlockBases:
                 let ExShape = Settings.GetEnum(ForKey: .BlockWithShape, EnumType: Shapes.self, Default: Shapes.Cones)
+                Current[1].ValueItems.append(ValueItem(Description: "Extruded shape", Value: ExShape.rawValue))
+            
+            case .SphereBases:
+                let ExShape = Settings.GetEnum(ForKey: .SphereWithShape, EnumType: Shapes.self, Default: Shapes.Cones)
                 Current[1].ValueItems.append(ValueItem(Description: "Extruded shape", Value: ExShape.rawValue))
             
             default:
