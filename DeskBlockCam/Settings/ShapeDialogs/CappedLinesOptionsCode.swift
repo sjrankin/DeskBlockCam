@@ -57,6 +57,15 @@ class CappedLinesOptionsCode: NSViewController, ToOptionsDialogProtocol
             default:
                 CapShapeCombo.selectItem(withObjectValue: Shapes.Spheres.rawValue)
         }
+        let LineColor = Settings.GetEnum(ForKey: .CappedLineLineColor, EnumType: CappedLineLineColors.self,
+                                         Default: CappedLineLineColors.Same)
+        for (Index, Color) in LineColorMap
+        {
+            if Color == LineColor
+            {
+                LineColorSegment.selectedSegment = Index
+            }
+        }
     }
     
     var NewCaption: String = ""
@@ -110,8 +119,29 @@ class CappedLinesOptionsCode: NSViewController, ToOptionsDialogProtocol
         }
     }
     
+    @IBAction func HandleLineColorChanged(_ sender: Any)
+    {
+        let Index = LineColorSegment.selectedSegment
+        if Index >= LineColorMap.count
+        {
+            return
+        }
+        Settings.SetEnum(LineColorMap[Index]!, EnumType: CappedLineLineColors.self, ForKey: .CappedLineLineColor)
+        Delegate?.UpdateCurrent(With: CurrentShape)
+    }
+    
+    let LineColorMap =
+        [
+            0: CappedLineLineColors.Same,
+            1: CappedLineLineColors.Black,
+            2: CappedLineLineColors.White,
+            3: CappedLineLineColors.Darker,
+            4: CappedLineLineColors.Lighter
+    ]
+    
     var CurrentShape: Shapes = .NoShape
     
+    @IBOutlet weak var LineColorSegment: NSSegmentedControl!
     @IBOutlet weak var ShapeLocationSegment: NSSegmentedControl!
     @IBOutlet weak var CapShapeCombo: NSComboBox!
     @IBOutlet weak var Caption: NSTextField!
