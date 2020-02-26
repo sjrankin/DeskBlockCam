@@ -97,6 +97,10 @@ extension ShapeOptionsCode
             case .PerpendicularSquares:
                 (OptionMap[Shapes.PerpendicularSquares]!.Controller as? NoOptionsCode)?.SetShape(.PerpendicularSquares)
                 (OptionMap[Shapes.PerpendicularSquares]!.Controller as? NoOptionsCode)?.SetCaption("Two Squares arranged 90° from each other. No options available.")
+ 
+            case .ThreeTriangles:
+                (OptionMap[Shapes.PerpendicularCircles]!.Controller as? NoOptionsCode)?.SetShape(.ThreeTriangles)
+                (OptionMap[Shapes.PerpendicularCircles]!.Controller as? NoOptionsCode)?.SetCaption("Three triangles arranged at 120° from each other.")
             
             case .Pyramids:
                 (OptionMap[Shapes.Pyramids]!.Controller as? NoOptionsCode)?.SetShape(.Pyramids)
@@ -225,6 +229,10 @@ extension ShapeOptionsCode
         OptionMap[Shapes.PerpendicularCircles] = OptionEntry(CreateOptionDialog("NoOptions"))
         self.addChild(OptionMap[Shapes.PerpendicularCircles]!.Controller!)
         (OptionMap[Shapes.PerpendicularCircles]!.Controller as? NoOptionsCode)?.Delegate = self
+        
+        OptionMap[Shapes.ThreeTriangles] = OptionEntry(CreateOptionDialog("NoOptions"))
+        self.addChild(OptionMap[Shapes.ThreeTriangles]!.Controller!)
+        (OptionMap[Shapes.ThreeTriangles]!.Controller as? NoOptionsCode)?.Delegate = self
         
         OptionMap[Shapes.Pyramids] = OptionEntry(CreateOptionDialog("NoOptions"))
         self.addChild(OptionMap[Shapes.Pyramids]!.Controller!)
