@@ -37,7 +37,7 @@ class StackedShapesOptionCode: NSViewController, NSTableViewDelegate,
         {
             ShapeList.append(String(Part))
         }
-        
+        ShapeTable.reloadData()
     }
     
     var ShapeList = [String]()
