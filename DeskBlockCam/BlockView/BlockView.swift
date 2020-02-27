@@ -217,18 +217,18 @@ class BlockView: SCNView
     
     private var PreviouslyProcessedImage: NSImage? = nil
     
-    func XProcessImage(_ Image: NSImage)
+    func ProcessImage(_ Image: NSImage)
     {
         DispatchQueue.global(qos: .background).async
             {
-                //self.DoProcessImage(Image)
+                self.DoProcessImage(Image)
         }
     }
     
     /// Process the passed image then display the result.
     /// - Parameter Image: The image to process.
     /// - Parameter Options: Determines how the image is processd.
-    func ProcessImage(_ Image: NSImage)
+    func DoProcessImage(_ Image: NSImage)
     {
         if InLiveViewMode
         {
@@ -310,9 +310,9 @@ class BlockView: SCNView
         StatusDelegate?.UpdateStatus(With: .CreatingDone)
         let AfterShapes = CACurrentMediaTime() - Start
         StatusDelegate?.UpdateDuration(NewDuration: AfterShapes)
-        
-        scene?.rootNode.addChildNode(MasterNode!)
         #if false
+        scene?.rootNode.addChildNode(MasterNode!)
+        #else
         self.StatusDelegate?.UpdateStatus(With: .AddingShapes)
         prepare([MasterNode!])
         {
