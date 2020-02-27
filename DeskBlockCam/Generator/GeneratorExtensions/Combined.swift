@@ -201,6 +201,7 @@ extension Generator
         let Node = PSCNNode()
         Node.X = AtX
         Node.Y = AtY
+        let SidesTouch = Settings.GetBoolean(ForKey: .SidesTouch)
         
         let T1Geo = SCNTriangle.Geometry(A: 0.05, B: 0.05, C: 0.05, Scale: 1.0)
         T1Geo.firstMaterial?.diffuse.contents = Color
@@ -208,7 +209,14 @@ extension Generator
         T1Geo.firstMaterial?.lightingModel = Model
         let T1 = SCNNode(geometry: T1Geo)
         T1.position = SCNVector3(0.0, 0.0, 0.0)
-        T1.eulerAngles = SCNVector3(0.0, 0.0, 90.0 * CGFloat.pi / 180.0)
+        if SidesTouch
+        {
+            T1.eulerAngles = SCNVector3(0.0, 0.0, 90.0 * CGFloat.pi / 180.0)
+        }
+        else
+        {
+            T1.eulerAngles = SCNVector3(0.0 * CGFloat.pi / 180.0, 0.0, 90.0 * CGFloat.pi / 180.0)
+        }
         
         let T2Geo = SCNTriangle.Geometry(A: 0.05, B: 0.05, C: 0.05, Scale: 1.0)
         T2Geo.firstMaterial?.diffuse.contents = Color
@@ -216,7 +224,14 @@ extension Generator
         T2Geo.firstMaterial?.lightingModel = Model
         let T2 = SCNNode(geometry: T2Geo)
         T2.position = SCNVector3(0.0, 0.0, 0.0)
-        T2.eulerAngles = SCNVector3(120.0 * CGFloat.pi / 180.0, 0.0, 90 * CGFloat.pi / 120.0)
+        if SidesTouch
+        {
+            T2.eulerAngles = SCNVector3(120.0 * CGFloat.pi / 180.0, 0.0, 90 * CGFloat.pi / 180.0)
+        }
+        else
+        {
+            T2.eulerAngles = SCNVector3(0.0 * CGFloat.pi / 180.0, 120.0 * CGFloat.pi / 180.0, 90.0 * CGFloat.pi / 180.0)
+        }
         
         let T3Geo = SCNTriangle.Geometry(A: 0.05, B: 0.05, C: 0.05, Scale: 1.0)
         T3Geo.firstMaterial?.diffuse.contents = Color
@@ -224,11 +239,20 @@ extension Generator
         T3Geo.firstMaterial?.lightingModel = Model
         let T3 = SCNNode(geometry: T3Geo)
         T3.position = SCNVector3(0.0, 0.0, 0.0)
-        T3.eulerAngles = SCNVector3(240.0 * CGFloat.pi / 180.0, 0.0, 90 * CGFloat.pi / 240.0)
+        if SidesTouch
+        {
+            T3.eulerAngles = SCNVector3(240.0 * CGFloat.pi / 180.0, 0.0, 90 * CGFloat.pi / 180.0)
+        }
+        else
+        {
+            T3.eulerAngles = SCNVector3(0.0 * CGFloat.pi / 180.0, 240.0 * CGFloat.pi / 180.0, 90.0 * CGFloat.pi / 180.0)
+        }
         
         Node.addChildNode(T1)
         Node.addChildNode(T2)
         Node.addChildNode(T3)
+        Node.eulerAngles = SCNVector3(0.0, 0.0, -90.0 * CGFloat.pi / 180.0)
+        Node.eulerAngles = SCNVector3(0.0, -90.0 * CGFloat.pi / 180.0, 0.0)
         return Node
     }
     
