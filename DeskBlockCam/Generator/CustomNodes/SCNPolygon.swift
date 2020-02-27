@@ -86,7 +86,6 @@ class SCNPolygon: SCNNode
             let Y = 0 * sin(Radians) + Radius * cos(Radians)
             Vertices.append(CGPoint(x: X, y: Y))
         }
-        #if true
         let NGonPath = NSBezierPath()
         NGonPath.move(to: Vertices[0])
         for Vertex in Vertices
@@ -95,16 +94,6 @@ class SCNPolygon: SCNNode
         }
         NGonPath.line(to: Vertices[0])
         NGonPath.close()
-        #else
-        let NGonPath = UIBezierPath()
-        NGonPath.move(to: Vertices[0])
-        for Vertex in Vertices
-        {
-            NGonPath.addLine(to: Vertex)
-        }
-        NGonPath.addLine(to: Vertices[0])
-        NGonPath.close()
-        #endif
         let NGonShape = SCNShape(path: NGonPath, extrusionDepth: Depth)
         return NGonShape
     }
