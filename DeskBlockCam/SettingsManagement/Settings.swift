@@ -79,13 +79,13 @@ class Settings
         UserDefaults.standard.set(Shapes.Blocks.rawValue, forKey: SettingKeys.HueShapes.rawValue)
         UserDefaults.standard.set(Shapes.Blocks.rawValue, forKey: SettingKeys.SaturationShapes.rawValue)
         UserDefaults.standard.set(Shapes.Blocks.rawValue, forKey: SettingKeys.BrightnessShapes.rawValue)
-                UserDefaults.standard.set(Shapes.Blocks.rawValue, forKey: SettingKeys.RedShapes.rawValue)
-                UserDefaults.standard.set(Shapes.Blocks.rawValue, forKey: SettingKeys.GreenShapes.rawValue)
-                UserDefaults.standard.set(Shapes.Blocks.rawValue, forKey: SettingKeys.BlueShapes.rawValue)
-                UserDefaults.standard.set(Shapes.Blocks.rawValue, forKey: SettingKeys.CyanShapes.rawValue)
-                UserDefaults.standard.set(Shapes.Blocks.rawValue, forKey: SettingKeys.MagentaShapes.rawValue)
-                UserDefaults.standard.set(Shapes.Blocks.rawValue, forKey: SettingKeys.YellowShapes.rawValue)
-                UserDefaults.standard.set(Shapes.Blocks.rawValue, forKey: SettingKeys.BlackShapes.rawValue)
+        UserDefaults.standard.set(Shapes.Blocks.rawValue, forKey: SettingKeys.RedShapes.rawValue)
+        UserDefaults.standard.set(Shapes.Blocks.rawValue, forKey: SettingKeys.GreenShapes.rawValue)
+        UserDefaults.standard.set(Shapes.Blocks.rawValue, forKey: SettingKeys.BlueShapes.rawValue)
+        UserDefaults.standard.set(Shapes.Blocks.rawValue, forKey: SettingKeys.CyanShapes.rawValue)
+        UserDefaults.standard.set(Shapes.Blocks.rawValue, forKey: SettingKeys.MagentaShapes.rawValue)
+        UserDefaults.standard.set(Shapes.Blocks.rawValue, forKey: SettingKeys.YellowShapes.rawValue)
+        UserDefaults.standard.set(Shapes.Blocks.rawValue, forKey: SettingKeys.BlackShapes.rawValue)
         UserDefaults.standard.set(VaryingComponents.Hue.rawValue, forKey: SettingKeys.VaryingComponent.rawValue)
         UserDefaults.standard.set(Shapes.Cones.rawValue, forKey: SettingKeys.BlockWithShape.rawValue)
         UserDefaults.standard.set(Shapes.Cones.rawValue, forKey: SettingKeys.SphereWithShape.rawValue)
@@ -115,13 +115,14 @@ class Settings
         UserDefaults.standard.set(1, forKey: SettingKeys.StartSequentialIntegerAt.rawValue)
         UserDefaults.standard.set(90.0, forKey: SettingKeys.LineZAngle.rawValue)
         UserDefaults.standard.set(LineThicknesses.Thin, forKey: SettingKeys.LineThickness.rawValue)
-
+        UserDefaults.standard.set(true, forKey: SettingKeys.SidesTouch.rawValue)
+        
         #if DEBUG
         UserDefaults.standard.set(true, forKey: SettingKeys.AddUserDataToExif.rawValue)
         UserDefaults.standard.set("Stuart Rankin", forKey: SettingKeys.UserName.rawValue)
         UserDefaults.standard.set("CC by Attribution", forKey: SettingKeys.UserCopyright.rawValue)
         UserDefaults.standard.set(true, forKey: SettingKeys.SaveUserName.rawValue)
-                UserDefaults.standard.set(true, forKey: SettingKeys.SaveUserCopyright.rawValue)
+        UserDefaults.standard.set(true, forKey: SettingKeys.SaveUserCopyright.rawValue)
         #else
         UserDefaults.standard.set(false, forKey: SettingKeys.AddUserDataToExif.rawValue)
         UserDefaults.standard.set("", forKey: SettingKeys.UserName.rawValue)
@@ -583,7 +584,8 @@ class Settings
             .AddUserDataToExif,
             .SaveUserName,
             .SaveUserCopyright,
-            .FullyExtrudeLetters
+            .FullyExtrudeLetters,
+            .SidesTouch
     ]
     
     /// Contains a list of all integer-type fields.
@@ -700,7 +702,7 @@ enum SettingKeys: String, CaseIterable, Comparable, Hashable
     //Block optional settings.
     /// String/Enum: Holds the chamfer value for blocks.
     case BlockChamfer = "BlockChamfer"
-
+    
     //Polygon optional settings.
     /// Integer: Holds the number of sides for a polygon.
     case PolygonSideCount = "PolygonSideCount"
@@ -748,18 +750,22 @@ enum SettingKeys: String, CaseIterable, Comparable, Hashable
     case BrightnessShapes = "BrightnessShapes"
     /// String: List of shapes for the red component.
     case RedShapes = "RedShapes"
-        /// String: List of shapes for the green component.
+    /// String: List of shapes for the green component.
     case GreenShapes = "GreenShapes"
-        /// String: List of shapes for the blue component.
+    /// String: List of shapes for the blue component.
     case BlueShapes = "BlueShapes"
-        /// String: List of shapes for the cyan component.
+    /// String: List of shapes for the cyan component.
     case CyanShapes = "CyanShapes"
-        /// String: List of shapes for the magenta component.
+    /// String: List of shapes for the magenta component.
     case MagentaShapes = "MagentaShapes"
-        /// String: List of shapes for the yellow component.
+    /// String: List of shapes for the yellow component.
     case YellowShapes = "YellowShapes"
-        /// String: List of shapes for the black component.
+    /// String: List of shapes for the black component.
     case BlackShapes = "BlackShapes"
+    
+    //Three triangle settings.
+    /// Boolean. If true, the sides of the three triangles touch. If false, an apex touches.
+    case SidesTouch = "SidesTouch"
     
     //Capped-line shape optional settings.
     /// String/Enum: The shape of the cap for the capped-line.
