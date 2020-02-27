@@ -120,9 +120,11 @@ class ShapeListUICode: NSViewController, NSOutlineViewDataSource,
     {
         ShapeViewer.scene = SCNScene()
         ShapeViewer.scene?.background.contents = NSColor.black
-        ShapeViewer.allowsCameraControl = false
+        ShapeViewer.allowsCameraControl = true
         let Camera = SCNCamera()
         Camera.fieldOfView = 90.0
+        Camera.zFar = 1000.0
+        Camera.zNear = 0.0
         let CameraNode = SCNNode()
         CameraNode.name = "Camera Node"
         CameraNode.camera = Camera
