@@ -22,7 +22,7 @@ class PolygonOptionsCode: NSViewController, ToOptionsDialogProtocol
             Caption.stringValue = NewCaption
         }
         let Count = GetPolygonSideCount()
-        SideCountSegment.selectedSegment = Count - 5
+        SideCountSegment.selectedSegment = Count - 3
         ShowSample(WithCount: Count)
     }
     
@@ -64,7 +64,7 @@ class PolygonOptionsCode: NSViewController, ToOptionsDialogProtocol
     
     @IBAction func HandleSideCountChanged(_ sender: Any)
     {
-        let Index = SideCountSegment.selectedSegment + 5
+        let Index = SideCountSegment.selectedSegment + 3
         var Setting = SettingKeys.PolygonSideCount
         if CurrentShape == .Polygons2D
         {
