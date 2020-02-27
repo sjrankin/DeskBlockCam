@@ -115,6 +115,7 @@
 		17B31D5223EFF74600C69257 /* SettingChangedProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B31D5123EFF74600C69257 /* SettingChangedProtocol.swift */; };
 		17B31D5423EFF9AE00C69257 /* AttributeFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B31D5323EFF9AE00C69257 /* AttributeFactory.swift */; };
 		17B31D5623EFFAAF00C69257 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B31D5523EFFAAF00C69257 /* Enums.swift */; };
+		17BF4FC4240631C8009A29E1 /* ThreeTrianglesOptionsCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BF4FC3240631C8009A29E1 /* ThreeTrianglesOptionsCode.swift */; };
 		17C9D40F240513B300EF3CAD /* SpheresWithOptionsCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C9D40E240513B300EF3CAD /* SpheresWithOptionsCode.swift */; };
 		17D5AD2723F3BE39006C295F /* AboutController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D5AD2623F3BE39006C295F /* AboutController.swift */; };
 		17D5AD2923F3BEA1006C295F /* AboutWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D5AD2823F3BEA1006C295F /* AboutWindow.swift */; };
@@ -251,6 +252,7 @@
 		17B31D5123EFF74600C69257 /* SettingChangedProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingChangedProtocol.swift; sourceTree = "<group>"; };
 		17B31D5323EFF9AE00C69257 /* AttributeFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributeFactory.swift; sourceTree = "<group>"; };
 		17B31D5523EFFAAF00C69257 /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
+		17BF4FC3240631C8009A29E1 /* ThreeTrianglesOptionsCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreeTrianglesOptionsCode.swift; sourceTree = "<group>"; };
 		17C9D40E240513B300EF3CAD /* SpheresWithOptionsCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpheresWithOptionsCode.swift; sourceTree = "<group>"; };
 		17D5AD2623F3BE39006C295F /* AboutController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutController.swift; sourceTree = "<group>"; };
 		17D5AD2823F3BEA1006C295F /* AboutWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutWindow.swift; sourceTree = "<group>"; };
@@ -324,6 +326,7 @@
 				172C06EF23ED318000313C3E /* StackedShapesOptionsCode.swift */,
 				172F1E5C24035DC500D87987 /* ComponentOptionCode.swift */,
 				17452EC423FA24AD004888EB /* ContainerController.swift */,
+				17BF4FC3240631C8009A29E1 /* ThreeTrianglesOptionsCode.swift */,
 				177BA8D52402469900ED9095 /* LinesOptionsCode.swift */,
 			);
 			path = ShapeDialogs;
@@ -664,6 +667,7 @@
 				17452EC523FA24AD004888EB /* ContainerController.swift in Sources */,
 				177BA8D62402469900ED9095 /* LinesOptionsCode.swift in Sources */,
 				172C06F223ED31DC00313C3E /* OptionsDialogs.swift in Sources */,
+				17BF4FC4240631C8009A29E1 /* ThreeTrianglesOptionsCode.swift in Sources */,
 				1717201323EBDF1600636F3C /* BlockView.swift in Sources */,
 				172C06EC23ED309800313C3E /* CharacterSetOptionsCode.swift in Sources */,
 				1740A3DC23EBFA4000E29C75 /* RadiatingLinesOptionalParameters.swift in Sources */,
