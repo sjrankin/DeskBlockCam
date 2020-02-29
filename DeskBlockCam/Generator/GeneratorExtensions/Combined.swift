@@ -319,11 +319,45 @@ extension Generator
         return Results
     }
     
-    public static func MakeStackedShape(Side: CGFloat, Height: CGFloat, Color: NSColor) -> PSCNNode?
+    public static func MakeStackedShape(Side: CGFloat, Height: CGFloat, Color: NSColor,
+                                        Model: SCNMaterial.LightingModel) -> PSCNNode?
     {
         let Node = PSCNNode()
         var ShapeList = [Shapes]()
-        let RawShapeList = Settings.GetString(ForKey: .StackedShapeList, Shapes.Blocks.rawValue)
+        var ListKey = SettingKeys.BrightnessShapes
+        switch Settings.GetEnum(ForKey: .VaryingComponent, EnumType: VaryingComponents.self, Default: VaryingComponents.Brightness)
+        {
+            case .Hue:
+                ListKey = .HueShapes
+            
+            case .Saturation:
+                ListKey = .SaturationShapes
+            
+            case .Brightness:
+                ListKey = .BrightnessShapes
+
+            case .Red:
+                ListKey = .RedShapes
+
+            case .Green:
+                ListKey = .GreenShapes
+
+            case .Blue:
+                ListKey = .BlueShapes
+
+            case .Cyan:
+                ListKey = .CyanShapes
+
+            case .Magenta:
+                ListKey = .MagentaShapes
+
+            case .Yellow:
+                ListKey = .YellowShapes
+
+            case .Black:
+                ListKey = .BlueShapes
+        }
+        let RawShapeList = Settings.GetString(ForKey: ListKey, Shapes.Blocks.rawValue)
         ShapeList = MakeShapeList(From: RawShapeList)
         var Index = 0
         let Count = Int((Height * 2.0 / Side)) + 1
@@ -469,8 +503,8 @@ extension Generator
             case .CappedLines:
                 Parent.addChildNode(MakeCappedLines(Side: Side, Color: Color, Height: Height, Model: Model)!)
             
-            case .StackedShapes:
-                Parent.addChildNode(MakeStackedShape(Side: Side, Height: Height, Color: Color)!)
+            case .ComponentVariable:
+                Parent.addChildNode(MakeStackedShape(Side: Side, Height: Height, Color: Color, Model: Model)!)
             
             case .RadiatingLines:
                 Parent.addChildNode(MakeRadiatingLines(Side: Side, Color: Color, Model: Model)!)
