@@ -237,7 +237,7 @@ class Generator
                 return TubeGeo
             
             case .Pyramids:
-                let PyGeo = SCNPyramid(width: Side * Height * 0.1, height: Height, length: Side * Height * 0.1)
+                let PyGeo = SCNPyramid(width: Side * Height * 0.1, height: Height / 3.0, length: Side * Height * 0.1)
                 return PyGeo
             
             case .Cylinders:
@@ -566,7 +566,52 @@ class Generator
                     EulerAngles = SCNVector3(90.0 * CGFloat.pi / 180.0, 0.0, 0.0)
             }
             
-            case .Tubes, .Cones, .Capsules, .CappedLines, .Pyramids, .Cylinders, .Circles:
+            case .Cylinders:
+                let Axis = Settings.GetEnum(ForKey: .CylinderAxis, EnumType: LongAxes.self, Default: .Z)
+                NeedsToRotate = true
+                switch Axis
+                {
+                    case .Z:
+                        EulerAngles = SCNVector3(90.0 * CGFloat.pi / 180.0, 0.0, 0.0)
+                    
+                    case .Y:
+                        EulerAngles = SCNVector3(0.0, 90.0 * CGFloat.pi / 180.0, 0.0)
+                    
+                    case .X:
+                        EulerAngles = SCNVector3(0.0, 0.0, 90.0 * CGFloat.pi / 180.0 )
+            }
+            
+            case .Lines:
+                let Axis = Settings.GetEnum(ForKey: .LineAxis, EnumType: LongAxes.self, Default: .Z)
+                NeedsToRotate = true
+                switch Axis
+                {
+                    case .Z:
+                        EulerAngles = SCNVector3(0.0, 0.0, 90.0 * CGFloat.pi / 180.0 )
+                    
+                    case .X:
+                        EulerAngles = SCNVector3(0.0, 90.0 * CGFloat.pi / 180.0, 0.0)
+                    
+                    case .Y:
+                        EulerAngles = SCNVector3(90.0 * CGFloat.pi / 180.0, 0.0, 0.0)
+            }
+            
+            case .Capsules:
+                let Axis = Settings.GetEnum(ForKey: .CapsuleAxis, EnumType: LongAxes.self, Default: .Z)
+                NeedsToRotate = true
+                switch Axis
+                {
+                    case .Z:
+                        EulerAngles = SCNVector3(90.0 * CGFloat.pi / 180.0, 0.0, 0.0)
+                    
+                    case .Y:
+                        EulerAngles = SCNVector3(0.0, 90.0 * CGFloat.pi / 180.0, 0.0)
+                    
+                    case .X:
+                        EulerAngles = SCNVector3(0.0, 0.0, 90.0 * CGFloat.pi / 180.0 )
+            }
+            
+            case .Tubes, .Cones, .CappedLines, .Pyramids, .Circles:
                 NeedsToRotate = true
                 EulerAngles = SCNVector3(90.0 * CGFloat.pi / 180.0, 0.0, 0.0)
             
