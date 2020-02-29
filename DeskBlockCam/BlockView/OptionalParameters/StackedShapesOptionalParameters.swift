@@ -11,6 +11,7 @@ import AppKit
 
 class StackedShapesOptionalParameters: OptionalParameters
 {
+    /*
     init()
     {
         super.init(WithShape: .StackedShapes)
@@ -57,4 +58,5 @@ class StackedShapesOptionalParameters: OptionalParameters
         let AsString = ProcessingAttributes.MakeShapeString(From: ShapeList)
         Settings.SetString(AsString, ForKey: .StackedShapeList)
     }
+ */
 }
