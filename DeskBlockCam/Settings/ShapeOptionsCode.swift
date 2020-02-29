@@ -302,10 +302,6 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
                 let SphereB = Settings.GetEnum(ForKey: .SphereBehavior, EnumType: SphereBehaviors.self, Default: SphereBehaviors.Size)
                 Current[1].ValueItems.append(ValueItem(Description: "Prominence", Value: SphereB.rawValue))
             
-            case .StackedShapes:
-                let Shapes = Settings.GetString(ForKey: .StackedShapeList)
-                Current[1].ValueItems.append(ValueItem(Description: "Shapes", Value: Shapes!))
-            
             case .Stars:
                 let Apexes = Settings.GetInteger(ForKey: .StarApexCount)
                 let Intensity = Settings.GetBoolean(ForKey: .ApexesIncrease)
