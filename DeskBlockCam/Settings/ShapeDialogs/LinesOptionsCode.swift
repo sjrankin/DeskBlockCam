@@ -32,23 +32,17 @@ class LinesOptionsCode: NSViewController, ToOptionsDialogProtocol
             case .Thick:
                 LineThickSegments.selectedSegment = 2
         }
-        let Angle = Settings.GetDouble(ForKey: .LineZAngle)
-        switch Int(Angle)
+        let Axis = Settings.GetEnum(ForKey: .LineAxis, EnumType: LongAxes.self, Default: LongAxes.Z)
+        switch Axis
         {
-            case 0:
+            case .X:
                 AngleSegment.selectedSegment = 0
             
-            case 30:
+            case .Y:
                 AngleSegment.selectedSegment = 1
             
-            case 60:
+            case .Z:
                 AngleSegment.selectedSegment = 2
-            
-            case 90:
-                AngleSegment.selectedSegment = 3
-            
-            default:
-                AngleSegment.selectedSegment = 0
         }
     }
     
@@ -93,25 +87,20 @@ class LinesOptionsCode: NSViewController, ToOptionsDialogProtocol
     
     @IBAction func HandleAngleChanged(_ sender: Any)
     {
-        var NewAngle: Double = 0
         switch AngleSegment.selectedSegment
         {
             case 0:
-                NewAngle = 0.0
+                Settings.SetEnum(.X, EnumType: LongAxes.self, ForKey: .LineAxis)
             
             case 1:
-                NewAngle = 30.0
+                Settings.SetEnum(.Y, EnumType: LongAxes.self, ForKey: .LineAxis)
             
             case 2:
-                NewAngle = 60.0
-            
-            case 3:
-                NewAngle = 90.0
+                Settings.SetEnum(.Z, EnumType: LongAxes.self, ForKey: .LineAxis)
             
             default:
-                NewAngle = 0.0
+                Settings.SetEnum(.Z, EnumType: LongAxes.self, ForKey: .LineAxis)
         }
-        Settings.SetDouble(NewAngle, ForKey: .LineZAngle)
         Delegate?.UpdateCurrent(With: CurrentShape)
     }
     
