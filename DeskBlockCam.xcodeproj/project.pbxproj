@@ -14,6 +14,7 @@
 		170DF1E623F6C55F00DDB5D0 /* SphereOptionCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170DF1E523F6C55F00DDB5D0 /* SphereOptionCode.swift */; };
 		1717201123EBD23100636F3C /* Pixellator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1717201023EBD23100636F3C /* Pixellator.swift */; };
 		1717201323EBDF1600636F3C /* BlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1717201223EBDF1600636F3C /* BlockView.swift */; };
+		1717D8AC240A3748006BA54B /* LongShapesOptionsCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1717D8AB240A3748006BA54B /* LongShapesOptionsCode.swift */; };
 		1721035F23FCC6140096F778 /* MetadataWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1721035E23FCC6140096F778 /* MetadataWriter.swift */; };
 		1721036123FCCC910096F778 /* Versioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1721036023FCCC910096F778 /* Versioning.swift */; };
 		1721036423FCD2250096F778 /* CurrentSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1721036323FCD2250096F778 /* CurrentSettings.swift */; };
@@ -150,6 +151,7 @@
 		170DF1E523F6C55F00DDB5D0 /* SphereOptionCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SphereOptionCode.swift; sourceTree = "<group>"; };
 		1717201023EBD23100636F3C /* Pixellator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pixellator.swift; sourceTree = "<group>"; };
 		1717201223EBDF1600636F3C /* BlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockView.swift; sourceTree = "<group>"; };
+		1717D8AB240A3748006BA54B /* LongShapesOptionsCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LongShapesOptionsCode.swift; sourceTree = "<group>"; };
 		1721035E23FCC6140096F778 /* MetadataWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetadataWriter.swift; sourceTree = "<group>"; };
 		1721036023FCCC910096F778 /* Versioning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Versioning.swift; sourceTree = "<group>"; };
 		1721036323FCD2250096F778 /* CurrentSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentSettings.swift; sourceTree = "<group>"; };
@@ -323,6 +325,7 @@
 				172C06E723ED303E00313C3E /* ConeOptionsCode.swift */,
 				1761DAB82404ADAA001DE9F9 /* BlocksWithOptionsCode.swift */,
 				17C9D40E240513B300EF3CAD /* SpheresWithOptionsCode.swift */,
+				1717D8AB240A3748006BA54B /* LongShapesOptionsCode.swift */,
 				172C06E923ED307000313C3E /* RadiatingLinesOptionsCode.swift */,
 				172C06EB23ED309800313C3E /* CharacterSetOptionsCode.swift */,
 				172C06ED23ED30ED00313C3E /* CappedLinesOptionsCode.swift */,
@@ -688,6 +691,7 @@
 				172C06EC23ED309800313C3E /* CharacterSetOptionsCode.swift in Sources */,
 				1740A3DC23EBFA4000E29C75 /* RadiatingLinesOptionalParameters.swift in Sources */,
 				170A110823F18FB8003D0C1D /* ViewControllerView.swift in Sources */,
+				1717D8AC240A3748006BA54B /* LongShapesOptionsCode.swift in Sources */,
 				170DF1E623F6C55F00DDB5D0 /* SphereOptionCode.swift in Sources */,
 				1721036123FCCC910096F778 /* Versioning.swift in Sources */,
 				172C06EE23ED30ED00313C3E /* CappedLinesOptionsCode.swift in Sources */,
