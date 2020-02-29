@@ -29,8 +29,8 @@ extension ShapeOptionsCode
                 (OptionMap[Shapes.Blocks]!.Controller as? BlockOptionsCode)?.SetShape(.Blocks)
             
             case .ComponentVariable:
-                (OptionMap[Shapes.ComponentVariable]!.Controller as? ComponentOptionCode)?.SetShape(.ComponentVariable)
-                (OptionMap[Shapes.ComponentVariable]!.Controller as? ComponentOptionCode)?.SetAttributes(CurrentAttributes) 
+                (OptionMap[Shapes.ComponentVariable]!.Controller as? ComponentOptionCode2)?.SetShape(.ComponentVariable)
+                (OptionMap[Shapes.ComponentVariable]!.Controller as? ComponentOptionCode2)?.SetAttributes(CurrentAttributes) 
             
             case .Lines:
                 (OptionMap[Shapes.Lines]!.Controller as? LinesOptionsCode)?.SetAttributes(CurrentAttributes)
@@ -126,11 +126,6 @@ extension ShapeOptionsCode
             case .Rectangles:
                 (OptionMap[Shapes.Rectangles]!.Controller as? NoOptionsCode)?.SetShape(.Rectangles)
                 (OptionMap[Shapes.Rectangles]!.Controller as? NoOptionsCode)?.SetCaption("Two-dimensional rectangles. No options available.")
-            
-            case .StackedShapes:
-                (OptionMap[Shapes.StackedShapes]!.Controller as? StackedShapesOptionCode)?.SetShape(.StackedShapes)
-                (OptionMap[Shapes.StackedShapes]!.Controller as? StackedShapesOptionCode)?.SetAttributes(CurrentAttributes)
-                (OptionMap[Shapes.StackedShapes]!.Controller as? StackedShapesOptionCode)?.SetCaption("Creates a stack of shapes you specify. If not enough shapes, they are recycled in order.")
             
             case .Stars:
                 (OptionMap[Shapes.Stars]!.Controller as? StarOptionsCode)?.SetShape(.Stars)
@@ -301,17 +296,13 @@ extension ShapeOptionsCode
         self.addChild(OptionMap[Shapes.Spheres]!.Controller!)
         (OptionMap[Shapes.Spheres]!.Controller as? SphereOptionCode)?.Delegate = self
         
-        OptionMap[Shapes.StackedShapes] = OptionEntry(CreateOptionDialog("StackedShapeOptions"))
-        self.addChild(OptionMap[Shapes.StackedShapes]!.Controller!)
-        (OptionMap[Shapes.StackedShapes]!.Controller as? StackedShapesOptionCode)?.Delegate = self
-        
         OptionMap[Shapes.Rings] = OptionEntry(CreateOptionDialog("RingOptions"))
         self.addChild(OptionMap[Shapes.Rings]!.Controller!)
         (OptionMap[Shapes.Rings]!.Controller as? RingOptionCode)?.Delegate = self
         
-        OptionMap[Shapes.ComponentVariable] = OptionEntry(CreateOptionDialog("ComponentOptions"))
+        OptionMap[Shapes.ComponentVariable] = OptionEntry(CreateOptionDialog("ComponentOptions2"))
         self.addChild(OptionMap[Shapes.ComponentVariable]!.Controller!)
-        (OptionMap[Shapes.ComponentVariable]!.Controller as? ComponentOptionCode)?.Delegate = self
+        (OptionMap[Shapes.ComponentVariable]!.Controller as? ComponentOptionCode2)?.Delegate = self
     }
     
     /// Create the optional settings view.
