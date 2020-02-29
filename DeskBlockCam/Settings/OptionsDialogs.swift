@@ -63,8 +63,8 @@ extension ShapeOptionsCode
                 (OptionMap[Shapes.Cones]!.Controller as? ConeOptionsCode)?.SetAttributes(CurrentAttributes)
             
             case .Cylinders:
-                (OptionMap[Shapes.Cylinders]!.Controller as? NoOptionsCode)?.SetShape(.Cylinders)
-                (OptionMap[Shapes.Cylinders]!.Controller as? NoOptionsCode)?.SetCaption("Extruded 3D cylinders. No options available.")
+                (OptionMap[Shapes.Cylinders]!.Controller as? LongShapesOptionsCode)?.SetShape(.Cylinders)
+                (OptionMap[Shapes.Cylinders]!.Controller as? LongShapesOptionsCode)?.SetCaption("Extruded cylinder options.")
             
             case .Diamonds:
                 (OptionMap[Shapes.Diamonds]!.Controller as? DiamondOptionsCode)?.SetCaption("Extruded diamond (parallelogram) shapes.")
@@ -148,8 +148,8 @@ extension ShapeOptionsCode
                 (OptionMap[Shapes.Tubes]!.Controller as? NoOptionsCode)?.SetCaption("Tube shaped nodes. No options available.")
             
             case .Capsules:
-                (OptionMap[Shapes.Capsules]!.Controller as? NoOptionsCode)?.SetShape(.Capsules)
-                (OptionMap[Shapes.Capsules]!.Controller as? NoOptionsCode)?.SetCaption("Capsule shapes. No options available.")
+                (OptionMap[Shapes.Capsules]!.Controller as? LongShapesOptionsCode)?.SetShape(.Capsules)
+                (OptionMap[Shapes.Capsules]!.Controller as? LongShapesOptionsCode)?.SetCaption("Extruded capsule options.")
             
             case .BlockBases:
                 (OptionMap[Shapes.BlockBases]!.Controller as? BlocksWithOptionsCode)?.SetShape(.BlockBases)
@@ -180,9 +180,9 @@ extension ShapeOptionsCode
         self.addChild(OptionMap[Shapes.SphereBases]!.Controller!)
         (OptionMap[Shapes.SphereBases]!.Controller as? SpheresWithOptionsCode)?.Delegate = self
         
-        OptionMap[Shapes.Capsules] = OptionEntry(CreateOptionDialog("NoOptions"))
+        OptionMap[Shapes.Capsules] = OptionEntry(CreateOptionDialog("LongShapeOptions"))
         self.addChild(OptionMap[Shapes.Capsules]!.Controller!)
-        (OptionMap[Shapes.Capsules]!.Controller as? NoOptionsCode)?.Delegate = self
+        (OptionMap[Shapes.Capsules]!.Controller as? LongShapesOptionsCode)?.Delegate = self
         
         OptionMap[Shapes.Lines] = OptionEntry(CreateOptionDialog("LineOptions"))
         self.addChild(OptionMap[Shapes.Lines]!.Controller!)
@@ -204,9 +204,9 @@ extension ShapeOptionsCode
         self.addChild(OptionMap[Shapes.Circles]!.Controller!)
         (OptionMap[Shapes.Circles]!.Controller as? NoOptionsCode)?.Delegate = self
         
-        OptionMap[Shapes.Cylinders] = OptionEntry(CreateOptionDialog("NoOptions"))
+        OptionMap[Shapes.Cylinders] = OptionEntry(CreateOptionDialog("LongShapeOptions"))
         self.addChild(OptionMap[Shapes.Cylinders]!.Controller!)
-        (OptionMap[Shapes.Cylinders]!.Controller as? NoOptionsCode)?.Delegate = self
+        (OptionMap[Shapes.Cylinders]!.Controller as? LongShapesOptionsCode)?.Delegate = self
         
         OptionMap[Shapes.HueTriangles] = OptionEntry(CreateOptionDialog("NoOptions"))
         self.addChild(OptionMap[Shapes.HueTriangles]!.Controller!)
