@@ -69,12 +69,14 @@ class BlockView: SCNView
         if MasterNode != nil
         {
             print("Removing master node from scene.")
+            //MasterNode?.CleanUp()
             MasterNode?.removeFromParentNode()
             MasterNode = nil
         }
         if LiveViewMasterNode != nil
         {
             print("Removing live view master node from scene.")
+            //LiveViewMasterNode?.CleanUp()
             LiveViewMasterNode?.removeFromParentNode()
             LiveViewMasterNode = nil
         }
@@ -310,26 +312,36 @@ class BlockView: SCNView
         StatusDelegate?.UpdateStatus(With: .CreatingDone)
         let AfterShapes = CACurrentMediaTime() - Start
         StatusDelegate?.UpdateDuration(NewDuration: AfterShapes)
-        #if false
-        scene?.rootNode.addChildNode(MasterNode!)
-        #else
+        
         self.StatusDelegate?.UpdateStatus(With: .AddingShapes)
+
+        #if true
         prepare([MasterNode!])
         {
             Completed in
             if Completed
             {
-                //DispatchQueue.main.async
-                //    {
+                OperationQueue.main.addOperation
+                    {
                 self.scene?.rootNode.addChildNode(self.MasterNode!)
+                }
                 print("Added master node to scene.")
                 self.StatusDelegate?.UpdateStatus(With: .AddingDone)
                 let AfterAdded = CACurrentMediaTime() - Start
                 self.StatusDelegate?.FinalizeDuration(WithDuration: AfterAdded)
-                //}
             }
         }
+        #else
+        MasterNode?.enumerateChildNodes
+            {
+                (Node, _) in
+                self.scene?.rootNode.addChildNode(Node)
+        }
         #endif
+        self.StatusDelegate?.UpdateStatus(With: .AddingDone)
+        let AfterAdded = CACurrentMediaTime() - Start
+        self.StatusDelegate?.FinalizeDuration(WithDuration: AfterAdded)
+        
         #if false
         if !AddedObserversCamera
         {
@@ -359,6 +371,11 @@ class BlockView: SCNView
     
     var AddedObserversCamera = false
     
+    /// Return the node at the specified coordinate.
+    /// - Parameter X: The horizontal coordinate.
+    /// - Parameter Y: The vertical coordinate.
+    /// - Parameter From: The parent node.
+    /// - Returns: The node at the specified coordinate if found, nil if not found.
     func GetNodeAt(X: Int, Y: Int, From: SCNNode) -> PSCNNode?
     {
         for Node in From.childNodes
@@ -412,6 +429,8 @@ class BlockView: SCNView
     {
         let Camera = SCNCamera()
         Camera.fieldOfView = 90.0
+        Camera.zNear = 0.0
+        //Camera.zFar = 10000.0
         CameraNode = SCNNode()
         CameraNode!.name = "Camera Node"
         CameraNode!.camera = Camera
