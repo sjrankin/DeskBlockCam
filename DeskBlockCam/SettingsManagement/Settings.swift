@@ -116,6 +116,9 @@ class Settings
         UserDefaults.standard.set(90.0, forKey: SettingKeys.LineZAngle.rawValue)
         UserDefaults.standard.set(LineThicknesses.Thin, forKey: SettingKeys.LineThickness.rawValue)
         UserDefaults.standard.set(true, forKey: SettingKeys.SidesTouch.rawValue)
+        UserDefaults.standard.set(LongAxes.Z.rawValue, forKey: SettingKeys.CylinderAxis.rawValue)
+        UserDefaults.standard.set(LongAxes.Z.rawValue, forKey: SettingKeys.LineAxis.rawValue)
+        UserDefaults.standard.set(LongAxes.Z.rawValue, forKey: SettingKeys.CapsuleAxis.rawValue)
         
         #if DEBUG
         UserDefaults.standard.set(true, forKey: SettingKeys.AddUserDataToExif.rawValue)
@@ -656,6 +659,9 @@ class Settings
             .CappedLineLineColor,
             .BlockWithShape,
             .SphereWithShape,
+            .CapsuleAxis,
+            .LineAxis,
+            .CylinderAxis,
     ]
     
     /// Contains a list of all double-type fields.
@@ -814,6 +820,14 @@ enum SettingKeys: String, CaseIterable, Comparable, Hashable
     case ConeBottomSize = "ConeBottomSize"
     /// Bool: Cone sizes are swapped.
     case ConeSwapTopBottom = "SwapConeTopAndBottom"
+    
+    //Long shape settings.
+    /// String/Enum: Determines the axis capsules line on.
+    case CapsuleAxis = "CapsuleAxis"
+    /// String/Enum: Determines the axis lines line on.
+    case LineAxis = "LineAxis"
+    /// String/Enum: Determines the axis cylinders line on.
+    case CylinderAxis = "CylinderAxis"
     
     //Processing settings.
     /// String/Enum: Holds the vertical exaggeration.
