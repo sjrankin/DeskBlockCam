@@ -26,7 +26,7 @@ class ShapeManager
                                                       Shapes.Circles.rawValue, Shapes.Triangles2D.rawValue,
                                                       Shapes.Oval2D.rawValue, Shapes.Diamond2D.rawValue,
                                                       Shapes.Polygons2D.rawValue, Shapes.Stars2D.rawValue]),
-            ShapeCategory(Name: "Combined", Shapes: [Shapes.CappedLines.rawValue, Shapes.StackedShapes.rawValue,
+            ShapeCategory(Name: "Combined", Shapes: [Shapes.CappedLines.rawValue, 
                                                      Shapes.PerpendicularSquares.rawValue, Shapes.PerpendicularCircles.rawValue,
                                                      Shapes.ThreeTriangles.rawValue,
                                                      Shapes.ComponentVariable.rawValue, Shapes.RadiatingLines.rawValue,
@@ -239,9 +239,6 @@ enum Shapes: String, CaseIterable
     /// A line with another shape positioned at the bottom, middle or top. The default "other" shape
     /// is a sphere, which seems to work best.
     case CappedLines = "Capped Lines"
-    /// Stack of shapes per color. The number of shapes in the stack is dependent on the height of
-    /// the color.
-    case StackedShapes = "Stacked Shapes"
     /// Two squares intersecting on perpendicular planes.
     case PerpendicularSquares = "Perpendicular Squares"
     /// Two circles intersecting on perpendicular planes.
