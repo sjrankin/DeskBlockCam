@@ -501,3 +501,14 @@ enum HistogramOrders: String, CaseIterable
     /// Grayscale (showing synthetic brightness).
     case Gray = "Gray"
 }
+
+/// Used to determine which axis long shapes should lie on.
+enum LongAxes: String, CaseIterable
+{
+    /// Long shapes use the X axis.
+    case X = "X"
+    /// Long shapes use the Y axis.
+    case Y = "Y"
+    /// Long shapes use the Z axis.
+    case Z = "Z"
+}
