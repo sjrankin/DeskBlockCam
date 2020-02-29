@@ -436,3 +436,19 @@ extension NSColor
     }
 }
 
+
+extension SCNNode
+{
+    /// Frees the memory of a node to be deleted by setting its geometry to nil. Also frees all
+    /// child nodes as well.
+    /// - Note: See [Removing SCNNode Does Not Free Memory](https://stackoverflow.com/questions/32997711/removing-scnnode-does-not-free-memory-before-creating-new-scnnode)
+    func CleanUp()
+    {
+        for Child in childNodes
+        {
+            Child.CleanUp()
+        }
+        geometry = nil
+    }
+}
+
