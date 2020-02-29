@@ -365,7 +365,7 @@
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <gridView fixedFrame="YES" xPlacement="leading" yPlacement="bottom" rowAlignment="none" columnSpacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="kod-MK-gnd">
-                                                            <rect key="frame" x="11" y="14" width="194" height="116"/>
+                                                            <rect key="frame" x="11" y="11" width="194" height="119"/>
                                                             <rows>
                                                                 <gridRow id="uQm-Nj-FEf"/>
                                                                 <gridRow id="t54-JM-vvj"/>
@@ -381,7 +381,7 @@
                                                             <gridCells>
                                                                 <gridCell row="uQm-Nj-FEf" column="CdR-PO-pqw" yPlacement="center" id="lZY-vu-DQ3">
                                                                     <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="p0m-rJ-hS3">
-                                                                        <rect key="frame" x="-2" y="97" width="116" height="19"/>
+                                                                        <rect key="frame" x="-2" y="100" width="116" height="19"/>
                                                                         <textFieldCell key="cell" lineBreakMode="clipping" title="Preparing image" id="6aX-nb-eIp">
                                                                             <font key="font" metaFont="system" size="15"/>
                                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -391,12 +391,12 @@
                                                                 </gridCell>
                                                                 <gridCell row="uQm-Nj-FEf" column="ja6-2X-zXG" xPlacement="leading" id="v14-zh-JZ6">
                                                                     <progressIndicator key="contentView" wantsLayer="YES" maxValue="100" displayedWhenStopped="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="Ofc-SX-g2c">
-                                                                        <rect key="frame" x="122" y="97" width="16" height="16"/>
+                                                                        <rect key="frame" x="122" y="100" width="16" height="16"/>
                                                                     </progressIndicator>
                                                                 </gridCell>
                                                                 <gridCell row="uQm-Nj-FEf" column="Jm4-aZ-4ab" xPlacement="trailing" yPlacement="center" id="FgP-fK-fA6">
                                                                     <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="CkE-Tw-O2U">
-                                                                        <rect key="frame" x="160" y="99" width="36" height="16"/>
+                                                                        <rect key="frame" x="160" y="102" width="36" height="16"/>
                                                                         <textFieldCell key="cell" lineBreakMode="clipping" title="Done" id="uZv-lS-B6V">
                                                                             <font key="font" usesAppearanceFont="YES"/>
                                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -406,7 +406,7 @@
                                                                 </gridCell>
                                                                 <gridCell row="t54-JM-vvj" column="CdR-PO-pqw" yPlacement="center" id="rBj-Jk-2Ko">
                                                                     <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3az-UC-q8f">
-                                                                        <rect key="frame" x="-2" y="72" width="101" height="19"/>
+                                                                        <rect key="frame" x="-2" y="75" width="101" height="19"/>
                                                                         <textFieldCell key="cell" lineBreakMode="clipping" title="Parsing image" id="jYu-Rs-1UT">
                                                                             <font key="font" metaFont="system" size="15"/>
                                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -416,12 +416,12 @@
                                                                 </gridCell>
                                                                 <gridCell row="t54-JM-vvj" column="ja6-2X-zXG" id="phA-O5-DgM">
                                                                     <progressIndicator key="contentView" wantsLayer="YES" maxValue="100" doubleValue="65" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="4kg-FJ-bWu">
-                                                                        <rect key="frame" x="122" y="72" width="16" height="16"/>
+                                                                        <rect key="frame" x="122" y="75" width="16" height="16"/>
                                                                     </progressIndicator>
                                                                 </gridCell>
                                                                 <gridCell row="t54-JM-vvj" column="Jm4-aZ-4ab" yPlacement="center" id="zEh-mU-aRo">
                                                                     <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="16R-1n-N5f">
-                                                                        <rect key="frame" x="160" y="74" width="36" height="16"/>
+                                                                        <rect key="frame" x="160" y="77" width="36" height="16"/>
                                                                         <textFieldCell key="cell" lineBreakMode="clipping" title="Done" id="Yy4-Wj-jc5">
                                                                             <font key="font" usesAppearanceFont="YES"/>
                                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -431,7 +431,7 @@
                                                                 </gridCell>
                                                                 <gridCell row="aep-6a-0Qr" column="CdR-PO-pqw" yPlacement="center" id="0s4-lz-4HC">
                                                                     <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7vt-fY-8pk">
-                                                                        <rect key="frame" x="-2" y="47" width="116" height="19"/>
+                                                                        <rect key="frame" x="-2" y="50" width="116" height="19"/>
                                                                         <textFieldCell key="cell" lineBreakMode="clipping" title="Creating shapes" id="Hla-a9-bXY">
                                                                             <font key="font" metaFont="system" size="15"/>
                                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -441,12 +441,12 @@
                                                                 </gridCell>
                                                                 <gridCell row="aep-6a-0Qr" column="ja6-2X-zXG" id="iZ9-4Q-qXc">
                                                                     <progressIndicator key="contentView" wantsLayer="YES" maxValue="100" doubleValue="65" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="JZg-Mg-dg4">
-                                                                        <rect key="frame" x="122" y="47" width="16" height="16"/>
+                                                                        <rect key="frame" x="122" y="50" width="16" height="16"/>
                                                                     </progressIndicator>
                                                                 </gridCell>
                                                                 <gridCell row="aep-6a-0Qr" column="Jm4-aZ-4ab" yPlacement="center" id="JJz-MB-Bmh">
                                                                     <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="LZF-rR-dZT">
-                                                                        <rect key="frame" x="160" y="49" width="36" height="16"/>
+                                                                        <rect key="frame" x="160" y="52" width="36" height="16"/>
                                                                         <textFieldCell key="cell" lineBreakMode="clipping" title="Done" id="2hk-FR-QuG">
                                                                             <font key="font" usesAppearanceFont="YES"/>
                                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -456,7 +456,7 @@
                                                                 </gridCell>
                                                                 <gridCell row="uUr-PZ-SaJ" column="CdR-PO-pqw" id="XFY-j1-SPR">
                                                                     <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bdk-sH-3my">
-                                                                        <rect key="frame" x="-2" y="22" width="106" height="19"/>
+                                                                        <rect key="frame" x="-2" y="25" width="106" height="19"/>
                                                                         <textFieldCell key="cell" lineBreakMode="clipping" title="Adding shapes" id="Nci-UH-Saf">
                                                                             <font key="font" metaFont="system" size="15"/>
                                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -466,12 +466,12 @@
                                                                 </gridCell>
                                                                 <gridCell row="uUr-PZ-SaJ" column="ja6-2X-zXG" id="iJ6-6H-kR5">
                                                                     <progressIndicator key="contentView" wantsLayer="YES" maxValue="100" displayedWhenStopped="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="fmO-xe-N0J">
-                                                                        <rect key="frame" x="122" y="22" width="16" height="16"/>
+                                                                        <rect key="frame" x="122" y="25" width="16" height="16"/>
                                                                     </progressIndicator>
                                                                 </gridCell>
                                                                 <gridCell row="uUr-PZ-SaJ" column="Jm4-aZ-4ab" yPlacement="center" id="U21-Ab-puR">
                                                                     <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="2cM-2n-dtT">
-                                                                        <rect key="frame" x="160" y="24" width="36" height="16"/>
+                                                                        <rect key="frame" x="160" y="27" width="36" height="16"/>
                                                                         <textFieldCell key="cell" lineBreakMode="clipping" title="Done" id="b5f-UX-gvh">
                                                                             <font key="font" usesAppearanceFont="YES"/>
                                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -481,9 +481,9 @@
                                                                 </gridCell>
                                                                 <gridCell row="5eS-39-H0c" column="CdR-PO-pqw" id="aiE-dM-fPY">
                                                                     <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="LwL-SA-iDR">
-                                                                        <rect key="frame" x="-2" y="0.0" width="56" height="16"/>
+                                                                        <rect key="frame" x="-2" y="0.0" width="63" height="19"/>
                                                                         <textFieldCell key="cell" lineBreakMode="clipping" title="Duration" id="JeG-I2-q7l">
-                                                                            <font key="font" usesAppearanceFont="YES"/>
+                                                                            <font key="font" metaFont="system" size="15"/>
                                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                         </textFieldCell>
