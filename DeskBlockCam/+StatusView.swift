@@ -12,25 +12,30 @@ import AppKit
 extension ViewController: StatusProtocol
 {
     /// Reset the image view status indicators.
+    /// - Note: Executed on the main UI thread.
     func ResetStatus()
     {
-        DurationValue.isHidden = true
-        DurationText.textColor = NSColor.gray
-        PreparingTextDone.isHidden = true
-        PreparingImageText.textColor = NSColor.gray
-        PreparingImageIndicator.stopAnimation(self)
-        ParsingImageDone.isHidden = true
-        ParsingImageText.textColor = NSColor.gray
-        ParsingImageIndicator.isHidden = true
-        CreatingShapesDone.isHidden = true
-        CreatingShapesText.textColor = NSColor.gray
-        CreatingShapesIndicator.isHidden = true
-        AddingShapesDone.isHidden = true
-        AddingShapesText.textColor = NSColor.gray
-        AddingShapesIndicator.stopAnimation(self)
+        OperationQueue.main.addOperation
+            {
+                self.DurationValue.isHidden = true
+                self.DurationText.textColor = NSColor.gray
+                self.PreparingTextDone.isHidden = true
+                self.PreparingImageText.textColor = NSColor.gray
+                self.PreparingImageIndicator.stopAnimation(self)
+                self.ParsingImageDone.isHidden = true
+                self.ParsingImageText.textColor = NSColor.gray
+                self.ParsingImageIndicator.isHidden = true
+                self.CreatingShapesDone.isHidden = true
+                self.CreatingShapesText.textColor = NSColor.gray
+                self.CreatingShapesIndicator.isHidden = true
+                self.AddingShapesDone.isHidden = true
+                self.AddingShapesText.textColor = NSColor.gray
+                self.AddingShapesIndicator.stopAnimation(self)
+        }
     }
     
     /// Update status indicators.
+    /// - Note: Executed on the main UI thread.
     /// - Parameter With: Status command to execute.
     func UpdateStatus(With Command: StatusCommands)
     {
@@ -41,6 +46,7 @@ extension ViewController: StatusProtocol
     }
     
     /// Update status indicators.
+    /// - Note: Executed on the main UI thread.
     /// - Parameter With: Status command to execute.
     /// - Parameter PercentComplete: Operation percent complete (range: 0.0 to 100.0).
     func UpdateStatus(With Command: StatusCommands, PercentComplete: Double)
@@ -52,6 +58,7 @@ extension ViewController: StatusProtocol
     }
     
     /// Display the current duration of still image processing.
+    /// - Note: Executed on the main UI thread.
     /// - Parameter NewDuration: Number of seconds for the current duration of image processing.
     func UpdateDuration(NewDuration: Double)
     {
@@ -66,6 +73,7 @@ extension ViewController: StatusProtocol
     }
     
     /// Finalize the duration for the processing of a still image.
+    /// - Note: Executed on the main UI thread.
     /// - Parameter WithDuration: The final duration to display.
     func FinalizeDuration(WithDuration: Double)
     {
@@ -80,6 +88,7 @@ extension ViewController: StatusProtocol
     }
     
     /// Run a status command.
+    /// - Note: Execued on the main UI thread.
     /// - Parameter Command: The status command to run.
     /// - Parameter Percent: If present and `Command` supports it, the percent complete of
     ///                      an operation.
