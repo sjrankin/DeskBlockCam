@@ -229,15 +229,15 @@ class Generator
                 return SphereGeo
             
             case .Capsules:
-                let CapGeo = SCNCapsule(capRadius: Side / 5.0, height: Height)
+                let CapGeo = SCNCapsule(capRadius: Side / 2.0, height: Height)
                 return CapGeo
             
             case .Tubes:
-                let TubeGeo = SCNTube(innerRadius: Side * Height * 0.05, outerRadius: Side * Height * 0.1, height: Height)
+                let TubeGeo = SCNTube(innerRadius: Side * Height * 0.2, outerRadius: Side * Height * 0.4, height: Height)
                 return TubeGeo
             
             case .Pyramids:
-                let PyGeo = SCNPyramid(width: Side * Height * 0.1, height: Side * Height * 0.1, length: Height)
+                let PyGeo = SCNPyramid(width: Side * Height * 0.1, height: Height, length: Side * Height * 0.1)
                 return PyGeo
             
             case .Cylinders:
@@ -436,10 +436,6 @@ class Generator
                 let Side = Settings.GetDouble(ForKey: .Side)
                 switch FinalShape
                 {
-                    //Variable shapes.
-                    case .ComponentVariable:
-                        break
-                    
                     //2D shapes
                     case .Squares, .Circles, .Rectangles, .Stars2D, .Triangles2D,
                          .Polygons2D, .Oval2D, .Diamond2D:
@@ -449,7 +445,7 @@ class Generator
                         return Node!
                     
                     //Combined shapes.
-                    case .CappedLines, .StackedShapes, .RadiatingLines, .PerpendicularCircles,
+                    case .CappedLines, .ComponentVariable, .RadiatingLines, .PerpendicularCircles,
                          .PerpendicularSquares, .BlockBases, .SphereBases, .ThreeTriangles:
                         let Node = MakeCombinedShape(Shape: FinalShape, Side: CGFloat(Side), AtX: AtX, AtY: AtY,
                                                      Height: Height, Color: Colors[AtY][AtX],
@@ -570,7 +566,7 @@ class Generator
                     EulerAngles = SCNVector3(90.0 * CGFloat.pi / 180.0, 0.0, 0.0)
             }
             
-            case .Tubes, .Cones, .Capsules, .CappedLines:
+            case .Tubes, .Cones, .Capsules, .CappedLines, .Pyramids, .Cylinders, .Circles:
                 NeedsToRotate = true
                 EulerAngles = SCNVector3(90.0 * CGFloat.pi / 180.0, 0.0, 0.0)
             
