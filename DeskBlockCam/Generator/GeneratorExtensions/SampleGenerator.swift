@@ -89,9 +89,6 @@ extension Generator
                 Sample = MakeCombinedShape(Shape: .CappedLines, Side: Side, AtX: 0, AtY: 0,
                                            Height: Height, Color: Color, Model: GetLightModel())
             
-            case .ComponentVariable:
-                break
-            
             case .Cones:
                 let Geo = MakeSimpleShape(Shape: .Cones, Side: Side, AtX: 0, AtY: 0,
                                           Height: Height, Color: Color)
@@ -289,10 +286,9 @@ extension Generator
                 Sample = Make2DShape(Shape: .Squares, Side: Side, AtX: 0, AtY: 0, Height: Height,
                                      Color: Color, ZLocation: &ZLocation)
             
-            case .StackedShapes:
-                Sample = MakeCombinedShape(Shape: .StackedShapes, Side: Side, AtX: 0, AtY: 0,
+            case .ComponentVariable:
+                Sample = MakeCombinedShape(Shape: .ComponentVariable, Side: Side, AtX: 0, AtY: 0,
                                            Height: Height, Color: Color, Model: GetLightModel())
-                break
             
             case .Stars:
                 let Geo = MakeNonStandardShape(Shape: .Stars, Side: Side, AtX: 0, AtY: 0,
