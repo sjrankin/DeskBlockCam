@@ -91,6 +91,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
                 }
                 StartCamera()
                 ProcessedImage.InLiveViewMode = true
+                OriginalImageView.image = nil
             
             case .VideoView:
                 break
@@ -364,6 +365,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
                 self!.CaptureSession.startRunning()
                 DispatchQueue.main.async
                     {
+                        self?.OriginalImageView.image = nil
                         self!.VideoPreviewLayer.frame = self!.OriginalImageView.bounds
                         //self!.VideoPreviewLayer.frame = self!.LiveView.bounds
                 }
