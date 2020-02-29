@@ -2785,8 +2785,8 @@
                                     </gridCell>
                                     <gridCell row="EUI-zO-5Mr" column="uo7-XX-331" id="ypH-uP-gvs">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lPX-A6-8LG">
-                                            <rect key="frame" x="-2" y="3" width="83" height="16"/>
-                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Angle from Z" id="wZh-0c-EXc">
+                                            <rect key="frame" x="-2" y="3" width="30" height="16"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Axis" id="wZh-0c-EXc">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -2795,14 +2795,13 @@
                                     </gridCell>
                                     <gridCell row="EUI-zO-5Mr" column="pK6-E9-VZT" id="86C-61-pkG">
                                         <segmentedControl key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Zmf-OJ-dRT">
-                                            <rect key="frame" x="90" y="-2" width="148" height="24"/>
+                                            <rect key="frame" x="90" y="-2" width="104" height="24"/>
                                             <segmentedCell key="cell" borderStyle="border" alignment="left" segmentDistribution="fill" style="rounded" trackingMode="selectOne" id="J8g-0C-18F">
                                                 <font key="font" metaFont="system"/>
                                                 <segments>
-                                                    <segment label="0°" width="32" selected="YES"/>
-                                                    <segment label="30°" width="32" tag="1"/>
-                                                    <segment label="60°" width="32"/>
-                                                    <segment label="90°"/>
+                                                    <segment label="X" width="32"/>
+                                                    <segment label="Y" width="32" tag="1"/>
+                                                    <segment label="Z" width="32" selected="YES"/>
                                                 </segments>
                                             </segmentedCell>
                                             <connections>
@@ -2910,11 +2909,11 @@
             </objects>
             <point key="canvasLocation" x="1071" y="3320"/>
         </scene>
-        <!--Spheres With Options Code-->
+        <!--Long Shapes Options Code-->
         <scene sceneID="MpR-yw-yyT">
             <objects>
                 <customObject id="9KH-fu-eqL" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-                <viewController storyboardIdentifier="SpheresWithOptions" id="Wxj-vN-fRt" customClass="SpheresWithOptionsCode" customModule="BlockCam" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LongShapeOptions" id="Wxj-vN-fRt" customClass="LongShapesOptionsCode" customModule="BlockCam" sceneMemberID="viewController">
                     <view key="view" id="W5L-fD-ebX">
                         <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -2924,14 +2923,14 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="57" id="x1g-am-tly"/>
                                 </constraints>
-                                <textFieldCell key="cell" selectable="YES" borderStyle="border" alignment="left" title="Shapes composed of blocks with another shape extruded from the top of the block." drawsBackground="YES" id="FTf-Hr-beF">
+                                <textFieldCell key="cell" selectable="YES" borderStyle="border" alignment="left" title="Long shape options." drawsBackground="YES" id="FTf-Hr-beF">
                                     <font key="font" usesAppearanceFont="YES"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" red="0.15000000599999999" green="0.15000000599999999" blue="0.15000000599999999" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 </textFieldCell>
                             </textField>
                             <gridView xPlacement="leading" yPlacement="center" rowAlignment="none" rowSpacing="8" columnSpacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="KYD-W5-AHn">
-                                <rect key="frame" x="8" y="194" width="286" height="19"/>
+                                <rect key="frame" x="8" y="192" width="288" height="21"/>
                                 <rows>
                                     <gridRow id="qK8-5B-VjB"/>
                                 </rows>
@@ -2942,8 +2941,8 @@
                                 <gridCells>
                                     <gridCell row="qK8-5B-VjB" column="Oxr-7L-X4C" id="8kN-C6-lxV">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Eo9-8l-UE3">
-                                            <rect key="frame" x="-2" y="2" width="99" height="16"/>
-                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Extruded shape" id="2Jm-Xl-GtI">
+                                            <rect key="frame" x="-2" y="3" width="101" height="16"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Axis Orientation" id="2Jm-Xl-GtI">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -2951,25 +2950,20 @@
                                         </textField>
                                     </gridCell>
                                     <gridCell row="qK8-5B-VjB" column="Qbn-gb-hqa" id="UQ8-Ih-a2J">
-                                        <comboBox key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="V2a-cZ-5c3">
-                                            <rect key="frame" x="100" y="-4" width="173" height="25"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="170" id="FPb-ND-han"/>
-                                            </constraints>
-                                            <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="11h-LR-8iB">
+                                        <segmentedControl key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mgD-Q6-ETW">
+                                            <rect key="frame" x="100" y="-2" width="104" height="24"/>
+                                            <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="AGt-ap-7eb">
                                                 <font key="font" metaFont="system"/>
-                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                <objectValues>
-                                                    <string>Item 1</string>
-                                                    <string>Item 2</string>
-                                                    <string>Item 3</string>
-                                                </objectValues>
-                                            </comboBoxCell>
+                                                <segments>
+                                                    <segment label="X" width="32"/>
+                                                    <segment label="Y" width="32" tag="1"/>
+                                                    <segment label="Z" width="32" selected="YES"/>
+                                                </segments>
+                                            </segmentedCell>
                                             <connections>
-                                                <action selector="HandleNewShape:" target="Wxj-vN-fRt" id="vMu-xV-t7o"/>
+                                                <action selector="HandleAxisChanged:" target="Wxj-vN-fRt" id="yek-aZ-UHL"/>
                                             </connections>
-                                        </comboBox>
+                                        </segmentedControl>
                                     </gridCell>
                                 </gridCells>
                             </gridView>
@@ -2983,12 +2977,12 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="AxisSegment" destination="mgD-Q6-ETW" id="UaC-s5-G96"/>
                         <outlet property="Caption" destination="cuC-gx-N67" id="hgc-L6-LqJ"/>
-                        <outlet property="ShapeCombo" destination="V2a-cZ-5c3" id="bBS-gF-jde"/>
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="1539" y="3320"/>
+            <point key="canvasLocation" x="1539" y="3751"/>
         </scene>
         <!--Cone Options Code-->
         <scene sceneID="5oQ-Kx-rlT">
@@ -3295,6 +3289,86 @@
                 <customObject id="UA1-ri-sAr" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1071" y="3797"/>
+        </scene>
+        <!--Spheres With Options Code-->
+        <scene sceneID="i9O-2K-VmJ">
+            <objects>
+                <customObject id="Xuo-Z3-9RT" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <viewController storyboardIdentifier="SpheresWithOptions" id="sIS-66-6Pj" customClass="SpheresWithOptionsCode" customModule="BlockCam" sceneMemberID="viewController">
+                    <view key="view" id="UOE-R0-XIY">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <subviews>
+                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="Vgj-Y2-2Qq">
+                                <rect key="frame" x="8" y="234" width="436" height="57"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="57" id="wWQ-SO-kVe"/>
+                                </constraints>
+                                <textFieldCell key="cell" selectable="YES" borderStyle="border" alignment="left" title="Shapes composed of blocks with another shape extruded from the top of the block." drawsBackground="YES" id="vwJ-DU-NMH">
+                                    <font key="font" usesAppearanceFont="YES"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" red="0.15000000599999999" green="0.15000000599999999" blue="0.15000000599999999" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                </textFieldCell>
+                            </textField>
+                            <gridView xPlacement="leading" yPlacement="center" rowAlignment="none" rowSpacing="8" columnSpacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="9re-Vi-5XM">
+                                <rect key="frame" x="8" y="194" width="286" height="19"/>
+                                <rows>
+                                    <gridRow id="sd2-So-QJn"/>
+                                </rows>
+                                <columns>
+                                    <gridColumn id="nWR-7y-qI4"/>
+                                    <gridColumn width="186" id="BsR-Kg-1fJ"/>
+                                </columns>
+                                <gridCells>
+                                    <gridCell row="sd2-So-QJn" column="nWR-7y-qI4" id="dBy-6s-Q4G">
+                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Kyp-tJ-8Up">
+                                            <rect key="frame" x="-2" y="2" width="99" height="16"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Extruded shape" id="kL0-Nb-XBU">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                    </gridCell>
+                                    <gridCell row="sd2-So-QJn" column="BsR-Kg-1fJ" id="6Dh-N6-MNb">
+                                        <comboBox key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="pfy-oo-Rt6">
+                                            <rect key="frame" x="100" y="-4" width="173" height="25"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="170" id="aad-HY-Ojc"/>
+                                            </constraints>
+                                            <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="DlX-n4-LWp">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                <objectValues>
+                                                    <string>Item 1</string>
+                                                    <string>Item 2</string>
+                                                    <string>Item 3</string>
+                                                </objectValues>
+                                            </comboBoxCell>
+                                            <connections>
+                                                <action selector="HandleNewShape:" target="sIS-66-6Pj" id="RGT-a1-0ga"/>
+                                            </connections>
+                                        </comboBox>
+                                    </gridCell>
+                                </gridCells>
+                            </gridView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="9re-Vi-5XM" firstAttribute="leading" secondItem="Vgj-Y2-2Qq" secondAttribute="leading" id="IU2-S4-0sa"/>
+                            <constraint firstItem="Vgj-Y2-2Qq" firstAttribute="top" secondItem="UOE-R0-XIY" secondAttribute="top" constant="9" id="JOx-FZ-7Y2"/>
+                            <constraint firstItem="9re-Vi-5XM" firstAttribute="top" secondItem="Vgj-Y2-2Qq" secondAttribute="bottom" constant="21" id="hUq-cl-KhG"/>
+                            <constraint firstItem="Vgj-Y2-2Qq" firstAttribute="leading" secondItem="UOE-R0-XIY" secondAttribute="leading" constant="8" id="jGl-Tb-hOG"/>
+                            <constraint firstAttribute="trailing" secondItem="Vgj-Y2-2Qq" secondAttribute="trailing" constant="6" id="ydc-Rl-WGX"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="Caption" destination="Vgj-Y2-2Qq" id="Ly1-6d-4bI"/>
+                        <outlet property="ShapeCombo" destination="pfy-oo-Rt6" id="8Ca-s2-ice"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="1539" y="3320"/>
         </scene>
     </scenes>
     <resources>
