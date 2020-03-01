@@ -38,7 +38,7 @@ extension Generator
                 var Geo = SCNGeometry()
                 if Behavior == .Size
                 {
-                    Geo = SCNSphere(radius: Side / 2.0 * Height)
+                    Geo = SCNSphere(radius: Side / 2.0 * (Height + 1.0))
                 }
                 else
                 {
