@@ -125,6 +125,8 @@
 		17EB8FFE23E961C600A4C09A /* ImageDelta.metal in Sources */ = {isa = PBXBuildFile; fileRef = 17EB8FFD23E961C600A4C09A /* ImageDelta.metal */; };
 		17EB900023E9639D00A4C09A /* ImageDelta.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EB8FFF23E9639D00A4C09A /* ImageDelta.swift */; };
 		17EB900223E9829E00A4C09A /* FileIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EB900123E9829E00A4C09A /* FileIO.swift */; };
+		17FA3345240B36CD00DA79CF /* General2DOptionsCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17FA3344240B36CD00DA79CF /* General2DOptionsCode.swift */; };
+		17FA3347240B4FDA00DA79CF /* SimpleShapesGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17FA3346240B4FDA00DA79CF /* SimpleShapesGenerator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -265,6 +267,8 @@
 		17EB8FFD23E961C600A4C09A /* ImageDelta.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = ImageDelta.metal; sourceTree = "<group>"; };
 		17EB8FFF23E9639D00A4C09A /* ImageDelta.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDelta.swift; sourceTree = "<group>"; };
 		17EB900123E9829E00A4C09A /* FileIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileIO.swift; sourceTree = "<group>"; };
+		17FA3344240B36CD00DA79CF /* General2DOptionsCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = General2DOptionsCode.swift; sourceTree = "<group>"; };
+		17FA3346240B4FDA00DA79CF /* SimpleShapesGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleShapesGenerator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -306,6 +310,7 @@
 				177BA8D724025A3700ED9095 /* CharacterGenerator.swift */,
 				172F1E5E2403718A00D87987 /* SampleGenerator.swift */,
 				172F1E61240378C300D87987 /* Combined.swift */,
+				17FA3346240B4FDA00DA79CF /* SimpleShapesGenerator.swift */,
 			);
 			path = GeneratorExtensions;
 			sourceTree = "<group>";
@@ -325,6 +330,7 @@
 				172C06E723ED303E00313C3E /* ConeOptionsCode.swift */,
 				1761DAB82404ADAA001DE9F9 /* BlocksWithOptionsCode.swift */,
 				17C9D40E240513B300EF3CAD /* SpheresWithOptionsCode.swift */,
+				17FA3344240B36CD00DA79CF /* General2DOptionsCode.swift */,
 				1717D8AB240A3748006BA54B /* LongShapesOptionsCode.swift */,
 				172C06E923ED307000313C3E /* RadiatingLinesOptionsCode.swift */,
 				172C06EB23ED309800313C3E /* CharacterSetOptionsCode.swift */,
@@ -369,8 +375,8 @@
 				176B898623F9436400EC708B /* ShapeOptionsCode2.swift */,
 				177BF06823EE765500670F40 /* GradientFactory.swift */,
 				1740A3E223EC01AA00E29C75 /* ShapeOptionsWindowCode.swift */,
-				1772FA4C240787FA00CA20A0 /* CollectionViewCells */,
 				1732796D23F7E6D800EE0213 /* Settings.storyboard */,
+				1772FA4C240787FA00CA20A0 /* CollectionViewCells */,
 				176B897F23F9036F00EC708B /* CurrentSettings */,
 			);
 			path = Settings;
@@ -700,6 +706,7 @@
 				172F1E5D24035DC500D87987 /* ComponentOptionCode.swift in Sources */,
 				17B31D5423EFF9AE00C69257 /* AttributeFactory.swift in Sources */,
 				178041C823F3D959006E40C1 /* AncillaryWindowManagement.swift in Sources */,
+				17FA3345240B36CD00DA79CF /* General2DOptionsCode.swift in Sources */,
 				17EB900023E9639D00A4C09A /* ImageDelta.swift in Sources */,
 				172C06F023ED318000313C3E /* StackedShapesOptionsCode.swift in Sources */,
 				1732797023F7E93800EE0213 /* RingOptionCode.swift in Sources */,
@@ -707,6 +714,7 @@
 				17609FCE23F6611700391FFB /* Shrinker.swift in Sources */,
 				1721035F23FCC6140096F778 /* MetadataWriter.swift in Sources */,
 				1717201123EBD23100636F3C /* Pixellator.swift in Sources */,
+				17FA3347240B4FDA00DA79CF /* SimpleShapesGenerator.swift in Sources */,
 				17897B8523E6A77300AFDA6A /* ViewController.swift in Sources */,
 				1740A3D623EBF73000E29C75 /* ConeOptionalParameters.swift in Sources */,
 				1770BDB624038DC8005ED1A6 /* ShapeListUIWindow.swift in Sources */,
