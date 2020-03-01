@@ -38,6 +38,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         ProcessedImage.wantsLayer = true
         ProcessedImage.layer?.backgroundColor = NSColor.black.cgColor
         ProcessedImage.StatusDelegate = self
+        ImageSourceLabel.stringValue = ""
         
         BottomBar.wantsLayer = true
         BottomBar.layer?.backgroundColor = NSColor.systemYellow.cgColor
@@ -92,6 +93,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
                 StartCamera()
                 ProcessedImage.InLiveViewMode = true
                 OriginalImageView.image = nil
+                ImageSourceLabel.stringValue = "Video stream"
             
             case .VideoView:
                 break
@@ -182,6 +184,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
                       WindowTitle: "Dropped File Error")
             return
         }
+        ImageSourceLabel.stringValue = url.lastPathComponent
         if Settings.GetBoolean(ForKey: .SwitchModesWithDroppedImages)
         {
             OriginalImageView.image = Image
@@ -365,6 +368,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
                 self!.CaptureSession.startRunning()
                 DispatchQueue.main.async
                     {
+                        self?.ImageSourceLabel.stringValue = "Video stream"
                         self?.OriginalImageView.image = nil
                         self!.VideoPreviewLayer.frame = self!.OriginalImageView.bounds
                         //self!.VideoPreviewLayer.frame = self!.LiveView.bounds
@@ -819,6 +823,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
     @IBOutlet weak var CameraButton: NSButton!
     @IBOutlet weak var BottomBar: NSView!
     @IBOutlet weak var AlignImageButton: NSButton!
+    @IBOutlet weak var ImageSourceLabel: NSTextField!
     
     // MARK: - Status controls
     
