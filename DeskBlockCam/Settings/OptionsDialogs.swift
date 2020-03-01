@@ -55,8 +55,8 @@ extension ShapeOptionsCode
                 (OptionMap[Shapes.Characters]!.Controller as? CharacterSetOptionsCode)?.SetAttributes(CurrentAttributes)
             
             case .Circles:
-                (OptionMap[Shapes.Circles]!.Controller as? NoOptionsCode)?.SetShape(.Circles)
-                (OptionMap[Shapes.Circles]!.Controller as? NoOptionsCode)?.SetCaption("Two-dimensional circles. No options available.")
+                (OptionMap[Shapes.Circles]!.Controller as? General2DOptionsCode)?.SetShape(.Circles)
+                (OptionMap[Shapes.Circles]!.Controller as? General2DOptionsCode)?.SetCaption("Two-dimensional circles options.")
             
             case .Cones:
                 (OptionMap[Shapes.Cones]!.Controller as? ConeOptionsCode)?.SetShape(.Cones)
@@ -86,7 +86,7 @@ extension ShapeOptionsCode
                 (OptionMap[Shapes.Ovals]!.Controller as? OvalOptionsCode)?.SetAttributes(CurrentAttributes)
             
             case .Oval2D:
-                                (OptionMap[Shapes.Oval2D]!.Controller as? OvalOptionsCode)?.SetCaption("Flat oval shapes.")
+                (OptionMap[Shapes.Oval2D]!.Controller as? OvalOptionsCode)?.SetCaption("Flat oval shapes.")
                 (OptionMap[Shapes.Oval2D]!.Controller as? OvalOptionsCode)?.SetShape(.Oval2D)
                 (OptionMap[Shapes.Oval2D]!.Controller as? OvalOptionsCode)?.SetAttributes(CurrentAttributes)
             
@@ -120,20 +120,20 @@ extension ShapeOptionsCode
                 (OptionMap[Shapes.Spheres]!.Controller as? SphereOptionCode)?.SetCaption("Spheres that vary size or height according to the pixellated color.")
             
             case .Squares:
-                (OptionMap[Shapes.Squares]!.Controller as? NoOptionsCode)?.SetShape(.Squares)
-                (OptionMap[Shapes.Squares]!.Controller as? NoOptionsCode)?.SetCaption("Two-dimensional squares. No options available.")
+                (OptionMap[Shapes.Squares]!.Controller as? General2DOptionsCode)?.SetShape(.Squares)
+                (OptionMap[Shapes.Squares]!.Controller as? General2DOptionsCode)?.SetCaption("Two-dimensional squares options.")
             
             case .Rectangles:
-                (OptionMap[Shapes.Rectangles]!.Controller as? NoOptionsCode)?.SetShape(.Rectangles)
-                (OptionMap[Shapes.Rectangles]!.Controller as? NoOptionsCode)?.SetCaption("Two-dimensional rectangles. No options available.")
+                (OptionMap[Shapes.Rectangles]!.Controller as? General2DOptionsCode)?.SetShape(.Rectangles)
+                (OptionMap[Shapes.Rectangles]!.Controller as? General2DOptionsCode)?.SetCaption("Two-dimensional rectangles options.")
             
             case .Stars:
                 (OptionMap[Shapes.Stars]!.Controller as? StarOptionsCode)?.SetShape(.Stars)
                 (OptionMap[Shapes.Stars]!.Controller as? StarOptionsCode)?.SetAttributes(CurrentAttributes)
             
             case .Stars2D:
-                (OptionMap[Shapes.Stars2D]!.Controller as? NoOptionsCode)?.SetShape(.Stars2D)
-                (OptionMap[Shapes.Stars2D]!.Controller as? NoOptionsCode)?.SetCaption("Two-dimensional stars. No options available.")
+                (OptionMap[Shapes.Stars2D]!.Controller as? General2DOptionsCode)?.SetShape(.Stars2D)
+                (OptionMap[Shapes.Stars2D]!.Controller as? General2DOptionsCode)?.SetCaption("Two-dimensional star options.")
             
             case .Triangles:
                 (OptionMap[Shapes.Triangles]!.Controller as? NoOptionsCode)?.SetShape(.Triangles)
@@ -196,13 +196,13 @@ extension ShapeOptionsCode
         self.addChild(OptionMap[Shapes.Polygons2D]!.Controller!)
         (OptionMap[Shapes.Polygons2D]!.Controller as? PolygonOptionsCode)?.Delegate = self
         
-        OptionMap[Shapes.Rectangles] = OptionEntry(CreateOptionDialog("NoOptions"))
+        OptionMap[Shapes.Rectangles] = OptionEntry(CreateOptionDialog("General2DShapeOptions"))
         self.addChild(OptionMap[Shapes.Rectangles]!.Controller!)
-        (OptionMap[Shapes.Rectangles]!.Controller as? NoOptionsCode)?.Delegate = self
+        (OptionMap[Shapes.Rectangles]!.Controller as? General2DOptionsCode)?.Delegate = self
         
-        OptionMap[Shapes.Circles] = OptionEntry(CreateOptionDialog("NoOptions"))
+        OptionMap[Shapes.Circles] = OptionEntry(CreateOptionDialog("General2DShapeOptions"))
         self.addChild(OptionMap[Shapes.Circles]!.Controller!)
-        (OptionMap[Shapes.Circles]!.Controller as? NoOptionsCode)?.Delegate = self
+        (OptionMap[Shapes.Circles]!.Controller as? General2DOptionsCode)?.Delegate = self
         
         OptionMap[Shapes.Cylinders] = OptionEntry(CreateOptionDialog("LongShapeOptions"))
         self.addChild(OptionMap[Shapes.Cylinders]!.Controller!)
@@ -232,9 +232,9 @@ extension ShapeOptionsCode
         self.addChild(OptionMap[Shapes.Pyramids]!.Controller!)
         (OptionMap[Shapes.Pyramids]!.Controller as? NoOptionsCode)?.Delegate = self
         
-        OptionMap[Shapes.Squares] = OptionEntry(CreateOptionDialog("NoOptions"))
+        OptionMap[Shapes.Squares] = OptionEntry(CreateOptionDialog("General2DShapeOptions"))
         self.addChild(OptionMap[Shapes.Squares]!.Controller!)
-        (OptionMap[Shapes.Squares]!.Controller as? NoOptionsCode)?.Delegate = self
+        (OptionMap[Shapes.Squares]!.Controller as? General2DOptionsCode)?.Delegate = self
         
         OptionMap[Shapes.Tubes] = OptionEntry(CreateOptionDialog("NoOptions"))
         self.addChild(OptionMap[Shapes.Tubes]!.Controller!)
@@ -248,9 +248,9 @@ extension ShapeOptionsCode
         self.addChild(OptionMap[Shapes.Triangles2D]!.Controller!)
         (OptionMap[Shapes.Triangles2D]!.Controller as? NoOptionsCode)?.Delegate = self
         
-        OptionMap[Shapes.Stars2D] = OptionEntry(CreateOptionDialog("NoOptions"))
+        OptionMap[Shapes.Stars2D] = OptionEntry(CreateOptionDialog("General2DShapeOptions"))
         self.addChild(OptionMap[Shapes.Stars2D]!.Controller!)
-        (OptionMap[Shapes.Stars2D]!.Controller as? NoOptionsCode)?.Delegate = self
+        (OptionMap[Shapes.Stars2D]!.Controller as? General2DOptionsCode)?.Delegate = self
         
         OptionMap[Shapes.Blocks] = OptionEntry(CreateOptionDialog("BlockOptions"))
         self.addChild(OptionMap[Shapes.Blocks]!.Controller!)
