@@ -211,66 +211,7 @@ class Generator
         return Height * Exaggerate
     }
     
-    public static func MakeSimpleShape(Shape: Shapes, Side: CGFloat, AtX: Int, AtY: Int,
-                                       Height: CGFloat, Color: NSColor) -> SCNGeometry?
-    {
-        let CurrentShape = Shape
-        switch CurrentShape
-        {
-            case .Blocks:
-                let ChamferSetting = Settings.GetEnum(ForKey: .BlockChamfer, EnumType: BlockChamferSizes.self,
-                                                      Default: BlockChamferSizes.None)
-                let Chamfer = BlockOptionalParameters.ChamferSize(From: ChamferSetting)
-                let BlockGeo = SCNBox(width: Side, height: Side, length: Height, chamferRadius: Chamfer)
-                return BlockGeo
-            
-            case .Spheres:
-                let SphereGeo = SCNSphere(radius: Side / 2.0 * Height)
-                return SphereGeo
-            
-            case .Capsules:
-                let CapGeo = SCNCapsule(capRadius: Side / 2.0, height: Height)
-                return CapGeo
-            
-            case .Tubes:
-                let TubeGeo = SCNTube(innerRadius: Side * Height * 0.2, outerRadius: Side * Height * 0.4, height: Height)
-                return TubeGeo
-            
-            case .Pyramids:
-                let PyGeo = SCNPyramid(width: Side * Height * 0.1, height: Height / 3.0, length: Side * Height * 0.1)
-                return PyGeo
-            
-            case .Cylinders:
-                let CyGeo = SCNCylinder(radius: Side * Height * 0.1, height: Height)
-                return CyGeo
-            
-            case .Rings:
-                let DonutSize = Settings.GetEnum(ForKey: .DonutHoleSize, EnumType: DonutHoleSizes.self,
-                                                 Default: DonutHoleSizes.Medium)
-                var HoleSize: CGFloat = 0.7
-                switch DonutSize
-                {
-                    case .Small:
-                        HoleSize = 0.35
-                    
-                    case .Medium:
-                        HoleSize = 0.7
-                    
-                    case .Large:
-                        HoleSize = 0.9
-                }
-                let RingGeo = SCNTorus(ringRadius: Height, pipeRadius: Height * HoleSize)
-                return RingGeo
-            
-            case .Cones:
-          let (Top, Bottom) = GetConeDimensions(From: Color, Side: Side)
-          let ConeGeo = SCNCone(topRadius: Top, bottomRadius: Bottom, height: Height * 2.0)
-            return ConeGeo
-            
-            default:
-                return nil
-        }
-    }
+    
     
     /// Get the parameters needed to create an oval or oval-like shape.
     public static func GetOvalParameters(ShapeKey: SettingKeys) -> (Major: CGFloat, Minor: CGFloat)
@@ -442,6 +383,17 @@ class Generator
                         var ZLocation: CGFloat = 0.0
                         let Node = Make2DShape(Shape: FinalShape, Side: CGFloat(Side), AtX: AtX, AtY: AtY, Height: Height,
                                                Color: Colors[AtY][AtX], ZLocation: &ZLocation)
+                        NeedsOrientationChange(Node!, FinalShape, Colors[AtY][AtX])
+                        {
+                            NeedsToRotate, EulerAngles in
+                            if NeedsToRotate
+                            {
+                                if let Euler = EulerAngles
+                                {
+                                    Node?.eulerAngles = Euler
+                                }
+                            }
+                        }
                         return Node!
                     
                     //Combined shapes.
@@ -532,6 +484,10 @@ class Generator
                                 }
                             }
                         }
+                        if Settings.GetEnum(ForKey: .SphereBehavior, EnumType: SphereBehaviors.self, Default: SphereBehaviors.Size) == .Height
+                        {
+                            Node.position = SCNVector3(Node.position.x, Node.position.y, Height * 2.0)
+                        }
                         return Node
                     
                     default:
@@ -608,10 +564,27 @@ class Generator
                         EulerAngles = SCNVector3(0.0, 90.0 * CGFloat.pi / 180.0, 0.0)
                     
                     case .X:
-                        EulerAngles = SCNVector3(0.0, 0.0, 90.0 * CGFloat.pi / 180.0 )
+                        EulerAngles = SCNVector3(0.0, 0.0, 90.0 * CGFloat.pi / 180.0)
             }
             
-            case .Tubes, .Cones, .CappedLines, .Pyramids, .Circles:
+            case .Squares, .Rectangles, .Circles, .Stars2D, .Polygons2D:
+                if let (Axis, _) = Settings.Get2DAxisAndColorInfo(Shape)
+                {
+                    NeedsToRotate = true
+                    switch Axis
+                    {
+                        case .X:
+                            EulerAngles = SCNVector3(0.0, 0.0, 90.0 * CGFloat.pi / 180.0)
+
+                        case .Y:
+                            EulerAngles = SCNVector3(0.0, 90.0 * CGFloat.pi / 180.0, 0.0)
+                        
+                        case .Z:
+                            EulerAngles = SCNVector3(90.0 * CGFloat.pi / 180.0, 0.0, 0.0)
+                    }
+            }
+            
+            case .Tubes, .Cones, .CappedLines, .Pyramids:
                 NeedsToRotate = true
                 EulerAngles = SCNVector3(90.0 * CGFloat.pi / 180.0, 0.0, 0.0)
             
