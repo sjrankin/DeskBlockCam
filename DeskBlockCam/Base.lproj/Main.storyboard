@@ -517,18 +517,32 @@
                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                 </textFieldCell>
                                             </textField>
+                                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2ZF-63-MCL">
+                                                <rect key="frame" x="863" y="286" width="224" height="36"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="36" id="CVY-Fm-Ypu"/>
+                                                </constraints>
+                                                <textFieldCell key="cell" selectable="YES" title="Multiline Label" id="BQb-uW-atS">
+                                                    <font key="font" metaFont="system"/>
+                                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                            </textField>
                                         </subviews>
                                         <constraints>
                                             <constraint firstItem="ogX-jq-HQb" firstAttribute="leading" secondItem="6iV-Jo-yuM" secondAttribute="leading" id="4op-wZ-GFi"/>
                                             <constraint firstItem="ogX-jq-HQb" firstAttribute="top" secondItem="6iV-Jo-yuM" secondAttribute="top" id="68d-yS-HKV"/>
+                                            <constraint firstItem="2ZF-63-MCL" firstAttribute="leading" secondItem="gyy-rc-Vs3" secondAttribute="leading" id="Byb-1i-T0W"/>
+                                            <constraint firstItem="2ZF-63-MCL" firstAttribute="top" secondItem="EjG-RI-0P9" secondAttribute="bottom" constant="14" id="Jr3-Iw-0HS"/>
                                             <constraint firstItem="EjG-RI-0P9" firstAttribute="top" secondItem="6iV-Jo-yuM" secondAttribute="top" constant="30" id="Lrg-aA-9Yu"/>
                                             <constraint firstItem="ogX-jq-HQb" firstAttribute="top" secondItem="6iV-Jo-yuM" secondAttribute="top" id="Mjz-XK-LiT"/>
                                             <constraint firstAttribute="bottom" secondItem="ogX-jq-HQb" secondAttribute="bottom" id="N44-Kg-zyN"/>
                                             <constraint firstItem="EjG-RI-0P9" firstAttribute="top" secondItem="gyy-rc-Vs3" secondAttribute="bottom" constant="8" symbolic="YES" id="Omx-4Q-pph"/>
                                             <constraint firstAttribute="trailing" secondItem="gyy-rc-Vs3" secondAttribute="trailing" constant="157" id="PdV-ow-oEe"/>
+                                            <constraint firstItem="2ZF-63-MCL" firstAttribute="trailing" secondItem="QvZ-d3-B1S" secondAttribute="trailing" id="Q1B-3h-Mdn"/>
                                             <constraint firstItem="QvZ-d3-B1S" firstAttribute="leading" secondItem="ogX-jq-HQb" secondAttribute="trailing" constant="8" id="QV4-eV-1yg"/>
                                             <constraint firstItem="QvZ-d3-B1S" firstAttribute="centerX" secondItem="EjG-RI-0P9" secondAttribute="centerX" constant="-6" id="STc-7T-NFX"/>
-                                            <constraint firstItem="gyy-rc-Vs3" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="ogX-jq-HQb" secondAttribute="trailing" symbolic="YES" id="TlY-qg-lOa"/>
+                                            <constraint firstItem="gyy-rc-Vs3" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="ogX-jq-HQb" secondAttribute="trailing" constant="8" symbolic="YES" id="TlY-qg-lOa"/>
                                             <constraint firstAttribute="trailing" secondItem="ogX-jq-HQb" secondAttribute="trailing" constant="250" id="c2v-yP-Bvb"/>
                                             <constraint firstAttribute="bottom" secondItem="ogX-jq-HQb" secondAttribute="bottom" id="ee3-8k-IO9"/>
                                             <constraint firstAttribute="trailing" secondItem="EjG-RI-0P9" secondAttribute="trailing" id="j4e-TH-9ac"/>
@@ -648,6 +662,7 @@
                         <outlet property="CreatingShapesText" destination="7vt-fY-8pk" id="yR0-CS-UO5"/>
                         <outlet property="DurationText" destination="LwL-SA-iDR" id="Z78-Qi-G6L"/>
                         <outlet property="DurationValue" destination="nRD-g8-SRQ" id="6OD-EC-p2N"/>
+                        <outlet property="ImageSourceLabel" destination="2ZF-63-MCL" id="RP0-fW-foY"/>
                         <outlet property="LiveHistogram" destination="sD1-1P-Ylf" id="MKZ-QP-h5W"/>
                         <outlet property="ModeSegment" destination="A6d-Ym-ngP" id="XfP-r9-G35"/>
                         <outlet property="OriginalImageView" destination="EjG-RI-0P9" id="O98-Vb-gyL"/>
