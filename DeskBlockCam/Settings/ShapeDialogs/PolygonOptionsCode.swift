@@ -24,6 +24,38 @@ class PolygonOptionsCode: NSViewController, ToOptionsDialogProtocol
         let Count = GetPolygonSideCount()
         SideCountSegment.selectedSegment = Count - 3
         ShowSample(WithCount: Count)
+        switch CurrentShape
+        {
+            case .Polygons:
+                Option2DBox.isHidden = true
+            
+            case .Polygons2D:
+                Option2DBox.isHidden = false
+                let Orientation = Settings.GetEnum(ForKey: .PolygonAxis, EnumType: LongAxes.self, Default: .Z)
+                switch Orientation
+                {
+                    case .X:
+                        AxisSegment.selectedSegment = 0
+                    
+                    case .Y:
+                        AxisSegment.selectedSegment = 1
+                    
+                    case .Z:
+                        AxisSegment.selectedSegment = 2
+                }
+                let ColorAffect = Settings.GetEnum(ForKey: .PolygonColorControl, EnumType: ColorControls.self, Default: .Height)
+                switch ColorAffect
+                {
+                    case .Size:
+                        ColorSegment.selectedSegment = 0
+                    
+                    case .Height:
+                        ColorSegment.selectedSegment = 1
+            }
+            
+            default:
+                fatalError("Invalid shape \(CurrentShape.rawValue) encountered in PolygonOptionsCode")
+        }
     }
     
     func GetPolygonSideCount() -> Int
@@ -134,6 +166,44 @@ class PolygonOptionsCode: NSViewController, ToOptionsDialogProtocol
     
     var CurrentShape: Shapes = .NoShape
     
+    @IBAction func HandleAxisChanged(_ sender: Any)
+    {
+        switch AxisSegment.selectedSegment
+        {
+            case 0:
+                Settings.SetEnum(.X, EnumType: LongAxes.self, ForKey: .PolygonAxis)
+            
+            case 1:
+                Settings.SetEnum(.Y, EnumType: LongAxes.self, ForKey: .PolygonAxis)
+            
+            case 2:
+                Settings.SetEnum(.Z, EnumType: LongAxes.self, ForKey: .PolygonAxis)
+            
+            default:
+                Settings.SetEnum(.Z, EnumType: LongAxes.self, ForKey: .PolygonAxis)
+        }
+        Delegate?.UpdateCurrent(With: CurrentShape)
+    }
+    
+    @IBAction func HandleColorChanged(_ sender: Any)
+    {
+        switch ColorSegment.selectedSegment
+        {
+            case 0:
+                Settings.SetEnum(.Size, EnumType: ColorControls.self, ForKey: .PolygonColorControl)
+            
+            case 1:
+                Settings.SetEnum(.Height, EnumType: ColorControls.self, ForKey: .PolygonColorControl)
+            
+            default:
+                Settings.SetEnum(.Height, EnumType: ColorControls.self, ForKey: .PolygonColorControl)
+        }
+        Delegate?.UpdateCurrent(With: CurrentShape)
+    }
+    
+    @IBOutlet weak var ColorSegment: NSSegmentedControl!
+    @IBOutlet weak var AxisSegment: NSSegmentedControl!
+    @IBOutlet weak var Option2DBox: NSBox!
     @IBOutlet weak var PolygonSample: SCNView!
     @IBOutlet weak var SideCountSegment: NSSegmentedControl!
     @IBOutlet weak var Caption: NSTextField!
