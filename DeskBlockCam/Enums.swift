@@ -512,3 +512,12 @@ enum LongAxes: String, CaseIterable
     /// Long shapes use the Z axis.
     case Z = "Z"
 }
+
+/// Determines how color controls the size or hieght of shapes.
+enum ColorControls: String, CaseIterable
+{
+    /// The color controls the height (z placement) of the shape.
+    case Height = "Height"
+    /// the color controls the size of the shape.
+    case Size = "Size"
+}
