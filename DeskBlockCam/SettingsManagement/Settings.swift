@@ -120,6 +120,17 @@ class Settings
         UserDefaults.standard.set(LongAxes.Z.rawValue, forKey: SettingKeys.LineAxis.rawValue)
         UserDefaults.standard.set(LongAxes.Z.rawValue, forKey: SettingKeys.CapsuleAxis.rawValue)
         
+        UserDefaults.standard.set(LongAxes.Z.rawValue, forKey: SettingKeys.CircleAxis.rawValue)
+        UserDefaults.standard.set(ColorControls.Height.rawValue, forKey: SettingKeys.CircleColorControl.rawValue)
+        UserDefaults.standard.set(LongAxes.Z.rawValue, forKey: SettingKeys.SquareAxis.rawValue)
+        UserDefaults.standard.set(ColorControls.Height.rawValue, forKey: SettingKeys.SquareColorControl.rawValue)
+        UserDefaults.standard.set(LongAxes.Z.rawValue, forKey: SettingKeys.RectangleAxis.rawValue)
+        UserDefaults.standard.set(ColorControls.Height.rawValue, forKey: SettingKeys.RectangleColorControl.rawValue)
+        UserDefaults.standard.set(LongAxes.Z.rawValue, forKey: SettingKeys.PolygonAxis.rawValue)
+        UserDefaults.standard.set(ColorControls.Height.rawValue, forKey: SettingKeys.PolygonColorControl.rawValue)
+        UserDefaults.standard.set(LongAxes.Z.rawValue, forKey: SettingKeys.StarAxis.rawValue)
+        UserDefaults.standard.set(ColorControls.Height.rawValue, forKey: SettingKeys.StarColorControl.rawValue)
+        
         #if DEBUG
         UserDefaults.standard.set(true, forKey: SettingKeys.AddUserDataToExif.rawValue)
         UserDefaults.standard.set("Stuart Rankin", forKey: SettingKeys.UserName.rawValue)
@@ -573,6 +584,44 @@ class Settings
         return .Unknown
     }
     
+    /// Given a 2D shape, return its associated axis and color control values.
+    /// - Parameter Shape: The shape whose axis and color control values will be returned.
+    /// - Returns: Tuple with the axis and color control settings. Nil if `Shape` does not have
+    ///            these associated keys.
+    public static func Get2DAxisAndColorInfo(_ Shape: Shapes) -> (Axis: LongAxes, ColorControl: ColorControls)?
+    {
+        var AxisKey = SettingKeys.SquareAxis
+        var ColorKey = SettingKeys.SquareColorControl
+        switch Shape
+        {
+            case .Rectangles:
+                AxisKey = .RectangleAxis
+                ColorKey = .RectangleColorControl
+            
+            case .Squares:
+                AxisKey = .SquareAxis
+                ColorKey = .SquareColorControl
+            
+            case .Circles:
+                AxisKey = .CircleAxis
+                ColorKey = .CircleColorControl
+            
+            case .Stars2D:
+                AxisKey = .StarAxis
+                ColorKey = .StarColorControl
+            
+            case .Polygons2D:
+                AxisKey = .PolygonAxis
+                ColorKey = .PolygonColorControl
+            
+            default:
+            return nil
+        }
+        let Axis = GetEnum(ForKey: AxisKey, EnumType: LongAxes.self, Default: .Z)
+        let Color = GetEnum(ForKey: ColorKey, EnumType: ColorControls.self, Default: .Height)
+        return (Axis: Axis, ColorControl: Color)
+    }
+    
     /// Contains a list of all boolean-type fields.
     public static let BooleanFields: [SettingKeys] =
         [
@@ -662,6 +711,16 @@ class Settings
             .CapsuleAxis,
             .LineAxis,
             .CylinderAxis,
+            .CircleAxis,
+            .CircleColorControl,
+            .SquareAxis,
+            .SquareColorControl,
+            .RectangleAxis,
+            .RectangleColorControl,
+            .PolygonAxis,
+            .PolygonColorControl,
+            .StarAxis,
+            .StarColorControl,
     ]
     
     /// Contains a list of all double-type fields.
@@ -828,6 +887,28 @@ enum SettingKeys: String, CaseIterable, Comparable, Hashable
     case LineAxis = "LineAxis"
     /// String/Enum: Determines the axis cylinders line on.
     case CylinderAxis = "CylinderAxis"
+    
+    //2D shape settings.
+    /// String/Enum: Which axis to use to project the circle.
+    case CircleAxis = "CircleAxis"
+    /// String/Enum: Controls how to use the color prominence in relation to height/size.
+    case CircleColorControl = "CircleColorControl"
+    /// String/Enum: Which axis to use to project the square.
+    case SquareAxis = "SquareAxis"
+    /// String/Enum: Controls how to use the color prominence in relation to height/size.
+    case SquareColorControl = "SquareColorControl"
+    /// String/Enum: Which axis to use to project the rectangle.
+    case RectangleAxis = "RectangleAxis"
+    /// String/Enum: Controls how to use the color prominence in relation to height/size.
+    case RectangleColorControl = "RectangleColorControl"
+    /// String/Enum: Which axis to use to project the polygon.
+    case PolygonAxis = "PolygonAxis"
+    /// String/Enum: Controls how to use the color prominence in relation to height/size.
+    case PolygonColorControl = "PolygonColorControl"
+    /// String/Enum: Which axis to use to project the star.
+    case StarAxis = "StarAxis"
+    /// String/Enum: Controls how to use the color prominence in relation to height/size.
+    case StarColorControl = "StarColorControl"
     
     //Processing settings.
     /// String/Enum: Holds the vertical exaggeration.
