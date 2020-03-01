@@ -290,9 +290,8 @@ class BlockView: SCNView
                         let Prominence = ColorProminence(Color) * 0.5
                         let XLocation: Float = Float(X - (HBlocks / 2))
                         let YLocation: Float = Float(Y - (VBlocks / 2))
-                        var ZLocation = (Prominence * PMul) * PMul
+                        let ZLocation = (Prominence * PMul) * PMul
                         let ShapeNode = Generator.MakeShape(With: Colors, AtX: X, AtY: Y)
-                        //                        let ShapeNode = Generator.MakeShape(With: Options, AtX: X, AtY: Y)
                         ShapeNode.SetProminence(Double(Prominence))
                         ShapeNode.position = SCNVector3(XLocation * Float(Side),
                                                         YLocation * Float(Side),
@@ -325,18 +324,22 @@ class BlockView: SCNView
                     {
                 self.scene?.rootNode.addChildNode(self.MasterNode!)
                 }
+                self.isPlaying = true
                 print("Added master node to scene.")
-                self.StatusDelegate?.UpdateStatus(With: .AddingDone)
-                let AfterAdded = CACurrentMediaTime() - Start
-                self.StatusDelegate?.FinalizeDuration(WithDuration: AfterAdded)
             }
         }
         #else
+        var NCount = 0
         MasterNode?.enumerateChildNodes
             {
                 (Node, _) in
+                autoreleasepool
+                    {
                 self.scene?.rootNode.addChildNode(Node)
+                NCount = NCount + 1
+                }
         }
+        print("\(NCount) nodes added to scene.")
         #endif
         self.StatusDelegate?.UpdateStatus(With: .AddingDone)
         let AfterAdded = CACurrentMediaTime() - Start
