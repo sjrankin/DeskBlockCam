@@ -292,6 +292,7 @@ class BlockView: SCNView
                         let YLocation: Float = Float(Y - (VBlocks / 2))
                         let ZLocation = (Prominence * PMul) * PMul
                         let ShapeNode = Generator.MakeShape(With: Colors, AtX: X, AtY: Y)
+                        ShapeNode.castsShadow = true
                         ShapeNode.SetProminence(Double(Prominence))
                         ShapeNode.position = SCNVector3(XLocation * Float(Side),
                                                         YLocation * Float(Side),
@@ -450,6 +451,12 @@ class BlockView: SCNView
         let Light = SCNLight()
         Light.type = .omni
         Light.color = NSColor.white
+        
+        Light.castsShadow = true
+        Light.shadowMode = .forward
+        Light.shadowColor = NSColor.black.withAlphaComponent(0.8)
+        Light.shadowRadius = 10.0
+        
         LightNode = SCNNode()
         LightNode!.light = Light
         LightNode!.position = SCNVector3(-10.0, 10.0, 15.0)
