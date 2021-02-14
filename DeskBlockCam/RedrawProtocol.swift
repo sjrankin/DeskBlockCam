@@ -10,11 +10,14 @@ import Foundation
 
 /// Protocol for telling the main view when to redraw an image or live view
 /// due to user setting changes.
-protocol RedrawProtocol: class
+protocol RedrawProtocol: AnyObject
 {
     /// Redraw the still image.
     func RedrawImage()
     
     /// Reset the live view image.
     func ResetLiveView()
+    
+    /// Call when the settings window closes.
+    func SettingsWindowClosing()
 }
