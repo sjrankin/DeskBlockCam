@@ -18,8 +18,9 @@ class Pixellator
     
     /// Pixellate the passed image.
     /// - Parameter Image: The image to pixellate.
+    /// - Parameter BlockSize: Size of pixel regions.
     /// - Returns: Pixellated image on success, nil on error.
-    public static func Pixellate(_ Image: CIImage) -> NSImage?
+    public static func Pixellate(_ Image: CIImage, _ BlockSize: Int = 16) -> NSImage?
     {
         objc_sync_enter(PixellateLock)
         defer{ objc_sync_exit(PixellateLock) }
@@ -27,7 +28,7 @@ class Pixellator
         {
             Reduction.setDefaults()
             Reduction.setValue(Image, forKey: kCIInputImageKey)
-            Reduction.setValue(16, forKey: kCIInputScaleKey)
+            Reduction.setValue(BlockSize, forKey: kCIInputScaleKey)
             var Reduced: CIImage? = nil
                     Reduced = (Reduction.value(forKey: kCIOutputImageKey) as? CIImage)
             if Reduced != nil
