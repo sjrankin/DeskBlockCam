@@ -234,6 +234,14 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
     
     @IBAction func OpenOptionsWindow(_ sender: Any)
     {
+        if SettingsWindow != nil
+        {
+            if let TheWindow = SettingsWindow?.window
+            {
+                TheWindow.orderFront(self)
+            }
+            return
+        }
         let Storyboard = NSStoryboard(name: "Settings", bundle: nil)
         if let WindowController = Storyboard.instantiateController(withIdentifier: "ShapeOptionWindowUI2") as? ShapeOptionsWindowCode
         {
@@ -809,6 +817,11 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         {
             ProcessedImage.ResetLiveView()
         }
+    }
+    
+    func SettingsWindowClosing()
+    {
+        SettingsWindow = nil
     }
     
     var DebugWindow: DebugWindowCode? = nil
