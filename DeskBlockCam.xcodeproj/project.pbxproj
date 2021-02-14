@@ -15,6 +15,9 @@
 		1717201123EBD23100636F3C /* Pixellator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1717201023EBD23100636F3C /* Pixellator.swift */; };
 		1717201323EBDF1600636F3C /* BlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1717201223EBDF1600636F3C /* BlockView.swift */; };
 		1717D8AC240A3748006BA54B /* LongShapesOptionsCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1717D8AB240A3748006BA54B /* LongShapesOptionsCode.swift */; };
+		1718054525D6394500A3AFD6 /* PixelCounter.metal in Sources */ = {isa = PBXBuildFile; fileRef = 1718054425D6394500A3AFD6 /* PixelCounter.metal */; };
+		1718054825D65EAC00A3AFD6 /* PixelCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1718054725D65EAC00A3AFD6 /* PixelCounter.swift */; };
+		1718054A25D660D600A3AFD6 /* BlockInfoParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1718054925D660D600A3AFD6 /* BlockInfoParameters.swift */; };
 		1721035F23FCC6140096F778 /* MetadataWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1721035E23FCC6140096F778 /* MetadataWriter.swift */; };
 		1721036123FCCC910096F778 /* Versioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1721036023FCCC910096F778 /* Versioning.swift */; };
 		1721036423FCD2250096F778 /* CurrentSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1721036323FCD2250096F778 /* CurrentSettings.swift */; };
@@ -33,6 +36,7 @@
 		1732796C23F7E47C00EE0213 /* RingOptionalParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1732796B23F7E47C00EE0213 /* RingOptionalParameters.swift */; };
 		1732796E23F7E6D800EE0213 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1732796D23F7E6D800EE0213 /* Settings.storyboard */; };
 		1732797023F7E93800EE0213 /* RingOptionCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1732796F23F7E93800EE0213 /* RingOptionCode.swift */; };
+		1739449B25D7BCE500C543E1 /* +ShapeStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1739449A25D7BCE500C543E1 /* +ShapeStatus.swift */; };
 		173C245423ED28CB00270760 /* NoOptionsCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173C245323ED28CB00270760 /* NoOptionsCode.swift */; };
 		173C245A23ED29DC00270760 /* OptionsProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173C245923ED29DC00270760 /* OptionsProtocol.swift */; };
 		173C245C23ED2CBC00270760 /* BlockOptionsCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173C245B23ED2CBC00270760 /* BlockOptionsCode.swift */; };
@@ -154,6 +158,9 @@
 		1717201023EBD23100636F3C /* Pixellator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pixellator.swift; sourceTree = "<group>"; };
 		1717201223EBDF1600636F3C /* BlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockView.swift; sourceTree = "<group>"; };
 		1717D8AB240A3748006BA54B /* LongShapesOptionsCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LongShapesOptionsCode.swift; sourceTree = "<group>"; };
+		1718054425D6394500A3AFD6 /* PixelCounter.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = PixelCounter.metal; sourceTree = "<group>"; };
+		1718054725D65EAC00A3AFD6 /* PixelCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelCounter.swift; sourceTree = "<group>"; };
+		1718054925D660D600A3AFD6 /* BlockInfoParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockInfoParameters.swift; sourceTree = "<group>"; };
 		1721035E23FCC6140096F778 /* MetadataWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetadataWriter.swift; sourceTree = "<group>"; };
 		1721036023FCCC910096F778 /* Versioning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Versioning.swift; sourceTree = "<group>"; };
 		1721036323FCD2250096F778 /* CurrentSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentSettings.swift; sourceTree = "<group>"; };
@@ -172,6 +179,7 @@
 		1732796B23F7E47C00EE0213 /* RingOptionalParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingOptionalParameters.swift; sourceTree = "<group>"; };
 		1732796D23F7E6D800EE0213 /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
 		1732796F23F7E93800EE0213 /* RingOptionCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingOptionCode.swift; sourceTree = "<group>"; };
+		1739449A25D7BCE500C543E1 /* +ShapeStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+ShapeStatus.swift"; sourceTree = "<group>"; };
 		173C245323ED28CB00270760 /* NoOptionsCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoOptionsCode.swift; sourceTree = "<group>"; };
 		173C245923ED29DC00270760 /* OptionsProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsProtocol.swift; sourceTree = "<group>"; };
 		173C245B23ED2CBC00270760 /* BlockOptionsCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockOptionsCode.swift; sourceTree = "<group>"; };
@@ -371,6 +379,7 @@
 				173C245223ED28AD00270760 /* ShapeDialogs */,
 				1740A3E023EC018100E29C75 /* ShapeOptionsCode.swift */,
 				172C06F123ED31DC00313C3E /* OptionsDialogs.swift */,
+				1739449A25D7BCE500C543E1 /* +ShapeStatus.swift */,
 				177BF06A23EE923E00670F40 /* +Lighting.swift */,
 				176B898623F9436400EC708B /* ShapeOptionsCode2.swift */,
 				177BF06823EE765500670F40 /* GradientFactory.swift */,
@@ -546,6 +555,9 @@
 				17A446F423E7F40100D3C571 /* ImageReduction.metal */,
 				17EB8FFD23E961C600A4C09A /* ImageDelta.metal */,
 				17EB8FFF23E9639D00A4C09A /* ImageDelta.swift */,
+				1718054425D6394500A3AFD6 /* PixelCounter.metal */,
+				1718054725D65EAC00A3AFD6 /* PixelCounter.swift */,
+				1718054925D660D600A3AFD6 /* BlockInfoParameters.swift */,
 			);
 			path = Metal;
 			sourceTree = "<group>";
@@ -719,6 +731,7 @@
 				1740A3D623EBF73000E29C75 /* ConeOptionalParameters.swift in Sources */,
 				1770BDB624038DC8005ED1A6 /* ShapeListUIWindow.swift in Sources */,
 				1770BDB424038D98005ED1A6 /* ShapeListUICode.swift in Sources */,
+				1739449B25D7BCE500C543E1 /* +ShapeStatus.swift in Sources */,
 				178041B723F3CF48006E40C1 /* ErrorMessageWindowCode.swift in Sources */,
 				177BF06623EE735000670F40 /* GradientSwatchItem.swift in Sources */,
 				1761DAB92404ADAA001DE9F9 /* BlocksWithOptionsCode.swift in Sources */,
@@ -748,12 +761,14 @@
 				1750ADC023FB817600D4EBB0 /* Save.swift in Sources */,
 				172C06EA23ED307000313C3E /* RadiatingLinesOptionsCode.swift in Sources */,
 				177BA8C52402320500ED9095 /* SCNTriangle.swift in Sources */,
+				1718054525D6394500A3AFD6 /* PixelCounter.metal in Sources */,
 				173C245423ED28CB00270760 /* NoOptionsCode.swift in Sources */,
 				172C06E423ED2FE200313C3E /* DiamondOptionsCode.swift in Sources */,
 				17A446F523E7F40100D3C571 /* ImageReduction.metal in Sources */,
 				1740A3D423EBEF5C00E29C75 /* DiamondOptionalParameters.swift in Sources */,
 				178041B923F3D000006E40C1 /* ErrorMessageController.swift in Sources */,
 				172C06E823ED303E00313C3E /* ConeOptionsCode.swift in Sources */,
+				1718054825D65EAC00A3AFD6 /* PixelCounter.swift in Sources */,
 				177BA8CD2402334A00ED9095 /* SCNCircle.swift in Sources */,
 				1740A3E323EC01AA00E29C75 /* ShapeOptionsWindowCode.swift in Sources */,
 				17897B8323E6A77300AFDA6A /* AppDelegate.swift in Sources */,
@@ -767,6 +782,7 @@
 				176B898323F9047100EC708B /* ValueItem.swift in Sources */,
 				17D5AD2723F3BE39006C295F /* AboutController.swift in Sources */,
 				1740A3DA23EBF96600E29C75 /* StackedShapesOptionalParameters.swift in Sources */,
+				1718054A25D660D600A3AFD6 /* BlockInfoParameters.swift in Sources */,
 				17B31D5023EFF5C800C69257 /* Settings.swift in Sources */,
 				172C06E223ED2F9000313C3E /* OvalOptionsCode.swift in Sources */,
 				177BA8D4240238E500ED9095 /* PolygonOptionsCode.swift in Sources */,
