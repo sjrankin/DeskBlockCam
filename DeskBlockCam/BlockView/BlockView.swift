@@ -66,32 +66,30 @@ class BlockView: SCNView
     func ClearScene()
     {
         #if true
-        if MasterNode != nil
+        if PrimaryNode != nil
         {
-            print("Removing master node from scene.")
-            //MasterNode?.CleanUp()
-            MasterNode?.removeFromParentNode()
-            MasterNode = nil
+            print("Removing primary node from scene.")
+            PrimaryNode?.removeFromParentNode()
+            PrimaryNode = nil
         }
-        if LiveViewMasterNode != nil
+        if LiveViewPrimaryNode != nil
         {
-            print("Removing live view master node from scene.")
-            //LiveViewMasterNode?.CleanUp()
-            LiveViewMasterNode?.removeFromParentNode()
-            LiveViewMasterNode = nil
+            print("Removing live view primary node from scene.")
+            LiveViewPrimaryNode?.removeFromParentNode()
+            LiveViewPrimaryNode = nil
         }
         #else
         DispatchQueue.main.async
             {
-                if self.MasterNode != nil
+                if self.PrimaryNode != nil
                 {
-                    self.MasterNode?.removeFromParentNode()
-                    self.MasterNode = nil
+                    self.PrimaryNode?.removeFromParentNode()
+                    self.PrimaryNode = nil
                 }
-                if self.LiveViewMasterNode != nil
+                if self.LiveViewPrimaryNode != nil
                 {
-                    self.LiveViewMasterNode?.removeFromParentNode()
-                    self.LiveViewMasterNode = nil
+                    self.LiveViewPrimaryNode?.removeFromParentNode()
+                    self.LiveViewPrimaryNode = nil
                 }
         }
         #endif
@@ -239,11 +237,11 @@ class BlockView: SCNView
         PreviouslyProcessedImage = Image
         StatusDelegate?.UpdateStatus(With: .ResetStatus)
         let Start = CACurrentMediaTime()
-        if MasterNode != nil
+        if PrimaryNode != nil
         {
-            MasterNode?.removeAllActions()
-            MasterNode?.removeFromParentNode()
-            MasterNode = nil
+            PrimaryNode?.removeAllActions()
+            PrimaryNode?.removeFromParentNode()
+            PrimaryNode = nil
         }
         Initialize()
         SetAntialiasing()
@@ -252,10 +250,10 @@ class BlockView: SCNView
         //        ClearScene()
         let AfterClear = CACurrentMediaTime() - Start
         StatusDelegate?.UpdateDuration(NewDuration: AfterClear)
-        if MasterNode == nil
+        if PrimaryNode == nil
         {
-            MasterNode = SCNNode()
-            MasterNode?.name = "Master Node"
+            PrimaryNode = SCNNode()
+            PrimaryNode?.name = "Primary Node"
         }
         let Resized = Shrinker.ResizeImage(Image: Image, Longest: 1024)
         let ResizedData = Resized.tiffRepresentation
@@ -302,7 +300,7 @@ class BlockView: SCNView
                          YLocation * Float(Options.Side),
                          Float(ZLocation))
                          */
-                        MasterNode?.addChildNode(ShapeNode)
+                        PrimaryNode?.addChildNode(ShapeNode)
                         Count = Count + 1.0
                         let Percent = 100.0 * (Count / Total)
                         StatusDelegate?.UpdateStatus(With: .CreatingPercentUpdate, PercentComplete: Percent)
@@ -316,22 +314,22 @@ class BlockView: SCNView
         self.StatusDelegate?.UpdateStatus(With: .AddingShapes)
 
         #if true
-        prepare([MasterNode!])
+        prepare([PrimaryNode!])
         {
             Completed in
             if Completed
             {
                 OperationQueue.main.addOperation
                     {
-                self.scene?.rootNode.addChildNode(self.MasterNode!)
+                self.scene?.rootNode.addChildNode(self.PrimaryNode!)
                 }
                 self.isPlaying = true
-                print("Added master node to scene.")
+                print("Added primary node to scene.")
             }
         }
         #else
         var NCount = 0
-        MasterNode?.enumerateChildNodes
+        PrimaryNode?.enumerateChildNodes
             {
                 (Node, _) in
                 autoreleasepool
@@ -471,8 +469,8 @@ class BlockView: SCNView
         return self.snapshot()
     }
     
-    /// Master node for still image processing.
-    var MasterNode: SCNNode? = nil
+    /// Primary node for still image processing.
+    var PrimaryNode: SCNNode? = nil
     
     /// Resets the camera view to initial location, orientation, and rotation.
     public func ResetCamera()
@@ -524,7 +522,7 @@ class BlockView: SCNView
         {
             return Double((CameraNode?.position.z)!)
         }
-        if let RootNode = GetNode(WithName: "Master Node", InScene: self.scene!)
+        if let RootNode = GetNode(WithName: "Primary Node", InScene: self.scene!)
         {
             if let CameraNode = GetNode(WithName: "Camera Node", InScene: self.scene!)
             {
@@ -536,7 +534,7 @@ class BlockView: SCNView
                                                      CGFloat(CameraHeight))
                     if IsLiveView
                     {
-                        if AllInView(View: self, Node: LiveViewMasterNode!, PointOfView: POV!)
+                        if AllInView(View: self, Node: LiveViewPrimaryNode!, PointOfView: POV!)
                         {
                             CameraNode.position = SCNVector3(CameraNode.position.x,
                                                              CameraNode.position.y,
@@ -546,7 +544,7 @@ class BlockView: SCNView
                     }
                     else
                     {
-                        if AllInView(View: self, Node: MasterNode!, PointOfView: POV!)
+                        if AllInView(View: self, Node: PrimaryNode!, PointOfView: POV!)
                         {
                             CameraNode.position = SCNVector3(CameraNode.position.x,
                                                              CameraNode.position.y,
@@ -700,6 +698,7 @@ class BlockView: SCNView
         LiveViewBusy = true
         objc_sync_enter(CloseLock)
         defer{ objc_sync_exit(CloseLock) }
+ 
         let ResizeTo = Settings.GetEnum(ForKey: .LiveViewImageSize, EnumType: LiveViewImageSizes.self, Default: LiveViewImageSizes.Medium)
         var NextImage: CIImage = Source
         //print("Stream image size: \(NSCIImageRep(ciImage: Source).size)")
@@ -731,7 +730,8 @@ class BlockView: SCNView
                 print("New image size: \(NSCIImageRep(ciImage: NextImage).size)")
             }
         }
-        if let Reduced = Pixellator.Pixellate(NextImage)
+        let BlockSize = Settings.GetInteger(ForKey: .ShapeSize)
+        if let Reduced = Pixellator.Pixellate(NextImage, BlockSize)
         {
             var HBlocks: Int = 0
             var VBlocks: Int = 0
@@ -775,9 +775,9 @@ class BlockView: SCNView
     /// attribute of the live view such that existing nodes can no longer be used.
     public func ResetLiveView()
     {
-        LiveViewMasterNode?.removeAllActions()
-        LiveViewMasterNode?.removeFromParentNode()
-        LiveViewMasterNode = nil
+        LiveViewPrimaryNode?.removeAllActions()
+        LiveViewPrimaryNode?.removeFromParentNode()
+        LiveViewPrimaryNode = nil
     }
     
     /// Udpate existing nodes with new colors.
@@ -793,7 +793,7 @@ class BlockView: SCNView
     {
         let ColorCount = Colors.count * Colors[0].count
         //print("UpdateNodes: X=\(Colors[0].count), Y=\(Colors.count), Total=\(ColorCount)")
-        for SomeNode in LiveViewMasterNode!.childNodes
+        for SomeNode in LiveViewPrimaryNode!.childNodes
         {
             autoreleasepool
                 {
@@ -944,11 +944,39 @@ class BlockView: SCNView
         }
         Node.geometry?.firstMaterial?.diffuse.contents = Color
         Node.geometry?.firstMaterial?.specular.contents = NSColor.white
-        Node.geometry?.firstMaterial?.lightingModel = .lambert
+        let LightModel = Settings.GetEnum(ForKey: .LightModel, EnumType: LightModels.self, Default: .Lambert)
+        switch LightModel
+        {
+            case .Blinn:
+                Node.geometry?.firstMaterial?.lightingModel = .blinn
+                
+            case .Constant:
+                Node.geometry?.firstMaterial?.lightingModel = .constant
+                
+            case .Lambert:
+                Node.geometry?.firstMaterial?.lightingModel = .lambert
+                
+            case .Phong:
+                Node.geometry?.firstMaterial?.lightingModel = .phong
+                
+            case .Physical:
+                Node.geometry?.firstMaterial?.lightingModel = .physicallyBased
+        }
+        if Settings.GetBoolean(ForKey: .EnableMetalness)
+        {
+            Node.geometry?.firstMaterial?.roughness.contents = Settings.GetDouble(ForKey: .Roughness)
+            Node.geometry?.firstMaterial?.metalness.contents = Settings.GetDouble(ForKey: .Metalness)
+        }
+        else
+        {
+            Node.geometry?.firstMaterial?.roughness.contents = nil
+            Node.geometry?.firstMaterial?.metalness.contents = nil
+        }
+        
         return Node
     }
     
-    /// Create a 3D shape for each passed color. Add it to the `LiveViewMasterNode`.
+    /// Create a 3D shape for each passed color. Add it to the `LiveViewPrimaryNode`.
     /// - Parameter Colors: Array of colors from the original image. One shape will be created for each color.
     /// - Parameter HShapeCount: Number of horizontal colors.
     /// - Parameter VShapeCount: Number of vertical colors.
@@ -959,17 +987,17 @@ class BlockView: SCNView
         if CurrentLiveViewNodeShape != NodeShape
         {
             CurrentLiveViewNodeShape = NodeShape
-            LiveViewMasterNode?.removeFromParentNode()
-            LiveViewMasterNode = nil
+            LiveViewPrimaryNode?.removeFromParentNode()
+            LiveViewPrimaryNode = nil
         }
-        if LiveViewMasterNode != nil
+        if LiveViewPrimaryNode != nil
         {
             UpdateNodes(With: Colors, HShapeCount: HShapeCount, VShapeCount: VShapeCount, Side: Side)
             return
         }
-        LiveViewMasterNode = SCNNode()
-        LiveViewMasterNode?.name = "Master Node"
-        LiveViewMasterNode?.position = SCNVector3(0.0, 0.0, 0.0)
+        LiveViewPrimaryNode = SCNNode()
+        LiveViewPrimaryNode?.name = "Primary Node"
+        LiveViewPrimaryNode?.position = SCNVector3(0.0, 0.0, 0.0)
         for Y in 0 ... VShapeCount - 1
         {
             for X in 0 ... HShapeCount - 1
@@ -987,11 +1015,11 @@ class BlockView: SCNView
                         Node.position = SCNVector3(XLocation * Float(Side),
                                                    YLocation * Float(Side),
                                                    Float(ZLocation))
-                        LiveViewMasterNode?.addChildNode(Node)
+                        LiveViewPrimaryNode?.addChildNode(Node)
                 }
             }
         }
-        self.scene?.rootNode.addChildNode(LiveViewMasterNode!)
+        self.scene?.rootNode.addChildNode(LiveViewPrimaryNode!)
         let NewHeight = MinimizeBezel()
         CameraNode?.position = SCNVector3(CameraNode!.position.x,
                                           CameraNode!.position.y,
@@ -1001,7 +1029,7 @@ class BlockView: SCNView
     /// The current shape to use in live view mode.
     var CurrentLiveViewNodeShape = Shapes.NoShape
     
-    /// The master node for live view mode.
-    var LiveViewMasterNode: SCNNode? = nil
+    /// The primary node for live view mode.
+    var LiveViewPrimaryNode: SCNNode? = nil
 }
 
