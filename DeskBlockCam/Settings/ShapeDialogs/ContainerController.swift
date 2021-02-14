@@ -38,5 +38,4 @@ class ContainerController: NSView
             }
         }
     }
-
 }
