@@ -131,6 +131,10 @@ class Settings
         UserDefaults.standard.set(LongAxes.Z.rawValue, forKey: SettingKeys.StarAxis.rawValue)
         UserDefaults.standard.set(ColorControls.Height.rawValue, forKey: SettingKeys.StarColorControl.rawValue)
         
+        UserDefaults.standard.set(false, forKey: SettingKeys.EnableMetalness.rawValue)
+        UserDefaults.standard.set(1.0, forKey: SettingKeys.Metalness.rawValue)
+        UserDefaults.standard.set(1.0, forKey: SettingKeys.Roughness.rawValue)
+        
         #if DEBUG
         UserDefaults.standard.set(true, forKey: SettingKeys.AddUserDataToExif.rawValue)
         UserDefaults.standard.set("Stuart Rankin", forKey: SettingKeys.UserName.rawValue)
@@ -637,7 +641,8 @@ class Settings
             .SaveUserName,
             .SaveUserCopyright,
             .FullyExtrudeLetters,
-            .SidesTouch
+            .SidesTouch,
+            .EnableMetalness,
     ]
     
     /// Contains a list of all integer-type fields.
@@ -728,6 +733,8 @@ class Settings
         [
             .Side,
             .LineZAngle,
+            .Metalness,
+            .Roughness,
     ]
 }
 
@@ -940,6 +947,12 @@ enum SettingKeys: String, CaseIterable, Comparable, Hashable
     case LightModel = "LightModel"
     /// String/Enum: Holds the antialiasing mode.
     case Antialiasing = "Antialiasing"
+    /// Bool: Enable/disable metallic surfaces.
+    case EnableMetalness = "EnableMetalness"
+    /// Double: Surface metalness value.
+    case Metalness = "Metalness"
+    /// Double: Surface roughness value.
+    case Roughness = "Roughness"
     
     //Live view settings.
     /// String/Enum. The shape to use for live views.
