@@ -18,13 +18,13 @@ class ImageDelta
         RenderInitialization()
     }
     
-        private let MetalDevice = MTLCreateSystemDefaultDevice()
+    private let MetalDevice = MTLCreateSystemDefaultDevice()
     var ImageDevice: MTLDevice? = nil
     var ImageComputePipelineState: MTLComputePipelineState? = nil
     private lazy var ImageCommandQueue: MTLCommandQueue? =
-    {
-        return self.MetalDevice?.makeCommandQueue()
-    }()
+        {
+            return self.MetalDevice?.makeCommandQueue()
+        }()
     
     func RenderInitialization()
     {
