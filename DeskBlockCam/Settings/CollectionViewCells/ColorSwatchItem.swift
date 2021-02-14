@@ -23,11 +23,12 @@ class ColorSwatchItem: NSCollectionViewItem
         self.view.layer?.borderWidth = 0.5
         self.view.layer?.borderColor = NSColor.black.cgColor
         self.view.layer?.cornerRadius = 5.0
-        self.view.layer?.backgroundColor = NSColor.white.cgColor
+        self.view.layer?.backgroundColor = NSColor.systemGray.cgColor//NSColor.white.cgColor
         ColorView.wantsLayer = true
         ColorView.layer?.borderWidth = 0.25
         ColorView.layer?.cornerRadius = 3.0
         ColorView.layer?.borderColor = NSColor.black.cgColor
+        ColorName.textColor = NSColor(named: "SwatchTextColor")
     }
     
     func SetColor(_ Color: NSColor, WithName: String)
@@ -38,7 +39,7 @@ class ColorSwatchItem: NSCollectionViewItem
 
     func SetSelectionState(To IsSelected: Bool)
     {
-        self.view.layer?.backgroundColor = IsSelected ? NSColor.yellow.cgColor : NSColor.white.cgColor
+        self.view.layer?.backgroundColor = IsSelected ? NSColor.systemYellow.cgColor : NSColor.systemGray.cgColor
     }
     
     @IBOutlet weak var ColorView: NSView!
