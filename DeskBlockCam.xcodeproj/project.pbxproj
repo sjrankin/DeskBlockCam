@@ -42,6 +42,7 @@
 		173C245A23ED29DC00270760 /* OptionsProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173C245923ED29DC00270760 /* OptionsProtocol.swift */; };
 		173C245C23ED2CBC00270760 /* BlockOptionsCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173C245B23ED2CBC00270760 /* BlockOptionsCode.swift */; };
 		1740A3C723EBE5E500E29C75 /* ProcessingAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1740A3C623EBE5E500E29C75 /* ProcessingAttributes.swift */; };
+		A1B2C3D41F00000100E29C75 /* LiveViewMesh.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D41F00000200E29C75 /* LiveViewMesh.swift */; };
 		1740A3C923EBEB6400E29C75 /* OptionalParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1740A3C823EBEB6400E29C75 /* OptionalParameters.swift */; };
 		1740A3CC23EBEBD400E29C75 /* BlockOptionalParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1740A3CB23EBEBD400E29C75 /* BlockOptionalParameters.swift */; };
 		1740A3CE23EBEC5300E29C75 /* CappedLineOptionalParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1740A3CD23EBEC5300E29C75 /* CappedLineOptionalParameters.swift */; };
@@ -186,6 +187,7 @@
 		173C245923ED29DC00270760 /* OptionsProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsProtocol.swift; sourceTree = "<group>"; };
 		173C245B23ED2CBC00270760 /* BlockOptionsCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockOptionsCode.swift; sourceTree = "<group>"; };
 		1740A3C623EBE5E500E29C75 /* ProcessingAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessingAttributes.swift; sourceTree = "<group>"; };
+		A1B2C3D41F00000200E29C75 /* LiveViewMesh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveViewMesh.swift; sourceTree = "<group>"; };
 		1740A3C823EBEB6400E29C75 /* OptionalParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionalParameters.swift; sourceTree = "<group>"; };
 		1740A3CB23EBEBD400E29C75 /* BlockOptionalParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockOptionalParameters.swift; sourceTree = "<group>"; };
 		1740A3CD23EBEC5300E29C75 /* CappedLineOptionalParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CappedLineOptionalParameters.swift; sourceTree = "<group>"; };
@@ -307,6 +309,7 @@
 				1740A3CA23EBEBB300E29C75 /* OptionalParameters */,
 				1717201223EBDF1600636F3C /* BlockView.swift */,
 				1740A3C623EBE5E500E29C75 /* ProcessingAttributes.swift */,
+				A1B2C3D41F00000200E29C75 /* LiveViewMesh.swift */,
 				17B31D5323EFF9AE00C69257 /* AttributeFactory.swift */,
 				17609FCA23F65D5100391FFB /* StatusProtocol.swift */,
 			);
@@ -727,6 +730,7 @@
 				17609FC923F64E8E00391FFB /* +StatusView.swift in Sources */,
 				173C245C23ED2CBC00270760 /* BlockOptionsCode.swift in Sources */,
 				1740A3C723EBE5E500E29C75 /* ProcessingAttributes.swift in Sources */,
+				A1B2C3D41F00000100E29C75 /* LiveViewMesh.swift in Sources */,
 				17B31D5623EFFAAF00C69257 /* Enums.swift in Sources */,
 				177BF06223EE52CD00670F40 /* ColorSwatchItem.swift in Sources */,
 				177BA8C124022EFE00ED9095 /* SCNTetrahedron.swift in Sources */,
@@ -921,7 +925,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = DeskBlockCam/DeskBlockCam.entitlements;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 4BB235M4GL;
@@ -943,7 +947,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = DeskBlockCam/DeskBlockCam.entitlements;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 4BB235M4GL;

@@ -325,7 +325,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         let AttachedDevices = AVCaptureDevice.devices(for: AVMediaType.video)
         print("Attached devices = \(AttachedDevices)")
         CaptureSession = AVCaptureSession()
-        CaptureSession.sessionPreset = .photo
+        CaptureSession.sessionPreset = .hd1280x720
         if let Device = AttachedDevices.first
         {
             CaptureDevice = Device
@@ -528,7 +528,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
             return
         }
         //Set up the throttle.
-        let Throttle = 1.0
+        let Throttle = 1.0 / 15.0
         AddStat(ForItem: .ThrottleValue, NewValue: "\(Throttle) s")
         FrameCount = FrameCount + 1
         let Now = CACurrentMediaTime()

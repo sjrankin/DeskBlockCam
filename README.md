@@ -13,6 +13,10 @@ BlockCam supports real-time input from attached cameras. However, there are stil
 
 <img src="Images/DeskBlockCamSample.gif" alt="Sample image." height="600">
 
+## After posting this, I decided to use Claude to help me debug the performanc issue. Claude found some embarassing blunders on my part, fixed them, and now the framerate is on the order of 15 fps.
+
+<img src="Images/UpdatedBlockCam.gif" alt="BlockCam at ~ 15fps" height="600">
+
 
 ## Versioning
 

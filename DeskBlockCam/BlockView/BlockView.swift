@@ -9,6 +9,7 @@
 import Foundation
 import AppKit
 import SceneKit
+import CoreImage
 
 /// Provides a block view in an `SCNView` control.
 class BlockView: SCNView
@@ -100,11 +101,15 @@ class BlockView: SCNView
     /// - Note: The vertical exaggeration setting is also used to define the final prominence value.
     /// - Parameter Color: The base color used to determine prominence.
     /// - Returns: Prominence value for the passed color.
-    func ColorProminence(_ Color: NSColor) -> CGFloat
+    /// - Parameter Exaggeration: Vertical exaggeration. If nil, read from settings. Pass a value when calling in a loop.
+    /// - Parameter Determination: Height determination. If nil, read from settings. Pass a value when calling in a loop.
+    /// - Parameter Invert: Invert height flag. If nil, read from settings. Pass a value when calling in a loop.
+    func ColorProminence(_ Color: NSColor, Exaggeration: VerticalExaggerations? = nil,
+                         Determination: HeightDeterminations? = nil, Invert: Bool? = nil) -> CGFloat
     {
         var Ex: CGFloat = 1.0
-        switch Settings.GetEnum(ForKey: .VerticalExaggeration, EnumType: VerticalExaggerations.self,
-                                Default: VerticalExaggerations.Small)
+        switch Exaggeration ?? Settings.GetEnum(ForKey: .VerticalExaggeration, EnumType: VerticalExaggerations.self,
+                                                Default: VerticalExaggerations.Small)
         {
             case .None:
                 Ex = 1.0
@@ -119,8 +124,8 @@ class BlockView: SCNView
                 Ex = 3.5
         }
         var Height: CGFloat = 0.0
-        switch Settings.GetEnum(ForKey: .HeightDetermination, EnumType: HeightDeterminations.self,
-                                Default: HeightDeterminations.Brightness)
+        switch Determination ?? Settings.GetEnum(ForKey: .HeightDetermination, EnumType: HeightDeterminations.self,
+                                                 Default: HeightDeterminations.Brightness)
         {
             case .Hue:
                 Height = Color.hueComponent
@@ -173,7 +178,7 @@ class BlockView: SCNView
             case .LeastCMYK:
                 Height = min(Color.CMYK.C, Color.CMYK.M, Color.CMYK.Y, Color.CMYK.K)
         }
-        if Settings.GetBoolean(ForKey: .InvertHeight)
+        if Invert ?? Settings.GetBoolean(ForKey: .InvertHeight)
         {
             Height = 1.0 - Height
         }
@@ -669,7 +674,7 @@ class BlockView: SCNView
     /// - Parameter Source: The image to process.
     public func ProcessLiveView(_ Source: CIImage)
     {
-        DispatchQueue.global(qos: .background).async
+        DispatchQueue.global(qos: .userInitiated).async
             {
                 self.DoProcessLiveView(Source)
         }
@@ -692,7 +697,6 @@ class BlockView: SCNView
         if LiveViewBusy
         {
             DropCount = DropCount + 1
-            print("Dropped live view frame. Total count = \(DropCount)")
             return
         }
         LiveViewBusy = true
@@ -700,13 +704,43 @@ class BlockView: SCNView
         defer{ objc_sync_exit(CloseLock) }
  
         let ResizeTo = Settings.GetEnum(ForKey: .LiveViewImageSize, EnumType: LiveViewImageSizes.self, Default: LiveViewImageSizes.Medium)
+        let BlockSizeSetting = Settings.GetInteger(ForKey: .ShapeSize)
+        if let Buffer = Source.pixelBuffer,
+           CVPixelBufferGetPixelFormatType(Buffer) == kCVPixelFormatType_32BGRA
+        {
+            var TargetSize: CGFloat = 1024.0
+            switch ResizeTo
+            {
+                case .Small:
+                    TargetSize = 512.0
+                
+                case .Medium:
+                    TargetSize = 1024.0
+                
+                case .Large:
+                    TargetSize = 2048.0
+                
+                default:
+                    TargetSize = 0.0
+            }
+            var DirectH: Int = 0
+            var DirectV: Int = 0
+            if let Colors = SampledColors(Buffer, TargetSize: TargetSize, PixelSize: BlockSizeSetting, BlockSize: 16,
+                                          HBlocks: &DirectH, VBlocks: &DirectV)
+            {
+                DispatchQueue.main.async
+                    {
+                        self.DrawLiveViewNodes(Colors: Colors, HShapeCount: DirectH, VShapeCount: DirectV,
+                                               NodeShape: Settings.GetEnum(ForKey: .LiveViewShape, EnumType: Shapes.self,
+                                                                           Default: Shapes.Blocks))
+                        self.LiveViewBusy = false
+                }
+                return
+            }
+        }
         var NextImage: CIImage = Source
-        //print("Stream image size: \(NSCIImageRep(ciImage: Source).size)")
         if ResizeTo != .Native
         {
-            let Rep = NSCIImageRep(ciImage: Source)
-            var ResizeMe = NSImage(size: Rep.size)
-            ResizeMe.addRepresentation(Rep)
             var NewSize: CGFloat = 0.0
             switch ResizeTo
             {
@@ -722,53 +756,143 @@ class BlockView: SCNView
                 default:
                     NewSize = 1024.0
             }
-            if NewSize < max(Rep.size.width, Rep.size.height)
+            let Longest = max(Source.extent.width, Source.extent.height)
+            if NewSize < Longest
             {
-                ResizeMe = Shrinker.ResizeImage(Image: ResizeMe, Longest: NewSize)
-                let ResizeData = ResizeMe.tiffRepresentation!
-                NextImage = CIImage(data: ResizeData)!
-                print("New image size: \(NSCIImageRep(ciImage: NextImage).size)")
+                let Scale = NewSize / Longest
+                NextImage = Source.transformed(by: CGAffineTransform(scaleX: Scale, y: Scale))
             }
         }
         let BlockSize = Settings.GetInteger(ForKey: .ShapeSize)
-        if let Reduced = Pixellator.Pixellate(NextImage, BlockSize)
+        var HBlocks: Int = 0
+        var VBlocks: Int = 0
+        if let Colors = PixellatedColors(NextImage, PixelSize: BlockSize, BlockSize: 16,
+                                         HBlocks: &HBlocks, VBlocks: &VBlocks)
         {
-            var HBlocks: Int = 0
-            var VBlocks: Int = 0
-            let Colors = ParseImage(Reduced, BlockSize: 16, HBlocks: &HBlocks, VBlocks: &VBlocks)
             DispatchQueue.main.async
                 {
                     self.DrawLiveViewNodes(Colors: Colors, HShapeCount: HBlocks, VShapeCount: VBlocks,
                                            NodeShape: Settings.GetEnum(ForKey: .LiveViewShape, EnumType: Shapes.self,
                                                                        Default: Shapes.Blocks))
                     self.LiveViewBusy = false
-                    #if false
-                    if !self.AddedObserversCamera
-                    {
-                        if let CameraNode = self.pointOfView
-                        {
-                            self.DefaultCameraNode = CameraNode
-                            self.PositionObservation = self.DefaultCameraNode?.observe(\.position, options: [.initial, .new])
-                            {
-                                (camera, change) in
-                                print("camera position: \(camera.position)")
-                            }
-                            self.OrientationObservation = self.DefaultCameraNode?.observe(\.position, options: [.initial, .new])
-                            {
-                                (camera, change) in
-                                print("camera orientation: \(camera.orientation)")
-                            }
-                            self.RotationObservation = self.DefaultCameraNode?.observe(\.position, options: [.initial, .new])
-                            {
-                                (camera, change) in
-                                print("camera rotation: \(camera.rotation)")
-                            }
-                            self.AddedObserversCamera = true
-                        }
-                    }
-                    #endif
             }
         }
+        else
+        {
+            LiveViewBusy = false
+        }
+    }
+    
+    /// Sample block colors straight from a BGRA camera buffer, with no Core Image rendering. The grid
+    /// matches what the Core Image path produces for an image scaled so its longest side is `TargetSize`.
+    /// - Parameter Buffer: BGRA pixel buffer from the camera.
+    /// - Parameter TargetSize: Longest side of the virtual scaled image. 0 or larger than the source means native size.
+    /// - Parameter PixelSize: Size of the averaged region, in scaled-image pixels.
+    /// - Parameter BlockSize: Spacing of the sample grid, in scaled-image pixels.
+    /// - Parameter HBlocks: On output, the number of horizontal samples.
+    /// - Parameter VBlocks: On output, the number of vertical samples.
+    /// - Returns: Colors in the same order `ParseImage` returns, nil on error.
+    func SampledColors(_ Buffer: CVPixelBuffer, TargetSize: CGFloat, PixelSize: Int, BlockSize: Int,
+                       HBlocks: inout Int, VBlocks: inout Int) -> [[NSColor]]?
+    {
+        CVPixelBufferLockBaseAddress(Buffer, .readOnly)
+        defer{ CVPixelBufferUnlockBaseAddress(Buffer, .readOnly) }
+        guard let Base = CVPixelBufferGetBaseAddress(Buffer) else
+        {
+            return nil
+        }
+        let SrcW = CVPixelBufferGetWidth(Buffer)
+        let SrcH = CVPixelBufferGetHeight(Buffer)
+        let Stride = CVPixelBufferGetBytesPerRow(Buffer)
+        let Longest = CGFloat(max(SrcW, SrcH))
+        let Scale: CGFloat = (TargetSize > 0.0 && TargetSize < Longest) ? TargetSize / Longest : 1.0
+        HBlocks = Int(CGFloat(SrcW) * Scale) / BlockSize
+        VBlocks = Int(CGFloat(SrcH) * Scale) / BlockSize
+        if HBlocks < 1 || VBlocks < 1
+        {
+            return nil
+        }
+        let Pixels = Base.assumingMemoryBound(to: UInt8.self)
+        let Half = max(1.0, CGFloat(PixelSize) / 2.0) / Scale
+        var Colors = Array(repeating: Array(repeating: NSColor.black, count: HBlocks), count: VBlocks)
+        for Y in 0 ..< VBlocks
+        {
+            let CenterY = (CGFloat(Y * BlockSize + BlockSize / 2)) / Scale
+            for X in 0 ..< HBlocks
+            {
+                let CenterX = (CGFloat(X * BlockSize + BlockSize / 2)) / Scale
+                var R = 0, G = 0, B = 0
+                for DY in -1 ... 1
+                {
+                    let PY = min(max(Int(CenterY + CGFloat(DY) * Half * 0.5), 0), SrcH - 1)
+                    for DX in -1 ... 1
+                    {
+                        let PX = min(max(Int(CenterX + CGFloat(DX) * Half * 0.5), 0), SrcW - 1)
+                        let Offset = PY * Stride + PX * 4
+                        B += Int(Pixels[Offset])
+                        G += Int(Pixels[Offset + 1])
+                        R += Int(Pixels[Offset + 2])
+                    }
+                }
+                Colors[VBlocks - 1 - Y][X] = NSColor(srgbRed: CGFloat(R) / (9.0 * 255.0),
+                                                      green: CGFloat(G) / (9.0 * 255.0),
+                                                      blue: CGFloat(B) / (9.0 * 255.0),
+                                                      alpha: 1.0)
+            }
+        }
+        return Colors
+    }
+    
+    /// Pixellate the image on the GPU, render it once into a byte buffer, and sample the center of each
+    /// block directly from the buffer. Replaces the TIFF round trip and `NSBitmapImageRep.colorAt` path
+    /// used for still images.
+    /// - Parameter Image: The image to pixellate.
+    /// - Parameter PixelSize: Size of the pixellation regions.
+    /// - Parameter BlockSize: Spacing of the sample grid.
+    /// - Parameter HBlocks: On output, the number of horizontal samples.
+    /// - Parameter VBlocks: On output, the number of vertical samples.
+    /// - Returns: Colors in the same order `ParseImage` returns, nil on error.
+    func PixellatedColors(_ Image: CIImage, PixelSize: Int, BlockSize: Int,
+                          HBlocks: inout Int, VBlocks: inout Int) -> [[NSColor]]?
+    {
+        guard let Filter = CIFilter(name: "CIPixellate") else
+        {
+            return nil
+        }
+        Filter.setDefaults()
+        Filter.setValue(Image, forKey: kCIInputImageKey)
+        Filter.setValue(PixelSize, forKey: kCIInputScaleKey)
+        guard let Reduced = Filter.outputImage else
+        {
+            return nil
+        }
+        let Bounds = Image.extent.integral
+        let Width = Int(Bounds.width)
+        let Height = Int(Bounds.height)
+        HBlocks = Width / BlockSize
+        VBlocks = Height / BlockSize
+        if HBlocks < 1 || VBlocks < 1
+        {
+            return nil
+        }
+        let RowBytes = Width * 4
+        var Pixels = [UInt8](repeating: 0, count: RowBytes * Height)
+        CIImage.SharedContext.render(Reduced, toBitmap: &Pixels, rowBytes: RowBytes, bounds: Bounds,
+                                     format: .RGBA8, colorSpace: CGColorSpace(name: CGColorSpace.sRGB))
+        var Colors = Array(repeating: Array(repeating: NSColor.black, count: HBlocks), count: VBlocks)
+        for Y in 0 ..< VBlocks
+        {
+            let RowStart = (Y * BlockSize + BlockSize / 2) * RowBytes
+            for X in 0 ..< HBlocks
+            {
+                let Offset = RowStart + (X * BlockSize + BlockSize / 2) * 4
+                Colors[VBlocks - 1 - Y][X] = NSColor(srgbRed: CGFloat(Pixels[Offset]) / 255.0,
+                                                      green: CGFloat(Pixels[Offset + 1]) / 255.0,
+                                                      blue: CGFloat(Pixels[Offset + 2]) / 255.0,
+                                                      alpha: 1.0)
+            }
+        }
+        return Colors
     }
     
     /// Call to reset the live view mode. This happens when the user changes the maximum size of other
@@ -791,82 +915,63 @@ class BlockView: SCNView
     /// - Parameter Side: Base shape side length.
     func UpdateNodes(With Colors: [[NSColor]], HShapeCount: Int, VShapeCount: Int, Side: CGFloat)
     {
-        let ColorCount = Colors.count * Colors[0].count
-        //print("UpdateNodes: X=\(Colors[0].count), Y=\(Colors.count), Total=\(ColorCount)")
+        let Exaggeration = Settings.GetEnum(ForKey: .VerticalExaggeration, EnumType: VerticalExaggerations.self,
+                                            Default: VerticalExaggerations.Small)
+        let Determination = Settings.GetEnum(ForKey: .HeightDetermination, EnumType: HeightDeterminations.self,
+                                             Default: HeightDeterminations.Brightness)
+        let Invert = Settings.GetBoolean(ForKey: .InvertHeight)
+        SCNTransaction.begin()
+        SCNTransaction.animationDuration = 0.0
+        SCNTransaction.disableActions = true
+        defer{ SCNTransaction.commit() }
         for SomeNode in LiveViewPrimaryNode!.childNodes
         {
-            autoreleasepool
-                {
-                    let Node = SomeNode as! PSCNNode
-                    let Color = Colors[Node.Y][Node.X]
-                    let Prominence = ColorProminence(Color)
-                    Node.SetProminence(Double(Prominence))
-                    switch CurrentLiveViewNodeShape
+            let Node = SomeNode as! PSCNNode
+            let Color = Colors[Node.Y][Node.X]
+            let Prominence = ColorProminence(Color, Exaggeration: Exaggeration, Determination: Determination,
+                                             Invert: Invert)
+            Node.SetProminence(Double(Prominence))
+            //Shapes with unit-sized geometry are resized with the node's scale. Changing geometry
+            //parameters forces SceneKit to rebuild the geometry, which is far too slow per frame.
+            let Scale = max(Prominence * PMul, 0.001)
+            switch CurrentLiveViewNodeShape
+            {
+                case .Blocks:
+                    Node.scale = SCNVector3(1.0, 1.0, Scale)
+                
+                case .Spheres, .Rings, .Cones:
+                    Node.scale = SCNVector3(Scale, Scale, Scale)
+                
+                case .Squares:
+                    if let Geo = Node.geometry as? SCNPlane
                     {
-                        case .Blocks:
-                            //box
-                            if let Geo = Node.geometry as? SCNBox
-                            {
-                                Geo.length = Prominence * PMul
-                        }
-                        
-                        case .Spheres:
-                            //sphere
-                            if let Geo = Node.geometry as? SCNSphere
-                            {
-                                Geo.radius = Prominence * PMul
-                        }
-                        
-                        case .Rings:
-                            //ring
-                            if let Geo = Node.geometry as? SCNTorus
-                            {
-                                Geo.ringRadius = Prominence * PMul
-                                Geo.pipeRadius = Prominence * PMul * 0.3
-                        }
-                        
-                        case .Cones:
-                            //cone
-                            if let Geo = Node.geometry as? SCNCone
-                            {
-                                Geo.bottomRadius = Prominence * PMul
-                                Geo.height = Prominence * PMul
-                        }
-                        
-                        case .Squares:
-                            //Floating squares
-                            if let Geo = Node.geometry as? SCNPlane
-                            {
-                                Geo.width = Side + (Prominence * 0.2)
-                                Geo.height = Side + (Prominence * 0.2)
-                                let OldPos = Node.position
-                                Node.position = SCNVector3(OldPos.x, OldPos.y, Prominence * 2.0 * PMul)
-                        }
-                        
-                        case .Pyramids:
-                            //Pyramids
-                            if let Geo = Node.geometry as? SCNPyramid
-                            {
-                                Geo.width = Side + (Prominence * 0.2)
-                                Geo.height = Side + (Prominence * 0.2)
-                                let OldPos = Node.position
-                                Node.position = SCNVector3(OldPos.x, OldPos.y, Prominence * 2.0 * PMul)
-                        }
-                        
-                        case .Tubes:
-                            //tube
-                            if let Geo = Node.geometry as? SCNTube
-                            {
-                                Geo.outerRadius = Side + Prominence * 0.2
-                                Geo.innerRadius = Side * 0.5 + Prominence * 0.2
-                                Geo.height = Prominence * PMul * 2.0
-                        }
-                        
-                        default:
-                            break
+                        Geo.width = Side + (Prominence * 0.2)
+                        Geo.height = Side + (Prominence * 0.2)
+                        let OldPos = Node.position
+                        Node.position = SCNVector3(OldPos.x, OldPos.y, Prominence * 2.0 * PMul)
                     }
-                    Node.geometry?.firstMaterial?.diffuse.contents = Color
+                
+                case .Pyramids:
+                    if let Geo = Node.geometry as? SCNPyramid
+                    {
+                        Geo.width = Side + (Prominence * 0.2)
+                        Geo.height = Side + (Prominence * 0.2)
+                        let OldPos = Node.position
+                        Node.position = SCNVector3(OldPos.x, OldPos.y, Prominence * 2.0 * PMul)
+                    }
+                
+                case .Tubes:
+                    if let Geo = Node.geometry as? SCNTube
+                    {
+                        Geo.outerRadius = Side + Prominence * 0.2
+                        Geo.innerRadius = Side * 0.5 + Prominence * 0.2
+                        Geo.height = Prominence * PMul * 2.0
+                    }
+                
+                default:
+                    break
             }
+            Node.geometry?.firstMaterial?.diffuse.contents = Color
         }
         #if false
         let PImage = ProcessedImage.snapshot()
@@ -901,24 +1006,31 @@ class BlockView: SCNView
                 //Box
                 Node = PSCNNode(geometry: SCNBox(width: Side,
                                                  height: Side,
-                                                 length: Prominence * PMul,
+                                                 length: 1.0,
                                                  chamferRadius: Chamfer),
                                 X: AtX, Y: AtY)
+                Node.scale = SCNVector3(1.0, 1.0, max(Prominence * PMul, 0.001))
             
             case .Spheres:
                 //Sphere
-                Node = PSCNNode(geometry: SCNSphere(radius: Prominence * PMul), X: AtX, Y: AtY)
+                Node = PSCNNode(geometry: SCNSphere(radius: 1.0), X: AtX, Y: AtY)
+                let SphereScale = max(Prominence * PMul, 0.001)
+                Node.scale = SCNVector3(SphereScale, SphereScale, SphereScale)
             
             case .Rings:
                 //ring
-                Node = PSCNNode(geometry: SCNTorus(ringRadius: Prominence * PMul, pipeRadius: Prominence * PMul * 0.3),
+                Node = PSCNNode(geometry: SCNTorus(ringRadius: 1.0, pipeRadius: 0.3),
                                 X: AtX, Y: AtY)
+                let RingScale = max(Prominence * PMul, 0.001)
+                Node.scale = SCNVector3(RingScale, RingScale, RingScale)
                 Node.rotation = SCNVector4(1.0, 0.0, 0.0, 90.0 * CGFloat.pi / 180.0)
             
             case .Cones:
                 //cone
-                Node = PSCNNode(geometry: SCNCone(topRadius: 0.0, bottomRadius: Prominence, height: Prominence),
+                Node = PSCNNode(geometry: SCNCone(topRadius: 0.0, bottomRadius: 1.0, height: 1.0),
                                 X: AtX, Y: AtY)
+                let ConeScale = max(Prominence, 0.001)
+                Node.scale = SCNVector3(ConeScale, ConeScale, ConeScale)
                 Node.rotation = SCNVector4(1.0, 0.0, 0.0, 90.0 * CGFloat.pi / 180.0)
             
             case .Pyramids:
@@ -998,6 +1110,12 @@ class BlockView: SCNView
             CurrentLiveViewNodeShape = NodeShape
             LiveViewPrimaryNode?.removeFromParentNode()
             LiveViewPrimaryNode = nil
+            LiveMesh = nil
+        }
+        if NodeShape == .Blocks
+        {
+            DrawLiveViewMesh(Colors: Colors, HShapeCount: HShapeCount, VShapeCount: VShapeCount, Side: Side)
+            return
         }
         if LiveViewPrimaryNode != nil
         {
@@ -1007,6 +1125,11 @@ class BlockView: SCNView
         LiveViewPrimaryNode = SCNNode()
         LiveViewPrimaryNode?.name = "Primary Node"
         LiveViewPrimaryNode?.position = SCNVector3(0.0, 0.0, 0.0)
+        let Exaggeration = Settings.GetEnum(ForKey: .VerticalExaggeration, EnumType: VerticalExaggerations.self,
+                                            Default: VerticalExaggerations.Small)
+        let Determination = Settings.GetEnum(ForKey: .HeightDetermination, EnumType: HeightDeterminations.self,
+                                             Default: HeightDeterminations.Brightness)
+        let Invert = Settings.GetBoolean(ForKey: .InvertHeight)
         for Y in 0 ... VShapeCount - 1
         {
             for X in 0 ... HShapeCount - 1
@@ -1014,7 +1137,8 @@ class BlockView: SCNView
                 autoreleasepool
                     {
                         let Color = Colors[Y][X]
-                        let Prominence = ColorProminence(Color) * 0.5
+                        let Prominence = ColorProminence(Color, Exaggeration: Exaggeration, Determination: Determination,
+                                                         Invert: Invert) * 0.5
                         let XLocation: Float = Float(X - (HShapeCount / 2))
                         let YLocation: Float = Float(Y - (VShapeCount / 2))
                         var ZLocation = (Prominence * PMul) * PMul
@@ -1040,5 +1164,7 @@ class BlockView: SCNView
     
     /// The primary node for live view mode.
     var LiveViewPrimaryNode: SCNNode? = nil
+    
+    /// Mesh used to draw the live view when the shape is `.Blocks`.
+    var LiveMesh: LiveViewMesh? = nil
 }
-

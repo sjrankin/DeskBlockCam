@@ -84,9 +84,11 @@ extension CIImage
     /// Returns a `CGImage` version of the instance `CIImage`.
     var AsCGImage: CGImage?
     {
-        let Context = CIContext(options: nil)
-        return Context.createCGImage(self, from: self.extent)
+        return CIImage.SharedContext.createCGImage(self, from: self.extent)
     }
+    
+    /// Shared Core Image context. Creating a context is expensive, so reuse this one.
+    static let SharedContext = CIContext(options: nil)
 }
 
 extension UInt8

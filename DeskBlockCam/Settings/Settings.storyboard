@@ -3661,7 +3661,7 @@
         <scene sceneID="VMu-Fj-WIE">
             <objects>
                 <customObject id="6Ku-7y-Jop" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-                <viewController storyboardIdentifier="ParticleOptions" id="GyW-Un-sEq" customClass="ParticleOptionsCode" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ParticleOptions" id="GyW-Un-sEq" customClass="ParticlesWithOptionsCode" customModule="BlockCam" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="fJX-0R-Wwu">
                         <rect key="frame" x="0.0" y="0.0" width="541" height="300"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
