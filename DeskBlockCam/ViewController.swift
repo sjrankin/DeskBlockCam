@@ -528,7 +528,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
             return
         }
         //Set up the throttle.
-        let Throttle = 1.0 / 15.0
+        let Throttle = 1.0 / 30.0
         AddStat(ForItem: .ThrottleValue, NewValue: "\(Throttle) s")
         FrameCount = FrameCount + 1
         let Now = CACurrentMediaTime()
