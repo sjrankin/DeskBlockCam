@@ -10,7 +10,7 @@ import Foundation
 import AppKit
 
 /// Protocol for notification of individual setting value changes.
-protocol SettingChangedProtocol: class
+protocol SettingChangedProtocol: AnyObject
 {
     /// Function called before a setting is changed.
     /// - Note: `Settings` supports multiple delegates. If the last delegate added returns `true`

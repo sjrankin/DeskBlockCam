@@ -31,7 +31,8 @@ class ShapeManager
                                                      Shapes.ThreeTriangles.rawValue,
                                                      Shapes.ComponentVariable.rawValue, Shapes.RadiatingLines.rawValue,
                                                      Shapes.BlockBases.rawValue, Shapes.SphereBases.rawValue]),
-            ShapeCategory(Name: "Complex", Shapes: [Shapes.HueTriangles.rawValue])
+            ShapeCategory(Name: "Complex", Shapes: [Shapes.HueTriangles.rawValue]),
+            ShapeCategory(Name: "Dynamic", Shapes: [Shapes.Particles.rawValue])
     ]
     
     /// Map between character lists and the font to use to display the characters.
@@ -261,6 +262,10 @@ enum Shapes: String, CaseIterable
     case HueTriangles = "Hue Triangles"
     /// Extruded charaters.
     case Characters = "Characters"
+    
+    //Dynamic shapes.
+    /// Particle emitter.
+    case Particles = "Particles"
     
     //Special case for no shape.
     /// No shape specified.

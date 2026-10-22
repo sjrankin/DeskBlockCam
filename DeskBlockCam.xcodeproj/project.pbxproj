@@ -18,6 +18,7 @@
 		1718054525D6394500A3AFD6 /* PixelCounter.metal in Sources */ = {isa = PBXBuildFile; fileRef = 1718054425D6394500A3AFD6 /* PixelCounter.metal */; };
 		1718054825D65EAC00A3AFD6 /* PixelCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1718054725D65EAC00A3AFD6 /* PixelCounter.swift */; };
 		1718054A25D660D600A3AFD6 /* BlockInfoParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1718054925D660D600A3AFD6 /* BlockInfoParameters.swift */; };
+		171C786129CBB3A00089E6EF /* ParticlesWithOptionCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 171C786029CBB3A00089E6EF /* ParticlesWithOptionCode.swift */; };
 		1721035F23FCC6140096F778 /* MetadataWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1721035E23FCC6140096F778 /* MetadataWriter.swift */; };
 		1721036123FCCC910096F778 /* Versioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1721036023FCCC910096F778 /* Versioning.swift */; };
 		1721036423FCD2250096F778 /* CurrentSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1721036323FCD2250096F778 /* CurrentSettings.swift */; };
@@ -161,6 +162,7 @@
 		1718054425D6394500A3AFD6 /* PixelCounter.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = PixelCounter.metal; sourceTree = "<group>"; };
 		1718054725D65EAC00A3AFD6 /* PixelCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelCounter.swift; sourceTree = "<group>"; };
 		1718054925D660D600A3AFD6 /* BlockInfoParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockInfoParameters.swift; sourceTree = "<group>"; };
+		171C786029CBB3A00089E6EF /* ParticlesWithOptionCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticlesWithOptionCode.swift; sourceTree = "<group>"; };
 		1721035E23FCC6140096F778 /* MetadataWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetadataWriter.swift; sourceTree = "<group>"; };
 		1721036023FCCC910096F778 /* Versioning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Versioning.swift; sourceTree = "<group>"; };
 		1721036323FCD2250096F778 /* CurrentSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentSettings.swift; sourceTree = "<group>"; };
@@ -349,6 +351,7 @@
 				17452EC423FA24AD004888EB /* ContainerController.swift */,
 				17BF4FC3240631C8009A29E1 /* ThreeTrianglesOptionsCode.swift */,
 				177BA8D52402469900ED9095 /* LinesOptionsCode.swift */,
+				171C786029CBB3A00089E6EF /* ParticlesWithOptionCode.swift */,
 			);
 			path = ShapeDialogs;
 			sourceTree = "<group>";
@@ -598,7 +601,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 17897B8F23E6A77500AFDA6A /* Build configuration list for PBXNativeTarget "BlockCam" */;
 			buildPhases = (
-				1721036223FCCF440096F778 /* ShellScript */,
 				17897B7B23E6A77300AFDA6A /* Sources */,
 				17897B7C23E6A77300AFDA6A /* Frameworks */,
 				17897B7D23E6A77300AFDA6A /* Resources */,
@@ -665,26 +667,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		1721036223FCCF440096F778 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/Users/Stuart/Documents/GitHub/DeskBlockCam/DeskBlockCam/VersionUpdater/VersionUpdater \"/Users/Stuart/Documents/GitHub/DeskBlockCam/DeskBlockCam/DeskBlockCam/Versioning.swift\" \"/Users/Stuart/Documents/GitHub/DeskBlockCam/DeskBlockCam/README.md\"\n";
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		17897B7B23E6A77300AFDA6A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -749,6 +731,7 @@
 				177BF06223EE52CD00670F40 /* ColorSwatchItem.swift in Sources */,
 				177BA8C124022EFE00ED9095 /* SCNTetrahedron.swift in Sources */,
 				17C9D40F240513B300EF3CAD /* SpheresWithOptionsCode.swift in Sources */,
+				171C786129CBB3A00089E6EF /* ParticlesWithOptionCode.swift in Sources */,
 				17897B9723E6EB1D00AFDA6A /* ViewControllerWindow.swift in Sources */,
 				175E031F2401055E00FA8388 /* RedrawProtocol.swift in Sources */,
 				178041BB23F3D0E6006E40C1 /* ErrorMessageHandling.swift in Sources */,
@@ -868,7 +851,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MACOSX_DEPLOYMENT_TARGET = 27.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -923,7 +906,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MACOSX_DEPLOYMENT_TARGET = 27.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "";
@@ -948,6 +931,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 27.0;
 				PRODUCT_BUNDLE_IDENTIFIER = Irorio.DeskBlockCam;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -969,6 +953,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 27.0;
 				PRODUCT_BUNDLE_IDENTIFIER = Irorio.DeskBlockCam;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

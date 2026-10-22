@@ -785,7 +785,7 @@ class BlockView: SCNView
     ///         very expensive in terms of performance. Any time a base shape changes, `CreateNode`
     ///         must be called, not `UpdateNodes`.
     /// - Note: All nodes are updated in this function.
-    /// - Parameter: With: Array of pixellated colors from the pixellated source image in YZ order.
+    /// - Parameter With: Array of pixellated colors from the pixellated source image in YZ order.
     /// - Parameter HShapeCount: Number of horizontal shapes.
     /// - Parameter VShapeCount: Number of vertical shapes.
     /// - Parameter Side: Base shape side length.
@@ -939,6 +939,15 @@ class BlockView: SCNView
                                 X: AtX, Y: AtY)
                 Node.rotation = SCNVector4(1.0, 0.0, 0.0, 90.0 * CGFloat.pi / 180.0)
             
+            case .Particles:
+                let particles = SCNParticleSystem()
+                particles.birthRate = 100
+                particles.particleSize = 1.45
+                particles.particleLifeSpan = 2
+                particles.particleColor = Color
+                Node = PSCNNode()
+                Node.addParticleSystem(particles)
+                
             default:
                 break
         }

@@ -41,7 +41,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         ImageSourceLabel.stringValue = ""
         
         BottomBar.wantsLayer = true
-        BottomBar.layer?.backgroundColor = NSColor.systemYellow.cgColor
+        BottomBar.layer?.backgroundColor = NSColor.black.cgColor
         
         GetCameraAccess()
         
@@ -64,11 +64,18 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         ResetStatus()
         
         LiveHistogram.isHidden = !Settings.GetBoolean(ForKey: .ShowHistogram)
+        LiveHistogram.wantsLayer = true
+        LiveHistogram.layer?.borderColor = NSColor.gray.cgColor
+        LiveHistogram.layer?.borderWidth = 1
         ProcessedImage.InLiveViewMode = Settings.GetEnum(ForKey: .CurrentMode, EnumType: ProgramModes.self,
                                                          Default: ProgramModes.LiveView) == .LiveView
         ControllerView.DragDelegate = self
         view.registerForDraggedTypes(NSFilePromiseReceiver.readableDraggedTypes.map {NSPasteboard.PasteboardType($0)})
         view.registerForDraggedTypes([NSPasteboard.PasteboardType.fileURL])
+        
+        CameraButton.toolTip = "Save current view as image"
+        AlignImageButton.toolTip = "Realign the image to original orientation"
+        
     }
     
     func SetProgramMode(ChangeSelector: Bool = false)
@@ -315,11 +322,22 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
     /// Set up the capture session so we get the camera's stream.
     func SetupCaptureSession()
     {
+        let AttachedDevices = AVCaptureDevice.devices(for: AVMediaType.video)
+        print("Attached devices = \(AttachedDevices)")
         CaptureSession = AVCaptureSession()
         CaptureSession.sessionPreset = .photo
+        if let Device = AttachedDevices.first
+        {
+            CaptureDevice = Device
+        }
+        else
+        {
+            print("No device found")
+        }
+        /*
         let PreferredPosition: AVCaptureDevice.Position!
         PreferredPosition = .unspecified
-        let PreferredDevice = AVCaptureDevice.DeviceType.builtInWideAngleCamera
+        let PreferredDevice = AVCaptureDevice.DeviceType.externalUnknown //builtInWideAngleCamera
         let Devices = VideoDeviceDiscoverySession.devices
         CaptureDevice = nil
         if let Device = Devices.first(where: {$0.position == PreferredPosition && $0.deviceType == PreferredDevice})
@@ -331,6 +349,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
             {
                 CaptureDevice = Device
         }
+         */
         guard let InputCamera = CaptureDevice else
         {
             fatalError("No input camera")
@@ -837,6 +856,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
     @IBOutlet weak var BottomBar: NSView!
     @IBOutlet weak var AlignImageButton: NSButton!
     @IBOutlet weak var ImageSourceLabel: NSTextField!
+    @IBOutlet weak var SetupButton: NSButton!
     
     // MARK: - Status controls
     

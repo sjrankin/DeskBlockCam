@@ -41,6 +41,16 @@ class PSCNNode: SCNNode
     }
     
     /// Initializer.
+    /// - Parameter X: The horizontal location in the processed view.
+    /// - Parameter Y: The vertical location in the processed view.
+    convenience init(X: Int, Y: Int)
+    {
+        self.init()
+        _X = X
+        _Y = Y
+    }
+    
+    /// Initializer.
     /// - Parameter coder: See Apple documentation.
     required init?(coder: NSCoder)
     {

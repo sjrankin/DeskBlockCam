@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17506"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21507"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -32,11 +32,11 @@
             <objects>
                 <viewController id="Ygf-Wt-OZ5" customClass="DebugControllerCode" customModule="BlockCam" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="Lif-ie-oes">
-                        <rect key="frame" x="0.0" y="0.0" width="808" height="426"/>
+                        <rect key="frame" x="0.0" y="0.0" width="808" height="425"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <tabView translatesAutoresizingMaskIntoConstraints="NO" id="frg-vO-SAD">
-                                <rect key="frame" x="13" y="38" width="782" height="374"/>
+                                <rect key="frame" x="13" y="37" width="782" height="374"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="768" id="HU8-DY-cXs"/>
                                     <constraint firstAttribute="height" constant="358" id="lCZ-jf-qSY"/>
@@ -51,11 +51,11 @@
                                                 <scrollView misplaced="YES" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M9F-UF-Jgi">
                                                     <rect key="frame" x="4" y="2" width="754" height="323"/>
                                                     <clipView key="contentView" id="KYa-Fd-XUh">
-                                                        <rect key="frame" x="1" y="0.0" width="752" height="322"/>
+                                                        <rect key="frame" x="1" y="1" width="752" height="321"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <subviews>
                                                             <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="mA8-WB-s13" viewBased="YES" id="asc-fu-Efr">
-                                                                <rect key="frame" x="0.0" y="0.0" width="752" height="297"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="752" height="296"/>
                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                 <size key="intercellSpacing" width="3" height="2"/>
                                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -75,11 +75,11 @@
                                                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                         <prototypeCellViews>
                                                                             <tableCellView id="TBT-t4-M3u">
-                                                                                <rect key="frame" x="1" y="1" width="160" height="17"/>
+                                                                                <rect key="frame" x="1" y="1" width="165" height="17"/>
                                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                 <subviews>
                                                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="Bt6-Lq-E8a">
-                                                                                        <rect key="frame" x="0.0" y="0.0" width="160" height="17"/>
+                                                                                        <rect key="frame" x="0.0" y="0.0" width="165" height="17"/>
                                                                                         <constraints>
                                                                                             <constraint firstAttribute="height" constant="17" id="Ini-a0-lqn"/>
                                                                                         </constraints>
@@ -101,7 +101,7 @@
                                                                             </tableCellView>
                                                                         </prototypeCellViews>
                                                                     </tableColumn>
-                                                                    <tableColumn identifier="ValueColumn" width="586" minWidth="40" maxWidth="1000" id="TCZ-AK-1OT">
+                                                                    <tableColumn identifier="ValueColumn" width="577" minWidth="40" maxWidth="1000" id="TCZ-AK-1OT">
                                                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Value">
                                                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                             <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
@@ -114,11 +114,11 @@
                                                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                         <prototypeCellViews>
                                                                             <tableCellView id="GYY-Lj-egc">
-                                                                                <rect key="frame" x="164" y="1" width="586" height="17"/>
+                                                                                <rect key="frame" x="169" y="1" width="581" height="17"/>
                                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                 <subviews>
                                                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="bAq-Ux-nOz">
-                                                                                        <rect key="frame" x="0.0" y="0.0" width="586" height="17"/>
+                                                                                        <rect key="frame" x="0.0" y="0.0" width="581" height="17"/>
                                                                                         <constraints>
                                                                                             <constraint firstAttribute="height" constant="17" id="bOj-zg-GVP"/>
                                                                                         </constraints>
@@ -156,7 +156,7 @@
                                                         <rect key="frame" x="224" y="17" width="15" height="102"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                     </scroller>
-                                                    <tableHeaderView key="headerView" id="mA8-WB-s13">
+                                                    <tableHeaderView key="headerView" wantsLayer="YES" id="mA8-WB-s13">
                                                         <rect key="frame" x="0.0" y="0.0" width="752" height="25"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                     </tableHeaderView>
@@ -262,7 +262,7 @@
                                 </tabViewItems>
                             </tabView>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dJ0-vH-uRE">
-                                <rect key="frame" x="367" y="0.0" width="75" height="32"/>
+                                <rect key="frame" x="370" y="0.0" width="69" height="32"/>
                                 <buttonCell key="cell" type="push" title="Close" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ji5-xP-JNG">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>

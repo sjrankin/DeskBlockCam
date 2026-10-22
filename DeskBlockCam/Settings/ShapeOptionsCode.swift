@@ -1334,6 +1334,9 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
             case .Pyramids:
                 LiveViewShapeSegment.selectedSegment = 6
             
+            case .Particles:
+                LiveViewShapeSegment.selectedSegment = 7
+                
             default:
                 LiveViewShapeSegment.selectedSegment = 0
         }
@@ -1342,13 +1345,13 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
         {
             case .Native:
                 LiveViewImageSizeSegment.selectedSegment = 3
-            
+                
             case .Small:
-                            LiveViewImageSizeSegment.selectedSegment = 0
-            
+                LiveViewImageSizeSegment.selectedSegment = 0
+                
             case .Medium:
                 LiveViewImageSizeSegment.selectedSegment = 1
-            
+                
             case .Large:
                 LiveViewImageSizeSegment.selectedSegment = 2
         }
@@ -1414,6 +1417,9 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
                 
                 case 6:
                     Settings.SetEnum(Shapes.Pyramids, EnumType: Shapes.self, ForKey: .LiveViewShape)
+                    
+                case 7:
+                    Settings.SetEnum(Shapes.Particles, EnumType: Shapes.self, ForKey: .LiveViewShape)
                 
                 default:
                     Settings.SetEnum(Shapes.Blocks, EnumType: Shapes.self, ForKey: .LiveViewShape)

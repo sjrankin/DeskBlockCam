@@ -9,14 +9,14 @@
 import Foundation
 import AppKit
 
-protocol ToOptionsDialogProtocol: class
+protocol ToOptionsDialogProtocol: AnyObject
 {
     func SetShape(_ Shape: Shapes)
     func SetCaption(_ CaptionText: String)
     func SetAttributes(_ Attributes: ProcessingAttributes)
 }
 
-protocol ToOptionsParentProtocol: class
+protocol ToOptionsParentProtocol: AnyObject
 {
     func UpdateCurrent(With Shape: Shapes)
     func UpdatedOptions(_ Updated: ProcessingAttributes)

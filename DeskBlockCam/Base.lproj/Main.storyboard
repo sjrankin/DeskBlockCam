@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="16092.1" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="16092.1"/>
-        <plugIn identifier="com.apple.SceneKitIBPlugin" version="16092.1"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21507"/>
+        <plugIn identifier="com.apple.SceneKitIBPlugin" version="21507"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -284,7 +286,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="d3W-dM-fGd">
-                                <rect key="frame" x="212" y="13" width="75" height="32"/>
+                                <rect key="frame" x="215" y="13" width="69" height="32"/>
                                 <buttonCell key="cell" type="push" title="Close" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="y4L-5u-BlD">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -294,7 +296,7 @@
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cYj-An-tEk">
-                                <rect key="frame" x="18" y="251" width="175" height="43"/>
+                                <rect key="frame" x="18" y="251" width="174" height="43"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="left" title="BlockCam" id="FWf-4D-M8s">
                                     <font key="font" metaFont="systemBold" size="36"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -361,11 +363,11 @@
                                             <box title="Processing Status" translatesAutoresizingMaskIntoConstraints="NO" id="QvZ-d3-B1S">
                                                 <rect key="frame" x="859" y="16" width="228" height="155"/>
                                                 <view key="contentView" id="uDE-pI-Jxz">
-                                                    <rect key="frame" x="3" y="3" width="222" height="137"/>
+                                                    <rect key="frame" x="4" y="5" width="220" height="135"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <gridView fixedFrame="YES" xPlacement="leading" yPlacement="bottom" rowAlignment="none" columnSpacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="kod-MK-gnd">
-                                                            <rect key="frame" x="11" y="11" width="194" height="119"/>
+                                                            <rect key="frame" x="11" y="9" width="194" height="119"/>
                                                             <rows>
                                                                 <gridRow id="uQm-Nj-FEf"/>
                                                                 <gridRow id="t54-JM-vvj"/>
@@ -562,14 +564,17 @@
                                 <rect key="frame" x="0.0" y="0.0" width="1104" height="70"/>
                                 <subviews>
                                     <button translatesAutoresizingMaskIntoConstraints="NO" id="yfw-EC-nVV">
-                                        <rect key="frame" x="528" y="11" width="48" height="48"/>
+                                        <rect key="frame" x="528" y="6.5" width="48" height="58"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="48" id="LQm-CM-pKI"/>
                                         </constraints>
-                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="BigCamera" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="lUZ-Po-f7a">
+                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="lUZ-Po-f7a">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
+                                            <imageReference key="image" image="camera" catalog="system" symbolScale="large"/>
                                         </buttonCell>
+                                        <color key="contentTintColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                        <symbolConfiguration key="symbolConfiguration" configurationType="pointSize" pointSize="28" scale="large" weight="black"/>
                                         <connections>
                                             <action selector="HandleCameraButton:" target="XfG-lQ-9wD" id="8aa-Ch-qQw"/>
                                         </connections>
@@ -581,17 +586,20 @@
                                         </constraints>
                                     </customView>
                                     <button translatesAutoresizingMaskIntoConstraints="NO" id="2ff-IU-JmN">
-                                        <rect key="frame" x="1036" y="11" width="48" height="48"/>
-                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="BigGear" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="DTo-TD-iaw">
+                                        <rect key="frame" x="1036" y="5.5" width="48.5" height="60"/>
+                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="DTo-TD-iaw">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
+                                            <imageReference key="image" image="gearshape" catalog="system" symbolScale="large"/>
                                         </buttonCell>
+                                        <color key="contentTintColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                        <symbolConfiguration key="symbolConfiguration" configurationType="pointSize" pointSize="24" scale="large" weight="black"/>
                                         <connections>
                                             <action selector="HandleProcessingSettingsButtonPressed:" target="XfG-lQ-9wD" id="NPg-0F-iA1"/>
                                         </connections>
                                     </button>
                                     <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="A6d-Ym-ngP">
-                                        <rect key="frame" x="18" y="23" width="185" height="23"/>
+                                        <rect key="frame" x="18" y="24" width="189" height="22"/>
                                         <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="NmM-y7-ktI">
                                             <font key="font" metaFont="system"/>
                                             <segments>
@@ -605,14 +613,17 @@
                                         </connections>
                                     </segmentedControl>
                                     <button translatesAutoresizingMaskIntoConstraints="NO" id="03K-Rc-K1X">
-                                        <rect key="frame" x="244" y="11" width="45" height="45"/>
+                                        <rect key="frame" x="248" y="6.5" width="45" height="54"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="45" id="9aD-el-GzI"/>
                                         </constraints>
-                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="AlignCenter" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="BGh-Hx-PMl">
+                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="BGh-Hx-PMl">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
+                                            <imageReference key="image" image="circle.square.fill" catalog="system" symbolScale="large"/>
                                         </buttonCell>
+                                        <color key="contentTintColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                        <symbolConfiguration key="symbolConfiguration" configurationType="pointSize" scale="large" weight="black"/>
                                         <connections>
                                             <action selector="HandleAlignImageButton:" target="XfG-lQ-9wD" id="1fb-1H-AkH"/>
                                         </connections>
@@ -673,6 +684,7 @@
                         <outlet property="PreparingImageText" destination="p0m-rJ-hS3" id="6fs-iu-ULb"/>
                         <outlet property="PreparingTextDone" destination="CkE-Tw-O2U" id="XPV-5n-q4h"/>
                         <outlet property="ProcessedImage" destination="ogX-jq-HQb" id="njy-K6-lWz"/>
+                        <outlet property="SetupButton" destination="2ff-IU-JmN" id="TVX-3y-gu7"/>
                         <outlet property="StatusBox" destination="QvZ-d3-B1S" id="FQN-Mk-y5G"/>
                         <outlet property="StillImageView" destination="6iV-Jo-yuM" id="AgZ-3b-8G4"/>
                     </connections>
@@ -711,7 +723,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="in9-VH-HA9">
-                                <rect key="frame" x="329" y="13" width="75" height="32"/>
+                                <rect key="frame" x="332" y="13" width="69" height="32"/>
                                 <buttonCell key="cell" type="push" title="Close" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="KG2-Pc-aj9">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -721,16 +733,16 @@
                                 </connections>
                             </button>
                             <tabView translatesAutoresizingMaskIntoConstraints="NO" id="cr8-F5-Q2P">
-                                <rect key="frame" x="13" y="51" width="707" height="320"/>
+                                <rect key="frame" x="13" y="50" width="707" height="321"/>
                                 <font key="font" metaFont="system"/>
                                 <tabViewItems>
                                     <tabViewItem label="Main" identifier="" id="2i3-3A-fv7">
                                         <view key="view" id="Llg-AG-oAx">
-                                            <rect key="frame" x="10" y="33" width="687" height="274"/>
+                                            <rect key="frame" x="10" y="33" width="687" height="275"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <gridView xPlacement="leading" yPlacement="bottom" rowAlignment="none" rowSpacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="9g2-pV-yPp">
-                                                    <rect key="frame" x="17" y="195" width="306" height="62"/>
+                                                    <rect key="frame" x="17" y="190" width="312" height="68"/>
                                                     <rows>
                                                         <gridRow id="xUR-9b-JZa"/>
                                                         <gridRow id="bBz-21-hUt"/>
@@ -742,7 +754,7 @@
                                                     <gridCells>
                                                         <gridCell row="xUR-9b-JZa" column="QvE-dn-mSg" id="Qu6-Dk-6f0">
                                                             <button key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="p82-0Q-dfB">
-                                                                <rect key="frame" x="-2" y="46" width="120" height="18"/>
+                                                                <rect key="frame" x="-2" y="51" width="124" height="18"/>
                                                                 <buttonCell key="cell" type="check" title="Show histogram" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="tdg-21-8gr">
                                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                     <font key="font" metaFont="system"/>
@@ -754,7 +766,7 @@
                                                         </gridCell>
                                                         <gridCell row="bBz-21-hUt" column="QvE-dn-mSg" id="q2h-3N-B6K">
                                                             <button key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Y50-RI-ux1">
-                                                                <rect key="frame" x="-2" y="22" width="228" height="18"/>
+                                                                <rect key="frame" x="-2" y="25" width="232" height="18"/>
                                                                 <buttonCell key="cell" type="check" title="Open shape options automatically" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="0li-jT-TOM">
                                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                     <font key="font" metaFont="system"/>
@@ -766,7 +778,7 @@
                                                         </gridCell>
                                                         <gridCell row="rsN-bK-LHd" column="QvE-dn-mSg" id="VCk-qp-fzz">
                                                             <button key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Hd4-ep-nKi">
-                                                                <rect key="frame" x="-2" y="-2" width="310" height="18"/>
+                                                                <rect key="frame" x="-2" y="-1" width="314" height="18"/>
                                                                 <buttonCell key="cell" type="check" title="Switch to image view when image files dropped" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="te8-gI-BtV">
                                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                     <font key="font" metaFont="system"/>
@@ -823,11 +835,11 @@
                                                 <box title="User Name" translatesAutoresizingMaskIntoConstraints="NO" id="qM8-MK-0bT">
                                                     <rect key="frame" x="14" y="150" width="433" height="88"/>
                                                     <view key="contentView" id="ZQk-nW-hib">
-                                                        <rect key="frame" x="3" y="3" width="427" height="70"/>
+                                                        <rect key="frame" x="4" y="5" width="425" height="68"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <subviews>
                                                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XNw-TV-dy6">
-                                                                <rect key="frame" x="11" y="48" width="330" height="18"/>
+                                                                <rect key="frame" x="11" y="46" width="330" height="18"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                 <buttonCell key="cell" type="check" title="Include your name with processed image metadata" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="6lt-B7-K7M">
                                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -838,7 +850,7 @@
                                                                 </connections>
                                                             </button>
                                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HwM-BU-6CR">
-                                                                <rect key="frame" x="13" y="20" width="40" height="16"/>
+                                                                <rect key="frame" x="13" y="18" width="40" height="16"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Name" id="hOL-SM-Y4a">
                                                                     <font key="font" metaFont="system"/>
@@ -847,7 +859,7 @@
                                                                 </textFieldCell>
                                                             </textField>
                                                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TMZ-Hh-9j2">
-                                                                <rect key="frame" x="59" y="17" width="358" height="21"/>
+                                                                <rect key="frame" x="59" y="15" width="358" height="21"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="tQe-UR-kVC">
                                                                     <font key="font" metaFont="system"/>
@@ -861,11 +873,11 @@
                                                 <box title="Copyright" translatesAutoresizingMaskIntoConstraints="NO" id="UNK-8C-yeh">
                                                     <rect key="frame" x="14" y="51" width="433" height="88"/>
                                                     <view key="contentView" id="hAy-jb-bq2">
-                                                        <rect key="frame" x="3" y="3" width="427" height="70"/>
+                                                        <rect key="frame" x="4" y="5" width="425" height="68"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <subviews>
                                                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fPA-PB-RT5">
-                                                                <rect key="frame" x="11" y="48" width="351" height="18"/>
+                                                                <rect key="frame" x="11" y="46" width="351" height="18"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                 <buttonCell key="cell" type="check" title="Include copyright text with processed image metadata" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="SvA-jl-NQ6">
                                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -876,7 +888,7 @@
                                                                 </connections>
                                                             </button>
                                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6i6-Es-jdA">
-                                                                <rect key="frame" x="13" y="20" width="64" height="16"/>
+                                                                <rect key="frame" x="13" y="18" width="64" height="16"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Copyright" id="b3N-ip-DWp">
                                                                     <font key="font" metaFont="system"/>
@@ -885,7 +897,7 @@
                                                                 </textFieldCell>
                                                             </textField>
                                                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lvo-97-Fbl">
-                                                                <rect key="frame" x="88" y="17" width="329" height="21"/>
+                                                                <rect key="frame" x="88" y="15" width="329" height="21"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="Kk3-Nt-VjA">
                                                                     <font key="font" metaFont="system"/>
@@ -944,8 +956,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="AlignCenter" width="508" height="508"/>
-        <image name="BigCamera" width="659" height="541"/>
-        <image name="BigGear" width="640" height="630"/>
+        <image name="camera" catalog="system" width="24" height="19"/>
+        <image name="circle.square.fill" catalog="system" width="19" height="18"/>
+        <image name="gearshape" catalog="system" width="21" height="21"/>
     </resources>
 </document>

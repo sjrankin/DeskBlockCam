@@ -157,6 +157,9 @@ extension ShapeOptionsCode
             case .SphereBases:
                 (OptionMap[Shapes.SphereBases]!.Controller as? SpheresWithOptionsCode)?.SetShape(.SphereBases)
             
+            case .Particles:
+                (OptionMap[Shapes.Particles]!.Controller as? ParticlesWithOptionsCode)?.SetShape(.Particles)
+                
             case .NoShape:
                 break
         }
@@ -299,6 +302,10 @@ extension ShapeOptionsCode
         OptionMap[Shapes.Rings] = OptionEntry(CreateOptionDialog("RingOptions"))
         self.addChild(OptionMap[Shapes.Rings]!.Controller!)
         (OptionMap[Shapes.Rings]!.Controller as? RingOptionCode)?.Delegate = self
+        
+        OptionMap[Shapes.Particles] = OptionEntry(CreateOptionDialog("ParticleOptions"))
+        self.addChild(OptionMap[Shapes.Particles]!.Controller!)
+        (OptionMap[Shapes.Particles]!.Controller as? ParticlesWithOptionsCode)?.Delegate = self
         
         OptionMap[Shapes.ComponentVariable] = OptionEntry(CreateOptionDialog("ComponentOptions2"))
         self.addChild(OptionMap[Shapes.ComponentVariable]!.Controller!)

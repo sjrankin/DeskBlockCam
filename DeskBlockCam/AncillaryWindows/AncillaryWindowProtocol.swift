@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol AncillaryWindowProtocol: class
+protocol AncillaryWindowProtocol: AnyObject
 {
     func ClosedAncillaryWindow(WindowName: String)
 }
