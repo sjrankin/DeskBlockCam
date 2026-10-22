@@ -4,7 +4,7 @@ Stuart Rankin\
 
 **3D Block Camera**
 
-BlockCam is a camera program for iOS and iPadOS that takes images via AVFoundation and then converts those images into simple 3D scenes. The scenes may be rotated and scaled by the user, and saved as a flat image.
+BlockCam is a camera program for macOS (with an iOS/iPadOS parallel program) that takes images via AVFoundation and then converts those images into simple 3D scenes. The scenes may be rotated and scaled by the user, and saved as a flat image.
 
 This is the desktop version of BlockCam. A mobile version was created in parallel.
 
