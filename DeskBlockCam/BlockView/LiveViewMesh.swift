@@ -158,6 +158,8 @@ extension BlockView
         let Determination = Settings.GetEnum(ForKey: .HeightDetermination, EnumType: HeightDeterminations.self,
                                              Default: HeightDeterminations.Brightness)
         let Invert = Settings.GetBoolean(ForKey: .InvertHeight)
+        // Lengths scale with the block side so blocks keep their proportions at any block count.
+        let LengthScale = Side / 0.5
         var Created = false
         if LiveViewPrimaryNode == nil || LiveMesh == nil || LiveMesh!.HCount != HShapeCount || LiveMesh!.VCount != VShapeCount
         {
@@ -179,7 +181,7 @@ extension BlockView
         {
             Color in
             return self.ColorProminence(Color, Exaggeration: Exaggeration, Determination: Determination,
-                                        Invert: Invert) * self.PMul
+                                        Invert: Invert) * self.PMul * LengthScale
         }
         Geo.materials = [Material]
         MeshNode.geometry = Geo

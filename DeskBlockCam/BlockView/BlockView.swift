@@ -704,7 +704,9 @@ class BlockView: SCNView
         defer{ objc_sync_exit(CloseLock) }
  
         let ResizeTo = Settings.GetEnum(ForKey: .LiveViewImageSize, EnumType: LiveViewImageSizes.self, Default: LiveViewImageSizes.Medium)
-        let BlockSizeSetting = Settings.GetInteger(ForKey: .ShapeSize)
+        // The Shape size setting is both the spacing of the sampled grid and the size of the averaged region,
+        // so a smaller value gives more (and finer) blocks.
+        let BlockSizeSetting = max(Settings.GetInteger(ForKey: .ShapeSize), 4)
         if let Buffer = Source.pixelBuffer,
            CVPixelBufferGetPixelFormatType(Buffer) == kCVPixelFormatType_32BGRA
         {
@@ -725,7 +727,7 @@ class BlockView: SCNView
             }
             var DirectH: Int = 0
             var DirectV: Int = 0
-            if let Colors = SampledColors(Buffer, TargetSize: TargetSize, PixelSize: BlockSizeSetting, BlockSize: 16,
+            if let Colors = SampledColors(Buffer, TargetSize: TargetSize, PixelSize: BlockSizeSetting, BlockSize: BlockSizeSetting,
                                           HBlocks: &DirectH, VBlocks: &DirectV)
             {
                 DispatchQueue.main.async
@@ -1114,7 +1116,10 @@ class BlockView: SCNView
         }
         if NodeShape == .Blocks
         {
-            DrawLiveViewMesh(Colors: Colors, HShapeCount: HShapeCount, VShapeCount: VShapeCount, Side: Side)
+            // Keep the whole grid the same size in the scene (64 blocks across at the default block size) so the
+            // camera still fits it when the block count changes.
+            DrawLiveViewMesh(Colors: Colors, HShapeCount: HShapeCount, VShapeCount: VShapeCount,
+                             Side: Side * 64.0 / CGFloat(max(HShapeCount, 1)))
             return
         }
         if LiveViewPrimaryNode != nil
