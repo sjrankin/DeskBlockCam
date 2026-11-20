@@ -9,11 +9,7 @@ BlockCam is a camera program for macOS (with an iOS/iPadOS parallel program) tha
 This is the desktop version of BlockCam. A mobile version was created in parallel.
 
 ## Live View
-BlockCam supports real-time input from attached cameras. However, there are still severe performance issues, as shown in the video below.
-
-<img src="Images/DeskBlockCamSample.gif" alt="Sample image." height="600">
-
-## After posting this, I decided to use Claude to help me debug the performanc issue. Claude found some embarassing blunders on my part, fixed them, and now the framerate is on the order of 15 fps.
+BlockCam supports real-time input from attached cameras. The current frame rate is at least 15 frames/second.
 
 <img src="Images/UpdatedBlockCam.gif" alt="BlockCam at ~ 15fps" height="600">
 
