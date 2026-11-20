@@ -37,16 +37,11 @@ class SCNPolygon: SCNNode
     init(VertexCount: Int, Radius: CGFloat, Depth: CGFloat)
     {
         super.init()
-        if VertexCount < 3
-        {
-            fatalError("Vertex count must be 3 or greater.")
-        }
-        if Radius <= 0.0
-        {
-            fatalError("Radius must be greater than 0.0.")
-        }
-        self.Radius = Radius
-        self.VertexCount = VertexCount
+        // A polygon needs three or more sides and a positive radius; use the nearest valid values rather than crash.
+        let SafeCount = max(VertexCount, 3)
+        let SafeRadius = Radius > 0.0 ? Radius : 1.0
+        self.Radius = SafeRadius
+        self.VertexCount = SafeCount
         if Depth <= 0.0
         {
             self.Depth = 1.0

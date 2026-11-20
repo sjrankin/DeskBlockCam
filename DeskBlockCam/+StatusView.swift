@@ -72,6 +72,69 @@ extension ViewController: StatusProtocol
         }
     }
     
+    /// Show how long a step took in place of "Done" in its row.
+    /// - Note: Executed on the main UI thread.
+    /// - Parameter For: The step.
+    /// - Parameter Seconds: How long the step took.
+    func ReportStepDuration(For Step: StatusSteps, Seconds: Double)
+    {
+        // Short enough ("0.42s", "9.31s", "12.3s") to fit where "Done" was.
+        let Text: String
+        if Seconds < 10.0
+        {
+            Text = Seconds.formatted(.number.precision(.fractionLength(2))) + "s"
+        }
+        else if Seconds < 100.0
+        {
+            Text = Seconds.formatted(.number.precision(.fractionLength(1))) + "s"
+        }
+        else
+        {
+            Text = Seconds.formatted(.number.precision(.fractionLength(0))) + "s"
+        }
+        OperationQueue.main.addOperation
+            {
+                switch Step
+                {
+                    case .Preparing:
+                        self.PreparingTextDone.stringValue = Text
+                    
+                    case .Parsing:
+                        self.ParsingImageDone.stringValue = Text
+                    
+                    case .Creating:
+                        self.CreatingShapesDone.stringValue = Text
+                    
+                    case .Adding:
+                        self.AddingShapesDone.stringValue = Text
+                }
+        }
+    }
+    
+    /// Show that a step was skipped because its result was cached.
+    /// - Note: Executed on the main UI thread.
+    /// - Parameter For: The step.
+    func ReportStepCached(For Step: StatusSteps)
+    {
+        OperationQueue.main.addOperation
+            {
+                switch Step
+                {
+                    case .Preparing:
+                        self.PreparingTextDone.stringValue = "cached"
+                    
+                    case .Parsing:
+                        self.ParsingImageDone.stringValue = "cached"
+                    
+                    case .Creating:
+                        self.CreatingShapesDone.stringValue = "cached"
+                    
+                    case .Adding:
+                        self.AddingShapesDone.stringValue = "cached"
+                }
+        }
+    }
+    
     /// Finalize the duration for the processing of a still image.
     /// - Note: Executed on the main UI thread.
     /// - Parameter WithDuration: The final duration to display.
@@ -114,7 +177,7 @@ extension ViewController: StatusProtocol
                 ParsingImageText.textColor = NSColor.systemBlue
             
             case .ParsingPercentUpdate:
-                ParsingImageIndicator.doubleValue = Percent!
+                ParsingImageIndicator.doubleValue = Percent ?? 0.0
             
             case .ParsingDone:
                 ParsingImageText.textColor = NSColor.black
@@ -127,7 +190,7 @@ extension ViewController: StatusProtocol
                 CreatingShapesText.textColor = NSColor.systemBlue
             
             case .CreatingPercentUpdate:
-                CreatingShapesIndicator.doubleValue = Percent!
+                CreatingShapesIndicator.doubleValue = Percent ?? 0.0
             
             case .CreatingDone:
                 CreatingShapesText.textColor = NSColor.black

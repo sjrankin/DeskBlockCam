@@ -8,6 +8,7 @@
 
 import Cocoa
 import AppKit
+import ImageIO
 import SceneKit
 import Quartz
 import AVKit
@@ -42,6 +43,8 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         
         BottomBar.wantsLayer = true
         BottomBar.layer?.backgroundColor = NSColor.black.cgColor
+        // The bar is always black, so its controls must always use the dark appearance or they vanish in light mode.
+        BottomBar.appearance = NSAppearance(named: .darkAqua)
         
         GetCameraAccess()
         
@@ -110,12 +113,14 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
     // MARK: - Drag and drop
     func filePromiseProvider(_ filePromiseProvider: NSFilePromiseProvider, fileNameForType fileType: String) -> String
     {
-        fatalError(fileType)
+        // Dragging the processed image out of the window is not supported yet; give a harmless name.
+        return "BlockCam Image.jpg"
     }
     
     func filePromiseProvider(_ filePromiseProvider: NSFilePromiseProvider, writePromiseTo url: URL, completionHandler: @escaping (Error?) -> Void)
     {
-        fatalError()
+        // Not supported yet: report that the file could not be written instead of crashing.
+        completionHandler(CocoaError(.fileWriteUnknown))
     }
     
     private lazy var DestinationURL: URL =
@@ -170,7 +175,8 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
                     self.HandleDroppedFile(at: fileURL)
                 
                 default:
-                    fatalError()
+                    // Something other than a file URL or promised file was dropped; ignore it.
+                    break
             }
         }
         
@@ -184,8 +190,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
     
     func HandleDroppedFile(at url: URL)
     {
-        let Image = NSImage(contentsOf: url)
-        if Image == nil
+        guard let Image = NSImage(contentsOf: url) else
         {
             ShowError(Message: "The file you dragged to BlockCam could not be read as an image file. Please verify your image and try again. If the error persists, try something else.",
                       WindowTitle: "Dropped File Error")
@@ -194,10 +199,12 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         ImageSourceLabel.stringValue = url.lastPathComponent
         if Settings.GetBoolean(ForKey: .SwitchModesWithDroppedImages)
         {
-            OriginalImageView.image = Image
+            // Show a small decoded copy: drawing the full image into the little preview can take seconds on the main
+            // thread for some files (Ultra HDR phone photos).
+            OriginalImageView.image = PreviewImage(For: url) ?? Image
             Settings.SetEnum(MainModes.ImageView, EnumType: MainModes.self, ForKey: .CurrentMode)
             SetProgramMode(ChangeSelector: true)
-            ProcessLoadedImage(Image!)
+            ProcessLoadedImage(Image, URL: url)
         }
     }
     
@@ -214,9 +221,29 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
     
     // MARK: - Still image processing.
     
-    func ProcessLoadedImage(_ Image: NSImage)
+    func ProcessLoadedImage(_ Image: NSImage, URL: URL? = nil)
     {
-        ProcessedImage.ProcessImage(Image)
+        ProcessedImage.ProcessImage(Image, URL: URL)
+    }
+    
+    /// A small, fast-to-draw copy of an image file for the source image preview.
+    /// - Parameter For: The image file.
+    /// - Returns: The preview, or nil if ImageIO could not decode the file.
+    func PreviewImage(For URL: URL) -> NSImage?
+    {
+        guard let Source = CGImageSourceCreateWithURL(URL as CFURL, [kCGImageSourceShouldCache: false] as CFDictionary) else
+        {
+            return nil
+        }
+        let Options: [CFString: Any] = [kCGImageSourceCreateThumbnailFromImageAlways: true,
+                                        kCGImageSourceThumbnailMaxPixelSize: 1024,
+                                        kCGImageSourceCreateThumbnailWithTransform: true,
+                                        kCGImageSourceShouldCacheImmediately: true]
+        guard let Thumbnail = CGImageSourceCreateThumbnailAtIndex(Source, 0, Options as CFDictionary) else
+        {
+            return nil
+        }
+        return NSImage(cgImage: Thumbnail, size: NSSize(width: Thumbnail.width, height: Thumbnail.height))
     }
     
     // MARK: - Other stuff
@@ -289,7 +316,8 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
                 return
             
             @unknown default:
-                fatalError("huh?")
+                // A future authorization state: treat it like denied access.
+                return
         }
     }
     
@@ -303,7 +331,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
     /// Stops the camera session.
     func StopCamera()
     {
-        CaptureSession.stopRunning()
+        CaptureSession?.stopRunning()
     }
     
     /// Starts the camera session. If the camera has not yet been initialized, it will be initialized
@@ -314,7 +342,8 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         {
             GetCameraAccess()
         }
-        CaptureSession.startRunning()
+        // There is no session if the camera could not be set up (no camera, no access).
+        CaptureSession?.startRunning()
     }
     
     var CameraWasInitialized = false
@@ -324,16 +353,15 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
     {
         let AttachedDevices = AVCaptureDevice.devices(for: AVMediaType.video)
         print("Attached devices = \(AttachedDevices)")
-        CaptureSession = AVCaptureSession()
-        CaptureSession.sessionPreset = .hd1280x720
-        if let Device = AttachedDevices.first
-        {
-            CaptureDevice = Device
-        }
-        else
+        guard let Device = AttachedDevices.first else
         {
             print("No device found")
+            ReportCameraProblem("No camera was found. Live view is unavailable, but you can still open images.")
+            return
         }
+        CaptureDevice = Device
+        CaptureSession = AVCaptureSession()
+        CaptureSession.sessionPreset = .hd1280x720
         /*
         let PreferredPosition: AVCaptureDevice.Position!
         PreferredPosition = .unspecified
@@ -352,7 +380,8 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
          */
         guard let InputCamera = CaptureDevice else
         {
-            fatalError("No input camera")
+            ReportCameraProblem("No camera was found. Live view is unavailable, but you can still open images.")
+            return
         }
         do
         {
@@ -362,15 +391,29 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
             {
                 CaptureSession.addInput(Input)
                 CaptureSession.addOutput(StillImageOutput)
-                SetupLiveView()
+                // Finish configuring the session (adding the video output) before it is started; starting it on
+                // another thread while an output is still being added crashes AVCaptureSession.
                 SetupLiveViewProcessing()
+                SetupLiveView()
             }
         }
         catch
         {
-            fatalError("Error getting input camera.")
+            ReportCameraProblem("The camera could not be opened: \(error.localizedDescription)")
+            CaptureSession = nil
+            return
         }
         CameraWasInitialized = true
+    }
+    
+    /// Tells the user the camera could not be set up. May be called from any thread.
+    /// - Parameter Message: What went wrong.
+    func ReportCameraProblem(_ Message: String)
+    {
+        DispatchQueue.main.async
+            {
+                self.ShowError(Message: Message, WindowTitle: "Camera")
+        }
     }
     
     /// Hook up the camera stream to the output view.
@@ -392,12 +435,16 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         DispatchQueue.global(qos: .userInitiated).async
             {
                 [weak self] in
-                self!.CaptureSession.startRunning()
+                guard let self = self else
+                {
+                    return
+                }
+                self.CaptureSession?.startRunning()
                 DispatchQueue.main.async
                     {
-                        self?.ImageSourceLabel.stringValue = "Video stream"
-                        self?.OriginalImageView.image = nil
-                        self!.VideoPreviewLayer.frame = self!.OriginalImageView.bounds
+                        self.ImageSourceLabel.stringValue = "Video stream"
+                        self.OriginalImageView.image = nil
+                        self.VideoPreviewLayer?.frame = self.OriginalImageView.bounds
                         //self!.VideoPreviewLayer.frame = self!.LiveView.bounds
                 }
         }
@@ -410,12 +457,14 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         VideoOut.videoSettings = [kCVPixelBufferPixelFormatTypeKey as String: NSNumber(value: kCVPixelFormatType_32BGRA)]
         VideoOut.alwaysDiscardsLateVideoFrames = true
         VideoOut.setSampleBufferDelegate(self, queue: VOQueue)
-        guard CaptureSession.canAddOutput(VideoOut) else
+        guard let Session = CaptureSession, Session.canAddOutput(VideoOut) else
         {
             print("Error adding video output to capture session.")
             return
         }
-        CaptureSession.addOutput(VideoOut)
+        Session.beginConfiguration()
+        Session.addOutput(VideoOut)
+        Session.commitConfiguration()
         VideoConnection = VideoOut.connection(with: .video)
     }
     
@@ -441,7 +490,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         }
         DispatchQueue.main.async
             {
-                self.VideoPreviewLayer.frame = self.OriginalImageView.bounds
+                self.VideoPreviewLayer?.frame = self.OriginalImageView.bounds
         }
     }
     
@@ -458,7 +507,8 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
     @IBAction func HandleCameraButton(_ sender: Any)
     {
         let Settings = AVCapturePhotoSettings(format: [AVVideoCodecKey: AVVideoCodecType.jpeg])
-        StillImageOutput.capturePhoto(with: Settings, delegate: self)
+        // There is no still image output if the camera could not be set up.
+        StillImageOutput?.capturePhoto(with: Settings, delegate: self)
         let Image = ProcessedImage.Snapshot()
         DoSaveImage(Image)
     }
@@ -492,16 +542,18 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
          */
         ProcessedImage.ResetCamera()
         let NewHeight = ProcessedImage.MinimizeBezel(IsLiveView: Mode == .LiveView)
-        ProcessedImage.CameraNode?.position = SCNVector3(ProcessedImage.CameraNode!.position.x,
-                                                         ProcessedImage.CameraNode!.position.y,
-                                                         CGFloat(NewHeight))
+        if let Camera = ProcessedImage.CameraNode
+        {
+            Camera.position = SCNVector3(Camera.position.x, Camera.position.y, CGFloat(NewHeight))
+        }
         #else
         let NewHeight = ProcessedImage.MinimizeBezel(IsLiveView: Mode == .LiveView)
-        print("Camera orientation: \(ProcessedImage.CameraNode!.orientation)")
-        print("Camera euler angles: \(ProcessedImage.CameraNode!.eulerAngles)")
-        ProcessedImage.CameraNode?.position = SCNVector3(ProcessedImage.CameraNode!.position.x,
-                                                         ProcessedImage.CameraNode!.position.y,
-                                                         CGFloat(NewHeight))
+        if let Camera = ProcessedImage.CameraNode
+        {
+            print("Camera orientation: \(Camera.orientation)")
+            print("Camera euler angles: \(Camera.eulerAngles)")
+            Camera.position = SCNVector3(Camera.position.x, Camera.position.y, CGFloat(NewHeight))
+        }
         #endif
     }
     
@@ -768,7 +820,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate, AVCapture
         {
             print("Error copying image.")
         }
-        print("Clipboard count: \(Clipboard.pasteboardItems!.count)")
+        print("Clipboard count: \(Clipboard.pasteboardItems?.count ?? 0)")
     }
     
     @IBAction func PasteImageFromPasteboardFromMenu(_ sender: Any)

@@ -34,12 +34,10 @@ class SCNStar: SCNNode
     init(VertexCount: Int, Height: Double, Base: Double, ZHeight: Double, Scale: Float = 1.0)
     {
         super.init()
-        if VertexCount < 3
-        {
-            fatalError("VertexCount must be 3 or more.") 
-        }
+        // A star needs at least three points; use three rather than crash if fewer are asked for.
+        let SafeCount = max(VertexCount, 3)
         self.Scale = Scale
-        SetVerticeParameters(Count: VertexCount, Height: Height, Base: Base, ZHeight: ZHeight)
+        SetVerticeParameters(Count: SafeCount, Height: Height, Base: Base, ZHeight: ZHeight)
         UpdateStar()
     }
     
@@ -75,11 +73,8 @@ class SCNStar: SCNNode
         }
         set
         {
-            _VertexCount = newValue
-            if _VertexCount < 3
-            {
-                fatalError("VertexCount must be 3 or more.")
-            }
+            // A star needs at least three points.
+            _VertexCount = max(newValue, 3)
             UpdateStar()
         }
     }
@@ -164,10 +159,8 @@ class SCNStar: SCNNode
     ///   - ZHeight: Extrusion depth.
     public static func Geometry(VertexCount: Int, Height: Double, Base: Double, ZHeight: Double) -> SCNGeometry
     {
-        if VertexCount < 1
-        {
-            fatalError("Vetex count is 0. Unable to continue.")
-        }
+        // Dividing by a count below one would be nonsense; a star has at least three points.
+        let VertexCount = max(VertexCount, 3)
         let AngleIncrement = 360.0 / Double(VertexCount)
         let HalfIncrement = AngleIncrement / 2.0
         #if true

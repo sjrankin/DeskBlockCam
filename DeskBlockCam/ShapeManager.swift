@@ -89,8 +89,12 @@ class ShapeManager
     ///            with the font to use to show the characters.
     public static func GetCharacterSetInfo(_ For: CharacterSets) -> (Characters: String, FontName: String)
     {
-        let CharListType = CharacterSetMap[For]!
-        return (CharListType.rawValue, FontMap[CharListType]!)
+        // Every character set is expected to be in both tables; fall back to a plain font if one is missing.
+        guard let CharListType = CharacterSetMap[For] else
+        {
+            return ("", "Helvetica")
+        }
+        return (CharListType.rawValue, FontMap[CharListType] ?? "Helvetica")
     }
 }
 

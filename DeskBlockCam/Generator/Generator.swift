@@ -381,46 +381,56 @@ class Generator
                     case .Squares, .Circles, .Rectangles, .Stars2D, .Triangles2D,
                          .Polygons2D, .Oval2D, .Diamond2D:
                         var ZLocation: CGFloat = 0.0
-                        let Node = Make2DShape(Shape: FinalShape, Side: CGFloat(Side), AtX: AtX, AtY: AtY, Height: Height,
-                                               Color: Colors[AtY][AtX], ZLocation: &ZLocation)
-                        NeedsOrientationChange(Node!, FinalShape, Colors[AtY][AtX])
+                        // If the shape cannot be made, the empty node made above is returned (nothing is drawn).
+                        guard let Shaped = Make2DShape(Shape: FinalShape, Side: CGFloat(Side), AtX: AtX, AtY: AtY, Height: Height,
+                                                       Color: Colors[AtY][AtX], ZLocation: &ZLocation) else
+                        {
+                            return Node
+                        }
+                        NeedsOrientationChange(Shaped, FinalShape, Colors[AtY][AtX])
                         {
                             NeedsToRotate, EulerAngles in
                             if NeedsToRotate
                             {
                                 if let Euler = EulerAngles
                                 {
-                                    Node?.eulerAngles = Euler
+                                    Shaped.eulerAngles = Euler
                                 }
                             }
                         }
-                        return Node!
+                        return Shaped
                     
                     //Combined shapes.
                     case .CappedLines, .ComponentVariable, .RadiatingLines, .PerpendicularCircles,
                          .PerpendicularSquares, .BlockBases, .SphereBases, .ThreeTriangles:
-                        let Node = MakeCombinedShape(Shape: FinalShape, Side: CGFloat(Side), AtX: AtX, AtY: AtY,
-                                                     Height: Height, Color: Colors[AtY][AtX],
-                                                     Model: Model)
-                        NeedsOrientationChange(Node!, FinalShape, Colors[AtY][AtX])
+                        guard let Combined = MakeCombinedShape(Shape: FinalShape, Side: CGFloat(Side), AtX: AtX, AtY: AtY,
+                                                               Height: Height, Color: Colors[AtY][AtX],
+                                                               Model: Model) else
+                        {
+                            return Node
+                        }
+                        NeedsOrientationChange(Combined, FinalShape, Colors[AtY][AtX])
                         {
                             NeedsToRotate, EulerAngles in
                             if NeedsToRotate
                             {
                                 if let Euler = EulerAngles
                                 {
-                                    Node?.eulerAngles = Euler
+                                    Combined.eulerAngles = Euler
                                 }
                             }
                         }
-                        return Node!
+                        return Combined
                     
                     //Complex shapes.
                     case .HueTriangles:
-                        let Node = MakeComplexShape(Shape: FinalShape, Side: CGFloat(Side), AtX: AtX, AtY: AtY,
-                                                    Height: Height, Color: Colors[AtY][AtX],
-                                                    Model: Model)
-                        return Node!
+                        guard let Complex = MakeComplexShape(Shape: FinalShape, Side: CGFloat(Side), AtX: AtX, AtY: AtY,
+                                                             Height: Height, Color: Colors[AtY][AtX],
+                                                             Model: Model) else
+                        {
+                            return Node
+                        }
+                        return Complex
                     
                     //Character sets.
                     case .Characters:
@@ -567,22 +577,20 @@ class Generator
                         EulerAngles = SCNVector3(0.0, 0.0, 90.0 * CGFloat.pi / 180.0)
             }
             
-            case .Squares, .Rectangles, .Circles, .Stars2D, .Polygons2D:
+            case .Squares, .Rectangles, .Circles, .Stars2D, .Polygons2D, .Triangles2D, .Oval2D, .Diamond2D:
+                // Flat shapes face the front of the image (toward the camera, +Z) unless the shape's axis setting asks for
+                // another direction. Each shape is built with a different "thin" axis (boxes are thin in Z, cylinders in
+                // Y, and so on), so the rotation is worked out from the geometry itself.
+                var FacingAxis = LongAxes.Z
                 if let (Axis, _) = Settings.Get2DAxisAndColorInfo(Shape)
                 {
+                    FacingAxis = Axis
+                }
+                if let Euler = EulerAnglesToFace(FacingAxis, Node: Node)
+                {
                     NeedsToRotate = true
-                    switch Axis
-                    {
-                        case .X:
-                            EulerAngles = SCNVector3(0.0, 0.0, 90.0 * CGFloat.pi / 180.0)
-
-                        case .Y:
-                            EulerAngles = SCNVector3(0.0, 90.0 * CGFloat.pi / 180.0, 0.0)
-                        
-                        case .Z:
-                            EulerAngles = SCNVector3(90.0 * CGFloat.pi / 180.0, 0.0, 0.0)
-                    }
-            }
+                    EulerAngles = Euler
+                }
             
             case .Tubes, .Cones, .CappedLines, .Pyramids:
                 NeedsToRotate = true
@@ -592,6 +600,77 @@ class Generator
                 break
         }
         DoesNeed?(NeedsToRotate, EulerAngles)
+    }
+    
+    /// Works out the rotation that makes a flat shape face along an axis.
+    ///
+    /// The face of a flat shape is perpendicular to its thinnest dimension, so that dimension (found from the
+    /// geometry's bounding box) is turned to point along `Facing`.
+    /// - Parameter Facing: The axis the face should point along. `.Z` is toward the camera.
+    /// - Parameter Node: The node holding the flat shape.
+    /// - Returns: The Euler angles to give the node, or nil if no rotation is needed or the shape is not flat.
+    private static func EulerAnglesToFace(_ Facing: LongAxes, Node: PSCNNode) -> SCNVector3?
+    {
+        guard let Geometry = Node.geometry else
+        {
+            return nil
+        }
+        let (Low, High) = Geometry.boundingBox
+        let Extents = [High.x - Low.x, High.y - Low.y, High.z - Low.z]
+        // 0 = X, 1 = Y, 2 = Z. A shape is flat if one dimension is clearly smaller than both others.
+        var Thin = 0
+        for Index in 1 ..< 3
+        {
+            if Extents[Index] < Extents[Thin]
+            {
+                Thin = Index
+            }
+        }
+        let Others = Extents.enumerated().filter{$0.offset != Thin}.map{$0.element}
+        if Extents[Thin] > (Others.min() ?? 0.0) * 0.5
+        {
+            return nil
+        }
+        let Target: Int
+        switch Facing
+        {
+            case .X:
+                Target = 0
+            
+            case .Y:
+                Target = 1
+            
+            case .Z:
+                Target = 2
+        }
+        if Thin == Target
+        {
+            return nil
+        }
+        let Quarter = 90.0 * CGFloat.pi / 180.0
+        switch (Thin, Target)
+        {
+            case (1, 2):
+                return SCNVector3(Quarter, 0.0, 0.0)
+            
+            case (2, 1):
+                return SCNVector3(-Quarter, 0.0, 0.0)
+            
+            case (0, 2):
+                return SCNVector3(0.0, -Quarter, 0.0)
+            
+            case (2, 0):
+                return SCNVector3(0.0, Quarter, 0.0)
+            
+            case (1, 0):
+                return SCNVector3(0.0, 0.0, -Quarter)
+            
+            case (0, 1):
+                return SCNVector3(0.0, 0.0, Quarter)
+            
+            default:
+                return nil
+        }
     }
     
     /// Create a set of nodes to display in an SCNView.

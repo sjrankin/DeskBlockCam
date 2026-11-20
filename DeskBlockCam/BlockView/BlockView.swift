@@ -209,37 +209,127 @@ class BlockView: SCNView
         }
     }
     
+    
+    /// The block colors of the last still image, kept so that processing the same image again (typically after a shape,
+    /// height or lighting setting changes) does not decode, reduce and parse it again.
+    private struct ColorCacheEntry
+    {
+        let Key: String
+        let Colors: [[NSColor]]
+        let HBlocks: Int
+        let VBlocks: Int
+    }
+    
+    private var ColorCacheStore: ColorCacheEntry? = nil
+    private let ColorCacheLock = NSLock()
+    
+    /// A key that changes whenever the block colors would: the image (its file and modification time, or its identity if
+    /// it did not come from a file) and the settings the reduction uses.
+    /// - Parameter For: The image.
+    /// - Parameter URL: The file it came from, if any.
+    private func CacheKey(For Image: NSImage, URL: URL?) -> String
+    {
+        let Scale = NSScreen.main?.backingScaleFactor ?? 1.0
+        var Source: String
+        if let URL = URL
+        {
+            let Modified = (try? URL.resourceValues(forKeys: [.contentModificationDateKey]))?.contentModificationDate
+            Source = "\(URL.path)|\(Modified?.timeIntervalSince1970 ?? 0.0)"
+        }
+        else
+        {
+            // `PreviouslyProcessedImage` keeps this object alive while it is cached, so its identity is not reused.
+            Source = "object:\(ObjectIdentifier(Image).hashValue)"
+        }
+        return "\(Source)|scale \(Scale)|longest 1024|block 16"
+    }
+    
+    /// The cached block colors, if they are for the image with this key.
+    private func CachedColors(For Key: String) -> (Colors: [[NSColor]], HBlocks: Int, VBlocks: Int)?
+    {
+        ColorCacheLock.lock()
+        defer { ColorCacheLock.unlock() }
+        if let Entry = ColorCacheStore, Entry.Key == Key
+        {
+            return (Entry.Colors, Entry.HBlocks, Entry.VBlocks)
+        }
+        return nil
+    }
+    
+    /// Remembers the block colors of a still image.
+    private func StoreColors(_ Colors: [[NSColor]], HBlocks: Int, VBlocks: Int, Key: String)
+    {
+        ColorCacheLock.lock()
+        ColorCacheStore = ColorCacheEntry(Key: Key, Colors: Colors, HBlocks: HBlocks, VBlocks: VBlocks)
+        ColorCacheLock.unlock()
+    }
+    
+    /// Reduce a still image to block colors on the GPU. The file is decoded with ImageIO when its URL is known and that
+    /// works, otherwise the `NSImage` is drawn.
+    /// - Parameter Image: The image.
+    /// - Parameter URL: The file the image came from, if known.
+    /// - Returns: The reduction, or nil if Metal is unavailable.
+    private func FastReduction(_ Image: NSImage, URL: URL?) -> MetalPixellator.Reduction?
+    {
+        guard let Pixellator = MetalPixellator.Shared else
+        {
+            return nil
+        }
+        // The old route rendered the resized image at the screen's backing scale, so use it to get the same block grid.
+        let Scale = NSScreen.main?.backingScaleFactor ?? 1.0
+        if let URL = URL,
+           let Result = Pixellator.Reduce(URL: URL, Longest: 1024, ResizedScale: Scale, BlockSize: 16)
+        {
+            return Result
+        }
+        return Pixellator.Reduce(Image, Longest: 1024, ResizedScale: Scale, BlockSize: 16)
+    }
+    
+    /// Gives up on processing a still image: resets the status display and prints why.
+    /// - Parameter Reason: What went wrong.
+    private func AbandonProcessing(_ Reason: String)
+    {
+        print("Image processing stopped: \(Reason)")
+        StatusDelegate?.UpdateStatus(With: .ResetStatus)
+    }
+    
     func ReprocessImage()
     {
-        if PreviouslyProcessedImage == nil
+        guard let Previous = PreviouslyProcessedImage else
         {
             return
         }
         let Shape = Settings.GetEnum(ForKey: .Shape, EnumType: Shapes.self, Default: Shapes.Blocks)
         print("Reprocessing image with \(Shape.rawValue)")
-        ProcessImage(PreviouslyProcessedImage!)
+        ProcessImage(Previous, URL: PreviouslyProcessedURL)
     }
     
     private var PreviouslyProcessedImage: NSImage? = nil
+    private var PreviouslyProcessedURL: URL? = nil
     
-    func ProcessImage(_ Image: NSImage)
+    /// Process a still image in the background.
+    /// - Parameter Image: The image to process.
+    /// - Parameter URL: The file the image came from, if any. When given, the file is decoded directly (much faster
+    ///                  than drawing `Image` for some files, such as Ultra HDR phone photos).
+    func ProcessImage(_ Image: NSImage, URL: URL? = nil)
     {
         DispatchQueue.global(qos: .background).async
             {
-                self.DoProcessImage(Image)
+                self.DoProcessImage(Image, URL: URL)
         }
     }
     
     /// Process the passed image then display the result.
     /// - Parameter Image: The image to process.
     /// - Parameter Options: Determines how the image is processd.
-    func DoProcessImage(_ Image: NSImage)
+    func DoProcessImage(_ Image: NSImage, URL: URL? = nil)
     {
         if InLiveViewMode
         {
             return
         }
         PreviouslyProcessedImage = Image
+        PreviouslyProcessedURL = URL
         StatusDelegate?.UpdateStatus(With: .ResetStatus)
         let Start = CACurrentMediaTime()
         if PrimaryNode != nil
@@ -260,21 +350,83 @@ class BlockView: SCNView
             PrimaryNode = SCNNode()
             PrimaryNode?.name = "Primary Node"
         }
-        let Resized = Shrinker.ResizeImage(Image: Image, Longest: 1024)
-        let ResizedData = Resized.tiffRepresentation
-        let ResizedCI = CIImage(data: ResizedData!)
-        let AfterResize = CACurrentMediaTime() - Start
-        StatusDelegate?.UpdateDuration(NewDuration: AfterResize)
-        let Pixellated = Pixellator.Pixellate(ResizedCI!)
-        let AfterPixellate = CACurrentMediaTime() - Start
-        StatusDelegate?.UpdateDuration(NewDuration: AfterPixellate)
-        StatusDelegate?.UpdateStatus(With: .PreparationDone)
         var HBlocks: Int = 0
         var VBlocks: Int = 0
-        let Colors = ParseImage(Pixellated!, BlockSize: 16, HBlocks: &HBlocks, VBlocks: &VBlocks,
-                                IsLiveView: false)
+        var Colors: [[NSColor]] = []
+        var AfterPixellate: Double = 0.0
+        var UsedCache = false
+        let Key = CacheKey(For: Image, URL: URL)
+        if let Hit = CachedColors(For: Key)
+        {
+            // The same image was processed before (for example, a shape setting changed): reuse its block colors
+            // instead of decoding, reducing and parsing the image again.
+            UsedCache = true
+            Colors = Hit.Colors
+            HBlocks = Hit.HBlocks
+            VBlocks = Hit.VBlocks
+            AfterPixellate = CACurrentMediaTime() - Start
+            StatusDelegate?.UpdateDuration(NewDuration: AfterPixellate)
+            StatusDelegate?.ReportStepCached(For: .Preparing)
+            StatusDelegate?.UpdateStatus(With: .PreparationDone)
+            StatusDelegate?.UpdateStatus(With: .ParsingImage)
+            StatusDelegate?.UpdateStatus(With: .ParsingDone)
+        }
+        else if let Reduction = FastReduction(Image, URL: URL)
+        {
+            // GPU route: one pass averages the source pixels under every block.
+            AfterPixellate = CACurrentMediaTime() - Start
+            StatusDelegate?.UpdateDuration(NewDuration: AfterPixellate)
+            StatusDelegate?.ReportStepDuration(For: .Preparing, Seconds: AfterPixellate)
+            StatusDelegate?.UpdateStatus(With: .PreparationDone)
+            StatusDelegate?.UpdateStatus(With: .ParsingImage)
+            Colors = MetalPixellator.Colors(From: Reduction)
+            HBlocks = Reduction.HBlocks
+            VBlocks = Reduction.VBlocks
+            StatusDelegate?.UpdateStatus(With: .ParsingDone)
+        }
+        else
+        {
+            // CPU route, used only if Metal is unavailable.
+            let Resized = Shrinker.ResizeImage(Image: Image, Longest: 1024)
+            guard let ResizedData = Resized.tiffRepresentation, let ResizedCI = CIImage(data: ResizedData) else
+            {
+                AbandonProcessing("The image could not be read.")
+                return
+            }
+            let AfterResize = CACurrentMediaTime() - Start
+            StatusDelegate?.UpdateDuration(NewDuration: AfterResize)
+            guard let Pixellated = Pixellator.Pixellate(ResizedCI) else
+            {
+                AbandonProcessing("The image could not be pixellated.")
+                return
+            }
+            AfterPixellate = CACurrentMediaTime() - Start
+            StatusDelegate?.UpdateDuration(NewDuration: AfterPixellate)
+            StatusDelegate?.ReportStepDuration(For: .Preparing, Seconds: AfterPixellate)
+            StatusDelegate?.UpdateStatus(With: .PreparationDone)
+            Colors = ParseImage(Pixellated, BlockSize: 16, HBlocks: &HBlocks, VBlocks: &VBlocks,
+                                    IsLiveView: false)
+        }
+        // An image smaller than one block (or one that could not be parsed) gives nothing to draw.
+        if HBlocks < 1 || VBlocks < 1 || Colors.count < VBlocks || (Colors.first?.count ?? 0) < HBlocks
+        {
+            AbandonProcessing("The image is too small or could not be parsed.")
+            return
+        }
+        if !UsedCache
+        {
+            StoreColors(Colors, HBlocks: HBlocks, VBlocks: VBlocks, Key: Key)
+        }
         let AfterParsing = CACurrentMediaTime() - Start
         StatusDelegate?.UpdateDuration(NewDuration: AfterParsing)
+        if UsedCache
+        {
+            StatusDelegate?.ReportStepCached(For: .Parsing)
+        }
+        else
+        {
+            StatusDelegate?.ReportStepDuration(For: .Parsing, Seconds: AfterParsing - AfterPixellate)
+        }
         //Options.Colors = Colors
         //Options.HorizontalBlocks = HBlocks
         //Options.VerticalBlocks = VBlocks
@@ -283,6 +435,7 @@ class BlockView: SCNView
         let Total = Double(VBlocks * HBlocks)
         var Count: Double = 0.0
         let Side = Settings.GetDouble(ForKey: .Side)
+        var LastReportedPercent = -1
         for Y in 0 ... VBlocks - 1
         {
             for X in 0 ... HBlocks - 1
@@ -308,26 +461,51 @@ class BlockView: SCNView
                         PrimaryNode?.addChildNode(ShapeNode)
                         Count = Count + 1.0
                         let Percent = 100.0 * (Count / Total)
-                        StatusDelegate?.UpdateStatus(With: .CreatingPercentUpdate, PercentComplete: Percent)
+                        // Only report whole-percent changes; one main-thread update per cell is wasted work.
+                        if Int(Percent) != LastReportedPercent
+                        {
+                            LastReportedPercent = Int(Percent)
+                            StatusDelegate?.UpdateStatus(With: .CreatingPercentUpdate, PercentComplete: Percent)
+                        }
                 }
             }
         }
         StatusDelegate?.UpdateStatus(With: .CreatingDone)
         let AfterShapes = CACurrentMediaTime() - Start
         StatusDelegate?.UpdateDuration(NewDuration: AfterShapes)
+        StatusDelegate?.ReportStepDuration(For: .Creating, Seconds: AfterShapes - AfterParsing)
         
         self.StatusDelegate?.UpdateStatus(With: .AddingShapes)
+        // Merge the thousands of per-cell nodes into a few meshes so the scene draws (and rotates) quickly.
+        if let Built = PrimaryNode
+        {
+            PrimaryNode = SceneFlattener.Flatten(Built, Material: NewLiveViewMaterial())
+        }
 
         #if true
-        prepare([PrimaryNode!])
+        guard let ReadyNode = PrimaryNode else
+        {
+            AbandonProcessing("There was nothing to draw.")
+            return
+        }
+        prepare([ReadyNode])
         {
             Completed in
+            // The shapes are not on screen until this finishes, so this (not the call to `prepare`) ends the
+            // "adding" step and the whole operation.
+            OperationQueue.main.addOperation
+                {
+                    if Completed
+                    {
+                        self.scene?.rootNode.addChildNode(ReadyNode)
+                    }
+                    let AfterAdded = CACurrentMediaTime() - Start
+                    self.StatusDelegate?.ReportStepDuration(For: .Adding, Seconds: AfterAdded - AfterShapes)
+                    self.StatusDelegate?.UpdateStatus(With: .AddingDone)
+                    self.StatusDelegate?.FinalizeDuration(WithDuration: AfterAdded)
+            }
             if Completed
             {
-                OperationQueue.main.addOperation
-                    {
-                self.scene?.rootNode.addChildNode(self.PrimaryNode!)
-                }
                 self.isPlaying = true
                 print("Added primary node to scene.")
             }
@@ -344,10 +522,9 @@ class BlockView: SCNView
                 }
         }
         print("\(NCount) nodes added to scene.")
-        #endif
         self.StatusDelegate?.UpdateStatus(With: .AddingDone)
-        let AfterAdded = CACurrentMediaTime() - Start
-        self.StatusDelegate?.FinalizeDuration(WithDuration: AfterAdded)
+        self.StatusDelegate?.FinalizeDuration(WithDuration: CACurrentMediaTime() - Start)
+        #endif
         
         #if false
         if !AddedObserversCamera
@@ -438,11 +615,12 @@ class BlockView: SCNView
         Camera.fieldOfView = 90.0
         Camera.zNear = 0.0
         //Camera.zFar = 10000.0
-        CameraNode = SCNNode()
-        CameraNode!.name = "Camera Node"
-        CameraNode!.camera = Camera
-        CameraNode!.position = SCNVector3(0.0, 0.0, 15.0)
-        self.scene?.rootNode.addChildNode(CameraNode!)
+        let Node = SCNNode()
+        Node.name = "Camera Node"
+        Node.camera = Camera
+        Node.position = SCNVector3(0.0, 0.0, 15.0)
+        CameraNode = Node
+        self.scene?.rootNode.addChildNode(Node)
     }
     
     /// The camera's node in the scene.
@@ -460,10 +638,11 @@ class BlockView: SCNView
         Light.shadowColor = NSColor.black.withAlphaComponent(0.8)
         Light.shadowRadius = 10.0
         
-        LightNode = SCNNode()
-        LightNode!.light = Light
-        LightNode!.position = SCNVector3(-10.0, 10.0, 15.0)
-        self.scene?.rootNode.addChildNode(LightNode!)
+        let Node = SCNNode()
+        Node.light = Light
+        Node.position = SCNVector3(-10.0, 10.0, 15.0)
+        LightNode = Node
+        self.scene?.rootNode.addChildNode(Node)
     }
     
     /// The light's node in the scene.
@@ -476,6 +655,67 @@ class BlockView: SCNView
     
     /// Primary node for still image processing.
     var PrimaryNode: SCNNode? = nil
+    
+    /// A double click puts the view back the way it started (orientation and size); anything else is left to the
+    /// normal camera controls (drag to rotate, scroll to zoom and so on).
+    override func mouseDown(with event: NSEvent)
+    {
+        if event.clickCount == 2
+        {
+            ResetView()
+            return
+        }
+        super.mouseDown(with: event)
+    }
+    
+    /// Returns the view of the processed image or live video to its original orientation, and sizes it to fit the
+    /// window (the same fit as when it was first shown).
+    public func ResetView()
+    {
+        // Stop any spin the camera controls are still carrying, then undo whatever the user did with them.
+        defaultCameraController.stopInertia()
+        // Once the user drags or zooms, SceneKit swaps in a free-look camera of its own. Go back to our camera so the
+        // reset (and the size fit below) apply to the camera that is actually showing the scene.
+        if let Camera = CameraNode
+        {
+            pointOfView = Camera
+        }
+        ResetCamera()
+        if !InLiveViewMode
+        {
+            // A still image is shown from the default camera position, so putting the camera back is the whole reset.
+            return
+        }
+        do
+        {
+            // Live view: size to the grid being drawn.
+            let Cells: (Int, Int)?
+            if let Mesh = LiveMesh
+            {
+                Cells = (Mesh.HCount, Mesh.VCount)
+            }
+            else if let Mesh = LiveShapeMesh
+            {
+                Cells = (Mesh.HCount, Mesh.VCount)
+            }
+            else
+            {
+                Cells = nil
+            }
+            if let (HCount, VCount) = Cells, HCount > 0
+            {
+                // Mesh grids are drawn 64 cells wide at the default block size (see `DrawLiveViewNodes`).
+                FitCameraToLiveGrid(HShapeCount: HCount, VShapeCount: VCount, Side: 0.5 * 64.0 / CGFloat(HCount))
+                return
+            }
+        }
+        // Live shapes made of individual nodes: search for the closest distance that shows it all, as when first drawn.
+        let Distance = MinimizeBezel(IsLiveView: true)
+        if let Camera = CameraNode
+        {
+            Camera.position = SCNVector3(Camera.position.x, Camera.position.y, CGFloat(Distance))
+        }
+    }
     
     /// Resets the camera view to initial location, orientation, and rotation.
     public func ResetCamera()
@@ -522,14 +762,18 @@ class BlockView: SCNView
     func MinimizeBezel(IsLiveView: Bool = true, FinalOffset: Double = 1.4) -> Double
     {
         var OriginalZ: CGFloat = 15.0
-        let POV = self.pointOfView
-        if POV == nil
+        guard let POV = self.pointOfView, let CurrentScene = self.scene else
         {
-            return Double((CameraNode?.position.z)!)
+            return Double(CameraNode?.position.z ?? OriginalZ)
         }
-        if let RootNode = GetNode(WithName: "Primary Node", InScene: self.scene!)
+        // The node whose contents must fit in view; without one there is nothing to measure.
+        guard let Target = IsLiveView ? LiveViewPrimaryNode : PrimaryNode else
         {
-            if let CameraNode = GetNode(WithName: "Camera Node", InScene: self.scene!)
+            return Double(CameraNode?.position.z ?? OriginalZ)
+        }
+        if GetNode(WithName: "Primary Node", InScene: CurrentScene) != nil
+        {
+            if let CameraNode = GetNode(WithName: "Camera Node", InScene: CurrentScene)
             {
                 OriginalZ = CameraNode.position.z
                 for CameraHeight in stride(from: 1.0, to: 100.0, by: 0.1)
@@ -537,25 +781,12 @@ class BlockView: SCNView
                     CameraNode.position = SCNVector3(CameraNode.position.x,
                                                      CameraNode.position.y,
                                                      CGFloat(CameraHeight))
-                    if IsLiveView
+                    if AllInView(View: self, Node: Target, PointOfView: POV)
                     {
-                        if AllInView(View: self, Node: LiveViewPrimaryNode!, PointOfView: POV!)
-                        {
-                            CameraNode.position = SCNVector3(CameraNode.position.x,
-                                                             CameraNode.position.y,
-                                                             OriginalZ)
-                            return CameraHeight + FinalOffset
-                        }
-                    }
-                    else
-                    {
-                        if AllInView(View: self, Node: PrimaryNode!, PointOfView: POV!)
-                        {
-                            CameraNode.position = SCNVector3(CameraNode.position.x,
-                                                             CameraNode.position.y,
-                                                             OriginalZ)
-                            return CameraHeight + FinalOffset
-                        }
+                        CameraNode.position = SCNVector3(CameraNode.position.x,
+                                                         CameraNode.position.y,
+                                                         OriginalZ)
+                        return CameraHeight + FinalOffset
                     }
                 }
                 //Restore the camera.
@@ -608,7 +839,7 @@ class BlockView: SCNView
                         //Online commentators say this is very slow. However, for our purposes and
                         //for how we use it, it is sufficient.
                         let Color = ImageRep?.colorAt(x: PixelX, y: PixelY)
-                        Colors[VBlocks - 1 - Y][X] = Color!
+                        Colors[VBlocks - 1 - Y][X] = Color ?? NSColor.black
                         if !IsLiveView
                         {
                             Count = Count + 1
@@ -926,9 +1157,19 @@ class BlockView: SCNView
         SCNTransaction.animationDuration = 0.0
         SCNTransaction.disableActions = true
         defer{ SCNTransaction.commit() }
-        for SomeNode in LiveViewPrimaryNode!.childNodes
+        guard let Parent = LiveViewPrimaryNode else
         {
-            let Node = SomeNode as! PSCNNode
+            return
+        }
+        for SomeNode in Parent.childNodes
+        {
+            // Only the shape nodes made by `CreateNode` carry grid coordinates; skip anything else, and anything
+            // that falls outside the current frame's colors.
+            guard let Node = SomeNode as? PSCNNode,
+                  Node.Y >= 0, Node.Y < Colors.count, Node.X >= 0, Node.X < Colors[Node.Y].count else
+            {
+                continue
+            }
             let Color = Colors[Node.Y][Node.X]
             let Prominence = ColorProminence(Color, Exaggeration: Exaggeration, Determination: Determination,
                                              Invert: Invert)
@@ -1001,7 +1242,10 @@ class BlockView: SCNView
                     Z: inout CGFloat) -> PSCNNode
     {
         let Chamfer: CGFloat = 0.0
-        var Node: PSCNNode!
+        // Shapes without a case below get an empty node rather than none, so nothing here can be nil.
+        var Node = PSCNNode()
+        Node.X = AtX
+        Node.Y = AtY
         switch CurrentLiveViewNodeShape
         {
             case .Blocks:
@@ -1060,6 +1304,8 @@ class BlockView: SCNView
                 particles.particleLifeSpan = 2
                 particles.particleColor = Color
                 Node = PSCNNode()
+                Node.X = AtX
+                Node.Y = AtY
                 Node.addParticleSystem(particles)
                 
             default:
@@ -1113,6 +1359,13 @@ class BlockView: SCNView
             LiveViewPrimaryNode?.removeFromParentNode()
             LiveViewPrimaryNode = nil
             LiveMesh = nil
+            LiveShapeMesh = nil
+        }
+        if LiveViewShapeMesh.Supports(NodeShape)
+        {
+            DrawLiveViewShapeMesh(Shape: NodeShape, Colors: Colors, HShapeCount: HShapeCount,
+                                  VShapeCount: VShapeCount, Side: Side * 64.0 / CGFloat(max(HShapeCount, 1)))
+            return
         }
         if NodeShape == .Blocks
         {
@@ -1127,17 +1380,24 @@ class BlockView: SCNView
             UpdateNodes(With: Colors, HShapeCount: HShapeCount, VShapeCount: VShapeCount, Side: Side)
             return
         }
-        LiveViewPrimaryNode = SCNNode()
-        LiveViewPrimaryNode?.name = "Primary Node"
-        LiveViewPrimaryNode?.position = SCNVector3(0.0, 0.0, 0.0)
+        // Nothing to draw (and `0 ... -1` would trap) unless there is at least one cell and the colors cover the grid.
+        guard HShapeCount >= 1, VShapeCount >= 1, Colors.count >= VShapeCount,
+              (Colors.first?.count ?? 0) >= HShapeCount else
+        {
+            return
+        }
+        let Primary = SCNNode()
+        Primary.name = "Primary Node"
+        Primary.position = SCNVector3(0.0, 0.0, 0.0)
+        LiveViewPrimaryNode = Primary
         let Exaggeration = Settings.GetEnum(ForKey: .VerticalExaggeration, EnumType: VerticalExaggerations.self,
                                             Default: VerticalExaggerations.Small)
         let Determination = Settings.GetEnum(ForKey: .HeightDetermination, EnumType: HeightDeterminations.self,
                                              Default: HeightDeterminations.Brightness)
         let Invert = Settings.GetBoolean(ForKey: .InvertHeight)
-        for Y in 0 ... VShapeCount - 1
+        for Y in 0 ..< VShapeCount
         {
-            for X in 0 ... HShapeCount - 1
+            for X in 0 ..< HShapeCount
             {
                 autoreleasepool
                     {
@@ -1153,15 +1413,16 @@ class BlockView: SCNView
                         Node.position = SCNVector3(XLocation * Float(Side),
                                                    YLocation * Float(Side),
                                                    Float(ZLocation))
-                        LiveViewPrimaryNode?.addChildNode(Node)
+                        Primary.addChildNode(Node)
                 }
             }
         }
-        self.scene?.rootNode.addChildNode(LiveViewPrimaryNode!)
+        self.scene?.rootNode.addChildNode(Primary)
         let NewHeight = MinimizeBezel()
-        CameraNode?.position = SCNVector3(CameraNode!.position.x,
-                                          CameraNode!.position.y,
-                                          CGFloat(NewHeight))
+        if let Camera = CameraNode
+        {
+            Camera.position = SCNVector3(Camera.position.x, Camera.position.y, CGFloat(NewHeight))
+        }
     }
     
     /// The current shape to use in live view mode.
@@ -1172,4 +1433,8 @@ class BlockView: SCNView
     
     /// Mesh used to draw the live view when the shape is `.Blocks`.
     var LiveMesh: LiveViewMesh? = nil
+    /// Mesh used to draw the live view for the other supported shapes.
+    var LiveShapeMesh: LiveViewShapeMesh? = nil
+    /// True until the camera has been fitted to the live view grid (it needs the view to have a size first).
+    var LiveViewNeedsFit = true
 }

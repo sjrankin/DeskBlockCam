@@ -37,18 +37,33 @@ extension FileIO
                                                                 Completion: ((Bool) -> ())? = nil) -> Bool
     {
         let UserString = Utilities.ValidateKVPForASCIIOnly(KeyValueString, Separator: ";")
-        let cgi = ThisImage.cgImage(forProposedRect: nil, context: nil, hints: nil)
-        let bmpR = NSBitmapImageRep(cgImage: cgi!)
-        let ImageData = bmpR.representation(using: NSBitmapImageRep.FileType.jpeg, properties: [:])
-        let ImageSource: CGImageSource = CGImageSourceCreateWithData(ImageData! as CFData, nil)!
+        // Every step below can fail (an unreadable image, a full disk, a metadata problem); report that instead of crashing.
+        func Fail(_ Reason: String) -> Bool
+        {
+            print("Error saving image with metadata: \(Reason)")
+            Completion?(false)
+            return false
+        }
+        guard let cgi = ThisImage.cgImage(forProposedRect: nil, context: nil, hints: nil) else
+        {
+            return Fail("the image has no bitmap data")
+        }
+        let bmpR = NSBitmapImageRep(cgImage: cgi)
+        guard let ImageData = bmpR.representation(using: NSBitmapImageRep.FileType.jpeg, properties: [:]),
+              let ImageSource = CGImageSourceCreateWithData(ImageData as CFData, nil) else
+        {
+            return Fail("the image could not be encoded as a JPEG")
+        }
         let FinalName = Utilities.MakeSequentialName("ImageSrc", Extension: "jpg")
         SaveImageInScratch(ThisImage, FinalName)
         let FileURL = GetDirectoryURL(.Scratch).appendingPathComponent(FinalName)
         let DestURL = GetDirectoryURL(.Scratch).appendingPathComponent(Utilities.MakeSequentialName("ImageEx", Extension: "jpg"))
         print("FileURL=\(FileURL.path)")
         print("DestURL=\(DestURL.path)")
-        let Destination: CGImageDestination = CGImageDestinationCreateWithURL(DestURL as CFURL,
-                                                                              kUTTypeJPEG, 1, nil)!
+        guard let Destination = CGImageDestinationCreateWithURL(DestURL as CFURL, kUTTypeJPEG, 1, nil) else
+        {
+            return Fail("the destination file could not be created")
+        }
         
         let SoftwareTag = CGImageMetadataTagCreate(kCGImageMetadataNamespaceTIFF,
                                                    kCGImageMetadataPrefixTIFF,
@@ -58,7 +73,11 @@ extension FileIO
         
         let MetaData = CGImageMetadataCreateMutable()
         var TagPath = "tiff:Software" as CFString
-        var result = CGImageMetadataSetTagWithPath(MetaData, nil, TagPath, SoftwareTag!)
+        guard let SoftwareTag = SoftwareTag else
+        {
+            return Fail("the software tag could not be created")
+        }
+        var result = CGImageMetadataSetTagWithPath(MetaData, nil, TagPath, SoftwareTag)
         
         if Settings.GetBoolean(ForKey: .AddUserDataToExif)
         {
@@ -110,12 +129,19 @@ extension FileIO
                                                    .arrayOrdered,
                                                    KeywordArray as CFTypeRef)
         TagPath = "\(kCGImageMetadataPrefixXMPBasic):\(kCGImagePropertyIPTCKeywords)" as CFString
-        result = CGImageMetadataSetTagWithPath(MetaData, nil, TagPath, KeyWordsTag!)
+        guard let KeyWordsTag = KeyWordsTag else
+        {
+            return Fail("the keywords tag could not be created")
+        }
+        result = CGImageMetadataSetTagWithPath(MetaData, nil, TagPath, KeyWordsTag)
         
-        let XMPData = CGImageMetadataCreateXMPData(MetaData, nil)
-        let XMP = String(data: XMPData! as Data, encoding: .utf8)
-        let FinalXMPData = XMP!.data(using: .ascii)! as CFData
-        let FinalMeta = CGImageMetadataCreateFromXMPData(FinalXMPData)!
+        guard let XMPData = CGImageMetadataCreateXMPData(MetaData, nil),
+              let XMP = String(data: XMPData as Data, encoding: .utf8),
+              let FinalXMPData = XMP.data(using: .ascii),
+              let FinalMeta = CGImageMetadataCreateFromXMPData(FinalXMPData as CFData) else
+        {
+            return Fail("the metadata could not be converted")
+        }
         
         let DestOptions: [String: Any] =
             [
@@ -137,7 +163,7 @@ extension FileIO
         })
         if !CompletedOK
         {
-            print("CGImageDestinationCopyImageSource failed: error: \((error)!)")
+            print("CGImageDestinationCopyImageSource failed: error: \(String(describing: error))")
             Completion?(false)
             return false
         }

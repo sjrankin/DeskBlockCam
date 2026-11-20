@@ -54,12 +54,17 @@ class HistogramDisplay: NSView
     
     private func DoDisplayHistogram(Image: CIImage, RemoveFirst: Int = 0)
     {
-        let CImage: CGImage = Image.AsCGImage!
-        let ImageFormat = vImage_CGImageFormat(bitsPerComponent: 8,
-                                               bitsPerPixel: 32,
-                                               colorSpace: CGColorSpaceCreateDeviceRGB(),
-                                               bitmapInfo: CGBitmapInfo(rawValue: CGImageAlphaInfo.first.rawValue),
-                                               renderingIntent: .defaultIntent)!
+        // An empty or infinite image has no bitmap; there is nothing to show then.
+        guard let CImage: CGImage = Image.AsCGImage,
+              let ImageFormat = vImage_CGImageFormat(bitsPerComponent: 8,
+                                                     bitsPerPixel: 32,
+                                                     colorSpace: CGColorSpaceCreateDeviceRGB(),
+                                                     bitmapInfo: CGBitmapInfo(rawValue: CGImageAlphaInfo.first.rawValue),
+                                                     renderingIntent: .defaultIntent) else
+        {
+            print("Error creating the image for the histogram")
+            return
+        }
         guard var SourceBuffer = try? vImage_Buffer(cgImage: CImage,
                                                     format: ImageFormat) else
         {
@@ -84,7 +89,7 @@ class HistogramDisplay: NSView
         }
         else
         {
-            let MaxValue = max(max(Int(Red.max()!), Int(Green.max()!)), Int(Blue.max()!))
+            let MaxValue = max(max(Int(Red.max() ?? 0), Int(Green.max() ?? 0)), Int(Blue.max() ?? 0))
             ShowHistogram((Red, Green, Blue), UInt(MaxValue), RemoveFirst)
         }
     }
@@ -135,7 +140,11 @@ class HistogramDisplay: NSView
     {
         OperationQueue.main.addOperation
             {
-                self.layer!.sublayers?.forEach
+                guard let HostLayer = self.layer else
+                {
+                    return
+                }
+                HostLayer.sublayers?.forEach
                     {
                         if $0.name == "DisplayLayer"
                         {
@@ -239,7 +248,7 @@ class HistogramDisplay: NSView
                     FinalLayer.addSublayer(GreenChannel)
                     FinalLayer.addSublayer(BlueChannel)
                 }
-                self.layer!.addSublayer(FinalLayer)
+                HostLayer.addSublayer(FinalLayer)
         }
     }
 }

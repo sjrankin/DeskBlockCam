@@ -23,4 +23,26 @@ protocol StatusProtocol: class
     func UpdateDuration(NewDuration: Double)
     
     func FinalizeDuration(WithDuration: Double)
+    
+    /// Show how long a step of still image processing took (in place of "Done" in its row).
+    /// - Parameter For: The step.
+    /// - Parameter Seconds: How long the step took.
+    func ReportStepDuration(For Step: StatusSteps, Seconds: Double)
+    
+    /// Show that a step was skipped because its result was already cached (in place of "Done" in its row).
+    /// - Parameter For: The step.
+    func ReportStepCached(For Step: StatusSteps)
+}
+
+/// The steps of still image processing that have a row in the status view.
+enum StatusSteps
+{
+    /// Resizing and pixellating the image.
+    case Preparing
+    /// Reading the colors of the pixellated image.
+    case Parsing
+    /// Creating a shape for each color.
+    case Creating
+    /// Merging the shapes, preparing them for display and adding them to the scene.
+    case Adding
 }

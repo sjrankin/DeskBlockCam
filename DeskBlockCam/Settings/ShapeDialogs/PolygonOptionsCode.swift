@@ -54,7 +54,8 @@ class PolygonOptionsCode: NSViewController, ToOptionsDialogProtocol
             }
             
             default:
-                fatalError("Invalid shape \(CurrentShape.rawValue) encountered in PolygonOptionsCode")
+                print("Invalid shape \(CurrentShape.rawValue) encountered in PolygonOptionsCode")
+                return
         }
     }
     
@@ -153,7 +154,8 @@ class PolygonOptionsCode: NSViewController, ToOptionsDialogProtocol
                 PolygonDepth = 0.1
             
             default:
-                fatalError("Unexpected shape \(CurrentShape.rawValue) encountered.")
+                // Not a polygon shape: keep the default sample color and depth.
+                print("Unexpected shape \(CurrentShape.rawValue) encountered.")
         }
         SamplePolygon = SCNPolygon(VertexCount: WithCount, Radius: 10.0, Depth: CGFloat(PolygonDepth))
         SamplePolygon?.geometry?.firstMaterial?.lightingModel = .lambert

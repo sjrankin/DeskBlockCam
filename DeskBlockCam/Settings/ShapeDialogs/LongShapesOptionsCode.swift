@@ -30,7 +30,8 @@ class LongShapesOptionsCode: NSViewController, ToOptionsDialogProtocol
                 AxisKey = .CapsuleAxis
             
             default:
-                fatalError("Unexpected shape encountered: \(LongShape.rawValue)")
+                // Not a long shape: keep the cylinder axis key.
+                print("Unexpected shape encountered: \(LongShape.rawValue)")
         }
         let Axis = Settings.GetEnum(ForKey: AxisKey, EnumType: LongAxes.self, Default: LongAxes.Z)
         switch Axis
@@ -91,7 +92,8 @@ class LongShapesOptionsCode: NSViewController, ToOptionsDialogProtocol
                 AxisKey = .CapsuleAxis
             
             default:
-                fatalError("Unexpected shape encountered: \(LongShape.rawValue)")
+                // Not a long shape: keep the cylinder axis key.
+                print("Unexpected shape encountered: \(LongShape.rawValue)")
         }
         switch AxisSegment.selectedSegment
         {

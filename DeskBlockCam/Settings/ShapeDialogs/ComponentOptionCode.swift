@@ -145,7 +145,7 @@ class ComponentOptionCode: NSViewController, NSTableViewDelegate,
         }
         else
         {
-            fatalError("Did not find \(Component.rawValue) in ComponentShapeMap")
+            print("Did not find \(Component.rawValue) in ComponentShapeMap")
         }
         Delegate?.UpdateCurrent(With: CurrentShape)
     }
@@ -197,7 +197,7 @@ class ComponentOptionCode: NSViewController, NSTableViewDelegate,
             }
             else
             {
-                fatalError("Found unexpected color component: \(ComponentName)")
+                print("Found unexpected color component: \(ComponentName)")
             }
         }
     }

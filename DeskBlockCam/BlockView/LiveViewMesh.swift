@@ -160,24 +160,38 @@ extension BlockView
         let Invert = Settings.GetBoolean(ForKey: .InvertHeight)
         // Lengths scale with the block side so blocks keep their proportions at any block count.
         let LengthScale = Side / 0.5
-        var Created = false
-        if LiveViewPrimaryNode == nil || LiveMesh == nil || LiveMesh!.HCount != HShapeCount || LiveMesh!.VCount != VShapeCount
+        // A grid needs at least one cell and colors for each of them.
+        guard HShapeCount >= 1, VShapeCount >= 1, Colors.count >= VShapeCount,
+              (Colors.first?.count ?? 0) >= HShapeCount else
         {
-            LiveViewPrimaryNode?.removeFromParentNode()
-            LiveMesh = LiveViewMesh(HCount: HShapeCount, VCount: VShapeCount, Side: Side)
-            LiveViewPrimaryNode = SCNNode()
-            LiveViewPrimaryNode?.name = "Primary Node"
-            LiveViewPrimaryNode?.position = SCNVector3(0.0, 0.0, 0.0)
-            LiveViewPrimaryNode?.addChildNode(SCNNode())
-            self.scene?.rootNode.addChildNode(LiveViewPrimaryNode!)
+            return
+        }
+        var Created = false
+        var Mesh = LiveMesh
+        var Primary = LiveViewPrimaryNode
+        if Primary == nil || Mesh == nil || Mesh?.HCount != HShapeCount || Mesh?.VCount != VShapeCount
+        {
+            Primary?.removeFromParentNode()
+            Mesh = LiveViewMesh(HCount: HShapeCount, VCount: VShapeCount, Side: Side)
+            let NewPrimary = SCNNode()
+            NewPrimary.name = "Primary Node"
+            NewPrimary.position = SCNVector3(0.0, 0.0, 0.0)
+            NewPrimary.addChildNode(SCNNode())
+            self.scene?.rootNode.addChildNode(NewPrimary)
+            Primary = NewPrimary
+            LiveMesh = Mesh
+            LiveViewPrimaryNode = NewPrimary
             Created = true
         }
-        let MeshNode = LiveViewPrimaryNode!.childNodes[0]
+        guard let LiveMeshNow = Mesh, let MeshNode = Primary?.childNodes.first else
+        {
+            return
+        }
         let Material = MeshNode.geometry?.firstMaterial ?? NewLiveViewMaterial()
         SCNTransaction.begin()
         SCNTransaction.animationDuration = 0.0
         SCNTransaction.disableActions = true
-        let Geo = LiveMesh!.MakeGeometry(Colors: Colors)
+        let Geo = LiveMeshNow.MakeGeometry(Colors: Colors)
         {
             Color in
             return self.ColorProminence(Color, Exaggeration: Exaggeration, Determination: Determination,
@@ -188,8 +202,50 @@ extension BlockView
         SCNTransaction.commit()
         if Created
         {
-            let NewHeight = MinimizeBezel()
-            CameraNode?.position = SCNVector3(CameraNode!.position.x, CameraNode!.position.y, CGFloat(NewHeight))
+            LiveViewNeedsFit = true
+        }
+        if LiveViewNeedsFit && bounds.width > 1.0 && bounds.height > 1.0
+        {
+            FitCameraToLiveGrid(HShapeCount: HShapeCount, VShapeCount: VShapeCount, Side: Side)
+            LiveViewNeedsFit = false
+        }
+    }
+    
+    /// Moves the camera straight back along Z so the whole grid is in view. This is computed from the grid size,
+    /// the camera's field of view and the view's aspect ratio, so it does not depend on frustum tests that fail
+    /// when the view has not been laid out yet.
+    /// - Parameter HShapeCount: Number of horizontal blocks.
+    /// - Parameter VShapeCount: Number of vertical blocks.
+    /// - Parameter Side: Side length of each block.
+    func FitCameraToLiveGrid(HShapeCount: Int, VShapeCount: Int, Side: CGFloat)
+    {
+        guard let Camera = CameraNode?.camera else
+        {
+            return
+        }
+        let Aspect = bounds.width / bounds.height
+        let HalfTan = tan(CGFloat(Camera.fieldOfView) * .pi / 360.0)
+        let HalfWidth = CGFloat(HShapeCount) * Side / 2.0
+        let HalfHeight = CGFloat(VShapeCount) * Side / 2.0
+        // Field of view is vertical by default; handle a horizontal one as well.
+        let ForHeight: CGFloat
+        let ForWidth: CGFloat
+        if Camera.projectionDirection == .vertical
+        {
+            ForHeight = HalfHeight / HalfTan
+            ForWidth = HalfWidth / (HalfTan * Aspect)
+        }
+        else
+        {
+            ForWidth = HalfWidth / HalfTan
+            ForHeight = HalfHeight / (HalfTan / Aspect)
+        }
+        // Blocks stand up toward the camera by up to their longest extrusion; leave room for them and a small margin.
+        let Reach = Side / 0.5 * 3.5 * 0.5
+        let Z = max(ForHeight, ForWidth) * 1.12 + Reach
+        if let Camera = CameraNode
+        {
+            Camera.position = SCNVector3(Camera.position.x, Camera.position.y, Z)
         }
     }
     

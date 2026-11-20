@@ -61,7 +61,7 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
         for Category in Categories
         {
             let NewNode = ShapeTreeNode(Category: Category.Name, Shapes: Category.Shapes)
-            AllShapes!.append(NewNode)
+            AllShapes.append(NewNode)
         }
         CreateOptionDialogs()
     }
@@ -143,9 +143,10 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
             case ShapeTableTag:
                 if let SomeShape = item as? ShapeTreeNode
                 {
-                    return SomeShape.Shapes[index]
+                    return SomeShape.Shapes.indices.contains(index) ? SomeShape.Shapes[index] : ""
                 }
-                return AllShapes![index]
+                let Categories = AllShapes ?? []
+                return Categories.indices.contains(index) ? Categories[index] : ""
             
             case SideBarTag:
                 if let SomeItem = item as? CurrentCategory
@@ -198,7 +199,7 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
                 {
                     return SomeShape.Shapes.count
                 }
-                return AllShapes!.count
+                return AllShapes?.count ?? 0
             
             case SideBarTag:
                 if Current.count < 1
@@ -228,11 +229,15 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
                 }
                 else
                 {
-                    Text = item as! String
+                    Text = (item as? String) ?? ""
                 }
                 
-                let tableCell = outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "CategoryCell"), owner: self) as! NSTableCellView
-                tableCell.textField!.stringValue = Text
+                guard let tableCell = outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "CategoryCell"),
+                                                           owner: self) as? NSTableCellView else
+                {
+                    return nil
+                }
+                tableCell.textField?.stringValue = Text
                 return tableCell
             
             case SideBarTag:
@@ -265,23 +270,24 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
                         }
                     }
                 }
-                var tableCell: NSTableCellView!
-                if IsHeader
+                // The cell may not exist if its identifier is not in the storyboard; show nothing rather than crash.
+                let CellIdentifier = IsHeader ? "IconlessHeader" : "CurrentCell"
+                guard let tableCell = outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: CellIdentifier),
+                                                           owner: self) as? NSTableCellView else
                 {
-                    tableCell = outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "IconlessHeader"), owner: self) as? NSTableCellView
+                    return nil
                 }
-                else
+                if !IsHeader
                 {
-                    tableCell = outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "CurrentCell"), owner: self) as? NSTableCellView
-                    tableCell.imageView!.image = Image
-                    tableCell.textField!.font = NSFont.systemFont(ofSize: FontSize)
-                    tableCell.textField!.textColor = TextColor
+                    tableCell.imageView?.image = Image
+                    tableCell.textField?.font = NSFont.systemFont(ofSize: FontSize)
+                    tableCell.textField?.textColor = TextColor
                     if let TipText = ToolTipText
                     {
                         tableCell.toolTip = TipText
                     }
                 }
-                tableCell.textField!.stringValue = Text
+                tableCell.textField?.stringValue = Text
                 return tableCell
             
             default:
@@ -478,30 +484,35 @@ class ShapeOptionsCode: NSViewController, NSTabViewDelegate,
                 return SomeItem
             
             default:
-                fatalError("Encountered unknown collection view.")
+                // Not one of this controller's collection views; hand back an empty item.
+                return NSCollectionViewItem()
         }
     }
     
     func collectionView(_ collectionView: NSCollectionView, didSelectItemsAt indexPaths: Set<IndexPath>)
     {
+        guard let FirstIndex = indexPaths.first?.item else
+        {
+            return
+        }
         switch collectionView
         {
             case ColorSwatchView:
-                SelectedColorIndex = indexPaths.first!.item
+                SelectedColorIndex = FirstIndex
                 ColorSwatchView.reloadData()
                 let Color = ColorList[SelectedColorIndex].Color
                 Settings.SetInteger(NSColor.AsInt(Color), ForKey: .BackgroundColor)
                 UpdateBackgroundSettings()
             
             case LightColorView:
-                SelectedLightColorIndex = indexPaths.first!.item
+                SelectedLightColorIndex = FirstIndex
                 LightColorView.reloadData()
                 let Color = ColorList[SelectedLightColorIndex].Color
                 Settings.SetInteger(NSColor.AsInt(Color), ForKey: .LightColor)
                 UpdateLightSettings()
             
             case GradientSwatchView:
-                SelectedGradientIndex = indexPaths.first!.item
+                SelectedGradientIndex = FirstIndex
                 GradientSwatchView.reloadData()
                 let Gradient = GradientList[SelectedGradientIndex]
                 let Color1Int = NSColor.AsInt(Gradient.0)

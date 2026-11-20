@@ -20,7 +20,7 @@ class ShapeListUICode: NSViewController, NSOutlineViewDataSource,
         for Category in ShapeManager.Categories
         {
             let NewNode = ShapeTreeNode(Category: Category.Name, Shapes: Category.Shapes)
-            AllShapes!.append(NewNode)
+            AllShapes.append(NewNode)
         }
         InitializeShapeView()
         ShapeTable.reloadData()
@@ -33,9 +33,10 @@ class ShapeListUICode: NSViewController, NSOutlineViewDataSource,
     {
         if let SomeShape = item as? ShapeTreeNode
         {
-            return SomeShape.Shapes[index]
+            return SomeShape.Shapes.indices.contains(index) ? SomeShape.Shapes[index] : ""
         }
-        return AllShapes![index]
+        let Categories = AllShapes ?? []
+        return Categories.indices.contains(index) ? Categories[index] : ""
     }
     
     func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool
@@ -57,7 +58,7 @@ class ShapeListUICode: NSViewController, NSOutlineViewDataSource,
         {
             return SomeShape.Shapes.count
         }
-        return AllShapes!.count
+        return AllShapes?.count ?? 0
     }
     
     func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: Any) -> NSView?
@@ -69,10 +70,14 @@ class ShapeListUICode: NSViewController, NSOutlineViewDataSource,
         }
         else
         {
-            Text = item as! String
+            Text = (item as? String) ?? ""
         }
-        let tableCell = outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "CategoryCell"), owner: self) as! NSTableCellView
-        tableCell.textField!.stringValue = Text
+        guard let tableCell = outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "CategoryCell"),
+                                                   owner: self) as? NSTableCellView else
+        {
+            return nil
+        }
+        tableCell.textField?.stringValue = Text
         return tableCell
     }
     
@@ -105,13 +110,14 @@ class ShapeListUICode: NSViewController, NSOutlineViewDataSource,
             CurrentShape?.removeFromParentNode()
             CurrentShape = nil
         }
-        CurrentShape = Generator.SingleShape(NewShape, Color: NSColor.orange, Side: 5.0)
-        if CurrentShape == nil
+        guard let Shape = Generator.SingleShape(NewShape, Color: NSColor.orange, Side: 5.0) else
         {
+            CurrentShape = nil
             return
         }
-        CurrentShape?.position = SCNVector3(0.0, 0.0, 0.0)
-        ShapeViewer.scene?.rootNode.addChildNode(CurrentShape!)
+        CurrentShape = Shape
+        Shape.position = SCNVector3(0.0, 0.0, 0.0)
+        ShapeViewer.scene?.rootNode.addChildNode(Shape)
     }
     
     var CurrentShape: PSCNNode? = nil
@@ -150,7 +156,7 @@ class ShapeListUICode: NSViewController, NSOutlineViewDataSource,
         {
             if let SampleShape = CurrentShape
             {
-                if let CameraNode = GetNode(FromNode: ShapeViewer.scene!.rootNode, WithName: "Camera Node")
+                if let Root = ShapeViewer.scene?.rootNode, let CameraNode = GetNode(FromNode: Root, WithName: "Camera Node")
                 {
                     OriginalZ = CameraNode.position.z
                     for CameraHeight in stride(from: 1.0, to: 100.0, by: 0.1)
@@ -215,7 +221,7 @@ class ShapeListUICode: NSViewController, NSOutlineViewDataSource,
         if let Slider = sender as? NSSlider
         {
             let NewValue = Slider.doubleValue
-            if let CameraNode = GetNode(FromNode: ShapeViewer.scene!.rootNode, WithName: "Camera Node")
+            if let Root = ShapeViewer.scene?.rootNode, let CameraNode = GetNode(FromNode: Root, WithName: "Camera Node")
             {
                 CameraNode.position = SCNVector3(CameraNode.position.x, CameraNode.position.y,
                                                  CGFloat(NewValue))

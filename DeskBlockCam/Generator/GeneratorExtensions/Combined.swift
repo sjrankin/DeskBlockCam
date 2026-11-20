@@ -46,7 +46,7 @@ extension Generator
     public static func GetCappedLineShape(Side: CGFloat, Diffuse: NSColor) -> SCNGeometry
     {
         let CapShape = Settings.GetEnum(ForKey: .CapShape, EnumType: Shapes.self, Default: Shapes.Spheres)
-        var Shape: SCNGeometry!
+        let Shape: SCNGeometry
         switch CapShape
         {
             case .Spheres:
@@ -417,7 +417,8 @@ extension Generator
                 Geo = SCNCapsule(capRadius: Side * 0.1, height: Height * HeightMultiplier)
             
             default:
-                fatalError("Unexpected shape found in MakeBlockWithOtherShape.")
+                print("Unexpected shape found in MakeBlockWithOtherShape.")
+                return nil
         }
         Geo?.firstMaterial?.specular.contents = NSColor.white
         Geo?.firstMaterial?.diffuse.contents = Color
@@ -475,7 +476,8 @@ extension Generator
                 Position = SCNVector3(0.0, 0.0, Side + BaseZ)
             
             default:
-                fatalError("Unexpected shape found in MakeSphereWithOtherShape.")
+                print("Unexpected shape found in MakeSphereWithOtherShape.")
+                return nil
         }
         Geo?.firstMaterial?.specular.contents = NSColor.white
         Geo?.firstMaterial?.diffuse.contents = Color
@@ -490,6 +492,18 @@ extension Generator
         
         return Node
     }
+
+    /// Adds a shape to a parent if it could be made; a shape that could not be made is skipped instead of crashing.
+    /// - Parameter Parent: The node to add to.
+    /// - Parameter Shape: The shape, or nil if it could not be made.
+    private static func AddIfMade(_ Parent: SCNNode, _ Shape: SCNNode?)
+    {
+        if let Shape = Shape
+        {
+            Parent.addChildNode(Shape)
+        }
+    }
+    
     
     public static func MakeCombinedShape(Shape: Shapes, Side: CGFloat, AtX: Int, AtY: Int,
                                          Height: CGFloat, Color: NSColor, Model: SCNMaterial.LightingModel) -> PSCNNode?
@@ -501,38 +515,38 @@ extension Generator
         switch Shape
         {
             case .CappedLines:
-                Parent.addChildNode(MakeCappedLines(Side: Side, Color: Color, Height: Height, Model: Model)!)
+                AddIfMade(Parent, MakeCappedLines(Side: Side, Color: Color, Height: Height, Model: Model))
             
             case .ComponentVariable:
-                Parent.addChildNode(MakeStackedShape(Side: Side, Height: Height, Color: Color, Model: Model)!)
+                AddIfMade(Parent, MakeStackedShape(Side: Side, Height: Height, Color: Color, Model: Model))
             
             case .RadiatingLines:
-                Parent.addChildNode(MakeRadiatingLines(Side: Side, Color: Color, Model: Model)!)
+                AddIfMade(Parent, MakeRadiatingLines(Side: Side, Color: Color, Model: Model))
             
             case .PerpendicularCircles:
-                Parent.addChildNode(MakePerpendicularShape(Shape: .PerpendicularCircles, Side: Side,
+                AddIfMade(Parent, MakePerpendicularShape(Shape: .PerpendicularCircles, Side: Side,
                                                            AtX: AtX, AtY: AtY,
-                                                           Height: Height, Color: Color, Model: Model)!)
+                                                           Height: Height, Color: Color, Model: Model))
             
             case .PerpendicularSquares:
-                Parent.addChildNode(MakePerpendicularShape(Shape: .PerpendicularSquares, Side: Side,
+                AddIfMade(Parent, MakePerpendicularShape(Shape: .PerpendicularSquares, Side: Side,
                                                            AtX: AtX, AtY: AtY,
-                                                           Height: Height, Color: Color, Model: Model)!)
+                                                           Height: Height, Color: Color, Model: Model))
             
             case .ThreeTriangles:
-                Parent.addChildNode(MakeTouchingTriangles(Shape: .ThreeTriangles, Side: Side,
+                AddIfMade(Parent, MakeTouchingTriangles(Shape: .ThreeTriangles, Side: Side,
                                                           AtX: AtX, AtY: AtY, Height: Height,
-                                                          Color: Color, Model: Model)!)
+                                                          Color: Color, Model: Model))
             
             case .BlockBases:
-                Parent.addChildNode(MakeBlockWithOtherShape(Shape: .BlockBases, Side: Side,
+                AddIfMade(Parent, MakeBlockWithOtherShape(Shape: .BlockBases, Side: Side,
                                                             AtX: AtX, AtY: AtY, Height: Height,
-                                                            Color: Color, Model: Model)!)
+                                                            Color: Color, Model: Model))
             
             case .SphereBases:
-                Parent.addChildNode(MakeSphereWithOtherShape(Shape: .BlockBases, Side: Side,
+                AddIfMade(Parent, MakeSphereWithOtherShape(Shape: .BlockBases, Side: Side,
                                                              AtX: AtX, AtY: AtY, Height: Height,
-                                                             Color: Color, Model: Model)!)
+                                                             Color: Color, Model: Model))
             
             default:
                 return nil

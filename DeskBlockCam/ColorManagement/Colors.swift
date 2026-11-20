@@ -64,7 +64,9 @@ class Colors
         }
         if Working.count != 6 && Working.count != 8
         {
-            fatalError("Bad hex string: \(HexString)")
+            // Not a 6 or 8 digit color; black is a harmless stand-in.
+            print("Bad hex string: \(HexString)")
+            return NSColor.black
         }
         let IntVal = Int(Working, radix: 16) ?? 0
         return IntToColor(IntVal)

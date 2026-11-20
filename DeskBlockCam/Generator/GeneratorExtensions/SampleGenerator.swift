@@ -32,7 +32,7 @@ extension Generator
                 Geo?.firstMaterial?.diffuse.contents = Color
                 Geo?.firstMaterial?.specular.contents = NSColor.white
                 Geo?.firstMaterial?.lightingModel = GetLightModel()
-                Sample = PSCNNode(geometry: Geo!, X: 0, Y: 0)
+                Sample = PSCNNode(geometry: Geo ?? SCNGeometry(), X: 0, Y: 0)
             
             case .BlockBases:
                 Sample = MakeBlockWithOtherShape(Shape: .BlockBases, Side: Side, AtX: 0, AtY: 0,
@@ -68,7 +68,7 @@ extension Generator
                 Geo?.firstMaterial?.diffuse.contents = Color
                 Geo?.firstMaterial?.specular.contents = NSColor.white
                 Geo?.firstMaterial?.lightingModel = GetLightModel()
-                Sample = PSCNNode(geometry: Geo!, X: 0, Y: 0)
+                Sample = PSCNNode(geometry: Geo ?? SCNGeometry(), X: 0, Y: 0)
                 NeedsOrientationChange(Sample!, .Cylinders, Color)
                 {
                     NeedsToRotate, EulerAngles in
@@ -95,7 +95,7 @@ extension Generator
                 Geo?.firstMaterial?.diffuse.contents = Color
                 Geo?.firstMaterial?.specular.contents = NSColor.white
                 Geo?.firstMaterial?.lightingModel = GetLightModel()
-                Sample = PSCNNode(geometry: Geo!, X: 0, Y: 0)
+                Sample = PSCNNode(geometry: Geo ?? SCNGeometry(), X: 0, Y: 0)
                 NeedsOrientationChange(Sample!, .Cylinders, Color)
                 {
                     NeedsToRotate, EulerAngles in
@@ -114,7 +114,7 @@ extension Generator
                 Geo?.firstMaterial?.diffuse.contents = Color
                 Geo?.firstMaterial?.specular.contents = NSColor.white
                 Geo?.firstMaterial?.lightingModel = GetLightModel()
-                Sample = PSCNNode(geometry: Geo!, X: 0, Y: 0)
+                Sample = PSCNNode(geometry: Geo ?? SCNGeometry(), X: 0, Y: 0)
                 NeedsOrientationChange(Sample!, .Cylinders, Color)
                 {
                     NeedsToRotate, EulerAngles in
@@ -137,7 +137,7 @@ extension Generator
                 Geo?.firstMaterial?.diffuse.contents = Color
                 Geo?.firstMaterial?.specular.contents = NSColor.white
                 Geo?.firstMaterial?.lightingModel = GetLightModel()
-                Sample = PSCNNode(geometry: Geo!, X: 0, Y: 0)
+                Sample = PSCNNode(geometry: Geo ?? SCNGeometry(), X: 0, Y: 0)
                 NeedsOrientationChange(Sample!, .Diamonds, Color)
                 {
                     NeedsToRotate, EulerAngles in
@@ -161,7 +161,7 @@ extension Generator
                 Geo?.firstMaterial?.diffuse.contents = Color
                 Geo?.firstMaterial?.specular.contents = NSColor.white
                 Geo?.firstMaterial?.lightingModel = GetLightModel()
-                Sample = PSCNNode(geometry: Geo!, X: 0, Y: 0)
+                Sample = PSCNNode(geometry: Geo ?? SCNGeometry(), X: 0, Y: 0)
                 NeedsOrientationChange(Sample!, .Lines, Color)
                 {
                     NeedsToRotate, EulerAngles in
@@ -184,7 +184,7 @@ extension Generator
                 Geo?.firstMaterial?.diffuse.contents = Color
                 Geo?.firstMaterial?.specular.contents = NSColor.white
                 Geo?.firstMaterial?.lightingModel = GetLightModel()
-                Sample = PSCNNode(geometry: Geo!, X: 0, Y: 0)
+                Sample = PSCNNode(geometry: Geo ?? SCNGeometry(), X: 0, Y: 0)
                 NeedsOrientationChange(Sample!, .Ovals, Color)
                 {
                     NeedsToRotate, EulerAngles in
@@ -211,7 +211,7 @@ extension Generator
                 Geo?.firstMaterial?.diffuse.contents = Color
                 Geo?.firstMaterial?.specular.contents = NSColor.white
                 Geo?.firstMaterial?.lightingModel = GetLightModel()
-                Sample = PSCNNode(geometry: Geo!, X: 0, Y: 0)
+                Sample = PSCNNode(geometry: Geo ?? SCNGeometry(), X: 0, Y: 0)
                 NeedsOrientationChange(Sample!, .Polygons, Color)
                 {
                     NeedsToRotate, EulerAngles in
@@ -234,7 +234,7 @@ extension Generator
                 Geo?.firstMaterial?.diffuse.contents = Color
                 Geo?.firstMaterial?.specular.contents = NSColor.white
                 Geo?.firstMaterial?.lightingModel = GetLightModel()
-                Sample = PSCNNode(geometry: Geo!, X: 0, Y: 0)
+                Sample = PSCNNode(geometry: Geo ?? SCNGeometry(), X: 0, Y: 0)
                 NeedsOrientationChange(Sample!, .Pyramids, Color)
                 {
                     NeedsToRotate, EulerAngles in
@@ -261,7 +261,7 @@ extension Generator
                 Geo?.firstMaterial?.diffuse.contents = Color
                 Geo?.firstMaterial?.specular.contents = NSColor.white
                 Geo?.firstMaterial?.lightingModel = GetLightModel()
-                Sample = PSCNNode(geometry: Geo!, X: 0, Y: 0)
+                Sample = PSCNNode(geometry: Geo ?? SCNGeometry(), X: 0, Y: 0)
                 NeedsOrientationChange(Sample!, .Rings, Color)
                 {
                     NeedsToRotate, EulerAngles in
@@ -280,7 +280,7 @@ extension Generator
                 Geo?.firstMaterial?.diffuse.contents = Color
                 Geo?.firstMaterial?.specular.contents = NSColor.white
                 Geo?.firstMaterial?.lightingModel = GetLightModel()
-                Sample = PSCNNode(geometry: Geo!, X: 0, Y: 0)
+                Sample = PSCNNode(geometry: Geo ?? SCNGeometry(), X: 0, Y: 0)
             
             case .Squares:
                 Sample = Make2DShape(Shape: .Squares, Side: Side, AtX: 0, AtY: 0, Height: Height,
@@ -296,7 +296,7 @@ extension Generator
                 Geo?.firstMaterial?.diffuse.contents = Color
                 Geo?.firstMaterial?.specular.contents = NSColor.white
                 Geo?.firstMaterial?.lightingModel = GetLightModel()
-                Sample = PSCNNode(geometry: Geo!, X: 0, Y: 0)
+                Sample = PSCNNode(geometry: Geo ?? SCNGeometry(), X: 0, Y: 0)
                 NeedsOrientationChange(Sample!, .Stars, Color)
                 {
                     NeedsToRotate, EulerAngles in
@@ -323,7 +323,7 @@ extension Generator
                 Geo?.firstMaterial?.diffuse.contents = Color
                 Geo?.firstMaterial?.specular.contents = NSColor.white
                 Geo?.firstMaterial?.lightingModel = GetLightModel()
-                Sample = PSCNNode(geometry: Geo!, X: 0, Y: 0)
+                Sample = PSCNNode(geometry: Geo ?? SCNGeometry(), X: 0, Y: 0)
                 NeedsOrientationChange(Sample!, .Triangles, Color)
                 {
                     NeedsToRotate, EulerAngles in
@@ -346,7 +346,7 @@ extension Generator
                 Geo?.firstMaterial?.diffuse.contents = Color
                 Geo?.firstMaterial?.specular.contents = NSColor.white
                 Geo?.firstMaterial?.lightingModel = GetLightModel()
-                Sample = PSCNNode(geometry: Geo!, X: 0, Y: 0)
+                Sample = PSCNNode(geometry: Geo ?? SCNGeometry(), X: 0, Y: 0)
                 NeedsOrientationChange(Sample!, .Tubes, Color)
                 {
                     NeedsToRotate, EulerAngles in

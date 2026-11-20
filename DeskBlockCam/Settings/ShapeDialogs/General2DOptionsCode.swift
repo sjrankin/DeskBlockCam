@@ -40,7 +40,8 @@ class General2DOptionsCode: NSViewController, ToOptionsDialogProtocol
                 ShapeAxisKey = .StarAxis
             
             default:
-                fatalError("Invalid shape (\(CurrentShape.rawValue)) passed to General2DOptionsCode.")
+                print("Invalid shape (\(CurrentShape.rawValue)) passed to General2DOptionsCode.")
+                return
         }
         
         let ShapeColor = Settings.GetEnum(ForKey: ShapeColorKey, EnumType: ColorControls.self, Default: ColorControls.Height)

@@ -23,7 +23,11 @@ class FileIO
     /// - Note: If not called, it is likely the app will crash.
     public static func Initialize()
     {
-        let DocDirURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        guard let DocDirURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else
+        {
+            print("The documents directory could not be found.")
+            return
+        }
         let AppDirURL = DocDirURL.appendingPathComponent(BlockCamDirectory)
         if !DirectoryExists(AppDirURL.path)
         {
@@ -156,7 +160,9 @@ class FileIO
     /// - Returns: URL of the predefined directory.
     public static func GetDirectoryURL(_ ForDirectory: Directories) -> URL
     {
-        let DocURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        // There is always a documents directory on macOS; the temporary directory is a safe stand-in if not.
+        let DocURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+            ?? FileManager.default.temporaryDirectory
         switch ForDirectory
         {
             case .Documents:
@@ -178,11 +184,10 @@ class FileIO
     /// - Returns: URL of the newly created directory on success, nil on error.
     @discardableResult public static func CreateDirectory(DirectoryName: String) -> URL?
     {
-        var CPath: URL!
+        let CPath = GetDirectoryURL(.Scratch).appendingPathComponent(DirectoryName)
         do
         {
-            CPath = GetDirectoryURL(.Scratch).appendingPathComponent(DirectoryName)
-            try FileManager.default.createDirectory(atPath: CPath!.path, withIntermediateDirectories: true, attributes: nil)
+            try FileManager.default.createDirectory(atPath: CPath.path, withIntermediateDirectories: true, attributes: nil)
         }
         catch
         {

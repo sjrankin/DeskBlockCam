@@ -37,7 +37,7 @@ extension ProcessingAttributes
                                            Default: Backgrounds.Color)
         Attr.BackgroundColor = NSColor.MakeColor(With: Settings.GetInteger(ForKey: .BackgroundColor))
         let Gradients = Settings.GetString(ForKey: .BackgroundGradientColors)
-        let Parts = Gradients!.split(separator: ",", omittingEmptySubsequences: true)
+        let Parts = (Gradients ?? "").split(separator: ",", omittingEmptySubsequences: true)
         var BGGradientColors = [NSColor]()
         for Part in Parts
         {
@@ -147,7 +147,7 @@ extension ProcessingAttributes
         Settings.SetEnum(Attributes.LightType, EnumType: LightingTypes.self, ForKey: .LightType)
         Settings.SetEnum(Attributes.LightIntensity, EnumType: LightIntensities.self, ForKey: .LightIntensity)
         Settings.SetEnum(Attributes.LightModel, EnumType: LightModels.self, ForKey: .LightModel)
-        for Optional in Attributes.ShapeOptions!
+        for Optional in Attributes.ShapeOptions ?? []
         {
             Optional.Write()
         }
